@@ -42,6 +42,7 @@ Q4. annotators?
 Image
 * M view iiif image
 * M bound a graphs on image
+* M description of the graph (annotation)
 * M search/browse objects
 * S viewer is embeddable and highly customisation
 

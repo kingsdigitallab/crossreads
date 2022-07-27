@@ -40,19 +40,21 @@ Q4. annotators?
 ## Requirements
 
 Image
-    M view iiif image
-    M bound a graphs on image
-    M search/browse objects
-    S viewer is embeddable and highly customisation
+* M view iiif image
+* M bound a graphs on image
+* M search/browse objects
+* S viewer is embeddable and highly customisation
+
 Text
-    M view text
-    M link graph to text
+* M view text
+* M link graph to text
+
 Annotation
-    M structured annotation
-    M save annotations
-    S terminological definition
-    S browse annotations
-    S search annotations
+* M structured annotation
+* M save annotations
+* S terminological definition
+* S browse annotations
+* S search annotations
 
 ## Other resources
 

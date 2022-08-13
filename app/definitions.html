@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Annotator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
+font-awesome/5.15.2/css/all.min.css"/>
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div id="definitions" class="container">
+        <h1 class="title">
+          Definitions
+        </h1>
+        <form @submit.prevent="onSubmitForm" class="control">
+          <input type="text" name="archetype_api" :value="archetypeUri">
+          <button type="submit" name="action" value="fetch">Fetch</button>
+        </form>
+        <div>
+          <pre>
+            {{ definitions }}
+          </pre>
+        </div>
+      </div>
+    </section>
+    <script>
+      const { createApp } = Vue
+
+      const componentFeatureUri = '/digipal/api/componentfeature/'
+      const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component,feature,componentfeature_set'
+
+      createApp({
+        data() {
+          return {
+            archetypeUri: '//digipal.eu',
+            definitions: {'k1': 'v1'}
+          }
+        },
+        methods: {
+          onSubmitForm: function(e) {
+            const self = this;
+            let uri = self.archetypeUri + componentFeatureUri;
+
+            fetch(uri).then(r => r.json()).then(function(res) {
+              uri = self.archetypeUri + allographUri;
+
+              let components = {};
+              for (let c of res.results) {
+                if (!(c.component in components)) {
+                  components[c.component] = {'features': []}
+                }
+                components[c.component]['features'].unshift(c.feature)
+              }
+
+              fetch(uri).then(r => r.json()).then(function(res) {
+                const allographs = res;
+                let ret = {
+                  'context': self.archetypeUri,
+                  'components': components,
+                  'scripts': {},
+                };
+                self.definitions = ret;
+              })
+            })
+          }
+        }
+      }).mount('#definitions')
+    </script>
+  </body>
+</html>

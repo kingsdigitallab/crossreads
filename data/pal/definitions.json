@@ -1,0 +1,33 @@
+{
+    "features": {
+      "f1": "Feature 1",
+      "f2": "F 2",
+      "f3": "F 3"
+    },
+    "components": {
+      "c1": {
+        "name": "C 1",
+        "features": [
+          "f1", "f2"
+        ]
+      },
+      "c2": {
+        "name": "C 2",
+        "features": [
+          "f3"
+        ]
+      }
+    },
+    "allographs": {
+      "latin.G": {
+        "script": "Latin",
+        "character": "G",
+        "components": ["c1"]
+      },
+      "latin.H": {
+        "script": "Latin",
+        "character": "H",
+        "components": ["c1", "c2"]
+      }
+    }
+}

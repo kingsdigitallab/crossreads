@@ -1,10 +1,13 @@
 ## Standards
 
-* Distributed Text Services
-* IIIF Standard & API
-* Web Annotations data model
+* M Distributed Text Services
+* M IIIF Image API
+* M Web Annotations data model
     https://www.w3.org/TR/annotation-model/
 * (OpenAnnotations, precusor of W3c Web Annotations)
+* S [IIIF Presentation API](https://iiif.io/api/presentation/2.1/)
+* C [IIIF Search API](https://iiif.io/api/search/1.0/)
+
 
 ## [Annotators](https://github.com/IIIF/awesome-iiif#annotations)
 
@@ -32,10 +35,14 @@ https://github.com/glenrobson/SimpleAnnotationServer: A simple IIIF and Mirador 
 
 ## Questions
 
-Q1. where are the annotation encoded?
-Q2. how to encode structured annotations?
-Q3. what is the minimal set of sustainable components that match our requirements?
-Q4. annotators?
+* Q1. where are the annotation encoded?
+* Q2. how to encode structured annotations?
+* Q3. what is the minimal set of sustainable components that match our requirements?
+* Q4. annotators?
+* Q5. does IIIP presentation API allows insertion of annotations?
+* Q6. where does the list of objects come from?
+  * a) IIIP collections - with annotation to DTS api
+  * b) DTS - with matching url convention to find corresponding IIIF manifest 
 
 ## Requirements
 
@@ -56,7 +63,93 @@ Annotation
 
 ## Other resources
 
-iiif training material
+IIIF training material
 * [image api](https://training.iiif.io/iiif-online-workshop/day-two/image-api.html)
 * [presentation api](https://training.iiif.io/iiif-online-workshop/day-three/)
 * [annotations](https://training.iiif.io/iiif-online-workshop/day-four/annotations-and-annotation-lists.html)
+
+Others
+* [web annotations (devopedia)](https://devopedia.org/web-annotation)
+* [web annotations spec](https://www.w3.org/TR/annotation-model/)
+* https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/
+* https://iiif.io/api/cookbook/recipe/0001-mvm-image/
+
+Image servers
+
+* [Loris](https://github.com/loris-imageserver/loris) (v2 compliant)
+* [IIPServer](https://github.com/ruven/iipsrv) (v3 compliant but still beta)
+* [Cantaloupe](https://cantaloupe-project.github.io/) (v3 compliant)
+* 
+
+
+docker run --rm -d -p 8182:8182 -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" --name crossread-img2 -v /home/jeff/src/prj/crossreads/crossreads/data/2022:/imageroot cantaloupe
+
+mvn docker:start -Dimage.root=/home/jeff/src/prj/crossreads/crossreads/data/2022
+
+## definitions
+
+ontograph (A)
+    character (form: minuscule <- unicode: 1234)
+        allograph (script: caroline)
+            % component
+                % feature
+
+=>
+
+project
+    script
+        allograph
+            % component
+                feature
+
+a-c, c, f, c-f can be project-specific
+on, ch: see unicode
+script: ? (alphabet (e.g. latin) > )
+al = (ch,sc)
+
+https://www.fileformat.info/info/unicode/char/00c1/index.htm
+http://scriptorium.blog/graphemics/introduction/
+
+
+Q: does Unicode differentiate scripts? i.e. different unicode pt for insular vs caroline (carolingian)
+
+
+
+A font assigns glyphs to unicode graphemes
+
+
+http://digipal.eu/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component,feature,componentfeature_set
+
+http://digipal.eu/digipal/api/componentfeature/
+
+----
+
+Example of a IIIF collection
+
+https://iiif.wellcomecollection.org/presentation/v2/collections/contributors/hmrvb7uv
+
+and manifest:
+
+https://wellcomecollection.org/_next/data/Xh7dbMDDshVtHh3MO4uEZ/item.json?workId=hysqmpp6&source=work
+
+http://localhost:49154/iiif/2/ISic000031.JPG/full/full/0/default.jpg
+
+---
+
+navigational path from collection to text & image
+
+collection
+    https://isicily-dts.herokuapp.com/dts/api/collections/
+object
+    https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/ISic000001.xml
+    
+    image
+        TEI/facsimile/surface[@type=front]/graphic
+            @height
+            @width
+            @url
+        deepzoom on sicily.classics.ox.ac.uk
+
+        http://sicily.classics.ox.ac.uk/deepzoom/images/ISic000001/ISic000001_tiled.tif_files/12/12_3.jpg
+    body
+        TEI/text/body/div[@type=edition]

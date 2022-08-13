@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Annotator</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
+font-awesome/5.15.2/css/all.min.css"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/openseadragon@3.0/build/openseadragon/openseadragon.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.7/dist/annotorious.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.7/dist/openseadragon-annotorious.min.js"></script>
+
+    <!-- importmap shim for Firefox -->
+    <script src="https://unpkg.com/vue@3"></script>
+    <style type = "text/css"> 
+      .list-selectable {
+        max-height: 15em;
+        overflow-y: auto;
+        width: 100%;
+      }
+      .list-selectable li {
+        padding: 0.5em
+      }
+      .list-selectable li:hover {
+        background-color: yellow;
+      }
+      .selected {
+        background-color: orange;
+        font-weight: bold;
+      }
+    </style>
+
+  </head>
+  <body>
+    <section class="section" id="annotator">
+      <button @click="loadAnnotationsFromSession()">Load</button>
+      <button @click="saveAnnotationsToSession()">Save</button>
+      <div class="container">
+        <h1 class="title">
+          Annotator
+        </h1>
+        <div class="columns is-3">
+          <div class="column">
+            <div class="panel">
+              <p class="panel-heading">
+                Objects
+              </p>
+              <div class="panel-block">
+                <p class="control has-icons-left">
+                  <input class="input" type="text" placeholder="Search" v-model="searchPhrase">
+                  <span class="icon is-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="panel-block">
+                <ul class="list-selectable">
+                  <a v-for="(obj2, idx) in filteredObjects" href="#" @click.prevent="onSelectObject(obj2)">
+                    <li :class="{'selected': obj2 == object}">
+                      {{ obj2.name }}
+                    </li>
+                  </a>
+                </ul>
+              </div>
+              <p class="panel-heading">
+                Images
+              </p>
+              <div class="panel-block">
+                Image 1
+              </div>
+            </div>
+          </div>
+          <div class="column is-6">
+            <div class="panel">
+              <p class="panel-heading">
+                Image
+              </p>
+              <div class="panel-block">
+                <div id="image-viewer" style="width: 800px; height: 300px;"></div>
+              </div>
+              <p class="panel-heading">
+                Transcription
+              </p>
+              <div class="panel-block">
+                {{ transcription.text }}
+              </div>
+            </div>
+          </div>
+          <div class="column is-3">
+            <div class="panel">
+              <p class="panel-heading">
+                Annotation
+              </p>
+              <div class="panel-block">
+                <dl>
+                  <dt>>Allograph</dt> 
+                  <dd>
+                    <select v-model="description.allograph" @change="onChangeAllograph()">
+                      <option v-for="(allograph, allographKey) in definitions.allographs" :value="allographKey">{{ allograph.character }} ({{ allograph.script }})</option>
+                    </select>
+                  </dd>
+                  <dt>>Components</dt> 
+                  <dd><ul>
+                    <li v-for="component in description.components">
+                      {{ definitions.components[component[0]].name }}
+                      <ul>
+                        <li v-for="(isFeaturePresent, featureKey, index) in component[1]">
+                          <label><input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()">{{ definitions.features[featureKey] }}</label>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul></dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script type="module">
+
+      function loadOpenSeaDragon(vueApp) {
+        var viewer = OpenSeadragon({
+            id: "image-viewer",
+            prefixUrl: 'https://cdn.jsdelivr.net/npm/openseadragon@3.0/build/openseadragon/images/',
+            tileSources: {
+              type: "image",
+              url: "http://localhost:49153/iiif/2/ISic000031.JPG/full/full/0/default.jpg"
+            }
+        });
+
+        // Initialize the Annotorious plugin
+        const config = {
+          disableEditor: true,
+          allowEmpty: true,
+          // TODO: js error after select + click outside rect
+          // fragmentUnit: 'percent', 
+        };
+        var anno = OpenSeadragon.Annotorious(viewer, config);
+        vueApp.anno = anno;
+
+        // Load annotations in W3C WebAnnotation format
+        // anno.loadAnnotations('annotations.w3c.json');
+        anno.on('createSelection', vueApp.onCreateSelection);
+        anno.on('createAnnotation', vueApp.onCreateAnnotation);
+        anno.on('updateAnnotation', vueApp.onUpdateAnnotation);
+        anno.on('selectAnnotation', vueApp.onSelectAnnotation);
+        anno.on('clickAnnotation', vueApp.onClickAnnotation);
+        anno.on('deleteAnnotation', vueApp.onDeleteAnnotation);
+        anno.on('changeSelectionTarget', vueApp.onChangeSelectionTarget);
+        anno.on('mouseEnterAnnotation', vueApp.onMouseEnterAnnotation);
+        anno.on('mouseLeaveAnnotation', vueApp.onMouseLeaveAnnotation);
+      }; 
+
+      // window.addEventListener('load', loadOpenSeaDragon);
+
+      const { createApp } = Vue
+
+      createApp({
+        data() {
+          return {
+            searchPhrase: '',
+            apis: {
+              // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
+              collections: '../data/dts/api/collections.json',
+              definitions: '../data/pal/definitions.json',
+            },
+            objs: [
+              {'name': 'Object 1', 'key': 'obj1'},
+              {'name': 'Object 2', 'key': 'obj2'},
+              {'name': 'Object 3', 'key': 'obj3'},
+            ],
+            object: null,
+            transcription: {
+              text: 'test',
+            },
+            definitions: {
+              features: {
+                'f1': 'F 1',
+                'f2': 'F 2',
+              },
+              components: {
+                'c1': {
+                  name: 'C 1',
+                  features: [
+                    'f1', 'f2'
+                  ]
+                },
+              },
+              allographs: {
+                'latin.G': {
+                  script: 'Latin',
+                  character: 'G',
+                  components: ['c1'], 
+                },
+              }
+            },
+            description: {
+              allograph: 'latin.G',
+              components: [
+                ['c1', {'f1': false, 'f3': true}],
+              ],
+              // TODO: aspects
+            },
+            cache: {
+              isDescriptionLoading: false,
+              allographLast: '123',
+              store: {
+                imagesAnnotations: {
+                  'objectkey.imagekey': {
+                    // annotations for that object-image
+                  }
+                }
+              }
+            }
+          }
+        },
+        mounted() {
+          // TODO: chain load (from objects, to image, ...) 
+          // instead of loading all here.in parallel
+          loadOpenSeaDragon(this)
+          this.loadObjects()
+          this.loadDefinitions()
+          this.loadAnnotationsFromSession()
+        },
+        watch: {
+          description2: {
+            handler(val, valOld) {
+              if (this.cache.isDescriptionLoading) return;
+              console.log('EVENT description changed')
+              this.updateDescriptionFromAllograph()
+              let annotation = this.anno.getSelected()
+              if (annotation) {
+                annotation.body[0].value = JSON.stringify(this.description)
+                this.anno.updateSelected(annotation)
+              }
+            },
+            deep: true
+          },
+        },
+        computed: {
+          filteredObjects() {
+            return this.objs.filter(o => o.name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+          }
+        },
+        methods: {
+          saveAnnotationsToSession() {
+            this.cache.store.imagesAnnotations[this.object.key] = this.anno.getAnnotations()
+            window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
+            console.log('save annotations')
+          },
+          loadAnnotationsFromSession() {
+            let imagesAnnotations = window.localStorage.getItem('imagesAnnotations')
+            if (imagesAnnotations) {
+              this.cache.store.imagesAnnotations = JSON.parse(imagesAnnotations)
+              this.anno.setAnnotations(this.cache.store.imagesAnnotations[this.object.key])
+            }
+          },
+          onChangeAllograph() {
+            this.updateDescriptionFromAllograph()
+            this.updateSelectedAnnotationFromDescription()
+          },
+          onChangeComponentFeature() {
+            this.updateSelectedAnnotationFromDescription()
+          },
+          updateSelectedAnnotationFromDescription() {
+            let annotation = this.anno.getSelected()
+            if (annotation) {
+              annotation.body[0].value = JSON.stringify(this.description)
+              this.anno.updateSelected(annotation)
+              this.saveAnnotationsToSession()
+            }
+          },
+          updateDescriptionFromAllograph() {
+            let description = this.description
+            if (1 || description.allograph != this.cache.allographLast) {
+              this.description.components = []
+              for (let componentKey of this.definitions.allographs[description.allograph].components) {
+                let features = {}
+                for (let featureKey of this.definitions.components[componentKey].features) {
+                  features[featureKey] = false
+                }
+                // console.log(features)
+                this.description.components.push([componentKey, features])
+              }
+              this.cache.allographLast = description.allograph
+            }
+          },
+          async onCreateSelection(selection) {
+            console.log('EVENT onCreateSelection')
+
+            // selection.motivation = 'describing'
+            selection.body = [{
+              type: 'TextualBody',
+              purpose: 'describing',
+              format: 'application/json',
+              value: JSON.stringify(this.description)
+            }];
+
+            // use this instead of updateSelected & saveSelected()
+            // because
+            // 1) getAnnotations() wouldn't have teh new body yet
+            // 2) user can't draw another box, they have to deselect first
+            // This will update the selection, 
+            // then save it as an annotation (i.e. type=annotation)
+            // then trigger createAnnotation event
+            await this.anno.updateSelected(selection, true);
+          },
+          onCreateAnnotation(annotation, overrideId) {
+            console.log('EVENT onCreateAnnotation')
+            this.saveAnnotationsToSession()
+            // this.anno.selectAnnotation(annotation)
+          },
+          onMouseEnterAnnotation(annotation, element) {
+            // console.log('EVENT onMouseEnterAnnotation')
+          },
+          onMouseLeaveAnnotation(annotation, element) {
+            // console.log('EVENT onMouseLeaveAnnotation')
+            // console.log(annotation)
+          },
+          onChangeSelectionTarget() {
+            console.log('EVENT onChangeSelectionTarget')
+            // wont work... bc the annotation is only modified after unselecting it and that trigger update -> save
+            this.saveAnnotationsToSession()
+          },
+          onUpdateAnnotation() {
+            console.log('EVENT onUpdateAnnotation')
+            this.saveAnnotationsToSession()
+            // this.saveAnnotationsToSession()
+          },
+          onSelectAnnotation(annotation) {
+            console.log('EVENT onSelectAnnotation')
+            this.description = JSON.parse(annotation.body[0].value)
+            // this.saveAnnotationsToSession()
+          },
+          onDeleteAnnotation() {
+            console.log('EVENT onDeleteAnnotation')
+            // this.saveAnnotationsToSession()
+          },
+          onClickAnnotation() {
+            // console.log('EVENT onClickAnnotation')
+            // this.saveAnnotationsToSession()
+          },
+          loadDefinitions() {
+            fetch(this.apis.definitions)
+              .then(res => res.json())
+              .then(res => {
+                this.definitions = res
+                this.updateDescriptionFromAllograph()
+              })
+          },
+          loadObjects() {
+            // TODO: remove
+            if (1) {
+              this.object = this.objs[0]
+              return;
+            }
+            fetch(this.apis.collections)
+              .then(res => res.json())
+              .then(res => {
+                console.log(res)
+                this.objs = []
+                for (let m of res.member) {
+                  if (m) {
+                    this.objs.push({name: m.description})
+                  }
+                }
+                if (this.objs.length) {
+                  this.object = this.objs[0]
+                } else {
+                  this.object = null
+                }
+              })
+
+          },
+          onSelectObject(obj) {
+            this.object = obj
+          }
+        }
+      }).mount('#annotator');
+    </script>
+
+  </body>
+</html>

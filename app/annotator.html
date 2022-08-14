@@ -31,13 +31,28 @@ font-awesome/5.15.2/css/all.min.css"/>
         background-color: orange;
         font-weight: bold;
       }
+      .component-name {
+        font-weight: bold;
+      }
+      .components-features li {
+        margin-left: 0.5em
+      }
+      .description {
+        max-width: 100%;
+      }
+      .description dt {
+        margin-top: 1em;
+        border-top: 1px solid grey;
+        background-color: #eee;
+        font-weight: bold;        
+      }
     </style>
 
   </head>
   <body>
     <section class="section" id="annotator">
-      <button @click="loadAnnotationsFromSession()">Load</button>
-      <button @click="saveAnnotationsToSession()">Save</button>
+      <!-- <button @click="loadAnnotationsFromSession()">Load</button>
+      <button @click="saveAnnotationsToSession()">Save</button> -->
       <div class="container">
         <h1 class="title">
           Annotator
@@ -95,20 +110,37 @@ font-awesome/5.15.2/css/all.min.css"/>
                 Annotation
               </p>
               <div class="panel-block">
-                <dl>
-                  <dt>>Allograph</dt> 
+                <dl class="description">
+                  <dt>Allograph</dt> 
                   <dd>
-                    <select v-model="description.allograph" @change="onChangeAllograph()">
-                      <option v-for="(allograph, allographKey) in definitions.allographs" :value="allographKey">{{ allograph.character }} ({{ allograph.script }})</option>
-                    </select>
+                    <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span>
+                    <div class="select">
+                      <select v-model="description.allograph" @change="onChangeAllograph()">
+                        <option v-for="(allograph, allographKey) in definitions.allographs" :value="allographKey">{{ allograph.character }} ({{ allograph.script }})</option>
+                      </select>
+                    </div>
                   </dd>
-                  <dt>>Components</dt> 
-                  <dd><ul>
+                  <dt>Components</dt> 
+                  <dd><ul class="components-features">
                     <li v-for="component in description.components">
-                      {{ definitions.components[component[0]].name }}
+                      <span class="component-name">
+                        <template v-if="definitions.components[component[0]]">
+                          {{ definitions.components[component[0]].name }}
+                        </template>
+                        <template v-else>
+                          {{ component[0] }}
+                        </template>
+                      </span>
                       <ul>
                         <li v-for="(isFeaturePresent, featureKey, index) in component[1]">
-                          <label><input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()">{{ definitions.features[featureKey] }}</label>
+                          <label><input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()">
+                            <template v-if="definitions.features[featureKey]"> 
+                              {{ definitions.features[featureKey] }}
+                            </template>
+                            <template v-else>
+                              {{ featureKey }}
+                            </template>
+                          </label>
                         </li>
                       </ul>
                     </li>
@@ -167,7 +199,7 @@ font-awesome/5.15.2/css/all.min.css"/>
             apis: {
               // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
               collections: '../data/dts/api/collections.json',
-              definitions: '../data/pal/definitions.json',
+              definitions: '../data/pal/definitions-digipal.json',
             },
             objs: [
               {'name': 'Object 1', 'key': 'obj1'},
@@ -200,7 +232,7 @@ font-awesome/5.15.2/css/all.min.css"/>
               }
             },
             description: {
-              allograph: 'latin.G',
+              allograph: 'a',
               components: [
                 ['c1', {'f1': false, 'f3': true}],
               ],
@@ -278,16 +310,18 @@ font-awesome/5.15.2/css/all.min.css"/>
           updateDescriptionFromAllograph() {
             let description = this.description
             if (1 || description.allograph != this.cache.allographLast) {
-              this.description.components = []
-              for (let componentKey of this.definitions.allographs[description.allograph].components) {
-                let features = {}
-                for (let featureKey of this.definitions.components[componentKey].features) {
-                  features[featureKey] = false
+              if (this.definitions.allographs[description.allograph]) {
+                this.description.components = []
+                for (let componentKey of this.definitions.allographs[description.allograph].components) {
+                  let features = {}
+                  for (let featureKey of this.definitions.components[componentKey].features) {
+                    features[featureKey] = false
+                  }
+                  // console.log(features)
+                  this.description.components.push([componentKey, features])
                 }
-                // console.log(features)
-                this.description.components.push([componentKey, features])
+                this.cache.allographLast = description.allograph
               }
-              this.cache.allographLast = description.allograph
             }
           },
           async onCreateSelection(selection) {

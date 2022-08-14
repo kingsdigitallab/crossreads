@@ -88,9 +88,11 @@ mvn docker:start -Dimage.root=/home/jeff/src/prj/crossreads/crossreads/data/2022
 
 ## definitions
 
-ontograph (A)
+https://github.com/kcl-ddh/digipal/wiki/Letters-and-Other-Symbols
+
+ontograph (A, generalised grapheme, abstract from physical rendition)
     character (form: minuscule <- unicode: 1234)
-        allograph (script: caroline)
+        allograph (recognised variant, script(s): caroline)
             % component
                 % feature
 
@@ -113,7 +115,13 @@ http://scriptorium.blog/graphemics/introduction/
 
 Q: does Unicode differentiate scripts? i.e. different unicode pt for insular vs caroline (carolingian)
 
-
+1. which mechanism should we use to avoid repetition of definitions among scripts? e.g. inheritence, default definition, overridden by particular scripts.
+2. can we assume that the set of features available to a component is the same across allographs?
+3. possible issue with Archeytpe model is that an allograph can belong to multiple
+scripts if the rendition is the same. So when a user sees a graph description in isolation they can tell the actual script they belong to. Which may (if not possible to
+tell even with context) or may not be desirable. 
+4. character ideally should match unicode, whenever possible, by archetype has accent, ligature, wynn, 7!, thorn
+    5. do we want to record the script as part of the annotation? (e.g. greek l vs roman l)
 
 A font assigns glyphs to unicode graphemes
 
@@ -153,3 +161,6 @@ object
         http://sicily.classics.ox.ac.uk/deepzoom/images/ISic000001/ISic000001_tiled.tif_files/12/12_3.jpg
     body
         TEI/text/body/div[@type=edition]
+
+
+---

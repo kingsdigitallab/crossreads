@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Annotator</title>
+    <title>Palaeographical Definitions</title>
+    <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
 font-awesome/5.15.2/css/all.min.css"/>
@@ -16,21 +17,25 @@ font-awesome/5.15.2/css/all.min.css"/>
           Definitions
         </h1>
         <form @submit.prevent="onSubmitForm" class="control">
-          <input type="text" name="archetype_api" :value="archetypeUri">
-          <button type="submit" name="action" value="fetch">Fetch</button>
+          <label class="label">Archetype homepage URL</label>
+          <div class="control">
+            <input class="input" type="text" name="archetype_api" :value="archetypeUri">
+          </div>
+          <div class="control">
+            <button class="button" type="submit" name="action" value="fetch">Fetch</button>
+          </div>
         </form>
-        <div>
-          <pre>
-            {{ definitions }}
-          </pre>
-        </div>
+        <textarea style="width:100%; height: 15em;">
+          {{ definitions }}
+        </textarea>
       </div>
     </section>
     <script>
       const { createApp } = Vue
 
-      const componentFeatureUri = '/digipal/api/componentfeature/'
-      const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component,feature,componentfeature_set'
+      // const componentFeatureUri = '/digipal/api/componentfeature/'
+      const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
+      const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component'
 
       createApp({
         data() {
@@ -40,31 +45,70 @@ font-awesome/5.15.2/css/all.min.css"/>
           }
         },
         methods: {
-          onSubmitForm: function(e) {
+          onSubmitForm(e) {
             const self = this;
-            let uri = self.archetypeUri + componentFeatureUri;
+            let uri = self.archetypeUri + componentUri;
 
-            fetch(uri).then(r => r.json()).then(function(res) {
-              uri = self.archetypeUri + allographUri;
-
+            fetch(uri).then(r => r.json()).then(res => {
+              let features = {};
               let components = {};
               for (let c of res.results) {
-                if (!(c.component in components)) {
-                  components[c.component] = {'features': []}
+                components[this.slugify(c.name)] = {
+                  name: c.name,
+                  features: c.componentfeature_set.map(cf => this.slugify(cf.feature))
                 }
-                components[c.component]['features'].unshift(c.feature)
+                for (cf of c.componentfeature_set) {
+                  features[this.slugify(cf.feature)] = cf.feature
+                }
               }
 
-              fetch(uri).then(r => r.json()).then(function(res) {
-                const allographs = res;
+              uri = self.archetypeUri + allographUri;
+              fetch(uri).then(r => r.json()).then(res => {
+                const allographs = {};
+                
+                for (let a of res.results) {
+                  let allograph_name = a.character
+
+                  let allograph = {
+                    script: 'SCRIPT',
+                    character: a.character,
+                    components: a.allograph_components.map(c =>
+                      this.slugify(c.component.name)
+                    )
+                  }
+                  allographs[this.slugify(allograph_name, true)] = allograph
+                }
+
                 let ret = {
                   'context': self.archetypeUri,
-                  'components': components,
+                  'version': '0.1',
+                  'updated': new Date().toISOString(),
                   'scripts': {},
+                  'features': features,
+                  'components': components,
+                  'allographs': allographs,
                 };
                 self.definitions = ret;
               })
             })
+          },
+          slugify(text, preserveCase=false) {
+            // stolen from https://gist.github.com/codeguy/6684588?permalink_comment_id=4176055#gistcomment-4176055
+            ret = text
+              .toString()                           // Cast to string (optional)
+              .normalize('NFKD')            // The normalize() using NFKD method returns the Unicode Normalization Form of a given string.
+
+            if (!preserveCase)
+              ret = ret
+              .toLowerCase()                  // Convert the string to lowercase letters
+
+            ret = ret
+              .trim()                                  // Remove whitespace from both sides of a string (optional)
+              .replace(/\s+/g, '-')            // Replace spaces with -
+              .replace(/[^\w\-]+/g, '')     // Remove all non-word chars
+              .replace(/\-\-+/g, '-');        // Replace multiple - with single -
+            
+            return ret
           }
         }
       }).mount('#definitions')

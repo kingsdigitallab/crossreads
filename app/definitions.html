@@ -16,13 +16,16 @@ font-awesome/5.15.2/css/all.min.css"/>
         <h1 class="title">
           Definitions
         </h1>
-        <form @submit.prevent="onSubmitForm" class="control">
+        <form class="control">
           <label class="label">Archetype homepage URL</label>
           <div class="control">
             <input class="input" type="text" name="archetype_api" :value="archetypeUri">
           </div>
           <div class="control">
-            <button class="button" type="submit" name="action" value="fetch">Fetch</button>
+            <button @click.prevent.stop="onImportDefinitions()" class="button" type="submit" name="action" value="export-definitions">Export definitions</button>
+          </div>
+          <div class="control">
+            <button @click.prevent.stop="onShortenCollection()" class="button" type="submit" name="action" value="shorten-collection">Shorten collection</button>
           </div>
         </form>
         <textarea style="width:100%; height: 15em;">
@@ -36,6 +39,7 @@ font-awesome/5.15.2/css/all.min.css"/>
       // const componentFeatureUri = '/digipal/api/componentfeature/'
       const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
       const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component'
+      const collectionUri = '../data/dts/api/collections.json'
 
       createApp({
         data() {
@@ -45,7 +49,28 @@ font-awesome/5.15.2/css/all.min.css"/>
           }
         },
         methods: {
-          onSubmitForm(e) {
+          onShortenCollection(e) {
+            const self = this;
+            let uri = collectionUri;
+
+            const toKeep = new RegExp('ISic0000(01|07|31|46|79)$')
+
+            fetch(uri).then(r => r.json()).then(res => {
+              ret = res
+
+              ret.member = ret.member.filter(
+                m => 
+                !!(m && m.title.match(toKeep))
+              )
+
+              ret.totalItems = ret.member.length
+              ret['dts:totalChildren'] = ret.member.length
+
+              self.definitions = ret
+            })
+            
+          },
+          onImportDefinitions(e) {
             const self = this;
             let uri = self.archetypeUri + componentUri;
 

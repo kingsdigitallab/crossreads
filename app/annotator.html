@@ -28,7 +28,7 @@ font-awesome/5.15.2/css/all.min.css"/>
         background-color: yellow;
       }
       .selected {
-        background-color: orange;
+        background-color: #ffe0a0;
         font-weight: bold;
       }
       .component-name {
@@ -46,6 +46,12 @@ font-awesome/5.15.2/css/all.min.css"/>
         background-color: #eee;
         font-weight: bold;        
       }
+      /* .panel-objects .select.list-objects {
+        height: auto;
+      }
+      .list-objects select {
+        height: auto;
+      } */
     </style>
 
   </head>
@@ -59,7 +65,7 @@ font-awesome/5.15.2/css/all.min.css"/>
         </h1>
         <div class="columns is-3">
           <div class="column">
-            <div class="panel">
+            <div class="panel panel-objects">
               <p class="panel-heading">
                 Objects
               </p>
@@ -75,16 +81,27 @@ font-awesome/5.15.2/css/all.min.css"/>
                 <ul class="list-selectable">
                   <a v-for="(obj2, idx) in filteredObjects" href="#" @click.prevent="onSelectObject(obj2)">
                     <li :class="{'selected': obj2 == object}">
-                      {{ obj2.name }}
+                      {{ obj2.description }}
                     </li>
                   </a>
                 </ul>
+                <!-- <div class="select list-objects">
+                  <select v-model="object" size="10">
+                    <option v-for="(obj2, idx) in filteredObjects">{{ obj2.name }}</option>
+                  </select>
+                </div> -->
               </div>
               <p class="panel-heading">
                 Images
               </p>
               <div class="panel-block">
-                Image 1
+                <ul class="list-selectable">
+                  <a v-for="(img, idx) in filteredImages" href="#" @click.prevent="onSelectImage(img)">
+                    <li :class="{'selected': img == image}">
+                      {{ img.uri }}
+                    </li>
+                  </a>
+                </ul>
               </div>
             </div>
           </div>
@@ -161,7 +178,7 @@ font-awesome/5.15.2/css/all.min.css"/>
             prefixUrl: 'https://cdn.jsdelivr.net/npm/openseadragon@3.0/build/openseadragon/images/',
             tileSources: {
               type: "image",
-              url: "http://localhost:49153/iiif/2/ISic000031.JPG/full/full/0/default.jpg"
+              url: "http://localhost:49153/iiif/2/ISic000001.jpg/full/full/0/default.jpg"
             }
         });
 
@@ -174,6 +191,7 @@ font-awesome/5.15.2/css/all.min.css"/>
         };
         var anno = OpenSeadragon.Annotorious(viewer, config);
         vueApp.anno = anno;
+        vueApp.viewer = viewer;
 
         // Load annotations in W3C WebAnnotation format
         // anno.loadAnnotations('annotations.w3c.json');
@@ -186,6 +204,7 @@ font-awesome/5.15.2/css/all.min.css"/>
         anno.on('changeSelectionTarget', vueApp.onChangeSelectionTarget);
         anno.on('mouseEnterAnnotation', vueApp.onMouseEnterAnnotation);
         anno.on('mouseLeaveAnnotation', vueApp.onMouseLeaveAnnotation);
+        anno.on('open-failed', vueApp.onImageOpenFailed);
       }; 
 
       // window.addEventListener('load', loadOpenSeaDragon);
@@ -198,15 +217,17 @@ font-awesome/5.15.2/css/all.min.css"/>
             searchPhrase: '',
             apis: {
               // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
-              collections: '../data/dts/api/collections.json',
+              collections: '../data/dts/api/collections-test.json',
               definitions: '../data/pal/definitions-digipal.json',
             },
             objs: [
-              {'name': 'Object 1', 'key': 'obj1'},
-              {'name': 'Object 2', 'key': 'obj2'},
-              {'name': 'Object 3', 'key': 'obj3'},
+              {'description': 'Object 1', '@id': 'obj1', 'title': 't1'},
+              {'description': 'Object 2', '@id': 'obj2', 'title': 't2'},
+              {'description': 'Object 3', '@id': 'obj3', 'title': 't3'},
             ],
             object: null,
+            images: [],
+            image: null,
             transcription: {
               text: 'test',
             },
@@ -257,7 +278,7 @@ font-awesome/5.15.2/css/all.min.css"/>
           loadOpenSeaDragon(this)
           this.loadObjects()
           this.loadDefinitions()
-          this.loadAnnotationsFromSession()
+          // this.loadAnnotationsFromSession()
         },
         watch: {
           description2: {
@@ -273,23 +294,77 @@ font-awesome/5.15.2/css/all.min.css"/>
             },
             deep: true
           },
+          object(val, valOld) {
+            this.loadObjectXML()
+          },
         },
         computed: {
           filteredObjects() {
-            return this.objs.filter(o => o.name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+            return this.objs.filter(o => o.description.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+          },
+          filteredImages() {
+            return this.images.filter(i => i.type == 'print')
           }
         },
         methods: {
+          loadObjectXML() {
+            if (this.object) {
+              // const uri = '//localhost:5500' + this.object["dts:download"]
+              window.nsResolver = function(prefix) {
+                const ns = {
+                  'tei': 'http://www.tei-c.org/ns/1.0',
+                  'xhtml': 'http://www.w3.org/1999/xhtml',
+                };
+                return ns[prefix] || null;
+              }
+
+              const uri = this.object["dts:download"]
+              const self = this
+              fetch(uri)
+                .then(res => res.text())
+                .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
+                .then(res => {
+                  self.tei = res
+                  window.tei = res
+                  // get all the tei:graphic
+
+                  self.images = []
+                  let it = tei.evaluate('//tei:graphic', tei, nsResolver, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
+                  while (true) {
+                    let node = it.iterateNext()
+                    if (!node) break
+                    // TODO: less assumption about encoding, make it more robust 
+                    self.images.push({
+                      description: node.children[0].textContent,
+                      uri: node.attributes['url'].value,
+                      type: node.attributes['n'].value, // screen|print
+                      surface: node.parentElement.attributes.type.value // front
+                    })
+                    console.log(node)
+                  }
+                  let filteredImages = this.filteredImages
+                  this.onSelectImage(filteredImages ? filteredImages[0] : null)
+                  // console.log(res)
+                })
+            }
+          },
           saveAnnotationsToSession() {
-            this.cache.store.imagesAnnotations[this.object.key] = this.anno.getAnnotations()
-            window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
-            console.log('save annotations')
+            if (this.image?.uri) {
+              this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
+              window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
+              console.log('save annotations')
+            }
           },
           loadAnnotationsFromSession() {
             let imagesAnnotations = window.localStorage.getItem('imagesAnnotations')
             if (imagesAnnotations) {
               this.cache.store.imagesAnnotations = JSON.parse(imagesAnnotations)
-              this.anno.setAnnotations(this.cache.store.imagesAnnotations[this.object.key])
+              let annotations = this.image?.uri ? this.cache.store.imagesAnnotations[this.image.uri] : null
+              if (annotations) {
+                this.anno.setAnnotations(annotations)
+              } else {
+                this.anno.clearAnnotations()
+              }
             }
           },
           onChangeAllograph() {
@@ -389,7 +464,7 @@ font-awesome/5.15.2/css/all.min.css"/>
           },
           loadObjects() {
             // TODO: remove
-            if (1) {
+            if (0) {
               this.object = this.objs[0]
               return;
             }
@@ -400,7 +475,12 @@ font-awesome/5.15.2/css/all.min.css"/>
                 this.objs = []
                 for (let m of res.member) {
                   if (m) {
-                    this.objs.push({name: m.description})
+                    this.objs.push({
+                      '@id': m['@id'],
+                      title: m.title,
+                      description: m.description,
+                      "dts:download": m['dts:download']
+                    })
                   }
                 }
                 if (this.objs.length) {
@@ -413,6 +493,19 @@ font-awesome/5.15.2/css/all.min.css"/>
           },
           onSelectObject(obj) {
             this.object = obj
+          },
+          onSelectImage(img) {
+            this.image = img
+            if (img) {
+              this.viewer.open({
+                type: 'image',
+                url: "http://localhost:49153/iiif/2/"+this.image.uri+"/full/full/0/default.jpg",
+              })
+            }
+            this.loadAnnotationsFromSession()
+          },
+          onImageOpenFailed() {
+            console.log('OPEN FAILED')
           }
         }
       }).mount('#annotator');

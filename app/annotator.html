@@ -12,6 +12,7 @@ font-awesome/5.15.2/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/openseadragon@3.0/build/openseadragon/openseadragon.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.7/dist/annotorious.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.7/dist/openseadragon-annotorious.min.js"></script>
+    <!-- <script src="../../annotorious-openseadragon/dist/openseadragon-annotorious.min.js"></script> -->
 
     <!-- importmap shim for Firefox -->
     <script src="https://unpkg.com/vue@3"></script>
@@ -45,6 +46,21 @@ font-awesome/5.15.2/css/all.min.css"/>
         border-top: 1px solid grey;
         background-color: #eee;
         font-weight: bold;        
+      }
+      .transcription {
+        font-size: 150%;
+      }
+      .transcription .sign {
+        display: inline-block;
+        width: 1.5em;
+        border: 1px solid lightgrey;
+        padding: 0.5em;       
+      }
+      .transcription .sign:hover {
+        background-color: yellow;
+      }
+      .transcription .sign.selected {
+        background-color: #ffe0a0;
       }
       /* .panel-objects .select.list-objects {
         height: auto;
@@ -116,8 +132,9 @@ font-awesome/5.15.2/css/all.min.css"/>
               <p class="panel-heading">
                 Transcription
               </p>
-              <div class="panel-block">
-                {{ transcription.text }}
+              <div class="panel-block transcription">
+                <p v-html="text">
+                </p>
               </div>
             </div>
           </div>
@@ -125,6 +142,7 @@ font-awesome/5.15.2/css/all.min.css"/>
             <div class="panel">
               <p class="panel-heading">
                 Annotation
+                <span v-if="isAnnotationSelected">(Selected)</span>
               </p>
               <div class="panel-block">
                 <dl class="description">
@@ -186,6 +204,7 @@ font-awesome/5.15.2/css/all.min.css"/>
         const config = {
           disableEditor: true,
           allowEmpty: true,
+          // disableSelect: true,
           // TODO: js error after select + click outside rect
           // fragmentUnit: 'percent', 
         };
@@ -199,11 +218,12 @@ font-awesome/5.15.2/css/all.min.css"/>
         anno.on('createAnnotation', vueApp.onCreateAnnotation);
         anno.on('updateAnnotation', vueApp.onUpdateAnnotation);
         anno.on('selectAnnotation', vueApp.onSelectAnnotation);
+        anno.on('cancelSelected', vueApp.onCancelSelected);
         anno.on('clickAnnotation', vueApp.onClickAnnotation);
         anno.on('deleteAnnotation', vueApp.onDeleteAnnotation);
         anno.on('changeSelectionTarget', vueApp.onChangeSelectionTarget);
-        anno.on('mouseEnterAnnotation', vueApp.onMouseEnterAnnotation);
-        anno.on('mouseLeaveAnnotation', vueApp.onMouseLeaveAnnotation);
+        // anno.on('mouseEnterAnnotation', vueApp.onMouseEnterAnnotation);
+        // anno.on('mouseLeaveAnnotation', vueApp.onMouseLeaveAnnotation);
         anno.on('open-failed', vueApp.onImageOpenFailed);
       }; 
 
@@ -228,9 +248,7 @@ font-awesome/5.15.2/css/all.min.css"/>
             object: null,
             images: [],
             image: null,
-            transcription: {
-              text: 'test',
-            },
+            text: 'test',
             definitions: {
               features: {
                 'f1': 'F 1',
@@ -259,6 +277,7 @@ font-awesome/5.15.2/css/all.min.css"/>
               ],
               // TODO: aspects
             },
+            annotation: null,
             cache: {
               isDescriptionLoading: false,
               allographLast: '123',
@@ -304,6 +323,9 @@ font-awesome/5.15.2/css/all.min.css"/>
           },
           filteredImages() {
             return this.images.filter(i => i.type == 'print')
+          },
+          isAnnotationSelected() {
+            return !!this.annotation
           }
         },
         methods: {
@@ -345,6 +367,38 @@ font-awesome/5.15.2/css/all.min.css"/>
                   let filteredImages = this.filteredImages
                   this.onSelectImage(filteredImages ? filteredImages[0] : null)
                   // console.log(res)
+
+                  fetch('../data/tei2html.xslt')
+                    .then(res => res.text())
+                    .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
+                    .then(res => {
+                      let processor = new XSLTProcessor()
+                      processor.importStylesheet(res)
+                      let doc = processor.transformToFragment(tei, document)
+
+                      console.log(doc)
+                      console.log(new XMLSerializer().serializeToString(doc))
+
+                      this.text = new XMLSerializer().serializeToString(doc);
+                    })
+
+                //   it = tei.evaluate("//tei:body/tei:div[@type='edition']", tei, nsResolver, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
+                //   while (true) {
+                //     let node = it.iterateNext()
+                //     if (!node) break
+
+                //     let testTransform = document.implementation.createDocument("", "test", null)
+                //     function onload() {
+                //       processor.importStylesheet(testTransform)
+                //     }
+                //     testTransform.addEventListener("load", onload, false)
+                //     testTransform.load("")
+                //     console.log(res)
+
+                //     // TODO: less assumption about encoding, make it more robust 
+                //     // self.text = node.
+                //     // console.log(node)
+                //   }
                 })
             }
           },
@@ -422,7 +476,7 @@ font-awesome/5.15.2/css/all.min.css"/>
           onCreateAnnotation(annotation, overrideId) {
             console.log('EVENT onCreateAnnotation')
             this.saveAnnotationsToSession()
-            // this.anno.selectAnnotation(annotation)
+            this.anno.selectAnnotation(annotation)
           },
           onMouseEnterAnnotation(annotation, element) {
             // console.log('EVENT onMouseEnterAnnotation')
@@ -444,14 +498,20 @@ font-awesome/5.15.2/css/all.min.css"/>
           onSelectAnnotation(annotation) {
             console.log('EVENT onSelectAnnotation')
             this.description = JSON.parse(annotation.body[0].value)
+            this.annotation = this.anno.getSelected()
             // this.saveAnnotationsToSession()
+          },
+          onCancelSelected(selection) {
+            // at this point this.anno.getSelected() still returns an annotation!
+            this.annotation = null
+            console.log('EVENT onCancelSelected')
           },
           onDeleteAnnotation() {
             console.log('EVENT onDeleteAnnotation')
-            // this.saveAnnotationsToSession()
+            this.saveAnnotationsToSession()
           },
           onClickAnnotation() {
-            // console.log('EVENT onClickAnnotation')
+            console.log('EVENT onClickAnnotation')
             // this.saveAnnotationsToSession()
           },
           loadDefinitions() {

@@ -126,7 +126,7 @@ tell even with context) or may not be desirable.
 A font assigns glyphs to unicode graphemes
 
 
-http://digipal.eu/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component,feature,componentfeature_set
+http://digipal.eu/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component
 
 http://digipal.eu/digipal/api/componentfeature/
 

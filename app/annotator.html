@@ -190,6 +190,15 @@ font-awesome/5.15.2/css/all.min.css"/>
 
     <script type="module">
 
+      /* TODO: modularise the Vue app:
+      . Objects List
+      . Images List
+      . Image
+      . Description
+      . Text
+      */ 
+
+      // TODO: move this into Vue?
       function loadOpenSeaDragon(vueApp) {
         var viewer = OpenSeadragon({
             id: "image-viewer",
@@ -213,39 +222,36 @@ font-awesome/5.15.2/css/all.min.css"/>
         vueApp.viewer = viewer;
 
         // Load annotations in W3C WebAnnotation format
-        // anno.loadAnnotations('annotations.w3c.json');
-        anno.on('createSelection', vueApp.onCreateSelection);
-        anno.on('createAnnotation', vueApp.onCreateAnnotation);
-        anno.on('updateAnnotation', vueApp.onUpdateAnnotation);
-        anno.on('selectAnnotation', vueApp.onSelectAnnotation);
-        anno.on('cancelSelected', vueApp.onCancelSelected);
-        anno.on('clickAnnotation', vueApp.onClickAnnotation);
-        anno.on('deleteAnnotation', vueApp.onDeleteAnnotation);
-        anno.on('changeSelectionTarget', vueApp.onChangeSelectionTarget);
-        // anno.on('mouseEnterAnnotation', vueApp.onMouseEnterAnnotation);
-        // anno.on('mouseLeaveAnnotation', vueApp.onMouseLeaveAnnotation);
+        let eventNames = [
+          'createSelection', 'createAnnotation', 'updateAnnotation', 
+          'selectAnnotation', 'cancelSelected', 'clickAnnotation', 
+          'deleteAnnotation', 'changeSelectionTarget',
+          // 'mouseLeaveAnnotation', 'mouseLeaveAnnotation'
+        ]
+        for (let eventName of eventNames) {
+          anno.on(eventName, vueApp[`on${eventName[0].toUpperCase()}${eventName.substring(1)}`]);
+        }
         anno.on('open-failed', vueApp.onImageOpenFailed);
       }; 
-
-      // window.addEventListener('load', loadOpenSeaDragon);
 
       const { createApp } = Vue
 
       createApp({
         data() {
           return {
-            searchPhrase: '',
+            // TODO: not reactive
             apis: {
               // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
               collections: '../data/dts/api/collections-test.json',
               definitions: '../data/pal/definitions-digipal.json',
             },
-            objs: [
+            objects: [
               {'description': 'Object 1', '@id': 'obj1', 'title': 't1'},
               {'description': 'Object 2', '@id': 'obj2', 'title': 't2'},
               {'description': 'Object 3', '@id': 'obj3', 'title': 't3'},
             ],
             object: null,
+            searchPhrase: '',
             images: [],
             image: null,
             text: 'test',
@@ -281,6 +287,7 @@ font-awesome/5.15.2/css/all.min.css"/>
             cache: {
               isDescriptionLoading: false,
               allographLast: '123',
+              // TODO: not reactive?
               store: {
                 imagesAnnotations: {
                   'objectkey.imagekey': {
@@ -297,7 +304,6 @@ font-awesome/5.15.2/css/all.min.css"/>
           loadOpenSeaDragon(this)
           this.loadObjects()
           this.loadDefinitions()
-          // this.loadAnnotationsFromSession()
         },
         watch: {
           description2: {
@@ -314,12 +320,12 @@ font-awesome/5.15.2/css/all.min.css"/>
             deep: true
           },
           object(val, valOld) {
-            this.loadObjectXML()
+            this.fetchObjectXML()
           },
         },
         computed: {
           filteredObjects() {
-            return this.objs.filter(o => o.description.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+            return this.objects.filter(o => o.description.toLowerCase().includes(this.searchPhrase.toLowerCase()))
           },
           filteredImages() {
             return this.images.filter(i => i.type == 'print')
@@ -329,97 +335,85 @@ font-awesome/5.15.2/css/all.min.css"/>
           }
         },
         methods: {
-          loadObjectXML() {
+          loadObjects() {
+            // Load objects list (this.objects) from DTS collections API 
+            fetch(this.apis.collections)
+              .then(res => res.json())
+              .then(res => {
+                // console.log(res)
+                this.objects = []
+                for (let m of res.member) {
+                  if (m) {
+                    this.objects.push({
+                      '@id': m['@id'],
+                      title: m.title,
+                      description: m.description,
+                      "dts:download": m['dts:download']
+                    })
+                  }
+                }
+                if (this.objects.length) {
+                  this.object = this.objects[0]
+                } else {
+                  this.object = null
+                }
+              })
+          },
+          loadDefinitions() {
+            fetch(this.apis.definitions)
+              .then(res => res.json())
+              .then(res => {
+                this.definitions = res
+                this.updateDescriptionFromAllograph()
+              })
+          },
+          fetchObjectXML() {
+            // fetch the TEI XML from DTS API for the selected object (this.object)
             if (this.object) {
-              // const uri = '//localhost:5500' + this.object["dts:download"]
-              window.nsResolver = function(prefix) {
-                const ns = {
-                  'tei': 'http://www.tei-c.org/ns/1.0',
-                  'xhtml': 'http://www.w3.org/1999/xhtml',
-                };
-                return ns[prefix] || null;
-              }
-
               const uri = this.object["dts:download"]
               const self = this
               fetch(uri)
                 .then(res => res.text())
                 .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
-                .then(res => {
-                  self.tei = res
-                  window.tei = res
-                  // get all the tei:graphic
+                .then(xml => {
+                  // self.tei = res
+                  // Only to ease debugging
+                  // window.tei = res
 
-                  self.images = []
-                  let it = tei.evaluate('//tei:graphic', tei, nsResolver, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
-                  while (true) {
-                    let node = it.iterateNext()
-                    if (!node) break
-                    // TODO: less assumption about encoding, make it more robust 
-                    self.images.push({
-                      description: node.children[0].textContent,
-                      uri: node.attributes['url'].value,
-                      type: node.attributes['n'].value, // screen|print
-                      surface: node.parentElement.attributes.type.value // front
-                    })
-                    console.log(node)
-                  }
-                  let filteredImages = this.filteredImages
-                  this.onSelectImage(filteredImages ? filteredImages[0] : null)
-                  // console.log(res)
-
-                  fetch('../data/tei2html.xslt')
-                    .then(res => res.text())
-                    .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
-                    .then(res => {
-                      let processor = new XSLTProcessor()
-                      processor.importStylesheet(res)
-                      let doc = processor.transformToFragment(tei, document)
-
-                      console.log(doc)
-                      console.log(new XMLSerializer().serializeToString(doc))
-
-                      this.text = new XMLSerializer().serializeToString(doc);
-                    })
-
-                //   it = tei.evaluate("//tei:body/tei:div[@type='edition']", tei, nsResolver, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
-                //   while (true) {
-                //     let node = it.iterateNext()
-                //     if (!node) break
-
-                //     let testTransform = document.implementation.createDocument("", "test", null)
-                //     function onload() {
-                //       processor.importStylesheet(testTransform)
-                //     }
-                //     testTransform.addEventListener("load", onload, false)
-                //     testTransform.load("")
-                //     console.log(res)
-
-                //     // TODO: less assumption about encoding, make it more robust 
-                //     // self.text = node.
-                //     // console.log(node)
-                //   }
+                  this.setImagesFromObjectXML(xml)
+                  this.setTextFromObjectXML(xml)
                 })
             }
           },
-          saveAnnotationsToSession() {
-            if (this.image?.uri) {
-              this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
-              window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
-              console.log('save annotations')
+          setImagesFromObjectXML(xml) {
+            // get all the tei:graphic -> image locations
+            this.images = []
+            let it = xml.evaluate('//tei:graphic', xml, this.getURIFromXMLPrefix, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
+            while (true) {
+              let node = it.iterateNext()
+              if (!node) break
+              // TODO: less assumption about encoding, make it more robust 
+              this.images.push({
+                description: node.children[0].textContent,
+                uri: node.attributes['url'].value,
+                type: node.attributes['n'].value, // screen|print
+                surface: node.parentElement.attributes.type.value // front
+              })
             }
+            let filteredImages = this.filteredImages
+            this.onSelectImage(filteredImages ? filteredImages[0] : null)
           },
-          loadAnnotationsFromSession() {
-            let imagesAnnotations = window.localStorage.getItem('imagesAnnotations')
-            if (imagesAnnotations) {
-              this.cache.store.imagesAnnotations = JSON.parse(imagesAnnotations)
-              let annotations = this.image?.uri ? this.cache.store.imagesAnnotations[this.image.uri] : null
-              if (annotations) {
-                this.anno.setAnnotations(annotations)
-              } else {
-                this.anno.clearAnnotations()
-              }
-            }
+          setTextFromObjectXML(xml) {
+            // xml (TEI) -> this.text (XHTML)
+            fetch('../data/tei2html.xslt')
+              .then(res => res.text())
+              .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
+              .then(res => {
+                let processor = new XSLTProcessor()
+                processor.importStylesheet(res)
+                let doc = processor.transformToFragment(xml, document)
+                this.text = new XMLSerializer().serializeToString(doc);
+              })
           },
           onChangeAllograph() {
             this.updateDescriptionFromAllograph()
@@ -453,6 +447,7 @@ font-awesome/5.15.2/css/all.min.css"/>
               }
             }
           },
+          // Events - Annotorious
           async onCreateSelection(selection) {
             console.log('EVENT onCreateSelection')
 
@@ -514,43 +509,7 @@ font-awesome/5.15.2/css/all.min.css"/>
             console.log('EVENT onClickAnnotation')
             // this.saveAnnotationsToSession()
           },
-          loadDefinitions() {
-            fetch(this.apis.definitions)
-              .then(res => res.json())
-              .then(res => {
-                this.definitions = res
-                this.updateDescriptionFromAllograph()
-              })
-          },
-          loadObjects() {
-            // TODO: remove
-            if (0) {
-              this.object = this.objs[0]
-              return;
-            }
-            fetch(this.apis.collections)
-              .then(res => res.json())
-              .then(res => {
-                console.log(res)
-                this.objs = []
-                for (let m of res.member) {
-                  if (m) {
-                    this.objs.push({
-                      '@id': m['@id'],
-                      title: m.title,
-                      description: m.description,
-                      "dts:download": m['dts:download']
-                    })
-                  }
-                }
-                if (this.objs.length) {
-                  this.object = this.objs[0]
-                } else {
-                  this.object = null
-                }
-              })
-
-          },
+          // Events - Selection
           onSelectObject(obj) {
             this.object = obj
           },
@@ -564,9 +523,38 @@ font-awesome/5.15.2/css/all.min.css"/>
             }
             this.loadAnnotationsFromSession()
           },
+          // Events - Other
           onImageOpenFailed() {
             console.log('OPEN FAILED')
-          }
+          },
+          // Persistence backend
+          saveAnnotationsToSession() {
+            if (this.image?.uri) {
+              this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
+              window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
+              console.log('save annotations')
+            }
+          },
+          loadAnnotationsFromSession() {
+            let imagesAnnotations = window.localStorage.getItem('imagesAnnotations')
+            if (imagesAnnotations) {
+              this.cache.store.imagesAnnotations = JSON.parse(imagesAnnotations)
+              let annotations = this.image?.uri ? this.cache.store.imagesAnnotations[this.image.uri] : null
+              if (annotations) {
+                this.anno.setAnnotations(annotations)
+              } else {
+                this.anno.clearAnnotations()
+              }
+            }
+          },
+          // Low-level Utilities
+          getURIFromXMLPrefix(prefix) {
+            const ns = {
+              'tei': 'http://www.tei-c.org/ns/1.0',
+              'xhtml': 'http://www.w3.org/1999/xhtml',
+            };
+            return ns[prefix] || null;
+          },
         }
       }).mount('#annotator');
     </script>

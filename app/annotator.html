@@ -59,6 +59,9 @@ font-awesome/5.15.2/css/all.min.css"/>
       .transcription .sign:hover {
         background-color: yellow;
       }
+      .transcription .sign.bound {
+        border-color: #ffe0a0;
+      }
       .transcription .sign.selected {
         background-color: #ffe0a0;
       }
@@ -255,6 +258,11 @@ font-awesome/5.15.2/css/all.min.css"/>
             images: [],
             image: null,
             text: 'test',
+            annotatedText: {
+              textId: '',
+              wordId: '',
+              signId: '',
+            },
             definitions: {
               features: {
                 'f1': 'F 1',
@@ -282,6 +290,13 @@ font-awesome/5.15.2/css/all.min.css"/>
                 ['c1', {'f1': false, 'f3': true}],
               ],
               // TODO: aspects
+              // TODO: move this out of description, it should be an annotation target; not in ann body 
+              textTarget: {
+                // TODO: is there a std for this kind of ptr?
+                textId: null,
+                wordId: null,
+                signId: null
+              }
             },
             annotation: null,
             cache: {
@@ -412,8 +427,87 @@ font-awesome/5.15.2/css/all.min.css"/>
                 let processor = new XSLTProcessor()
                 processor.importStylesheet(res)
                 let doc = processor.transformToFragment(xml, document)
-                this.text = new XMLSerializer().serializeToString(doc);
+                // set data-idx to each span.sign, relative to its parent span.word
+                for (let word of doc.querySelectorAll('.word')) {
+                  let signIdx = 0
+                  for (let sign of word.querySelectorAll('.sign')) {
+                    sign.attributes.getNamedItem('data-idx').value = signIdx++
+                  }
+                }
+                // to string
+                this.text = new XMLSerializer().serializeToString(doc)
+                // console.log(this.text)
+                // attach events to each sign
+                Vue.nextTick(() => {
+                  for (let sign of document.querySelectorAll('.sign')) {
+                    sign.addEventListener('click', (e) => this.onClickSign(sign));
+                    sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
+                    sign.addEventListener('mouseleave', (e) => this.onMouseLeaveSign(sign));
+                  }
+                  this.updateSignHighlights()
+                })
               })
+          },
+          onClickSign(sign) {
+            console.log('Click sign')
+            let annotation = this.anno.getSelected()
+            if (annotation) {
+              let word = sign.closest('.word')
+              let textTarget = {
+                textId: null,
+                wordId: word.attributes.getNamedItem('id').value,
+                signId: sign.attributes.getNamedItem('data-idx').value
+              }
+              if (textTarget?.wordId == this.description?.textTarget.wordId && textTarget?.signId == this.description?.textTarget.signId) {
+                // already selected so we unbind it
+                textTarget = {
+                  textId: null, wordId: null, signId: null
+                }
+              }
+              this.description.textTarget = textTarget
+              this.updateSelectedAnnotationFromDescription()
+              this.updateSignHighlights()
+            }
+          },
+          updateSignHighlights() {
+            // TODO: optimise... calling this each time something change is ineffective
+            for (let sign of document.querySelectorAll('.sign.selected')) {
+              sign.classList.remove('selected')
+            }
+            for (let sign of document.querySelectorAll('.sign.bound')) {
+              sign.classList.remove('bound')
+            }
+            for (let annotation of this.anno.getAnnotations()) {
+              console.log(annotation)
+              let sign = this.getSignFromAnnotation(annotation)
+              console.log(sign)
+              if (sign) {
+                sign.classList.add('bound')
+                if (this?.annotation?.id == annotation.id) {
+                  sign.classList.add('selected')
+                }
+              }
+            }
+          },
+          getSignFromAnnotation(annotation=null) {
+            let ret = null
+            annotation = annotation || this.annotation
+            if (annotation) {
+              let description = JSON.parse(annotation.body[0].value)
+              if (description?.textTarget?.signId) {
+                let word = document.querySelector(`.word[id="${description?.textTarget?.wordId}"]`)
+                if (word) {
+                  ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`)
+                }
+              }
+            }
+            return ret
+          },
+          onMouseEnterSign(sign) {
+            // console.log('Mousenter sign')
+          },
+          onMouseLeaveSign(sign) {
+            // console.log('Mouseleave sign')
           },
           onChangeAllograph() {
             this.updateDescriptionFromAllograph()
@@ -494,11 +588,14 @@ font-awesome/5.15.2/css/all.min.css"/>
             console.log('EVENT onSelectAnnotation')
             this.description = JSON.parse(annotation.body[0].value)
             this.annotation = this.anno.getSelected()
+            // highlight the sign bound to this annotation
+            this.updateSignHighlights()
             // this.saveAnnotationsToSession()
           },
           onCancelSelected(selection) {
             // at this point this.anno.getSelected() still returns an annotation!
             this.annotation = null
+            this.updateSignHighlights()
             console.log('EVENT onCancelSelected')
           },
           onDeleteAnnotation() {
@@ -542,6 +639,7 @@ font-awesome/5.15.2/css/all.min.css"/>
               let annotations = this.image?.uri ? this.cache.store.imagesAnnotations[this.image.uri] : null
               if (annotations) {
                 this.anno.setAnnotations(annotations)
+                this.updateSignHighlights()
               } else {
                 this.anno.clearAnnotations()
               }

@@ -10,13 +10,18 @@
 font-awesome/5.15.2/css/all.min.css"/>
 
     <script src="https://cdn.jsdelivr.net/npm/openseadragon@3.0/build/openseadragon/openseadragon.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.7/dist/annotorious.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.7/dist/openseadragon-annotorious.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.8/dist/annotorious.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.8/dist/openseadragon-annotorious.min.js"></script>
     <!-- <script src="../../annotorious-openseadragon/dist/openseadragon-annotorious.min.js"></script> -->
 
     <!-- importmap shim for Firefox -->
     <script src="https://unpkg.com/vue@3"></script>
     <style type = "text/css"> 
+      :root {
+        --selected-color: orange;
+        --hover-color: yellow;
+        --bound-color: blue;
+      }
       .list-selectable {
         max-height: 15em;
         overflow-y: auto;
@@ -26,10 +31,17 @@ font-awesome/5.15.2/css/all.min.css"/>
         padding: 0.5em
       }
       .list-selectable li:hover {
-        background-color: yellow;
+        background-color: var(--hover-color);
+      }
+      label.selectable {
+        width: 100%;
+        display: inline-block;
+      }
+      .selectable:hover {
+        background-color: var(--hover-color);
       }
       .selected {
-        background-color: #ffe0a0;
+        background-color: var(--selected-color);
         font-weight: bold;
       }
       .component-name {
@@ -53,24 +65,35 @@ font-awesome/5.15.2/css/all.min.css"/>
       .transcription .sign {
         display: inline-block;
         width: 1.5em;
-        border: 1px solid lightgrey;
+        border: 1px solid #ddd;
         padding: 0.5em;       
       }
       .transcription .sign:hover {
-        background-color: yellow;
+        background-color: var(--hover-color);
       }
       .transcription .sign.bound {
-        border-color: #ffe0a0;
+        border-color: var(--bound-color);
       }
       .transcription .sign.selected {
-        background-color: #ffe0a0;
+        background-color: var(--selected-color);
       }
-      /* .panel-objects .select.list-objects {
-        height: auto;
+      .transcription .sign.selected:hover {
+        cursor: url("./assets/unlink-svgrepo-com.svg"), auto;
       }
-      .list-objects select {
-        height: auto;
-      } */
+      .bound .a9s-outer {
+        stroke: var(--bound-color);
+      }
+      .a9s-annotation.selected .a9s-inner {
+        fill: var(--selected-color);
+        fill-opacity: 0.3;
+      }
+      .a9s-annotation:hover .a9s-inner {
+        fill: var(--hover-color);
+        fill-opacity: 0.3;
+      }
+      .a9s-annotation .a9s-outer {
+        stroke-width: 5px;
+      }
     </style>
 
   </head>
@@ -171,7 +194,7 @@ font-awesome/5.15.2/css/all.min.css"/>
                       </span>
                       <ul>
                         <li v-for="(isFeaturePresent, featureKey, index) in component[1]">
-                          <label><input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()">
+                          <label :class="{selectable: true, selected: isFeaturePresent}"><input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()">
                             <template v-if="definitions.features[featureKey]"> 
                               {{ definitions.features[featureKey] }}
                             </template>
@@ -209,7 +232,8 @@ font-awesome/5.15.2/css/all.min.css"/>
             tileSources: {
               type: "image",
               url: "http://localhost:49153/iiif/2/ISic000001.jpg/full/full/0/default.jpg"
-            }
+            },
+            zoomPerClick: 1.0, // disable the zoom on click
         });
 
         // Initialize the Annotorious plugin
@@ -219,6 +243,7 @@ font-awesome/5.15.2/css/all.min.css"/>
           // disableSelect: true,
           // TODO: js error after select + click outside rect
           // fragmentUnit: 'percent', 
+          formatters: vueApp.annotoriousFormatter
         };
         var anno = OpenSeadragon.Annotorious(viewer, config);
         vueApp.anno = anno;
@@ -258,11 +283,11 @@ font-awesome/5.15.2/css/all.min.css"/>
             images: [],
             image: null,
             text: 'test',
-            annotatedText: {
-              textId: '',
-              wordId: '',
-              signId: '',
-            },
+            // annotatedText: {
+            //   textId: '',
+            //   wordId: '',
+            //   signId: '',
+            // },
             definitions: {
               features: {
                 'f1': 'F 1',
@@ -444,29 +469,46 @@ font-awesome/5.15.2/css/all.min.css"/>
                     sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
                     sign.addEventListener('mouseleave', (e) => this.onMouseLeaveSign(sign));
                   }
+                  console.log('setTextFromObjectXML:updateSignHighlights')
                   this.updateSignHighlights()
                 })
               })
           },
           onClickSign(sign) {
             console.log('Click sign')
-            let annotation = this.anno.getSelected()
-            if (annotation) {
-              let word = sign.closest('.word')
-              let textTarget = {
-                textId: null,
-                wordId: word.attributes.getNamedItem('id').value,
-                signId: sign.attributes.getNamedItem('data-idx').value
-              }
-              if (textTarget?.wordId == this.description?.textTarget.wordId && textTarget?.signId == this.description?.textTarget.signId) {
-                // already selected so we unbind it
-                textTarget = {
-                  textId: null, wordId: null, signId: null
-                }
-              }
-              this.description.textTarget = textTarget
+            let selectedAnnotation = this.anno.getSelected()
+            let signAnnotation = this.getAnnotationFromSign(sign)
+            let annotationSign = this.getSignFromAnnotation()
+            if (sign == annotationSign) {
+              // unbind sign from selected annotation
+              this.description.textTarget = null
               this.updateSelectedAnnotationFromDescription()
-              this.updateSignHighlights()
+            } else if (selectedAnnotation && !signAnnotation && !annotationSign) {
+              // bind sign to selected annotation
+              this.description.textTarget = this.getTextTargetFromSign(sign)
+              this.updateSelectedAnnotationFromDescription()
+              signAnnotation = selectedAnnotation
+            }
+            this.selectAnnotation(signAnnotation)
+          },
+          getAnnotationFromSign(sign) {
+            let ret = null
+            for (let annotation of this.anno.getAnnotations()) {
+              let asign = this.getSignFromAnnotation(annotation)
+              if (sign == asign) {
+                ret = annotation
+                break
+              }
+            }
+
+            return ret
+          },
+          getTextTargetFromSign(sign) {
+            let word = sign.closest('.word')
+            return {
+              textId: null,
+              wordId: word.attributes.getNamedItem('id').value,
+              signId: sign.attributes.getNamedItem('data-idx').value
             }
           },
           updateSignHighlights() {
@@ -477,12 +519,12 @@ font-awesome/5.15.2/css/all.min.css"/>
             for (let sign of document.querySelectorAll('.sign.bound')) {
               sign.classList.remove('bound')
             }
+            console.log(`updateSignHighlights: ${this.anno.getAnnotations().length} annotations`)
             for (let annotation of this.anno.getAnnotations()) {
-              console.log(annotation)
               let sign = this.getSignFromAnnotation(annotation)
-              console.log(sign)
               if (sign) {
                 sign.classList.add('bound')
+                console.log(this?.annotation?.id)
                 if (this?.annotation?.id == annotation.id) {
                   sign.classList.add('selected')
                 }
@@ -492,7 +534,7 @@ font-awesome/5.15.2/css/all.min.css"/>
           getSignFromAnnotation(annotation=null) {
             let ret = null
             annotation = annotation || this.annotation
-            if (annotation) {
+            if (annotation?.body?.length) {
               let description = JSON.parse(annotation.body[0].value)
               if (description?.textTarget?.signId) {
                 let word = document.querySelector(`.word[id="${description?.textTarget?.wordId}"]`)
@@ -584,17 +626,27 @@ font-awesome/5.15.2/css/all.min.css"/>
             this.saveAnnotationsToSession()
             // this.saveAnnotationsToSession()
           },
+          selectAnnotation(annotation) {
+            this.anno.selectAnnotation(annotation)
+            this.onSelectAnnotation(annotation)
+            return annotation
+          },
           onSelectAnnotation(annotation) {
             console.log('EVENT onSelectAnnotation')
-            this.description = JSON.parse(annotation.body[0].value)
-            this.annotation = this.anno.getSelected()
-            // highlight the sign bound to this annotation
+            if (annotation) {
+              this.description = JSON.parse(annotation.body[0].value)
+              // This call sometimes returns undefined after a selectAnnotation(annotation)!
+              // this.annotation = this.anno.getSelected()
+              this.annotation = annotation
+            } else {
+              this.onCancelSelected()
+            }
             this.updateSignHighlights()
-            // this.saveAnnotationsToSession()
           },
           onCancelSelected(selection) {
             // at this point this.anno.getSelected() still returns an annotation!
             this.annotation = null
+            delete this.description.textTarget
             this.updateSignHighlights()
             console.log('EVENT onCancelSelected')
           },
@@ -639,6 +691,7 @@ font-awesome/5.15.2/css/all.min.css"/>
               let annotations = this.image?.uri ? this.cache.store.imagesAnnotations[this.image.uri] : null
               if (annotations) {
                 this.anno.setAnnotations(annotations)
+                console.log('loadAnnotationsFromSession:updateSignHgighlights')
                 this.updateSignHighlights()
               } else {
                 this.anno.clearAnnotations()
@@ -653,6 +706,16 @@ font-awesome/5.15.2/css/all.min.css"/>
             };
             return ns[prefix] || null;
           },
+          annotoriousFormatter(annotation) {
+            // sets 'bound' class to annotation svg 
+            // if bound to a sign in the text.
+            let ret = ''
+            if (this.getSignFromAnnotation(annotation)) {
+              ret = 'bound'
+            }
+            console.log(ret)
+            return ret
+          }
         }
       }).mount('#annotator');
     </script>

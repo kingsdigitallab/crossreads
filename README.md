@@ -2,6 +2,8 @@ KDL codebase for the CROSSREADS research project
 
 Main site: https://crossreads.web.ox.ac.uk/
 
+Annotator: https://kingsdigitallab.github.io/crossreads/annotator.html
+
 # Content
 
 ## Annotator

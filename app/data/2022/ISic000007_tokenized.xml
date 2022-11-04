@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="http://www.stoa.org/epidoc/schema/latest/tei-epidoc.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../schematron/ircyr-checking.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Construction of fortification works under Sextus Pompeius by L. Plinius Rufus</title>
+        <editor ref="#JP">Jonathan Prag</editor>
+        <principal ref="#JP">Jonathan Prag</principal>
+        <funder>John Fell OUP Research Fund</funder>
+        <funder>
+          <ref target="https://cordis.europa.eu/project/id/885040">ERC Advanced Grant no.885040</ref>
+        </funder>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0003-3819-8537" xml:id="JP">Jonathan Prag</name>
+          <resp>original data collection and editing</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0002-6686-3728" xml:id="JCu">James Cummings</name>
+          <resp>conversion to EpiDoc</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0001-6823-0265" xml:id="JCh">James Chartrand</name>
+          <resp>site construction and encoding</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0002-9695-0240" xml:id="VV">Valeria Vitale</name>
+          <resp>editing of geo data</resp>
+        </respStmt>
+        <respStmt>
+          <name xml:id="MM">Michael Metcalfe</name>
+          <resp>museum data collection</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="https://orcid.org/0000-0003-3914-9569" xml:id="SS">Simona Stoyanova</name>
+          <resp>standardisation of template and tidying up encoding</resp>
+        </respStmt>
+        <respStmt>
+          <name xml:id="system">system</name>
+          <resp>automated or batch processes</resp>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <authority>I.Sicily</authority>
+        <idno type="filename">ISic000007</idno>
+        <idno type="TM">175824</idno>
+        <idno type="EDR">071633</idno>
+        <idno type="EDH"/>
+        <idno type="EDCS">14700098</idno>
+        <idno type="PHI"/>
+        <idno type="URI">http://sicily.classics.ox.ac.uk/inscription/ISic000007</idno>
+        <idno type="DOI" when="2020-12-17">10.5281/zenodo.4333745</idno>
+        <availability>
+          <licence target="http://creativecommons.org/licenses/by/4.0/">Licensed under a Creative Commons-Attribution 4.0 licence</licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <region>Sicily</region>
+            <settlement>Marsala</settlement>
+            <repository ref="http://sicily.classics.ox.ac.uk/museum/108" role="museum">Museo archeologico regionale Lilibeo Marsala - Baglio Anselmi</repository>
+            <!--No inventory number found-->
+            <altIdentifier type="former">
+              <settlement/>
+              <repository role="museum">Museo Archeologico Regionale Antonino Salinas</repository>
+              <idno type="old">no.3507</idno>
+            </altIdentifier>
+          </msIdentifier>
+          <msContents>
+            <textLang mainLang="la">Latin</textLang>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>
+                  <material ana="#material.stone.limestone" ref="http://www.eagle-network.eu/voc/material/lod/66.html">limestone</material>
+                  <objectType ana="#object.plaque" ref="http://www.eagle-network.eu/voc/objtyp/lod/259.html">plaque</objectType>
+                  <dimensions>
+                    <height unit="cm">42</height>
+                    <width unit="cm">134</width>
+                    <depth unit="cm">15</depth>
+                  </dimensions>
+                </support>
+                <condition/>
+              </supportDesc>
+              <layoutDesc>
+                <layout>
+                  <rs ana="#execution.chiselled" ref="http://www.eagle-network.eu/voc/writing/lod/1">chiselled</rs>
+                  <damage/>
+                </layout>
+              </layoutDesc>
+            </objectDesc>
+            <handDesc>
+              <handNote>
+                <!--Default value and requires editing-->
+                <locus from="line1" to="line1">Line 1</locus>
+                <dimensions type="letterHeight">
+                  <height unit="mm"/>
+                </dimensions>
+                <locus from="line1" to="line2">Interlineation line 1 to 2</locus>
+                <dimensions type="interlinear">
+                  <height unit="mm"/>
+                </dimensions>
+              </handNote>
+            </handDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origPlace>
+                <placeName ref="http://pleiades.stoa.org/places/462281" type="ancient">Lilybaeum</placeName>
+                <placeName ref="http://sws.geonames.org/6542148" type="modern">Marsala</placeName>
+                <geo>37.80355, 12.4379</geo>
+              </origPlace>
+              <origDate datingMethod="#julian" notAfter-custom="-0036" notBefore-custom="-0039">39—36 BCE</origDate>
+            </origin>
+            <provenance subtype="discovered" type="found">Found during construction work for the Baglio Anselmi</provenance>
+            <provenance type="observed">On display.</provenance>
+            <provenance resp="#MM" subtype="autopsied" type="observed">2015-11-12</provenance>
+            <acquisition/>
+          </history>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <p>Encoded following the latest EpiDoc guidelines</p>
+      <xi:include href="../alists/ISicily-taxonomies.xml">
+        <xi:fallback>
+          <p>Taxonomies for ISicily controlled values</p>
+        </xi:fallback>
+      </xi:include>
+      <xi:include href="../alists/charDecl.xml">
+        <xi:fallback>
+          <p>ISicily glyphs authority list</p>
+        </xi:fallback>
+      </xi:include>
+    </encodingDesc>
+    <profileDesc>
+      <calendarDesc>
+        <calendar xml:id="julian">
+          <p>Julian Calendar</p>
+        </calendar>
+      </calendarDesc>
+      <langUsage>
+        <language ident="en">English</language>
+        <language ident="it">Italian</language>
+        <language ident="grc">Ancient Greek</language>
+        <language ident="la">Latin</language>
+        <language ident="he">Hebrew</language>
+        <language ident="phn">Phoenician</language>
+        <language ident="xpu">Punic</language>
+        <language ident="osc">Oscan</language>
+        <language ident="xly">Elymian</language>
+        <language ident="scx">Sikel</language>
+        <language ident="sxc">Sikan</language>
+      </langUsage>
+      <textClass>
+        <keywords scheme="http://www.eagle-network.eu/voc/typeins.html">
+          <term ana="#function.building" ref="http://www.eagle-network.eu/voc/typeins/lod/86.html">building</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+    <revisionDesc status="draft">
+      <listChange>
+        <change when="2016-12-03" who="#JCu">James Cummings autogenerated EpiDoc output from database</change>
+        <change when="2017-07-31" who="#JP">Jonathan Prag revised the EpiDoc</change>
+        <change when="2020-10-05" who="#SS">Simona Stoyanova normalised Unicode</change>
+        <change when="2020-10-08" who="#SS">Simona Stoyanova updated list of languages</change>
+        <change when="2020-11-20" who="#SS">Simona Stoyanova added EDCS numbers</change>
+        <change when="2020-11-26" who="#SS">Simona Stoyanova restructured bibliography</change>
+        <change when="2020-12-17" who="#system">Updated Zenodo DOI</change>
+        <change when="2021-01-19" who="#SS">renumbered files, uris and references</change>
+        <change when="2021-06-30" who="#JP">Jonathan Prag tagged named entities</change>
+      </listChange>
+    </revisionDesc>
+  </teiHeader>
+  <facsimile>
+    <surface type="front">
+      <graphic height="2034px" n="screen" url="ISic000007_tiled.tif" width="4608px">
+        <desc>Photo by Metcalfe</desc>
+      </graphic>
+      <graphic height="2034px" n="print" url="ISic000007.jpg" width="4608px">
+        <desc>Photo by Metcalfe</desc>
+      </graphic>
+    </surface>
+  </facsimile>
+  <text>
+    <body>
+      <div resp="#JP" type="edition" xml:lang="la" xml:space="preserve">
+        <ab>
+          <lb id="0f451a44-8af8-4cfb-b7f5-a85bdb29c8fa" n="1"/><persName id="07825acc-e90a-46c4-8852-b4845b4aec18" type="attested"><name type="praenomen"><expan><abbr><hi rend="ligature">Ma</hi>g</abbr><ex>no</ex></expan></name> <name type="nomen">Pompeio</name> <persName type="attested"><name type="patronym"><expan><abbr><hi rend="ligature">Ma</hi>g</abbr><ex>ni</ex></expan></name></persName> <w><expan><abbr>f</abbr><ex>ilio</ex></expan></w> <g ref="#interpunct">·</g> <name type="cognomen">Pio</name></persName> <roleName id="092d62bc-5530-4d6d-9ede-7e3a5f5ad4d3"><w><expan><abbr>imp</abbr><ex>eratore</ex></expan></w></roleName> <roleName id="9099cf7d-e6da-4d60-a016-47e928483d9c"><w>augu<hi rend="ligature">re</hi></w></roleName> 
+          <lb id="cf9c298a-60a2-4c17-89a3-d254a630041c" n="2"/><roleName id="73f740bf-30c8-40e2-88c8-c9d1d0c09c08"><w><expan><abbr>co</abbr><ex>n</ex><abbr>s</abbr><ex>ule</ex></expan></w> <g ref="#interpunct">·</g> <w><expan><abbr>desig</abbr><ex>nato</ex></expan></w></roleName> <w id="b4bb2854-c074-4582-91b2-d046db8132c9">port<unclear>a</unclear>m</w> <w id="d4deea5b-fa67-410d-8b2f-db9339dbb535">et</w> <w id="d24861d5-83fc-4866-96a3-031f90748c86">turres</w> 
+          <lb id="13d53b0a-cd6e-4650-9599-e9d0b80356cd" n="3"/><persName id="bea22b27-56dc-4eb7-96b8-e3cabfdd3036" type="attested"><name type="praenomen"><expan><abbr>L</abbr><ex>ucius</ex></expan></name> <g ref="#interpunct">·</g> <name type="nomen">Plinius</name> <g ref="#interpunct">·</g> <persName type="attested"><name type="patronym"><expan><abbr>L</abbr><ex>uci</ex></expan></name></persName> <g ref="#interpunct">·</g> <w><expan><abbr>f</abbr><ex>ilius</ex></expan></w> <name type="cognomen">Rufus</name></persName> <g id="001465e2-74f8-42ba-9a6a-a7f3e8707399" ref="#interpunct">·</g> <roleName id="eefe673f-de00-4031-bb23-71959d443fff"><w><expan><abbr>leg</abbr><ex>atus</ex></expan></w> <g ref="#interpunct">·</g> <w>pro</w> <g ref="#interpunct">·</g> <w><expan><abbr>pr</abbr><ex>aetore</ex></expan></w></roleName> <g id="40a71b4b-42ea-45f2-ad48-9bf441934268" ref="#interpunct">·</g> <roleName id="3dafd55d-3c39-4078-bfd5-4c8920c9648b"><w><expan><abbr>pr</abbr><ex>aetor</ex></expan></w> <g ref="#interpunct">·</g> <w><expan><abbr>des</abbr><ex>ignatus</ex></expan></w></roleName> <g id="852f6c0e-9028-4517-a510-0c11c73a482d" ref="#interpunct">·</g> <w id="54bcb999-b068-495c-a98a-eb369a2587a3"><expan><abbr>f</abbr><ex>aciendum</ex></expan></w> <g id="80cc59dd-d40a-4012-9177-0704fa825ded" ref="#interpunct">·</g> <w id="d1e7b1b1-d62a-4f87-8f45-a426e63a7967"><expan><abbr>c</abbr><ex>uravit</ex></expan></w> <g id="3bef2a24-964e-4ac2-8ab2-c3183b17f8ca" ref="#interpunct">·</g> 
+        </ab>
+      </div>
+      <div type="apparatus">
+        <p>
+          <!--external apparatus criticus (if applicable)-->
+        </p>
+      </div>
+      <div resp="#JP" type="translation" xml:lang="en">
+        <p>When Magnus Pompeius, son of Magnus, Pius Imperator, was Augur and Consul designate, Lucius Plinius
+                    Rufus, son of Lucius, Legatus Propraetore and Praetor designate saw to the construction of the Gate
+                    and Towers</p>
+      </div>
+      <div type="commentary">
+        <p>Cf. Appian, BC 5.98. L. Plinius Rufus subsequently defected to Octavian and seized Messana. The
+                    inscription provides important evidence for Sextus Pompeius' nomenclature and offices after 39 BC.</p>
+      </div>
+      <div type="bibliography">
+        <listBibl type="edition">
+          <bibl n="AE" type="bulletin">
+            <citedRange>1895.0023</citedRange>
+            <ptr target="http://zotero.org/groups/382445/items/R46KDTZX"/>
+          </bibl>
+          <bibl n="ILMusPalermo" type="corpus">
+            <citedRange>7</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/FZWWPUD6"/>
+          </bibl>
+          <bibl n="ILLRP" type="corpus">
+            <citedRange>426</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/88TW7IMC"/>
+          </bibl>
+          <bibl n="NSA" type="bulletin">
+            <author>Salinas</author>
+            <title>NSA</title>
+            <date>1894</date>
+            <citedRange>388-391 ph</citedRange>
+            <ptr target="http://zotero.org/groups/382445/items/4MCP2PVV"/>
+          </bibl>
+          <bibl n="ILS" type="corpus">
+            <citedRange>8891</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/XHMS9K6S"/>
+          </bibl>
+          <bibl>
+            <author>Mommsen</author>
+            <date>1895</date>
+            <citedRange>460-462</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/9HZ9JK3H"/>
+          </bibl>
+          <bibl>
+            <author>Diehl</author>
+            <date>1909</date>
+            <citedRange>no.373</citedRange>
+          </bibl>
+          <bibl>
+            <author>Degrassi</author>
+            <date>1965</date>
+            <citedRange>no.178</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/88TW7IMC"/>
+          </bibl>
+          <bibl>
+            <author>Di Stefano</author>
+            <date>1984</date>
+            <citedRange>35</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/Q5PB252W"/>
+          </bibl>
+        </listBibl>
+        <listBibl type="discussion">
+          <bibl/>
+        </listBibl>
+      </div>
+    </body>
+  </text>
+</TEI>

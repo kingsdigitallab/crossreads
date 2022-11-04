@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="http://www.stoa.org/epidoc/schema/latest/tei-epidoc.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../schematron/ircyr-checking.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>I.Sicily inscription 000031</title>
+        <editor ref="#JP">Jonathan Prag</editor>
+        <principal ref="#JP">Jonathan Prag</principal>
+        <funder>John Fell OUP Research Fund</funder>
+        <funder>
+          <ref target="https://cordis.europa.eu/project/id/885040">ERC Advanced Grant no.885040</ref>
+        </funder>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0003-3819-8537" xml:id="JP">Jonathan Prag</name>
+          <resp>original data collection and editing</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0002-6686-3728" xml:id="JCu">James Cummings</name>
+          <resp>conversion to EpiDoc</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0001-6823-0265" xml:id="JCh">James Chartrand</name>
+          <resp>site construction and encoding</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0002-9695-0240" xml:id="VV">Valeria Vitale</name>
+          <resp>editing of geo data</resp>
+        </respStmt>
+        <respStmt>
+          <name xml:id="MM">Michael Metcalfe</name>
+          <resp>museum data collection</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="https://orcid.org/0000-0001-8417-7089" xml:id="TA">Tuuli Ahlholm</name>
+          <resp>EpiDoc editing</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="https://orcid.org/0000-0003-3914-9569" xml:id="SS">Simona Stoyanova</name>
+          <resp>standardisation of template and tidying up encoding</resp>
+        </respStmt>
+        <respStmt>
+          <name xml:id="system">system</name>
+          <resp>automated or batch processes</resp>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <authority>I.Sicily</authority>
+        <idno type="filename">ISic000031</idno>
+        <idno type="TM">491797</idno>
+        <idno type="EDR">138294</idno>
+        <idno type="EDH"/>
+        <idno type="EDCS">22000881</idno>
+        <idno type="PHI"/>
+        <idno type="URI">http://sicily.classics.ox.ac.uk/inscription/ISic000031</idno>
+        <idno type="DOI" when="2020-12-17">10.5281/zenodo.4333839</idno>
+        <availability>
+          <licence target="http://creativecommons.org/licenses/by/4.0/">Licensed under a Creative Commons-Attribution 4.0 licence.</licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <region>Sicily</region>
+            <settlement>Palermo</settlement>
+            <repository ref="http://sicily.classics.ox.ac.uk/museum/064" role="museum">Museo Archeologico Regionale Antonino Salinas</repository>
+            <idno type="inventory">3531</idno>
+            <!--Adding location for old id numbers if available-->
+            <altIdentifier>
+              <settlement/>
+              <repository/>
+              <idno type="old"/>
+            </altIdentifier>
+          </msIdentifier>
+          <msContents>
+            <textLang mainLang="la">Latin</textLang>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>
+                  <material ana="#material.stone.marble" ref="http://www.eagle-network.eu/voc/material/lod/48.html">marble</material>
+                  <objectType ana="#object.plaque" ref="http://www.eagle-network.eu/voc/objtyp/lod/259">plaque</objectType>
+                  <dimensions>
+                    <height unit="cm"/>
+                    <width unit="cm"/>
+                    <depth unit="cm"/>
+                  </dimensions>
+                </support>
+                <condition/>
+              </supportDesc>
+              <layoutDesc>
+                <layout>
+                  <rs ana="#execution.chiselled" ref="http://www.eagle-network.eu/voc/writing/lod/1">chiselled</rs>
+                  <damage/>
+                </layout>
+              </layoutDesc>
+            </objectDesc>
+            <handDesc>
+              <handNote>
+                <locus from="line1" to="line1">Line 1</locus>
+                <dimensions type="letterHeight">
+                  <height unit="mm"/>
+                </dimensions>
+                <locus from="line1" to="line2">Interlineation line 1 to 2</locus>
+                <dimensions type="interlinear">
+                  <height unit="mm"/>
+                </dimensions>
+              </handNote>
+            </handDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origPlace>
+                <placeName ref="http://pleiades.stoa.org/places/462410" type="ancient">Panhormus</placeName>
+                <placeName ref="http://sws.geonames.org/2523920" type="modern">Palermo</placeName>
+                <geo>38.13205, 13.33561</geo>
+              </origPlace>
+              <origDate datingMethod="#julian" notAfter-custom="0200" notBefore-custom="0101" precision="low">2nd century CE</origDate>
+            </origin>
+            <provenance type="found">Original discovery not recorded.</provenance>
+            <provenance subtype="autopsied" type="observed">None</provenance>
+            <acquisition/>
+          </history>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <p>Encoded following the latest EpiDoc guidelines</p>
+      <xi:include href="../alists/ISicily-taxonomies.xml">
+        <xi:fallback>
+          <p>Taxonomies for ISicily controlled values</p>
+        </xi:fallback>
+      </xi:include>
+      <xi:include href="../alists/charDecl.xml">
+        <xi:fallback>
+          <p>ISicily glyphs authority list</p>
+        </xi:fallback>
+      </xi:include>
+    </encodingDesc>
+    <profileDesc>
+      <calendarDesc>
+        <calendar xml:id="julian">
+          <p>Julian Calendar</p>
+        </calendar>
+      </calendarDesc>
+      <langUsage>
+        <language ident="en">English</language>
+        <language ident="it">Italian</language>
+        <language ident="grc">Ancient Greek</language>
+        <language ident="la">Latin</language>
+        <language ident="he">Hebrew</language>
+        <language ident="phn">Phoenician</language>
+        <language ident="xpu">Punic</language>
+        <language ident="osc">Oscan</language>
+        <language ident="xly">Elymian</language>
+        <language ident="scx">Sikel</language>
+        <language ident="sxc">Sikan</language>
+      </langUsage>
+      <textClass>
+        <keywords scheme="http://www.eagle-network.eu/voc/typeins.html">
+          <term ana="#function.honorific" ref="http://www.eagle-network.eu/voc/typeins/lod/69.html">honorific</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+    <revisionDesc status="draft">
+      <listChange>
+        <change when="2016-12-03" who="#JCu">James Cummings autogenerated EpiDoc output from database</change>
+        <change when="2017-11-16" who="#JP">Jonathan Prag edited a bibl element</change>
+        <change when="2018-05-03" who="#TA">Tuuli Ahlholm cleaned up the autogenerated EpiDoc and added an apparatus</change>
+        <change when="2020-10-05" who="#SS">Simona Stoyanova normalised Unicode</change>
+        <change when="2020-10-08" who="#SS">Simona Stoyanova updated list of languages</change>
+        <change when="2020-11-20" who="#SS">Simona Stoyanova added EDCS numbers</change>
+        <change when="2020-11-26" who="#SS">Simona Stoyanova restructured bibliography</change>
+        <change when="2020-12-17" who="#system">Updated Zenodo DOI</change>
+        <change when="2021-01-19" who="#SS">renumbered files, uris and references</change>
+        <change when="2022-03-01" who="#JP">Jonathan Prag added images</change>
+      </listChange>
+    </revisionDesc>
+  </teiHeader>
+  <facsimile>
+    <surface type="front">
+      <graphic height="4128px" n="screen" url="ISic000031_tiled.tif" width="6192px">
+        <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+      </graphic>
+      <graphic height="4128px" n="print" url="ISic000031.jpg" width="6291px">
+        <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+      </graphic>
+      <graphic height="4128px" n="screen" url="ISic000031_copy1_tiled.tif" width="6192px">
+        <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+      </graphic>
+      <graphic height="4128px" n="print" url="ISic000031_copy1.jpg" width="6291px">
+        <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+      </graphic>
+    </surface>
+  </facsimile>
+  <text>
+    <body>
+      <div resp="#TA" type="edition" xml:lang="la" xml:space="preserve">
+        <ab>
+          <lb id="369d0d01-5ca7-41ba-88f8-120917baf478" n="1"/><gap extent="unknown" id="ee438043-ebda-40af-a61c-9b8b0160027d" reason="lost" unit="character"/><supplied cert="low" reason="lost">curatori</supplied> <w id="6beb8170-f256-4f60-be97-299708b48689"><supplied reason="lost">kalendarii</supplied><gap extent="unknown" id="5519460b-b606-4a26-b991-0811ed1d61b0" reason="lost" unit="character"/>iani</w> <g id="ae383b67-b672-4de2-baa7-65b377fa8044" ref="#interpunct">·</g> <w id="0e0018c6-42b9-4f64-a4c1-a99e6d231d23">quod</w> <g id="b807bccd-1983-498a-8fd4-12a6ffb4ae74" ref="#interpunct">·</g> <w id="f5804f7f-d9a5-4098-9a88-7e7e36106987">mera</w> <g id="b063dbbb-4dad-49a5-bfaa-a252104dc715" ref="#interpunct">·</g> <w id="5a1b3534-6798-4923-b612-2ae30f860d8e">fide</w> <g id="dda0f345-763a-489f-ac99-343f86218919" ref="#interpunct">·</g> <w id="71e9cb93-7464-45be-8acd-04515e38e34a">admi
+          <lb break="no" n="2"/><supplied reason="lost">nistravit</supplied></w> <w id="c3e0a4d5-c896-4bab-9cac-c2f23b9b2b7a"><supplied reason="lost"><g ref="#interpunct">·</g></supplied></w> <w id="50d98df7-d3cc-49aa-b148-c5e05ae7efa5"><supplied reason="lost">eodemque</supplied></w> <w id="af47a184-2875-44a4-93cc-ae4ffdc730a4"><supplied reason="lost"><g ref="#interpunct">·</g></supplied></w> <w id="e74fc970-50e0-4492-bedc-2d27c0a0496d"><supplied reason="lost">tempore</supplied></w> <g id="303ec916-5f73-47fc-b1fd-7d6a54e76d00" ref="#interpunct">·</g> <w id="a450a7ca-72cf-4bea-841f-8e8913141fb3"><expan><abbr>cur</abbr><ex>ator</ex></expan></w> <g id="f46bf0b0-c6b9-4bec-9ca0-7acc14f20afe" ref="#interpunct">·</g> <w id="47dd6541-d303-43cb-ac58-3d13aeee12d6">portensis</w> <g id="335b1a57-e963-4d9d-88d6-945f9aee172e" ref="#interpunct">·</g> <w id="7b4587e3-0703-4bf0-b372-d0bd1dcea5fb"><expan><abbr>kal</abbr><ex>endarii</ex></expan></w> <g id="75bf3995-05a6-4d20-b94e-dd7d3acecb7c" ref="#interpunct">·</g> <w id="385d986a-2bf0-49c9-b252-f35099b1ccd7">quod</w> <g id="f5dfb184-4c41-41c0-9467-a615b50bcc55" ref="#interpunct">·</g> <w id="35273cf6-6698-46e3-867e-d1062b1dd4ed">singulari</w> 
+          <lb id="c7a6ebd0-88bf-42c6-829a-3de42fda245f" n="3"/><w id="cb76b8f5-f288-439c-902f-8654f49663de"><supplied reason="lost">diligentia</supplied></w> <w id="53b941f3-c7d8-42f9-87af-0c8b30f377f5"><supplied reason="lost">tractavit</supplied></w> <gap extent="unknown" id="2191e2cb-172a-428e-bc6f-fd8b5bfa5582" reason="lost" unit="character"/> <w id="abc67836-33fb-40e5-93b4-4a83af7e6ca1"><supplied reason="lost">l</supplied>audabili</w> <g id="9ceb5b16-6aaa-4f83-aaee-98a91345b924" ref="#interpunct">·</g> <w id="4fd4303d-fee5-42e6-a7f9-f037f57295d4">munerario</w> <g id="0949014a-155b-4174-acc4-8f052736ea7a" ref="#interpunct">·</g> <w id="d3e471ce-2b77-4e42-b538-1ff5c18be50b">qui</w> <g id="a0aab7c8-b830-4929-8cc3-6376c7e0f535" ref="#interpunct">·</g> <w id="404586a4-6f3b-4b40-b237-bf440f406229">indulgentia</w> 
+          <lb id="5c63a175-6f9a-45fb-ad8a-c28b983992e8" n="4"/><w id="a9232471-7aba-4252-b072-c29713041681"><supplied reason="lost">sacra</supplied></w> <w id="e2f88b5d-187f-447e-8982-6ecb42e9027b"><supplied reason="lost">cum</supplied></w> <w id="f0955d67-39f7-4700-9b95-1bb6e66cdccd"><supplied reason="lost">munus</supplied></w> <gap extent="unknown" id="2f715fe1-f6fe-4160-a212-4dda77ed7430" reason="lost" unit="character"/> <w id="d0198e6f-a90d-41a8-be48-ab2210499f5a"><supplied reason="lost">ex</supplied>hibuit</w> <g id="03d95bed-2c5b-498e-a5cd-6dff2afd2e41" ref="#interpunct">·</g> <w id="9d7937dd-baa1-4353-bb22-96e5da158fcd"><choice><orig>illut</orig><reg>illud</reg></choice></w> <g id="9d72958c-4e69-4c49-827f-e9684dd6046a" ref="#interpunct">·</g> <w id="451be768-9645-4250-9eec-6c1dc3b56da3">meruit</w> <g id="84233515-59e1-43f9-a579-ab8b05321ff3" ref="#interpunct">·</g> <w id="c55aa903-147a-4e7f-911f-1720f344178e">optando</w> <g id="80edda22-5681-43d0-b1cf-b0439a8834c1" ref="#interpunct">·</g> <w id="c4797f29-be44-4e65-a30f-95f4f1f3d1d0">quod</w> <g id="a338c1c1-7b1f-4505-b938-b8dd6080d575" ref="#interpunct">·</g> <w id="03d5bbaa-c181-472c-884b-c7f45b6cc9a4">voluit</w> 
+          <lb id="710e3338-05c9-413a-a44f-e14b21ea6f3a" n="5"/><w id="d1284c40-9e67-47a1-b0d0-383b74fdd986"><supplied reason="lost">et</supplied></w> <w id="b2ab476d-fdd4-4fb2-a48e-fb737de92975"><supplied reason="lost">universis</supplied></w> <w id="87b00334-52d7-4fc7-9fd2-66a68dc69b7c"><supplied reason="lost">civibus</supplied></w> <gap extent="unknown" id="398eb75d-fef2-4f4f-bdd0-39edebe2af11" reason="lost" unit="character"/> <w id="29a97b79-7e81-48cb-b40c-4d0d59857f01"><supplied reason="lost">e</supplied>ditionem</w> <g id="530d84f9-4aa4-4809-94be-25520da8e4ec" ref="#interpunct">·</g> <w id="ff7a4300-d56f-4fcb-ab75-b102eb02bc07">gratissimam</w> <g id="6a308d29-e2df-4659-a387-91750dd4cecf" ref="#interpunct">·</g> <w id="16b7a8df-619e-480b-aa3a-961132eecc21">reddidit</w> <g id="4d9e9f7c-b77e-4be0-870d-1bd86d75763c" ref="#interpunct">·</g> <w id="44a202db-7011-40d5-bd3d-f193d749bfe7">quod</w> <g id="47053959-2ad8-43e5-a765-8dcef60d7306" ref="#interpunct">·</g> <w id="7ff21cde-50f7-4bc8-b0eb-7c50df492ced">die
+          <lb break="no" n="6"/><supplied reason="lost">bus</supplied></w> <gap extent="unknown" id="4f428c59-aec6-4afc-803d-f47eb3a974ea" reason="lost" unit="character"/> <w id="bb4c2269-f6ec-4d13-ad34-80cd7d86f81a"><supplied reason="lost">populum</supplied></w> <w id="8d466ebb-3c4e-41fa-8898-62290b5c3707"><supplied reason="lost">per</supplied></w> <w id="1ee73895-e77e-4722-b381-827d692bb673"><supplied reason="lost">multa</supplied>s</w> <g id="ce1555bb-65d5-4719-9fcb-66f10c06f9c7" ref="#interpunct">·</g> <w id="b0fe8622-015c-4579-a6f1-2568c65698f9">horas</w> <g id="6409d2fa-a3ed-4e7e-a40e-05cc3b1ed889" ref="#interpunct">·</g> <w id="4bac5abd-3a24-4361-98c4-89ab3ecb6ebe">theatri</w> <g id="351a58b8-c825-47bc-95a1-f20a8bb1a5bf" ref="#interpunct">·</g> <w id="274c6995-b6f3-4fc1-8a21-b2b123096a8f">voluptas</w> <g id="0358a08b-745c-43a3-b733-14d86f6a990e" ref="#interpunct">·</g> <w id="91459bcf-c6ec-4db2-aa4e-c8863fadd7ad">tenuit</w> <g id="ab86f452-fb75-4445-bb73-1441520fb133" ref="#interpunct">·</g> <w id="8198d117-92fc-4333-847e-9491e81224da">et</w> <g id="47c8dd6b-c56e-4e2e-a6fa-f07c23544652" ref="#interpunct">·</g> <w id="0a02a025-d5bb-4459-bedb-cb1cff57f45d">hilaris</w> 
+          <lb id="f320d510-5219-4317-8d81-c2577312fe2d" n="7"/><w id="c0df8f75-ec2f-4285-964e-16701d8ff969"><supplied reason="lost">totus</supplied></w> <w id="69c46721-061c-4a49-b4b4-06a58aaf9c6e"><supplied reason="lost">in</supplied></w> <w id="ae17c9ae-e959-412f-8027-f1a2659e1a0b"><supplied reason="lost">harenam</supplied></w> <gap extent="unknown" id="03f511a7-9e50-453c-868e-c67039baca8d" reason="lost" unit="character"/> <w id="14117b7d-a895-4c73-9c06-714218715b1e"><supplied reason="lost">inde</supplied></w> <w id="13fd33b4-7aa8-48a1-8bd9-438b3c75c2d8"><supplied reason="lost">a</supplied></w> <w id="ac10609b-2676-4900-87d1-17ec252d6f87"><supplied reason="lost">m</supplied>eridie</w> <g id="2728a395-1a33-4c24-a1bf-6779703d6454" ref="#interpunct">·</g> <w id="0fe72e93-5fd5-412d-974e-6f5e7570bfdb">transiit</w> <g id="b74aaec5-f490-4f37-8832-ba65dcbf90e8" ref="#interpunct">·</g> <w id="956afbe4-8917-44fe-83e4-d26c8367ad2e">in</w> <g id="43a83272-f270-479d-8310-6f25954fae67" ref="#interpunct">·</g> <w id="a46cf8c7-765e-439f-9554-e07f49fb293f">qua</w> <g id="e14b7098-1b5c-4439-806d-e87041144e9f" ref="#interpunct">·</g> <w id="a6a274fe-ac53-451e-b84d-d9c5d036004a">miratus</w> <g id="b6b2e68a-c63d-4fcc-8190-8cc03fa3bfc1" ref="#interpunct">·</g> <w id="14ee28d0-c982-4348-8575-b7d2d5ac7f48">honestissimum</w> 
+          <lb id="fd0d71bf-2ce4-4cc5-9d06-33a25cd5ea6f" n="8"/><w id="32fc530e-269b-426e-8e20-650067f40b1b"><supplied reason="lost">apparatum</supplied></w> <w id="341cee40-722b-4ef7-ab11-504c2e07ddf9"><supplied reason="lost">instructum</supplied></w> <gap extent="unknown" id="0f59d87e-11a1-43fa-973a-c56a12caac37" reason="lost" unit="character"/> <w id="dc0ebade-acdf-4a10-912f-04cc30242814"><supplied reason="lost">omni</supplied></w> <w id="505f4418-68f1-44f3-945a-10649561d6e8">genere</w> <g id="69522d61-31e6-4dd9-badc-2999a9a40712" ref="#interpunct">·</g> <w id="ffe3b2da-578c-4769-ab13-f2fb7160b9e2">herbariarum</w> <g id="7b37fe7c-dd24-421d-9bc0-169433d320db" ref="#interpunct">·</g> <w id="d468297e-27a1-4442-beab-201895d9f617">et</w> <g id="90c1eb28-e81e-482f-bc41-5fe183ea9823" ref="#interpunct">·</g> <w id="0cbe5e69-f1c0-4dad-8a58-de60fcaf842b">numerosas</w> <g id="1ab4e028-f79f-48e8-9bb7-7319ba5880c0" ref="#interpunct">·</g> <w id="5143c18d-3536-4b5c-be95-59f9059ed38f">orientales</w> 
+          <lb id="586ee4e9-3807-423d-a86f-ecbab17a513d" n="9"/><w id="fb04a23a-ea3e-4a4a-80c0-d6177c7812d3"><supplied reason="lost">bestias</supplied></w> <w id="d3aa0d87-a73a-4edd-a7ab-9a1477411dc0"><supplied reason="lost">versatusque</supplied></w> <gap extent="unknown" id="384450d9-c748-41d6-80ba-71772f08124f" reason="lost" unit="character"/> <w id="80a9f7c9-eeb5-45cd-a779-395b6215434e"><supplied reason="lost">inde</supplied></w> <w id="b903b208-8b99-47b8-b9f1-57632c4c739c"><supplied reason="lost">a</supplied></w> <w id="97fb4263-ea3c-4dfb-99a6-5b291c51a677">meridie</w> <g id="7e928c11-7c77-4c82-b07b-050045353eb6" ref="#interpunct">·</g> <w id="df03f50a-36c8-42d3-b93f-2f17480c8a2e">in</w> <g id="0c912c74-50d7-47c2-be04-1d73aa129e0a" ref="#interpunct">·</g> <w id="f97f67be-6428-4171-b9a2-38cb67e4eed9">utriusque</w> <g id="9c5d7598-86ae-444f-bb7a-ddf14ec4e5f6" ref="#interpunct">·</g> <w id="e47e2335-59bf-43b5-b711-9a00f3c55e0e">caveis</w> <g id="8e5c9d66-775f-44b6-ab38-e4253c750ebf" ref="#interpunct">·</g> <w id="3a94c0db-1f4e-4c39-b202-2a93f3b029d1"><choice><orig>varis</orig><reg>variis</reg></choice></w> <g id="994a51bb-115c-45d0-95c3-44dccb33f2d2" ref="#interpunct">·</g> <w id="32f3c8c1-298b-4a90-8354-25bbb9c632b7">missionibus</w> 
+          <lb id="2badc529-6401-4237-94e6-512c036a7255" n="10"/><w id="56dbbd6d-bc37-4b2c-b9c7-5cd72fabaae5"><supplied reason="lost">delectatus</supplied></w> <w id="5b460267-a472-43e3-a60b-1a9641dadf81"><supplied reason="lost">est</supplied></w> <w id="d28f7137-2e59-41aa-b10b-5a2cc6940788"><supplied reason="lost">idemque</supplied></w> <w id="c0013120-87b6-4834-902b-6675680bdcbf"><supplied reason="lost">ex</supplied></w> <w id="8dca7b34-f6db-4d68-a012-1fc6ee67b9e6"><supplied reason="lost">indulg</supplied>entia</w> <g id="f12df70b-aa90-49a5-b8d0-2e7bccc84ce0" ref="#interpunct">·</g> <w id="94854953-d044-41af-91ee-cadf538c6342">sacra</w> <g id="f5f8667b-9681-475f-aa32-2242ec99decd" ref="#interpunct">·</g> <w id="3ec24b6f-d3a2-4b47-9821-f1f70bf4bb52">specialiter</w> <g id="9abb7cc9-a889-45c9-8d5f-f5ba90b82e02" ref="#interpunct">·</g> <w id="28af85f7-5491-4d41-9080-ccfe4450675a">meruit</w> <g id="a490755f-7cee-4b98-adea-d15fc64ef8de" ref="#interpunct">·</g> <w id="0ab9fc43-7f0f-45ba-8efb-2576be54d535">at</w> <g id="4225b20e-e49a-42ec-90ed-a9b4745ee31c" ref="#interpunct">·</g> <w id="f7e27928-9a83-4a3a-a3cb-91f8cff79dfb">cultum</w> 
+          <lb id="e0d54d21-5350-4e1e-94f5-46e78e3e473e" n="11"/><w id="b9b97967-8e69-4aa2-8c2e-523d5c3e86db"><supplied reason="lost">epulum</supplied></w> <w id="f3169003-5fb7-4636-8400-d3d17fce4d6e"><supplied reason="lost">instructumque</supplied></w> <gap extent="unknown" id="a94e1373-2b35-4266-971d-cc4fa9a1b681" reason="lost" unit="character"/> <w id="c8f2d5a1-e620-46e3-85b0-edcf0eb4d7d8"><supplied reason="lost">a</supplied>mplissimo</w> <g id="b4a067a6-ab5f-4bff-9216-33f9ca29da2d" ref="#interpunct">·</g> <w id="40c455b5-1be4-4b58-8efc-eb4622a507c3">apparatu</w> <g id="2a16b5f0-6fc6-4429-846d-977acae024e6" ref="#interpunct">·</g> <w id="bceb1024-60d2-4b87-a27f-1017ac238d5c">cives</w> <g id="f5ade728-cf98-4a44-8dca-6b54f7a02e6f" ref="#interpunct">·</g> <w id="c09f7573-3505-49fc-b5eb-6239c20c85bb">suos</w> <g id="5a6c7690-89e6-4521-957e-4843723345bf" ref="#interpunct">·</g> <w id="f0e0c701-cc20-44d5-8a50-bee65729d6a1">universos</w> 
+          <lb id="3ebf8f39-d3ed-41de-bdea-ac50ba0cdd2a" n="12"/><w id="e23023c1-3720-4b6d-8784-c378c81dbd7a"><supplied reason="lost">ut</supplied></w> <w id="7df632ce-98ef-4bd8-91b0-4d74ad7f5188"><supplied reason="lost">vocaret</supplied></w> <w id="50a4a661-1e41-40c5-8ee1-1b1a877dee91"><supplied reason="lost">cui</supplied></w> <w id="53cffc18-9d03-41c6-93b0-df399d3e4cc2"><supplied reason="lost">cum</supplied></w> <w id="2475ac75-f324-4d76-a6a3-b246505d9376"><supplied reason="lost">populus</supplied></w> <w id="dadbb6e9-780b-44e2-b13e-26123b5c0391"><supplied reason="lost">propter</supplied></w> <w id="9d7caf4c-52ae-4fec-9f92-2fd724625d3d">voluptates</w> <g id="f84f52c0-4de0-4ae3-a038-90c364cb3a31" ref="#interpunct">·</g> <w id="58bfbb3f-357a-4087-aa90-210faf9d58bc">honeste</w> <g id="8511adef-c96a-4f32-89e5-1d19a8b643c4" ref="#interpunct">·</g> <w id="880a12d4-b95f-4f47-8360-7abebe4176be">exhibitas</w> <g id="59e6194e-65ab-43da-a6e8-12cb9d9c806d" ref="#interpunct">·</g> <w id="6d1986a9-7e24-4b12-9da8-de94d0c26bd0">ad</w> <g id="4b26de08-da28-4565-9c0e-1ac60c6a522e" ref="#interpunct">·</g> <w id="aba58d62-c1c2-454b-8883-ea53782c9ee6">augendam</w> 
+          <lb id="d25e0c95-b28b-4307-839f-03ba3c37794d" n="13"/><w id="1a56380f-9c16-4a40-b657-b252a9ebb7a5"><supplied reason="lost">optimi</supplied></w> <w id="fce911b4-fb58-4f64-8d8e-90e3c5e47905"><supplied reason="lost">viri</supplied></w> <w id="50199a51-670b-43dc-a528-d0a15ad7db9b"><supplied reason="lost">honorificentiam</supplied></w> <w id="3f8ef214-eeaa-494f-a746-a8ef39befb38"><supplied reason="lost">frequ</supplied>entissimis</w> <g id="03811519-77f6-4a0b-a413-7f5b7b5ddd74" ref="#interpunct">·</g> <w id="548e122d-ec6d-4d90-816a-5ed871cec25d">vocibus</w> <g id="3953c6f3-b0c6-4532-920c-6255f9c79ff0" ref="#interpunct">·</g> <w id="6a39320b-0bc7-41e4-862d-8dc4224dce7a">bigas</w> <g id="fe4c38a7-ed03-423c-a61d-642ce1810537" ref="#interpunct">·</g> <w id="94e55650-8224-4159-8818-5b23f112e256">centuriatim</w> 
+          <lb id="e5df23e4-54be-4d6c-8bd1-a97aa2c47586" n="14"/><w id="6dc4a93e-0b03-45d2-bd31-5cca2396ffe0"><supplied reason="lost">postulasset</supplied></w> <w id="ef60dfb1-4f4c-4b95-afc8-3f7c40757f1e"><supplied reason="lost">motus</supplied></w> <gap extent="unknown" id="30969b69-acab-4963-870d-ec3a5fac9cfb" reason="lost" unit="character"/> <w id="f4a96d78-f9e5-49f5-8668-df22a3eee423"><supplied reason="lost">verec</supplied>undia</w> <g id="be4115f4-5b37-4139-a1ed-393f0d316b18" ref="#interpunct">·</g> <w id="a8cd1804-f583-4d3d-98bf-e29cea22ade7">quod</w> <g id="e3f1473d-df6c-4488-9dde-0ee664c96798" ref="#interpunct">·</g> <w id="c790f42a-7e8f-4c73-a3f7-e4fb631c9099">esset</w> <g id="5f2f5020-891a-4586-b153-0ef5905c8d3d" ref="#interpunct">·</g> <w id="b31c3d3f-82c9-47df-9188-db49f47bbdb3">duabus</w> <g id="7c1bb1f2-fb97-4707-ae20-52fbe490fd49" ref="#interpunct">·</g> <w id="cf72e8d5-8d81-4824-8f69-2dd656346b63">bigiis</w> <g id="6f5ad33e-d499-4760-bbb5-9ac700e1e611" ref="#interpunct">·</g> <w id="06adf3b0-89dc-4f21-bb4f-ebf6612f43f7">et</w> <g id="e9d56eb0-87a5-4722-9a0a-b41c2495506c" ref="#interpunct">·</g> <w id="f10b24cd-0208-4a6a-bb16-95315cdf770c"><expan><abbr>equestri</abbr><ex>bus</ex></expan></w> 
+          <lb id="0265a929-c614-4413-acf2-cf45ec7367bc" n="15"/><w id="f57eca10-d859-4d13-babe-352bc3762558"><supplied cert="low" reason="lost">statuis</supplied></w> <w id="a43e1632-03b6-4c28-93c0-99c6a4f418b1"><supplied reason="lost">tribus</supplied></w> <w id="00d86d03-f263-4ab4-af6e-db9b28214d53"><supplied reason="lost">contentus</supplied><gap extent="unknown" id="c4d588d8-4d38-42c8-b285-f684231caf15" reason="lost" unit="character"/></w> 
+        </ab>
+      </div>
+      <div type="apparatus">
+        <listApp>
+          <app>
+            <note>Text of <hi rend="italic">IMusPalermo</hi></note>
+          </app>
+        </listApp>
+      </div>
+      <div type="translation">
+        <p>
+          <!--Tentative translation resp="#TA"> 
+                    ...(to) [-]ianus [the curator kalendarii, 'the curator of the account-books'?, the office which?] he adminstrated with true loyalty [at the same time as] 
+                    (being) the curator portensis kalendarii (i.e. something to do with overseeing the accounts of port expenses or taxes?), office which he [conducted with] 
+                    exceptional [diligence]; the praiseworthy munerarius, who with the sacred indulgence (of the emperor?) organised public games, which 
+                    he was worthy of as expected (*I'm not at all sure about the optando here, perhaps as an ablative of respect, 'in respect to the desired/expected'?*) and which he wanted,
+                    and he gave back to all the citizens a most pleasing production which for [... days and many hours held the people] in the pleasures of theatre, and [then the whole
+                    crowd] in their merriness moved [to the arena at] midday, where it marvelled at the most distinguished [(display of the) prepared arrangements....every] type of 
+                    plant-eating animals and oriental beasts; and, having sat down, from midday the crowd in both auditoria [enjoyed] varied types of entertainment. [And likewise
+                    thanks to] the sacred indulgence (of the emperor), he proved himself particularly worthy as he invited all his fellow citizens to the most elegant [banquet which he had provided
+                    for] with the most splendid abundance. When the people, on account of the public shows (he had) virtuously organised, demanded with very frequent pleads that two-horse chariot
+                    statues (be erected) in each centurial district for this most excellent man in order to increase his honours, he in his modesty [was content] with 
+                    two chariot-statues and [three?] equestrian [statues...] -->
+        </p>
+      </div>
+      <div type="commentary">
+        <p>
+          <!--commented out pending revision-->
+        </p>
+      </div>
+      <div type="bibliography">
+        <listBibl type="edition">
+          <bibl n="CIL" type="corpus">
+            <citedRange>
+              <ref target="http://arachne.uni-koeln.de/item/buchseite/650791">10.7295</ref>
+            </citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/GQN8UZSI"/>
+          </bibl>
+          <bibl n="ILMusPalermo" type="corpus">
+            <citedRange>31</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/FZWWPUD6"/>
+          </bibl>
+          <bibl n="ILS" type="corpus">
+            <citedRange>5055</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/XHMS9K6S"/>
+          </bibl>
+          <bibl>
+            <author>Manganaro</author>
+            <date>1988</date>
+            <citedRange>43</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/RZSFKACR"/>
+          </bibl>
+        </listBibl>
+        <listBibl type="discussion">
+          <bibl/>
+        </listBibl>
+      </div>
+    </body>
+  </text>
+</TEI>

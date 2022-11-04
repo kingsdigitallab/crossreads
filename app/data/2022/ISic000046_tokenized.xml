@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="http://www.stoa.org/epidoc/schema/latest/tei-epidoc.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../schematron/ircyr-checking.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>I.Sicily inscription 000046</title>
+        <editor ref="#JP">Jonathan Prag</editor>
+        <principal ref="#JP">Jonathan Prag</principal>
+        <funder>John Fell OUP Research Fund</funder>
+        <funder>
+          <ref target="https://cordis.europa.eu/project/id/885040">ERC Advanced Grant no.885040</ref>
+        </funder>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0003-3819-8537" xml:id="JP">Jonathan Prag</name>
+          <resp>original data collection and editing</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0002-6686-3728" xml:id="JCu">James Cummings</name>
+          <resp>conversion to EpiDoc</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0001-6823-0265" xml:id="JCh">James Chartrand</name>
+          <resp>site construction and encoding</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="http://orcid.org/0000-0002-9695-0240" xml:id="VV">Valeria Vitale</name>
+          <resp>editing of geo data</resp>
+        </respStmt>
+        <respStmt>
+          <name xml:id="MM">Michael Metcalfe</name>
+          <resp>museum data collection</resp>
+        </respStmt>
+        <respStmt>
+          <name ref="https://orcid.org/0000-0003-3914-9569" xml:id="SS">Simona Stoyanova</name>
+          <resp>standardisation of template and tidying up encoding</resp>
+        </respStmt>
+        <respStmt>
+          <name xml:id="system">system</name>
+          <resp>automated or batch processes</resp>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <authority>I.Sicily</authority>
+        <idno type="filename">ISic000046</idno>
+        <idno type="TM">491682</idno>
+        <idno type="EDR"/>
+        <idno type="EDH"/>
+        <idno type="EDCS">21900516</idno>
+        <idno type="PHI">175713</idno>
+        <idno type="URI">http://sicily.classics.ox.ac.uk/inscription/ISic000046</idno>
+        <idno type="DOI" when="2020-12-17">10.5281/zenodo.4333890</idno>
+        <availability>
+          <licence target="http://creativecommons.org/licenses/by/4.0/">Licensed under a Creative
+                        Commons-Attribution 4.0 licence.
+                    </licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>Italy</country>
+            <region>Sicily</region>
+            <settlement>Palermo</settlement>
+            <repository ref="http://sicily.classics.ox.ac.uk/museum/064" role="museum">Museo Archeologico
+                            Regionale Antonino Salinas</repository>
+            <idno type="inventory">3547</idno>
+            <!--Adding location for old id numbers if available-->
+            <altIdentifier>
+              <settlement/>
+              <repository/>
+              <idno type="old"/>
+            </altIdentifier>
+          </msIdentifier>
+          <msContents>
+            <textLang mainLang="grc">Ancient Greek</textLang>
+          </msContents>
+          <physDesc>
+            <objectDesc>
+              <supportDesc>
+                <support>
+                  <material ana="#material.stone.marble" ref="http://www.eagle-network.eu/voc/material/lod/48.html">marble</material>
+                  <objectType ana="#object.plaque" ref="http://www.eagle-network.eu/voc/objtyp/lod/259.html">plaque</objectType>
+                  <dimensions>
+                    <!--Default values and requires editing-->
+                    <height unit="cm"/>
+                    <width unit="cm"/>
+                    <depth unit="cm"/>
+                  </dimensions>
+                </support>
+                <condition/>
+              </supportDesc>
+              <layoutDesc>
+                <layout>
+                  <rs ana="#execution.chiselled" ref="http://www.eagle-network.eu/voc/writing/lod/1">chiselled</rs>
+                  <damage/>
+                </layout>
+              </layoutDesc>
+            </objectDesc>
+            <handDesc>
+              <handNote>
+                <!--Default value and requires editing-->
+                <locus from="line1" to="line1">Line 1</locus>
+                <dimensions type="letterHeight">
+                  <height unit="mm"/>
+                </dimensions>
+                <locus from="line1" to="line2">Interlineation line 1 to 2</locus>
+                <dimensions type="interlinear">
+                  <height unit="mm"/>
+                </dimensions>
+              </handNote>
+            </handDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origPlace>
+                <placeName ref="http://pleiades.stoa.org/places/462503" type="ancient">Syracusae</placeName>
+                <placeName ref="http://sws.geonames.org/2523083" type="modern">Siracusa</placeName>
+                <geo>37.08415, 15.27628</geo>
+              </origPlace>
+              <origDate cert="low" datingMethod="#julian" notAfter-custom="0500" notBefore-custom="0401" precision="low">5th century CE(?)</origDate>
+            </origin>
+            <provenance subtype="discovered" type="found">Found 16 October 1751 by Thomas Hollis in the area of the Vigna Cassia catacombs ('behind the hermitage of S. Maria di Gesú')<geo>37.076278, 15.288184</geo></provenance>
+            <provenance resp="#JP" subtype="autopsied" type="observed">2017.07.21 (on display)</provenance>
+            <acquisition/>
+          </history>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <p>Encoded following the latest EpiDoc guidelines</p>
+      <xi:include href="../alists/ISicily-taxonomies.xml">
+        <xi:fallback>
+          <p>Taxonomies for ISicily controlled values</p>
+        </xi:fallback>
+      </xi:include>
+      <xi:include href="../alists/charDecl.xml">
+        <xi:fallback>
+          <p>ISicily glyphs authority list</p>
+        </xi:fallback>
+      </xi:include>
+    </encodingDesc>
+    <profileDesc>
+      <calendarDesc>
+        <calendar xml:id="julian">
+          <p>Julian Calendar</p>
+        </calendar>
+      </calendarDesc>
+      <langUsage>
+        <language ident="en">English</language>
+        <language ident="it">Italian</language>
+        <language ident="grc">Ancient Greek</language>
+        <language ident="la">Latin</language>
+        <language ident="he">Hebrew</language>
+        <language ident="phn">Phoenician</language>
+        <language ident="xpu">Punic</language>
+        <language ident="osc">Oscan</language>
+        <language ident="xly">Elymian</language>
+        <language ident="scx">Sikel</language>
+        <language ident="sxc">Sikan</language>
+      </langUsage>
+      <textClass>
+        <keywords scheme="http://www.eagle-network.eu/voc/typeins.html">
+          <term ana="#function.funerary" ref="http://www.eagle-network.eu/voc/typeins/lod/92.html">funerary</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+    <revisionDesc status="draft">
+      <listChange>
+        <change when="2016-12-03" who="#JCu">James Cummings autogenerated EpiDoc output from database</change>
+        <change when="2018-01-20" who="#JP">Jonathan Prag encoded the text division and added image and misc details from CIL</change>
+        <change when="2020-10-05" who="#SS">Simona Stoyanova normalised Unicode</change>
+        <change when="2020-10-08" who="#SS">Simona Stoyanova updated list of languages</change>
+        <change when="2020-11-20" who="#SS">Simona Stoyanova added EDCS numbers</change>
+        <change when="2020-11-26" who="#SS">Simona Stoyanova restructured bibliography</change>
+        <change when="2020-12-17" who="#system">Updated Zenodo DOI</change>
+        <change when="2021-01-19" who="#SS">renumbered files, uris and references</change>
+      </listChange>
+    </revisionDesc>
+  </teiHeader>
+  <facsimile>
+    <surface type="front">
+      <graphic height="2920px" n="screen" url="ISic000046_tiled.tif" width="4422px">
+        <desc>Photo J.Prag, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+      </graphic>
+      <graphic height="2920px" n="print" url="ISic000046.jpg" width="4422px">
+        <desc>Photo J.Prag, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+      </graphic>
+    </surface>
+  </facsimile>
+  <text>
+    <body>
+      <div type="edition" xml:lang="grc" xml:space="preserve">
+        <ab>
+          <lb id="1a5239a3-ee34-47a0-97b9-880fb50cf7d2" n="1"/><g id="c79107e0-626d-46ea-8418-9e9e709d9b36" ref="#palm"/> <w id="2565ede7-4415-426e-a94e-628cdc8ed2ae"><expan><abbr><am><g ref="#christogram"/></am></abbr><ex>Χρίστο</ex><abbr>ς</abbr></expan></w> 
+          <lb id="05fca5fe-a9a0-4365-9c77-8902f77ac21b" n="2"/><name id="112c2d81-3c8b-4b8f-bf87-a35625b3af6e">Κοββουλ
+          <lb break="no" n="3"/>δέους</name> 
+        </ab>
+      </div>
+      <div type="apparatus">
+        <listApp>
+          <app>
+            <note>Text based on photograph</note>
+          </app>
+        </listApp>
+      </div>
+      <div type="translation">
+        <p>
+          <!--translation(s) - add @xml:lang for 'en' or 'it' to div-->
+        </p>
+      </div>
+      <div type="commentary">
+        <p>Note that the palm and the chi-rho are upside down in relation to the text, and the chi-rho is in combination with a small lunate sigma. cf. Agnello, Silloge, n.67 = ISic001632 for another example of the Greek transliteration of the Latin form Quodvultdeus, known in the Latin form in Sicily of Quddeusult (e.g. CIL 10.8045.19). Thomas Hollis gave this particular text to the Sicilian antiquarian Torremuzza, who in turn gave it to Palermo museum</p>
+      </div>
+      <div type="bibliography">
+        <listBibl type="edition">
+          <bibl n="CIL" type="corpus">
+            <citedRange>
+              <ref target="http://arachne.uni-koeln.de/books/CILv10pII1883">10.7175</ref>
+            </citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/GQN8UZSI"/>
+          </bibl>
+          <bibl n="ILMusPalermo" type="corpus">
+            <citedRange>47</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/FZWWPUD6"/>
+          </bibl>
+          <bibl n="IGMusPalermo" type="corpus">
+            <citedRange>113</citedRange>
+            <ptr target="https://www.zotero.org/groups/382445/items/F66S4X3M"/>
+          </bibl>
+          <bibl n="NSA" type="bulletin">
+            <author>Salinas</author>
+            <title>NSA</title>
+            <date>1893</date>
+            <citedRange>342</citedRange>
+            <ptr target="http://zotero.org/groups/382445/items/4MCP2PVV"/>
+          </bibl>
+        </listBibl>
+        <listBibl type="discussion">
+          <bibl/>
+        </listBibl>
+      </div>
+    </body>
+  </text>
+</TEI>

@@ -270,8 +270,8 @@ font-awesome/5.15.2/css/all.min.css"/>
             // TODO: not reactive
             apis: {
               // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
-              collections: '../data/dts/api/collections-test.json',
-              definitions: '../data/pal/definitions-digipal.json',
+              collections: './data/dts/api/collections-test.json',
+              definitions: './data/pal/definitions-digipal.json',
             },
             objects: [
               {'description': 'Object 1', '@id': 'obj1', 'title': 't1'},
@@ -445,7 +445,7 @@ font-awesome/5.15.2/css/all.min.css"/>
           },
           setTextFromObjectXML(xml) {
             // xml (TEI) -> this.text (XHTML)
-            fetch('../data/tei2html.xslt')
+            fetch('./data/tei2html.xslt')
               .then(res => res.text())
               .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
               .then(res => {

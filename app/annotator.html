@@ -220,13 +220,19 @@
       . Image
       . Description
       . Text
+
+      - remove hard-coded values (e.g. paths)
       */ 
+
+      let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
+      // if defined, the viewer will fetch full image files instead of IIIF tiles
+      let IMG_PATH_STATIC_ROOT = './data/2022/'
 
       // TODO: move this into Vue?
       function loadOpenSeaDragon(vueApp) {
         var viewer = OpenSeadragon({
             id: "image-viewer",
-            prefixUrl: 'https://cdn.jsdelivr.net/npm/openseadragon@3.0/build/openseadragon/images/',
+            prefixUrl: './node_modules/openseadragon/build/openseadragon/images/',
             tileSources: {
               type: "image",
               url: "http://localhost:49153/iiif/2/ISic000001.jpg/full/full/0/default.jpg"
@@ -648,13 +654,27 @@
           onSelectImage(img) {
             this.image = img
             if (img) {
-              this.viewer.open({
-                type: 'image',
-                // TODO: doesn't use IIIF tiles!
-                // url: "http://localhost:49153/iiif/2/"+this.image.uri+"/full/full/0/default.jpg",
-                // TODO: temporary static call so app works on github pages without IIIF server
-                url: `./data/2022/${this.image.uri}`,
-              })
+              let options = {}
+              if (typeof IMG_PATH_STATIC_ROOT !== 'undefined') {
+                options = {
+                  type: 'image',
+                  // TODO: temporary static call so app works on github pages without IIIF server
+                  // http://openseadragon.github.io/examples/tilesource-image/
+                  url: `${IMG_PATH_STATIC_ROOT}${this.image.uri}`,
+                }
+              } else {
+                options = {
+                  type: 'image',
+                  // TODO: doesn't use IIIF tiles!
+                  // http://openseadragon.github.io/examples/tilesource-iiif/
+                  // url: `${IMG_PATH_IIIF_ROOT}${this.image.uri}/full/full/0/default.jpg`,
+                }
+                options = [
+                  // 'https://libimages1.princeton.edu/loris/pudl0001%2F4609321%2Fs42%2F00000001.jp2/info.json'
+                  `${IMG_PATH_IIIF_ROOT}${this.image.uri}/info.json`
+                ]
+              }
+              this.viewer.open(options)
             }
             this.loadAnnotationsFromSession()
           },

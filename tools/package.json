@@ -1,0 +1,24 @@
+{
+  "name": "crossreads",
+  "version": "0.1.0",
+  "description": "KDL js env for Crossreads research project",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "img:serve": "docker run --rm -d -v /home/jeff/src/prj/crossreads/crossreads/data/2022:/usr/local/share/images -p 5004:5004 --name crossreads-img lorisimageserver/loris",
+    "img:stop": "docker stop crossreads-img"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingsdigitallab/crossreads.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kingsdigitallab/crossreads/issues"
+  },
+  "homepage": "https://github.com/kingsdigitallab/crossreads#readme"
+}

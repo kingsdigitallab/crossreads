@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Annotator</title>
     <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
-font-awesome/5.15.2/css/all.min.css"/>
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
 
-    <script src="https://cdn.jsdelivr.net/npm/openseadragon@3.0/build/openseadragon/openseadragon.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.8/dist/annotorious.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.8/dist/openseadragon-annotorious.min.js"></script>
-    <!-- <script src="../../annotorious-openseadragon/dist/openseadragon-annotorious.min.js"></script> -->
+    <script src="./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>
+    <link rel="stylesheet" href="./node_modules/@recogito/annotorious-openseadragon/dist/annotorious.min.css">
+    <script src="./node_modules/@recogito/annotorious-openseadragon/dist/openseadragon-annotorious.min.js"></script>
 
     <!-- importmap shim for Firefox -->
-    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./node_modules/vue/dist/vue.global.js"></script>
     <style type = "text/css"> 
       :root {
         --selected-color: orange;
@@ -346,19 +344,6 @@ font-awesome/5.15.2/css/all.min.css"/>
           this.loadDefinitions()
         },
         watch: {
-          description2: {
-            handler(val, valOld) {
-              if (this.cache.isDescriptionLoading) return;
-              console.log('EVENT description changed')
-              this.updateDescriptionFromAllograph()
-              let annotation = this.anno.getSelected()
-              if (annotation) {
-                annotation.body[0].value = JSON.stringify(this.description)
-                this.anno.updateSelected(annotation)
-              }
-            },
-            deep: true
-          },
           object(val, valOld) {
             this.fetchObjectXML()
           },
@@ -524,7 +509,6 @@ font-awesome/5.15.2/css/all.min.css"/>
               let sign = this.getSignFromAnnotation(annotation)
               if (sign) {
                 sign.classList.add('bound')
-                console.log(this?.annotation?.id)
                 if (this?.annotation?.id == annotation.id) {
                   sign.classList.add('selected')
                 }
@@ -713,7 +697,7 @@ font-awesome/5.15.2/css/all.min.css"/>
             if (this.getSignFromAnnotation(annotation)) {
               ret = 'bound'
             }
-            console.log(ret)
+            console.log(`formatter: "${ret}"`)
             return ret
           }
         }

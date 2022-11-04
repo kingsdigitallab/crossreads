@@ -165,5 +165,16 @@ object
     body
         TEI/text/body/div[@type=edition]
 
-
 ---
+
+Advantages over Archetype:
+1. better reuse of standards
+2. more interoperable (bc 1)
+3. more modular, as opposed to monolithic (bc 2)
+4. more sustainable (bc 1, 2 ,3)
+5. forward compatible
+6. bridges instances (bc 2 & 6)
+7. cloud-native/"server-less"
+8. better UI & interop for terminology definitions
+9. annotating offline
+10. text-image linking

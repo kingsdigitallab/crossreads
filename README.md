@@ -35,7 +35,6 @@ Status: **local prototype**
 
 ### TODO:
 
-* link graph annotation with character in the text area
 * new UI to edit the palaeographical definitions
 * load & save annotation to github (currently saved in Browser session)
 * modular backend to load & save (e.g. github, Archetype, DB)

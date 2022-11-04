@@ -263,6 +263,13 @@
           anno.on(eventName, vueApp[`on${eventName[0].toUpperCase()}${eventName.substring(1)}`]);
         }
         anno.on('open-failed', vueApp.onImageOpenFailed);
+        // setAnnotations() is defered by Annotorious until tiles are loaded.
+        // So we wait until it's ready to do things based on getAnnotations().
+        viewer.addHandler('open', () => {
+          // vueApp.updateSignHighlights()
+          vueApp.loadAnnotationsFromSession()
+        });
+
       }; 
 
       const { createApp } = Vue
@@ -459,13 +466,13 @@
                     sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
                     sign.addEventListener('mouseleave', (e) => this.onMouseLeaveSign(sign));
                   }
-                  console.log('setTextFromObjectXML:updateSignHighlights')
+                  // console.log('setTextFromObjectXML:updateSignHighlights')
                   this.updateSignHighlights()
                 })
               })
           },
           onClickSign(sign) {
-            console.log('Click sign')
+            // console.log('Click sign')
             let selectedAnnotation = this.anno.getSelected()
             let signAnnotation = this.getAnnotationFromSign(sign)
             let annotationSign = this.getSignFromAnnotation()
@@ -509,7 +516,7 @@
             for (let sign of document.querySelectorAll('.sign.bound')) {
               sign.classList.remove('bound')
             }
-            console.log(`updateSignHighlights: ${this.anno.getAnnotations().length} annotations`)
+            // console.log(`updateSignHighlights: ${this.anno.getAnnotations().length} annotations`)
             for (let annotation of this.anno.getAnnotations()) {
               let sign = this.getSignFromAnnotation(annotation)
               if (sign) {
@@ -574,7 +581,7 @@
           },
           // Events - Annotorious
           async onCreateSelection(selection) {
-            console.log('EVENT onCreateSelection')
+            // console.log('EVENT onCreateSelection')
 
             // selection.motivation = 'describing'
             selection.body = [{
@@ -676,10 +683,13 @@
               }
               this.viewer.open(options)
             }
-            this.loadAnnotationsFromSession()
+            // now done in the 'open' event to make sure viewer is ready 
+            // and anno.getAnnotations() returns something
+            // this.loadAnnotationsFromSession()
           },
           // Events - Other
           onImageOpenFailed() {
+            // TODO
             console.log('OPEN FAILED')
           },
           // Persistence backend
@@ -696,8 +706,13 @@
               this.cache.store.imagesAnnotations = JSON.parse(imagesAnnotations)
               let annotations = this.image?.uri ? this.cache.store.imagesAnnotations[this.image.uri] : null
               if (annotations) {
+                // !!! this.anno.getAnnotations() just after this will return empty set.
+                // Because Annotorious uses a _lazy function that defer if tiles are not yet loaded.
+                // https://github.com/recogito/annotorious-openseadragon/blob/3321e003732da612097bb23e440717a2c510bd4d/src/OSDAnnotationLayer.js#L303
                 this.anno.setAnnotations(annotations)
-                console.log('loadAnnotationsFromSession:updateSignHgighlights')
+                // console.log('loadAnnotationsFromSession:updateSignHgighlights')
+                // console.log(annotations.length)
+                // console.log(this.anno.getAnnotations().length)
                 this.updateSignHighlights()
               } else {
                 this.anno.clearAnnotations()
@@ -719,7 +734,7 @@
             if (this.getSignFromAnnotation(annotation)) {
               ret = 'bound'
             }
-            console.log(`formatter: "${ret}"`)
+            // console.log(`formatter: "${ret}"`)
             return ret
           }
         }

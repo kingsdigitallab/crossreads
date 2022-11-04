@@ -247,7 +247,6 @@
         vueApp.anno = anno;
         vueApp.viewer = viewer;
 
-        // Load annotations in W3C WebAnnotation format
         let eventNames = [
           'createSelection', 'createAnnotation', 'updateAnnotation', 
           'selectAnnotation', 'cancelSelected', 'clickAnnotation', 
@@ -651,7 +650,10 @@
             if (img) {
               this.viewer.open({
                 type: 'image',
-                url: "http://localhost:49153/iiif/2/"+this.image.uri+"/full/full/0/default.jpg",
+                // TODO: doesn't use IIIF tiles!
+                // url: "http://localhost:49153/iiif/2/"+this.image.uri+"/full/full/0/default.jpg",
+                // TODO: temporary static call so app works on github pages without IIIF server
+                url: `./data/2022/${this.image.uri}`,
               })
             }
             this.loadAnnotationsFromSession()

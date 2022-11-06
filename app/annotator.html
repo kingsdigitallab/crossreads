@@ -644,7 +644,7 @@
             // save the image annotations to github
             // TODO: save sha?
             let sha = null
-            let filePath = `annotations/${this.object['@id']}/${this.image.uri}.json`.replace(/\W+/g, '-')
+            let filePath = 'annotations/'+utils.slugify(`${this.object['@id']}/${this.image.uri}`)+'.json'
             let data = this.anno.getAnnotations()
             utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
           },

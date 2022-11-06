@@ -1,0 +1,81 @@
+:root {
+  --selected-color: orange;
+  --hover-color: yellow;
+  --bound-color: blue;
+}
+.list-selectable {
+  max-height: 15em;
+  overflow-y: auto;
+  width: 100%;
+}
+.list-selectable li {
+  padding: 0.5em
+}
+.list-selectable li:hover {
+  background-color: var(--hover-color);
+}
+label.selectable {
+  width: 100%;
+  display: inline-block;
+}
+.selectable:hover {
+  background-color: var(--hover-color);
+}
+.selected {
+  background-color: var(--selected-color);
+  font-weight: bold;
+}
+.component-name {
+  font-weight: bold;
+}
+.components-features li {
+  margin-left: 0.5em
+}
+.description {
+  max-width: 100%;
+}
+.description dt {
+  margin-top: 1em;
+  border-top: 1px solid grey;
+  background-color: #eee;
+  font-weight: bold;        
+}
+.transcription {
+  font-size: 150%;
+}
+.transcription .sign {
+  display: inline-block;
+  width: 1.5em;
+  border: 1px solid #ddd;
+  padding: 0.5em;       
+}
+.transcription .sign:hover {
+  background-color: var(--hover-color);
+}
+.transcription .sign.bound {
+  border-color: var(--bound-color);
+}
+.transcription .sign.selected {
+  background-color: var(--selected-color);
+}
+.transcription .sign.selected:hover {
+  cursor: url("./assets/unlink-svgrepo-com.svg"), auto;
+}
+.bound .a9s-outer {
+  stroke: var(--bound-color);
+}
+.a9s-annotation.selected .a9s-inner {
+  fill: var(--selected-color);
+  fill-opacity: 0.3;
+}
+.a9s-annotation:hover .a9s-inner {
+  fill: var(--hover-color);
+  fill-opacity: 0.3;
+}
+.a9s-annotation .a9s-outer {
+  stroke-width: 5px;
+}
+.side-links {
+  float: right;
+  font-size: 0.7em;
+}

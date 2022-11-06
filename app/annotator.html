@@ -14,85 +14,15 @@
 
     <!-- importmap shim for Firefox -->
     <script src="./node_modules/vue/dist/vue.global.js"></script>
-    <style type = "text/css"> 
-      :root {
-        --selected-color: orange;
-        --hover-color: yellow;
-        --bound-color: blue;
-      }
-      .list-selectable {
-        max-height: 15em;
-        overflow-y: auto;
-        width: 100%;
-      }
-      .list-selectable li {
-        padding: 0.5em
-      }
-      .list-selectable li:hover {
-        background-color: var(--hover-color);
-      }
-      label.selectable {
-        width: 100%;
-        display: inline-block;
-      }
-      .selectable:hover {
-        background-color: var(--hover-color);
-      }
-      .selected {
-        background-color: var(--selected-color);
-        font-weight: bold;
-      }
-      .component-name {
-        font-weight: bold;
-      }
-      .components-features li {
-        margin-left: 0.5em
-      }
-      .description {
-        max-width: 100%;
-      }
-      .description dt {
-        margin-top: 1em;
-        border-top: 1px solid grey;
-        background-color: #eee;
-        font-weight: bold;        
-      }
-      .transcription {
-        font-size: 150%;
-      }
-      .transcription .sign {
-        display: inline-block;
-        width: 1.5em;
-        border: 1px solid #ddd;
-        padding: 0.5em;       
-      }
-      .transcription .sign:hover {
-        background-color: var(--hover-color);
-      }
-      .transcription .sign.bound {
-        border-color: var(--bound-color);
-      }
-      .transcription .sign.selected {
-        background-color: var(--selected-color);
-      }
-      .transcription .sign.selected:hover {
-        cursor: url("./assets/unlink-svgrepo-com.svg"), auto;
-      }
-      .bound .a9s-outer {
-        stroke: var(--bound-color);
-      }
-      .a9s-annotation.selected .a9s-inner {
-        fill: var(--selected-color);
-        fill-opacity: 0.3;
-      }
-      .a9s-annotation:hover .a9s-inner {
-        fill: var(--hover-color);
-        fill-opacity: 0.3;
-      }
-      .a9s-annotation .a9s-outer {
-        stroke-width: 5px;
-      }
-    </style>
+    <link rel="stylesheet" href="./assets/main.css">
+
+    <script src="utils.js"></script>
+    <script type="module">
+      // TODO: relative import
+      import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+      // import { Octokit } from "./node_modules/@octokit/core/dist-web/index.js";
+      window.Octokit = Octokit
+    </script>    
 
   </head>
   <body>
@@ -102,6 +32,10 @@
       <div class="container">
         <h1 class="title">
           Annotator
+          <span class="side-links">
+            <a href="./definitions.html">definitions</a> | 
+            <a href="./settings.html">settings</a>
+          </span>
         </h1>
         <div class="columns is-3">
           <div class="column">
@@ -149,6 +83,9 @@
             <div class="panel">
               <p class="panel-heading">
                 Image
+                <span class="side-links">
+                  <button @click="onClickSave()" class="button is-small is-default">Save</button>
+                </span>
               </p>
               <div class="panel-block">
                 <div id="image-viewer" style="width: 800px; height: 300px;"></div>
@@ -345,7 +282,10 @@
                   }
                 }
               }
-            }
+            },
+            selection: {
+              gtoken: window.localStorage.getItem('gtoken') || '',
+            },
           }
         },
         mounted() {
@@ -700,6 +640,25 @@
               console.log('save annotations')
             }
           },
+          onClickSave() {
+            // save the image annotations to github
+            // TODO: save sha?
+            let sha = null
+            let filePath = `annotations/${this.object['@id']}/${this.image.uri}.json`.replace(/\W+/g, '-')
+            let data = this.anno.getAnnotations()
+            utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
+          },
+          getOctokit() {
+            // TODO: create wrapper class around Octokit
+            // TODO: cache this
+            let ret = null
+            if (this.selection.gtoken) {
+              ret = new Octokit({
+                auth: this.selection.gtoken
+              })
+            }
+            return ret
+          },
           loadAnnotationsFromSession() {
             let imagesAnnotations = window.localStorage.getItem('imagesAnnotations')
             if (imagesAnnotations) {
@@ -736,7 +695,10 @@
             }
             // console.log(`formatter: "${ret}"`)
             return ret
-          }
+          },
+          isTokenMissing() {
+            return !this.selection.gtoken
+          },
         }
       }).mount('#annotator');
     </script>

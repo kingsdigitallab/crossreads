@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Palaeographical Definitions</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
+
+    <script src="./node_modules/vue/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./assets/main.css">
+  </head>
+  <body>
+    <section class="section" id="settings">
+      <div id="definitions" class="container">
+        <h1 class="title">
+          Settings
+          <span class="side-links">
+            <a href="./annotator.html">annotator</a> | 
+            <a href="./definitions.html">definitions</a>
+          </span>
+        </h1>
+        <form :class="{notification: 1, 'is-warning': isTokenMissing}">
+          <div class="field">
+            <label class="label">Personal access token:</label>
+            <input type="password" v-model="selection.gtoken" class="input">
+            <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank">Please generate and provide a github Personal Access Token to interact with the page</a>
+          </div>
+        </form>
+      </div>
+    </section>
+    <script>
+      const { createApp } = Vue
+
+      createApp({
+        data() {
+          return {
+            selection: {
+              gtoken: window.localStorage.getItem('gtoken') || '',
+            }
+          }
+        },
+        watch: {
+          "selection.gtoken": (v, vOld) => {
+            window.localStorage.setItem('gtoken', v)
+          }
+        },
+        methods: {
+        }
+      }).mount('#settings')
+    </script>
+  </body>
+</html>

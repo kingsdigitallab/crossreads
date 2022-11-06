@@ -5,16 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Palaeographical Definitions</title>
     <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
-font-awesome/5.15.2/css/all.min.css"/>
-    <script src="https://unpkg.com/vue@3"></script>
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
+
+    <script src="./node_modules/vue/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./assets/main.css">
   </head>
   <body>
     <section class="section">
       <div id="definitions" class="container">
         <h1 class="title">
           Definitions
+          <span class="side-links">
+            <a href="./annotator.html">annotator</a> | 
+            <a href="./settings.html">settings</a>
+          </span>
         </h1>
         <form class="control">
           <label class="label">Archetype homepage URL</label>
@@ -45,7 +50,10 @@ font-awesome/5.15.2/css/all.min.css"/>
         data() {
           return {
             archetypeUri: '//digipal.eu',
-            definitions: {'k1': 'v1'}
+            definitions: {'k1': 'v1'},
+            selection: {
+              gtoken: window.localStorage.getItem('gtoken') || '',
+            },
           }
         },
         methods: {

@@ -84,7 +84,9 @@
               <p class="panel-heading">
                 Image
                 <span class="side-links">
-                  <button @click="onClickSave()" class="button is-small is-default">Save</button>
+                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!isUnsaved">
+                    <template v-if="isUnsaved">Save</template><template v-else>Saved</template>
+                  </button>
                 </span>
               </p>
               <div class="panel-block">
@@ -204,7 +206,8 @@
         // So we wait until it's ready to do things based on getAnnotations().
         viewer.addHandler('open', () => {
           // vueApp.updateSignHighlights()
-          vueApp.loadAnnotationsFromSession()
+          // vueApp.loadAnnotationsFromSession()
+          vueApp.loadAnnotations()
         });
 
       }; 
@@ -286,6 +289,7 @@
             selection: {
               gtoken: window.localStorage.getItem('gtoken') || '',
             },
+            isUnsaved: false
           }
         },
         mounted() {
@@ -297,6 +301,9 @@
         },
         watch: {
           object(val, valOld) {
+            if (valOld) {
+              this.saveAnnotationsToGithub()
+            }
             this.fetchObjectXML()
           },
         },
@@ -638,15 +645,23 @@
               this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
               window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
               console.log('save annotations')
+              this.isUnsaved = true
             }
           },
           onClickSave() {
             // save the image annotations to github
             // TODO: save sha?
-            let sha = null
-            let filePath = 'annotations/'+utils.slugify(`${this.object['@id']}/${this.image.uri}`)+'.json'
-            let data = this.anno.getAnnotations()
-            utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
+            this.saveAnnotationsToGithub()
+          },
+          saveAnnotationsToGithub() {
+            if (this.isUnsaved) {
+              console.log('SAVE to github')
+              let sha = null
+              let filePath = this.getAnnotationFilePath()
+              let data = this.anno.getAnnotations()
+              utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
+              this.isUnsaved = false
+            }
           },
           getOctokit() {
             // TODO: create wrapper class around Octokit
@@ -659,7 +674,26 @@
             }
             return ret
           },
-          loadAnnotationsFromSession() {
+          loadAnnotations() {
+            return this.loadAnnotationsFromGithub()
+          },
+          async loadAnnotationsFromGithub() {
+            this.annotations = null
+            // TODO: detect error (but 404 notan error!)
+            let filePath = this.getAnnotationFilePath()
+            if (filePath) {
+              let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
+              if (res) {
+                this.anno.setAnnotations(res.data)
+                this.updateSignHighlights()
+              } else {
+                this.anno.clearAnnotations()
+              }
+            }
+            this.isUnsaved = false
+          },
+          loadAnnotationsFromSession2() {
+            // TODO: restore this function, and use for offline editing
             let imagesAnnotations = window.localStorage.getItem('imagesAnnotations')
             if (imagesAnnotations) {
               this.cache.store.imagesAnnotations = JSON.parse(imagesAnnotations)
@@ -677,6 +711,14 @@
                 this.anno.clearAnnotations()
               }
             }
+            this.isUnsaved = false
+          },
+          getAnnotationFilePath() {
+            let ret = null
+            if (this.object && this.image) {
+              ret = 'annotations/'+utils.slugify(`${this.object['@id']}/${this.image.uri}`)+'.json'
+            }
+            return ret
           },
           // Low-level Utilities
           getURIFromXMLPrefix(prefix) {

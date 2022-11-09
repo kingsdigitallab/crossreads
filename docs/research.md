@@ -178,3 +178,83 @@ Advantages over Archetype:
 8. better UI & interop for terminology definitions
 9. annotating offline
 10. text-image linking
+
+TODO:
+
+# Encoding Annotations
+
+## Collection of annotations
+
+Collection
+    AnnotationPage
+        Annotation
+
+https://www.w3.org/TR/annotation-model/#collections
+
+
+{
+  "@context": "http://www.w3.org/ns/anno.jsonld",
+  "id": "http://example.org/collection1",
+  "type": "AnnotationCollection",
+  "label": "Two Annotations",
+  "total": 2,
+  "first": {
+    "id": "http://example.org/page1",
+    "type": "AnnotationPage",
+    "startIndex": 0,
+    "items": [
+      {
+        "id": "http://example.org/anno1",
+        "type": "Annotation",
+        "body": "http://example.net/comment1",
+        "target": "http://example.com/book/chapter1"
+      },
+      {
+        "id": "http://example.org/anno2",
+        "type": "Annotation",
+        "body": "http://example.net/comment2",
+        "target": "http://example.com/book/chapter2"
+      }
+    ]
+  }
+}
+
+
+## Format of the body
+
+Ideally a json-ld encoded in json rather than string encoding of json.
+
+format? (should be present, but what? jsonld?)
+where does description go? (NOT value)
+
+https://stackoverflow.com/a/46154465
+
+"kar": "archetype.kdl.kcl.ac.uk"
+
+"kar:graph":
+    "kar:allograph": 
+        "kar:id": latin.X
+        ("kar:unicode": ???)
+        "kar:script": latin
+    "kar:components":
+        - "kar:component": ascender
+          "kar:features": [approach-stroke, curved]
+        - ...
+    
+
+## Multiple contexts in json-ld
+
+"@context": 
+[
+  "http://schema.org/",
+  {"oos": "http://our_own_schema.org/"}
+],
+
+
+## Textual range
+
+https://www.w3.org/TR/annotation-model/#xpath-selector
+
+https://devopedia.org/web-annotation#sample-code
+
+

@@ -52,7 +52,7 @@
     let ret = null;
     let res = null;
     if (octokit) {
-      let getUrl = `https://api.github.com/repos/kingsdigitallab/webval/contents/${filePath}`;
+      let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
       try {
         res = await octokit.request(`GET ${getUrl}`, {
           headers: {
@@ -69,7 +69,7 @@
         // as we want this call to work without a github PAT
         // https://stackoverflow.com/a/42518434
         // TODO: use Octokit if PAT provided, so we don't exceed rate limits
-        let getUrl = `https://api.github.com/repos/kingsdigitallab/webval/contents/${filePath}`;
+        let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
 
         // let res = await fetch(getUrl, {cache: "no-cache"})
         let res = await fetch(getUrl);
@@ -77,8 +77,11 @@
           res = await res.json();
         }
       } else {
-        // TODO: simple relative fetch, no sha
-        let getUrl = `../${filePath}`;
+        let getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`
+        if (0) {
+          // TODO: simple relative fetch, no sha
+          getUrl = `../${filePath}`
+        }
         let res = null;
         res = await fetch(getUrl);
         if (res && res.status == 200) {

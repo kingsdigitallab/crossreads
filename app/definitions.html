@@ -33,13 +33,27 @@
       </div>
       <div class="container is-fluid">
 
-        <div class="field">
-          <label class="label">Script</label>
-          <div class="select">
-            <select v-model="selection.script">
-              <option v-for="script in definitions.scripts">{{ script }}</option>
-            </select>
-          </div>
+        <div class="field is-grouped is-horizontal definitions-controls">
+          <p class="control">
+            <label class="label">Script</label>
+            <div class="select">
+              <select v-model="selection.script">
+                <option v-for="(scriptName, scriptSlug) in definitions.scripts" :value="scriptSlug">{{ scriptName }}</option>
+              </select>
+            </div>
+          </p>
+          <p class="control">
+            <input v-model="selection.scriptName" class="input" type="text">
+          </p>
+          <p class="control">
+            <button @click="onCreateScript()" class="button">Create</button>
+          </p>
+          <p class="control">
+            <button @click="onRenameScript()" class="button">Rename</button>
+          </p>
+          <p class="control">
+            <button @click="onDeleteScript()" class="button">Delete</button>
+          </p>
         </div>
 
         <div class="tabs is-boxed">
@@ -52,39 +66,47 @@
           </ul>
         </div>
 
-        <template v-if="selection.innerTab == 'ac'">
-          <table class="table table-def table-ac">
-            <tr>
-              <td></td>
-              <template v-for="allo in definitions.allographs">
-                <td v-if="allo.script == selection.script">{{ allo.character }}</td>
-              </template>
-            </tr>
-            <tr v-for="(component, componentSlug) in definitions.components">
-              <td>{{ component.name }}</td>
-              <template v-for="allo in definitions.allographs">
-                <td v-if="allo.script == selection.script" @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
-                  <span v-if="allo.components.includes(componentSlug)" class="checked">✔</span>
-                </td>
-              </template>
-            </tr>
+        <div v-if="selection.innerTab == 'ac'" class="scrollable-table-wrapper">
+          <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth is-bordered">
+            <thead>
+              <tr>
+                <th></th>
+                <template v-for="allo in definitions.allographs">
+                  <th v-if="allo.script == selection.script">{{ allo.character }}</th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(component, componentSlug) in definitions.components">
+                <th>{{ component.name }}</th>
+                <template v-for="allo in definitions.allographs">
+                  <td v-if="allo.script == selection.script" @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
+                    <span v-if="allo.components.includes(componentSlug)" class="checked">✔</span>
+                  </td>
+                </template>
+              </tr>
+            </tbody>
           </table>
-        </template>
+        </div>
 
-        <template v-if="selection.innerTab == 'cf'">
-          <table class="table table-def table-cf">
-            <tr>
-              <td></td>
-              <td v-for="(feature, featureSlug) in definitions.features">{{ feature }}</td>
-            </tr>
-            <tr v-for="(component, componentSlug) in definitions.components">
-              <td>{{ component.name }}</td>
-              <td v-for="(feature, featureSlug) in definitions.features" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
-                <span v-if="component.features.includes(featureSlug)" class="checked">✔</span>
-              </td>
-            </tr>
+        <div v-if="selection.innerTab == 'cf'" class="scrollable-table-wrapper">
+          <table class="table table-def table-cf is-striped is-narrow is-hoverable is-fullwidth is-bordered">
+            <thead>
+              <tr>
+                <td></td>
+                <th v-for="(feature, featureSlug) in definitions.features">{{ feature }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(component, componentSlug) in definitions.components">
+                <th>{{ component.name }}</th>
+                <td v-for="(feature, featureSlug) in definitions.features" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
+                  <span v-if="component.features.includes(featureSlug)" class="checked">✔</span>
+                </td>
+              </tr>
+            </tbody>
           </table>
-        </template>
+        </div>
 
         <template v-if="false">
           <hr>
@@ -124,8 +146,9 @@
             definitionsSha: null,
             selection: {
               script: '',
+              scriptName: '',
               tab: 'definitions',
-              innerTab: 'cf',
+              innerTab: 'ac',
               gtoken: window.localStorage.getItem('gtoken') || '',
             },
           }
@@ -146,7 +169,37 @@
             this.loadDefinitions()
           });      
         },
+        watch: {
+          'selection.script'() {
+            this.setScriptName()
+          }
+        },
         methods: {
+          onCreateScript() {
+            // TODO: error management
+            let name = this.selection.scriptName
+            let slug = utils.slugify(name)
+            this.definitions.scripts[slug] = name
+            this.selection.script = slug
+          },
+          onRenameScript() {
+            // TODO: error management
+            this.definitions.scripts[this.selection.script] = this.selection.scriptName
+            // TODO: change slug???
+          },
+          onDeleteScript() {
+            // TODO: error management
+            delete this.definitions.scripts[this.selection.script]
+            this.selectFirstScript()
+            // TODO: delete allographs?
+          },
+          selectFirstScript() {
+            this.selection.script = Object.keys(this.definitions.scripts)[0]
+          },
+          setScriptName() {
+            this.selection.scriptName = this.definitions.scripts[this.selection.script]
+            console.log('h1', this.selection.scriptName, this.selection.script)
+          },
           onClickAllographComponent(allo, componentSlug) {
             if (allo.components.includes(componentSlug)) {
               allo.components = allo.components.filter((c) => c != componentSlug)
@@ -179,9 +232,7 @@
             if (res) {
               this.definitions = res.data
               this.definitionsSha = res.sha
-
-              // TODO: case when empty
-              this.selection.script = Object.keys(this.definitions.scripts)[0]
+              this.selectFirstScript()
             }
           },
           async saveDefinitions() {

@@ -187,7 +187,7 @@
   };
 
   exports.slugify = function(str) {
-    return str.replace(/\W+/g, '-')
+    return str.replace(/\W+/g, '-').toLowerCase()
   }
 
   exports.tabs = function() {

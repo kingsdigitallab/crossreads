@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
 
+    <script src="utils.js"></script>
     <script src="./node_modules/vue/dist/vue.global.js"></script>
     <link rel="stylesheet" href="./assets/main.css">
   </head>
   <body>
     <section class="section" id="settings">
       <div id="definitions" class="container">
-        <h1 class="title">
-          Settings
-          <span class="side-links">
-            <a href="./annotator.html">annotator</a> | 
-            <a href="./definitions.html">definitions</a>
-          </span>
-        </h1>
+        <div class="tabs is-large is-boxed">
+          <ul>
+            <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
+              <a :href="`${tab.key}.html`">{{ tab.title }}</a>
+            </li>
+          </ul>
+        </div>
         <form :class="{notification: 1, 'is-warning': isTokenMissing}">
           <div class="field">
             <label class="label">Personal access token:</label>
@@ -37,9 +38,13 @@
         data() {
           return {
             selection: {
+              tab: 'settings',
               gtoken: window.localStorage.getItem('gtoken') || '',
             }
           }
+        },
+        computed: {
+          tabs: () => utils.tabs()          
         },
         watch: {
           "selection.gtoken": (v, vOld) => {

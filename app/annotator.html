@@ -30,13 +30,13 @@
       <!-- <button @click="loadAnnotationsFromSession()">Load</button>
       <button @click="saveAnnotationsToSession()">Save</button> -->
       <div class="container">
-        <h1 class="title">
-          Annotator
-          <span class="side-links">
-            <a href="./definitions.html">definitions</a> | 
-            <a href="./settings.html">settings</a>
-          </span>
-        </h1>
+        <div class="tabs is-large is-boxed">
+          <ul>
+            <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
+              <a :href="`${tab.key}.html`">{{ tab.title }}</a>
+            </li>
+          </ul>
+        </div>
         <div class="columns is-3">
           <div class="column">
             <div class="panel panel-objects">
@@ -287,6 +287,7 @@
               }
             },
             selection: {
+              tab: 'annotator',
               gtoken: window.localStorage.getItem('gtoken') || '',
             },
             isUnsaved: false
@@ -316,7 +317,8 @@
           },
           isAnnotationSelected() {
             return !!this.annotation
-          }
+          },
+          tabs: () => utils.tabs()          
         },
         methods: {
           loadObjects() {

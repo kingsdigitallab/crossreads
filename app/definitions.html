@@ -9,54 +9,185 @@
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
 
     <script src="./node_modules/vue/dist/vue.global.js"></script>
+    <script src="utils.js"></script>
+    <script type="module">
+      // TODO: relative import
+      import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+      // import { Octokit } from "./node_modules/@octokit/core/dist-web/index.js";
+      window.Octokit = Octokit
+    </script>    
     <link rel="stylesheet" href="./assets/main.css">
   </head>
   <body>
-    <section class="section">
-      <div id="definitions" class="container">
-        <h1 class="title">
-          Definitions
-          <span class="side-links">
-            <a href="./annotator.html">annotator</a> | 
-            <a href="./settings.html">settings</a>
-          </span>
-        </h1>
-        <form class="control">
-          <label class="label">Archetype homepage URL</label>
-          <div class="control">
-            <input class="input" type="text" name="archetype_api" :value="archetypeUri">
+    <section id="definitions" class="section">
+      <div class="tabs is-large is-boxed">
+        <ul>
+          <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
+            <a :href="`${tab.key}.html`">
+              {{ tab.title }}
+              &nbsp;
+              <button v-if="selection.tab == tab.key" @click="saveDefinitions()" class="button is-primary">Save</button>
+            </a>            
+          </li>
+        </ul>
+      </div>
+      <div class="container is-fluid">
+
+        <div class="field">
+          <label class="label">Script</label>
+          <div class="select">
+            <select v-model="selection.script">
+              <option v-for="script in definitions.scripts">{{ script }}</option>
+            </select>
           </div>
-          <div class="control">
-            <button @click.prevent.stop="onImportDefinitions()" class="button" type="submit" name="action" value="export-definitions">Export definitions</button>
-          </div>
-          <div class="control">
-            <button @click.prevent.stop="onShortenCollection()" class="button" type="submit" name="action" value="shorten-collection">Shorten collection</button>
-          </div>
-        </form>
-        <textarea style="width:100%; height: 15em;">
-          {{ definitions }}
-        </textarea>
+        </div>
+
+        <div class="tabs is-boxed">
+          <ul>
+            <li v-for="tab in innerTabs" :class="{'is-active': selection.innerTab == tab.key}">
+              <a @click.prevent.stop="selection.innerTab = tab.key">
+                {{ tab.title }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <template v-if="selection.innerTab == 'ac'">
+          <table class="table table-def table-ac">
+            <tr>
+              <td></td>
+              <template v-for="allo in definitions.allographs">
+                <td v-if="allo.script == selection.script">{{ allo.character }}</td>
+              </template>
+            </tr>
+            <tr v-for="(component, componentSlug) in definitions.components">
+              <td>{{ component.name }}</td>
+              <template v-for="allo in definitions.allographs">
+                <td v-if="allo.script == selection.script" @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
+                  <span v-if="allo.components.includes(componentSlug)" class="checked">✔</span>
+                </td>
+              </template>
+            </tr>
+          </table>
+        </template>
+
+        <template v-if="selection.innerTab == 'cf'">
+          <table class="table table-def table-cf">
+            <tr>
+              <td></td>
+              <td v-for="(feature, featureSlug) in definitions.features">{{ feature }}</td>
+            </tr>
+            <tr v-for="(component, componentSlug) in definitions.components">
+              <td>{{ component.name }}</td>
+              <td v-for="(feature, featureSlug) in definitions.features" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
+                <span v-if="component.features.includes(featureSlug)" class="checked">✔</span>
+              </td>
+            </tr>
+          </table>
+        </template>
+
+        <template v-if="false">
+          <hr>
+
+          <form class="control">
+            <label class="label">Archetype homepage URL</label>
+            <div class="control">
+              <input class="input" type="text" name="archetype_api" :value="archetypeUri">
+            </div>
+            <div class="control">
+              <button @click.prevent.stop="onImportDefinitions()" class="button" type="submit" name="action" value="export-definitions">Import definitions</button>
+            </div>
+            <div class="control">
+              <button @click.prevent.stop="onShortenCollection()" class="button" type="submit" name="action" value="shorten-collection">Shorten collection</button>
+            </div>
+          </form>
+          <textarea style="width:100%; height: 15em;">
+            {{ definitions }}
+          </textarea>
+        </template>
       </div>
     </section>
-    <script>
+    <script defer>
       const { createApp } = Vue
 
       // const componentFeatureUri = '/digipal/api/componentfeature/'
       const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
       const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component'
       const collectionUri = './data/dts/api/collections.json'
+      const definitionsPath = 'app/data/pal/definitions-digipal.json'
 
       createApp({
         data() {
           return {
             archetypeUri: '//digipal.eu',
             definitions: {'k1': 'v1'},
+            definitionsSha: null,
             selection: {
+              script: '',
+              tab: 'definitions',
+              innerTab: 'cf',
               gtoken: window.localStorage.getItem('gtoken') || '',
             },
           }
         },
+        computed: {
+          tabs: () => utils.tabs(),
+          innerTabs() {
+            return [
+              {title: 'Allographs x Components', key: 'ac'},
+              {title: 'Components x Features', key: 'cf'},
+            ]
+          }
+        },
+        mounted() {
+          // so we are sure all js modules have been loaded
+          window.addEventListener("load", (event) => {
+            console.log('load defs')
+            this.loadDefinitions()
+          });      
+        },
         methods: {
+          onClickAllographComponent(allo, componentSlug) {
+            if (allo.components.includes(componentSlug)) {
+              allo.components = allo.components.filter((c) => c != componentSlug)
+            } else {
+              allo.components.push(componentSlug)
+            }
+          },
+          onClickComponentFeature(component, featureSlug) {
+            if (component.features.includes(featureSlug)) {
+              component.features = component.features.filter((f) => f != featureSlug)
+            } else {
+              component.features.push(featureSlug)
+            }
+          },
+          getOctokit() {
+            // TODO: create wrapper class around Octokit
+            // TODO: cache this
+            let ret = null
+            if (this.selection.gtoken) {
+              ret = new Octokit({
+                auth: this.selection.gtoken
+              })
+            }
+            return ret
+          },
+          async loadDefinitions() {
+            // TODO: temporarily locals
+            // let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
+            let res = await utils.readGithubJsonFile('../' + definitionsPath)
+            if (res) {
+              this.definitions = res.data
+              this.definitionsSha = res.sha
+
+              // TODO: case when empty
+              this.selection.script = Object.keys(this.definitions.scripts)[0]
+            }
+          },
+          async saveDefinitions() {
+            // TODO: sha
+            await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
+          },
           onShortenCollection(e) {
             const self = this;
             let uri = collectionUri;

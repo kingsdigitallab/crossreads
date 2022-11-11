@@ -78,9 +78,9 @@
         }
       } else {
         let getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`
-        if (0) {
+        if (1) {
           // TODO: simple relative fetch, no sha
-          getUrl = `../${filePath}`
+          getUrl = `${filePath}`
         }
         let res = null;
         res = await fetch(getUrl);
@@ -157,8 +157,6 @@
       }
     }
 
-    console.log(ret);
-
     return ret;
   };
 
@@ -190,6 +188,14 @@
 
   exports.slugify = function(str) {
     return str.replace(/\W+/g, '-')
+  }
+
+  exports.tabs = function() {
+    return [
+      {title: 'Annotator', key: 'annotator'},
+      {title: 'Definitions', key: 'definitions'},
+      {title: 'Settings', key: 'settings'},
+    ]
   }
 
 })(typeof exports === "undefined" ? (this["utils"] = {}) : exports);

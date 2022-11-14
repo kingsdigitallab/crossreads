@@ -120,7 +120,7 @@
                     <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span>
                     <div class="select">
                       <select v-model="description.allograph" @change="onChangeAllograph()">
-                        <option v-for="(allograph, allographKey) in definitions.allographs" :value="allographKey">{{ allograph.character }} ({{ allograph.script }})</option>
+                        <option v-for="(allograph, allographKey) in definitions.allographs" :value="allographKey">{{ allograph.character }} ({{ definitions.scripts[allograph.script] }})</option>
                       </select>
                     </div>
                   </dd>
@@ -247,6 +247,9 @@
             //   signId: '',
             // },
             definitions: {
+              scripts: {
+                'latin': 'Latin',
+              },
               features: {
                 'f1': 'F 1',
                 'f2': 'F 2',
@@ -261,7 +264,7 @@
               },
               allographs: {
                 'latin.G': {
-                  script: 'Latin',
+                  script: 'latin',
                   character: 'G',
                   components: ['c1'], 
                 },

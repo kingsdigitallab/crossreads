@@ -33,7 +33,10 @@
         <div class="tabs is-large is-boxed">
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
-              <a :href="`${tab.key}.html`">{{ tab.title }}</a>
+              <a :href="`${tab.key}.html`">
+                <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
+                {{ tab.title }}
+              </a>
             </li>
           </ul>
         </div>
@@ -84,8 +87,11 @@
               <p class="panel-heading">
                 Image
                 <span class="side-links">
-                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!isUnsaved">
-                    <template v-if="isUnsaved">Save</template><template v-else>Saved</template>
+                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved">
+                    <template v-if="!canSave">Read Only</template>
+                    <template v-else>
+                      <template v-if="isUnsaved">Save</template><template v-else>Saved</template>
+                    </template>
                   </button>
                 </span>
               </p>
@@ -166,6 +172,8 @@
       let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
       // if defined, the viewer will fetch full image files instead of IIIF tiles
       let IMG_PATH_STATIC_ROOT = './data/2022/'
+
+      const definitionsPath = 'app/data/pal/definitions-digipal.json'
 
       // TODO: move this into Vue?
       function loadOpenSeaDragon(vueApp) {
@@ -318,7 +326,10 @@
           isAnnotationSelected() {
             return !!this.annotation
           },
-          tabs: () => utils.tabs()          
+          tabs: () => utils.tabs() ,
+          canSave() {
+            return !!this.selection.gtoken
+          },
         },
         methods: {
           loadObjects() {
@@ -345,13 +356,18 @@
                 }
               })
           },
-          loadDefinitions() {
-            fetch(this.apis.definitions)
-              .then(res => res.json())
-              .then(res => {
-                this.definitions = res
-                this.updateDescriptionFromAllograph()
-              })
+          async loadDefinitions() {
+            let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
+            if (res) {
+              this.definitions = res.data
+              this.updateDescriptionFromAllograph()
+            }
+            // fetch(this.apis.definitions)
+            //   .then(res => res.json())
+            //   .then(res => {
+            //     this.definitions = res
+            //     this.updateDescriptionFromAllograph()
+            //   })
           },
           fetchObjectXML() {
             // fetch the TEI XML from DTS API for the selected object (this.object)

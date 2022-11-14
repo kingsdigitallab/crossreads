@@ -24,37 +24,15 @@
         <ul>
           <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
             <a :href="`${tab.key}.html`">
+              <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;
-              <button v-if="selection.tab == tab.key" @click="saveDefinitions()" class="button is-primary">Save</button>
+              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveDefinitions()" class="button is-primary" :disabled="!canSave">Save</button>
             </a>            
           </li>
         </ul>
       </div>
       <div class="container is-fluid">
-
-        <div class="field is-grouped is-horizontal definitions-controls">
-          <p class="control">
-            <label class="label">Script</label>
-            <div class="select">
-              <select v-model="selection.script">
-                <option v-for="(scriptName, scriptSlug) in definitions.scripts" :value="scriptSlug">{{ scriptName }}</option>
-              </select>
-            </div>
-          </p>
-          <p class="control">
-            <input v-model="selection.scriptName" class="input" type="text">
-          </p>
-          <p class="control">
-            <button @click="onCreateScript()" class="button">Create</button>
-          </p>
-          <p class="control">
-            <button @click="onRenameScript()" class="button">Rename</button>
-          </p>
-          <p class="control">
-            <button @click="onDeleteScript()" class="button">Delete</button>
-          </p>
-        </div>
 
         <div class="tabs is-boxed">
           <ul>
@@ -66,40 +44,103 @@
           </ul>
         </div>
 
-        <div v-if="selection.innerTab == 'ac'" class="scrollable-table-wrapper">
-          <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth is-bordered">
-            <thead>
-              <tr>
-                <th></th>
-                <template v-for="allo in definitions.allographs">
-                  <th v-if="allo.script == selection.script">{{ allo.character }}</th>
-                </template>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(component, componentSlug) in definitions.components">
-                <th>{{ component.name }}</th>
-                <template v-for="allo in definitions.allographs">
-                  <td v-if="allo.script == selection.script" @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
-                    <span v-if="allo.components.includes(componentSlug)" class="checked">✔</span>
-                  </td>
-                </template>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <template v-if="selection.innerTab == 'ac'">
+
+          <div class="field is-grouped is-horizontal definitions-controls">
+            <p class="control">
+              <label class="label">Script</label>
+              <div class="select">
+                <select v-model="selection.script">
+                  <option v-for="(scriptName, scriptSlug) in definitions.scripts" :value="scriptSlug">{{ scriptName }}</option>
+                </select>
+              </div>
+            </p>
+            <p class="control">
+              <input v-model="selection.scriptName" class="input" type="text">
+            </p>
+            <p class="control">
+              <button @click="onCreateScript()" class="button">Create</button>
+            </p>
+            <p class="control">
+              <button @click="onRenameScript()" class="button">Rename</button>
+            </p>
+            <p class="control">
+              <button @click="onDeleteScript()" class="button">Delete</button>
+            </p>
+          </div>  
+
+          <div v-if="selection.innerTab == 'ac'" class="scrollable-table-wrapper">
+            <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth is-bordered">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>
+                    <input v-model="newItems.allograph" type="text" class="input">
+                    <button @click="onAddItem('allograph')" class="button is-small">Add</button>
+                  </th>
+                  <template v-for="(allo, alloSlug) in definitions.allographs">
+                    <th v-if="allo.script == selection.script">
+                      {{ allo.character }}
+                      <button @click="onRemoveAllograph(alloSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                    </th>
+                  </template>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>
+                    <input v-model="newItems.component" type="text" class="input">
+                    <button @click="onAddItem('component')" class="button is-small">Add</button>
+                  </th>
+                  <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>
+                </tr>
+                <tr v-for="(component, componentSlug) in definitions.components">
+                  <th>
+                    {{ component.name }}
+                    <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                  </th>
+                  <td></td>
+                  <template v-for="allo in definitions.allographs">
+                    <td v-if="allo.script == selection.script" @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
+                      <span v-if="allo.components.includes(componentSlug)" class="checked">✔</span>
+                    </td>
+                  </template>
+                </tr>
+              </tbody>
+            </table>
+          </div>  
+        </template>
 
         <div v-if="selection.innerTab == 'cf'" class="scrollable-table-wrapper">
           <table class="table table-def table-cf is-striped is-narrow is-hoverable is-fullwidth is-bordered">
             <thead>
               <tr>
-                <td></td>
-                <th v-for="(feature, featureSlug) in definitions.features">{{ feature }}</th>
+                <th></th>
+                <th>
+                  <input v-model="newItems.feature" type="text" class="input">
+                  <button @click="onAddItem('feature')" class="button is-small">Add</button>
+                </th>
+                <th v-for="(feature, featureSlug) in definitions.features">
+                  <span class="item-name">{{ feature }}</span>
+                  <input @blur="onRenameFeature($event, featureSlug)" :value="feature" type="text" class="input-rename input">
+                  <button @click="onRemoveFeature(featureSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                </th>
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <th>
+                  <input v-model="newItems.component" type="text" class="input">
+                  <button @click="onAddItem('component')" class="button is-small">Add</button>
+                </th>
+                <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>
+              </tr>
               <tr v-for="(component, componentSlug) in definitions.components">
-                <th>{{ component.name }}</th>
+                <th>
+                  <span class="item-name">{{ component.name }}</span>
+                  <input @blur="onRenameComponent($event, component)" :value="component.name" type="text" class="input-rename input">
+                  <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                </th>
                 <td v-for="(feature, featureSlug) in definitions.features" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
                   <span v-if="component.features.includes(featureSlug)" class="checked">✔</span>
                 </td>
@@ -151,6 +192,11 @@
               innerTab: 'ac',
               gtoken: window.localStorage.getItem('gtoken') || '',
             },
+            newItems: {
+              allograph: '',
+              component: '',
+              feature: '',
+            }
           }
         },
         computed: {
@@ -160,12 +206,14 @@
               {title: 'Allographs x Components', key: 'ac'},
               {title: 'Components x Features', key: 'cf'},
             ]
-          }
+          },
+          canSave() {
+            return !!this.selection.gtoken
+          },
         },
         mounted() {
           // so we are sure all js modules have been loaded
           window.addEventListener("load", (event) => {
-            console.log('load defs')
             this.loadDefinitions()
           });      
         },
@@ -175,6 +223,71 @@
           }
         },
         methods: {
+          onRenameFeature(event, featureSlug) {
+            // TODO: error management: value already taken
+            let value = event.target.value.trim()
+            if (value.length) {
+              this.definitions.features[featureSlug] = value
+            } else {
+              event.target.value = this.definitions.features[featureSlug]
+            }
+          },
+          onRenameComponent(event, component) {
+            // TODO: error management: value already taken
+            let value = event.target.value.trim()
+            if (value.length) {
+              component.name = value
+            } else {
+              event.target.value = component.name
+            }
+          },
+          onRemoveAllograph(allographSlug) {
+            delete this.definitions.allographs[allographSlug]
+          },
+          onRemoveComponent(componentSlug) {
+            delete this.definitions.components[componentSlug]
+            // TODO: delete component in the allographs?
+          },
+          onRemoveFeature(featureSlug) {
+            delete this.definitions.features[featureSlug]
+            // TODO: delete feature in the components?
+          },
+          onAddItem(itemType) {
+            let name = this.newItems[itemType]
+            name = name.trim()
+            if (name.length < 1) return;
+
+            let slug = name
+            if (itemType != 'allograph') {
+              slug = utils.slugify(name)
+            } else {
+              slug = `${slug}-${this.selection.script}`
+            }
+
+            let item = this.definitions[itemType+'s'][slug]
+
+            if (itemType == 'allograph') {
+              if (!(item && item.script == this.selection.script)) {
+                this.definitions.allographs[slug] = {
+                  script: this.selection.script,
+                  character: name,
+                  components: []
+                }
+              }
+            } else {
+              if (!item) {
+                if (itemType == 'component') {
+                  this.definitions.components[slug] = {
+                    name: name,
+                    features: []
+                  }
+                }
+                if (itemType == 'feature') {
+                  this.definitions.features[slug] = name
+                }
+              }
+            }
+          },
           onCreateScript() {
             // TODO: error management
             let name = this.selection.scriptName
@@ -198,7 +311,6 @@
           },
           setScriptName() {
             this.selection.scriptName = this.definitions.scripts[this.selection.script]
-            console.log('h1', this.selection.scriptName, this.selection.script)
           },
           onClickAllographComponent(allo, componentSlug) {
             if (allo.components.includes(componentSlug)) {
@@ -226,9 +338,9 @@
             return ret
           },
           async loadDefinitions() {
-            // TODO: temporarily locals
-            // let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
-            let res = await utils.readGithubJsonFile('../' + definitionsPath)
+            // // TODO: temporarily locals
+            let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
+            // let res = await utils.readGithubJsonFile('../' + definitionsPath)
             if (res) {
               this.definitions = res.data
               this.definitionsSha = res.sha

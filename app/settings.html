@@ -18,7 +18,10 @@
         <div class="tabs is-large is-boxed">
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
-              <a :href="`${tab.key}.html`">{{ tab.title }}</a>
+              <a :href="`${tab.key}.html`">
+                <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
+                {{ tab.title }}
+              </a>
             </li>
           </ul>
         </div>
@@ -44,7 +47,10 @@
           }
         },
         computed: {
-          tabs: () => utils.tabs()          
+          tabs: () => utils.tabs(),
+          canSave() {
+            return !!this.selection.gtoken
+          },
         },
         watch: {
           "selection.gtoken": (v, vOld) => {

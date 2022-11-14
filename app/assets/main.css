@@ -118,3 +118,29 @@ td .checked {
   left: 0;
 }
 
+th .input {
+  width: 4em;
+}
+
+.btn-remove {
+  display: none;  
+}
+th:hover .btn-remove {
+  display: inline;  
+}
+
+th {
+  line-height: 1.85em; /* so remove icon on hover doesn't expand row */
+}
+
+th:hover .item-name {
+  display: none;
+}
+
+th .input-rename {
+  display: none;
+}
+
+th:hover .input-rename {
+  display: inline;
+}

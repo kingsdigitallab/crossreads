@@ -78,7 +78,7 @@
         }
       } else {
         let getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`
-        if (1) {
+        if (0) {
           // TODO: simple relative fetch, no sha
           getUrl = `${filePath}`
         }

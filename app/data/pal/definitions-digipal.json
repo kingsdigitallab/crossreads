@@ -4,7 +4,8 @@
   "updated": "2022-08-14T22:43:30.653Z",
   "scripts": {
     "SCRIPT": "Base",
-    "SCRIPT2": "Script One"
+    "SCRIPT2": "Script One",
+    "test-script": "TEST Script"
   },
   "features": {
     "45": "45°",
@@ -1101,6 +1102,22 @@
       "script": "SCRIPT",
       "character": "Kk",
       "components": []
+    },
+    "a-test-script": {
+      "script": "test-script",
+      "character": "a",
+      "components": [
+        "downstroke-7",
+        "arch"
+      ]
+    },
+    "B-test-script": {
+      "script": "test-script",
+      "character": "B",
+      "components": [
+        "a-component",
+        "ascender"
+      ]
     }
   }
 }

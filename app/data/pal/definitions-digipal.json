@@ -5,7 +5,8 @@
   "scripts": {
     "SCRIPT": "Latin 1",
     "SCRIPT2": "Script One",
-    "test-script": "TEST Script"
+    "test-script": "TEST Script",
+    "base": "Base"
   },
   "features": {
     "45": "45°",
@@ -42,7 +43,9 @@
     "traversing": "traversing",
     "diamond-shaped": "diamond shaped",
     "not-touching": "not touching",
-    "touching": "touching"
+    "touching": "touching",
+    "serif": "serif",
+    "sans-serif": "sans serif"
   },
   "components": {
     "arch": {
@@ -234,6 +237,45 @@
     "upper-curve": {
       "name": "upper curve",
       "features": []
+    },
+    "top-bar": {
+      "name": "top bar",
+      "features": [
+        "below-baseline",
+        "on-baseline",
+        "straight",
+        "vertical",
+        "long",
+        "sans-serif"
+      ]
+    },
+    "bottom-bar": {
+      "name": "bottom bar",
+      "features": [
+        "curved",
+        "on-baseline",
+        "short",
+        "straight",
+        "vertical",
+        "long",
+        "sans-serif"
+      ]
+    },
+    "apex": {
+      "name": "apex",
+      "features": []
+    },
+    "crossbar": {
+      "name": "crossbar",
+      "features": []
+    },
+    "left-stroke": {
+      "name": "left stroke",
+      "features": []
+    },
+    "right-stroke": {
+      "name": "right stroke",
+      "features": []
     }
   },
   "allographs": {
@@ -245,7 +287,12 @@
     "A": {
       "script": "SCRIPT",
       "character": "A",
-      "components": []
+      "components": [
+        "right-stroke",
+        "left-stroke",
+        "crossbar",
+        "apex"
+      ]
     },
     "B": {
       "script": "SCRIPT",
@@ -285,7 +332,11 @@
     "I": {
       "script": "SCRIPT",
       "character": "I",
-      "components": []
+      "components": [
+        "main-stroke",
+        "top-bar",
+        "bottom-bar"
+      ]
     },
     "L": {
       "script": "SCRIPT",
@@ -381,6 +432,16 @@
     "punctuation-SCRIPT": {
       "script": "SCRIPT",
       "character": "punctuation",
+      "components": []
+    },
+    "A-SCRIPT2": {
+      "script": "SCRIPT2",
+      "character": "A",
+      "components": []
+    },
+    "A-base": {
+      "script": "base",
+      "character": "A",
       "components": []
     }
   }

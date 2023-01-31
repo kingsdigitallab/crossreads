@@ -321,7 +321,9 @@
         },
         computed: {
           filteredObjects() {
-            return this.objects.filter(o => o.description.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+            return this.objects.filter(o => {
+              return (o.description.toLowerCase() + ' ' + o.title + '' + o['@id']).includes(this.searchPhrase.toLowerCase())
+            })
           },
           filteredImages() {
             return this.images.filter(i => i.type == 'print')

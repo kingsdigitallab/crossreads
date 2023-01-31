@@ -30,6 +30,9 @@
       <!-- <button @click="loadAnnotationsFromSession()">Load</button>
       <button @click="saveAnnotationsToSession()">Save</button> -->
       <div class="container">
+        <div :class="['notification', 'is-'+lastMessage.level, 'is-light']">
+          {{ lastMessage.content }}
+        </div>
         <div class="tabs is-large is-boxed">
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
@@ -115,9 +118,9 @@
               </p>
               <div class="panel-block">
                 <dl class="description">
-                  <dt>Allograph</dt> 
+                  <dt>Allograph ({{description.allograph}})</dt> 
                   <dd>
-                    <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span>
+                    <!-- <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span> -->
                     <div class="select">
                       <select v-model="description.allograph" @change="onChangeAllograph()">
                         <option v-for="(allograph, allographKey) in definitions.allographs" :value="allographKey">{{ allograph.character }} ({{ definitions.scripts[allograph.script] }})</option>
@@ -301,7 +304,9 @@
               tab: 'annotator',
               gtoken: window.localStorage.getItem('gtoken') || '',
             },
-            isUnsaved: false
+            isUnsaved: false,
+            messages: [
+            ]
           }
         },
         mounted() {
@@ -310,6 +315,7 @@
           loadOpenSeaDragon(this)
           this.loadObjects()
           this.loadDefinitions()
+          // this.logOk('App loaded')
         },
         watch: {
           object(val, valOld) {
@@ -335,6 +341,17 @@
           canSave() {
             return !!this.selection.gtoken
           },
+          lastMessage() {
+            let ret = {
+              content: '',
+              level: 'info',
+              created: new Date()
+            }
+            if (this.messages.length) {
+              ret = this.messages[this.messages.length-1]
+            }
+            return ret
+          }
         },
         methods: {
           loadObjects() {
@@ -705,7 +722,8 @@
             // TODO: detect error (but 404 notan error!)
             let filePath = this.getAnnotationFilePath()
             if (filePath) {
-              let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
+              //let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
+              let res = await utils.readGithubJsonFile(filePath)
               if (res) {
                 this.anno.setAnnotations(res.data)
                 this.updateSignHighlights()
@@ -764,6 +782,40 @@
           isTokenMissing() {
             return !this.selection.gtoken
           },
+          getAgoFormat(adate) {
+            let timeStamp = adate.getTime()
+            var now = new Date(),
+              secondsPast = (now.getTime() - timeStamp) / 1000;
+            if (secondsPast < 60) {
+              return parseInt(secondsPast) + 's';
+            }
+            if (secondsPast < 3600) {
+              return parseInt(secondsPast / 60) + 'm';
+            }
+            if (secondsPast <= 86400) {
+              return parseInt(secondsPast / 3600) + 'h';
+            }
+            if (secondsPast > 86400) {
+              day = timeStamp.getDate();
+              month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
+              year = timeStamp.getFullYear() == now.getFullYear() ? "" : " " + timeStamp.getFullYear();
+              return day + " " + month + year;
+            }
+          },
+          logMessage(content, level='info') {
+            // level: info|primary|success|warning|danger
+            this.messages.push({
+              content: content,
+              level: level,
+              created: new Date()
+            })
+          },
+          logWarning(content) {
+            this.logMessage(content, 'warning')
+          },
+          logOk(content) {
+            this.logMessage(content, 'success')
+          }
         }
       }).mount('#annotator');
     </script>

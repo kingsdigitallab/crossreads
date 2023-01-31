@@ -355,6 +355,7 @@
             const self = this;
             let uri = collectionUri;
 
+            // TODO: remove hard-coded values
             const toKeep = new RegExp('ISic0000(01|07|31|46|79)$')
 
             fetch(uri).then(r => r.json()).then(res => {

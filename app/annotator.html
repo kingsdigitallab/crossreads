@@ -58,7 +58,7 @@
                 <ul class="list-selectable">
                   <a v-for="(obj2, idx) in filteredObjects" href="#" @click.prevent="onSelectObject(obj2)">
                     <li :class="{'selected': obj2 == object}">
-                      {{ obj2.description }}
+                      {{ obj2.title }}
                     </li>
                   </a>
                 </ul>
@@ -171,7 +171,7 @@
 
       let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
       // if defined, the viewer will fetch full image files instead of IIIF tiles
-      let IMG_PATH_STATIC_ROOT = './data/2022/'
+      let IMG_PATH_STATIC_ROOT = './data/images/'
 
       const definitionsPath = 'app/data/pal/definitions-digipal.json'
 
@@ -228,7 +228,7 @@
             // TODO: not reactive
             apis: {
               // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
-              collections: './data/dts/api/collections-test.json',
+              collections: './data/2023-01/collection.json',
               definitions: './data/pal/definitions-digipal.json',
             },
             objects: [

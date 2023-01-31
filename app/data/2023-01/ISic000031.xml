@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='utf-8'?>
+<?xml-model href="http://www.stoa.org/epidoc/schema/latest/tei-epidoc.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../schematron/ircyr-checking.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>I.Sicily inscription 000031</title>
+                <editor ref="#JP">Jonathan Prag</editor>
+                <principal ref="#JP">Jonathan Prag</principal>
+                <funder>John Fell OUP Research Fund</funder>
+	   <funder><ref target="https://cordis.europa.eu/project/id/885040">ERC Advanced Grant no.885040</ref></funder>
+                <respStmt>
+                    <name xml:id="JP" ref="http://orcid.org/0000-0003-3819-8537">Jonathan Prag</name>
+                    <resp>original data collection and editing</resp>
+                </respStmt>
+                <respStmt>
+                    <name xml:id="JCu" ref="http://orcid.org/0000-0002-6686-3728">James Cummings</name>
+                    <resp>conversion to EpiDoc</resp>
+                </respStmt>
+                <respStmt>
+                    <name xml:id="JCh" ref="http://orcid.org/0000-0001-6823-0265">James Chartrand</name>
+                    <resp>site construction and encoding</resp>
+                </respStmt>
+                <respStmt>
+                    <name xml:id="VV" ref="http://orcid.org/0000-0002-9695-0240">Valeria Vitale</name>
+                    <resp>editing of geo data</resp>
+                </respStmt>
+                <respStmt>
+                    <name xml:id="MM">Michael Metcalfe</name>
+                    <resp>museum data collection</resp>
+                </respStmt>
+                <respStmt>
+                    <name xml:id="TA" ref="https://orcid.org/0000-0001-8417-7089">Tuuli Ahlholm</name>
+                    <resp>EpiDoc editing</resp>
+                </respStmt>
+	    <respStmt>
+     	       <name xml:id="SS" ref="https://orcid.org/0000-0003-3914-9569">Simona Stoyanova</name>
+     	       <resp>standardisation of template and tidying up encoding</resp>
+ 	   </respStmt>
+	    <respStmt>
+                    <name xml:id="system">system</name>
+                    <resp>automated or batch processes</resp>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <authority>I.Sicily</authority>
+                <idno type="filename">ISic000031</idno>
+                <idno type="TM">491797</idno>
+                <idno type="EDR">138294</idno>
+                <idno type="EDH"/>
+                <idno type="EDCS">22000881</idno>
+                <idno type="PHI"/>
+                <idno type="URI">http://sicily.classics.ox.ac.uk/inscription/ISic000031</idno>
+                <idno type="DOI" when="2020-12-17">10.5281/zenodo.4333839</idno>
+                <availability>
+                    <licence target="http://creativecommons.org/licenses/by/4.0/">Licensed under a Creative Commons-Attribution 4.0 licence.</licence>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc>
+                    <msIdentifier>
+                        <country>Italy</country>
+                        <region>Sicily</region>
+                        <settlement>Palermo</settlement>
+                        <repository role="museum" ref="http://sicily.classics.ox.ac.uk/museum/064">Museo Archeologico Regionale Antonino Salinas</repository>
+                        <idno type="inventory">3531</idno>
+                        <!--Adding location for old id numbers if available-->
+                        <altIdentifier>
+                            <settlement/>
+                            <repository/>
+                            <idno type="old"/>
+                        </altIdentifier>
+                    </msIdentifier>
+                    <msContents>
+                        <textLang mainLang="la">Latin</textLang>
+                    </msContents>
+                    <physDesc>
+                        <objectDesc>
+                            <supportDesc>
+                                <support>
+                                    <material ana="#material.stone.marble" ref="http://www.eagle-network.eu/voc/material/lod/48.html">marble</material>
+                                    <objectType ana="#object.plaque" ref="http://www.eagle-network.eu/voc/objtyp/lod/259">plaque</objectType>
+                                    <dimensions>
+                                        <height unit="cm"/>
+                                        <width unit="cm"/>
+                                        <depth unit="cm"/>
+                                    </dimensions>
+                                </support>
+                                <condition/>
+		    </supportDesc>
+                            <layoutDesc>
+                                <layout>
+                                    <rs ana="#execution.chiselled" ref="http://www.eagle-network.eu/voc/writing/lod/1">chiselled</rs>
+                                	<damage/>
+			</layout>
+                            </layoutDesc>
+                        </objectDesc>
+                        <handDesc>
+                            <handNote>
+                                <locus from="line1" to="line1">Line 1</locus>
+                                <dimensions type="letterHeight">
+                                    <height unit="mm"/>
+                                </dimensions>
+                                <locus from="line1" to="line2">Interlineation line 1 to 2</locus>
+                                <dimensions type="interlinear">
+                                    <height unit="mm"/>
+                                </dimensions>
+                            </handNote>
+                        </handDesc>
+                    </physDesc>
+                    <history>
+                        <origin>
+                            <origPlace>
+                                <placeName type="ancient" ref="http://pleiades.stoa.org/places/462410">Panhormus</placeName>		
+                                <placeName type="modern" ref="http://sws.geonames.org/2523920">Palermo</placeName>
+                            	<geo>38.13205, 13.33561</geo>
+		</origPlace>
+                            <origDate datingMethod="#julian" notBefore-custom="0101" notAfter-custom="0200" precision="low">2nd century CE</origDate>
+                        </origin>
+                        <provenance type="found">Original discovery not recorded.</provenance>
+                        <provenance type="observed" subtype="autopsied">None</provenance>
+                        <acquisition/>
+                    </history>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+             <p>Encoded following the latest EpiDoc guidelines</p>
+             <xi:include href="../alists/ISicily-taxonomies.xml">
+                 <xi:fallback>
+                     <p>Taxonomies for ISicily controlled values</p>
+                 </xi:fallback>
+             </xi:include>
+	  <xi:include href="../alists/charDecl.xml">
+	     <xi:fallback>
+	       <p>ISicily glyphs authority list</p>
+	     </xi:fallback>
+	   </xi:include>
+         </encodingDesc>
+        <profileDesc>
+            <calendarDesc>
+                <calendar xml:id="julian">
+                    <p>Julian Calendar</p>
+                </calendar>
+            </calendarDesc>
+            <langUsage>
+                <language ident="en">English</language>
+                <language ident="it">Italian</language>
+                <language ident="grc">Ancient Greek</language>
+                <language ident="la">Latin</language>
+                <language ident="he">Hebrew</language>
+                <language ident="phn">Phoenician</language>
+                <language ident="xpu">Punic</language>
+                <language ident="osc">Oscan</language>
+                <language ident="xly">Elymian</language>
+                <language ident="scx">Sikel</language>
+                <language ident="sxc">Sikan</language>
+            </langUsage>
+            <textClass>
+                <keywords scheme="http://www.eagle-network.eu/voc/typeins.html">
+                    <term ana="#function.honorific" ref="http://www.eagle-network.eu/voc/typeins/lod/69.html">honorific</term>
+                </keywords>
+            </textClass>
+        </profileDesc>
+        <revisionDesc status="draft">
+            <listChange>
+                <change when="2016-12-03" who="#JCu">James Cummings autogenerated EpiDoc output from database</change>
+                <change when="2017-11-16" who="#JP">Jonathan Prag edited a bibl element</change>
+                <change when="2018-05-03" who="#TA">Tuuli Ahlholm cleaned up the autogenerated EpiDoc and added an apparatus</change>
+            	   <change when="2020-10-05" who="#SS">Simona Stoyanova normalised Unicode</change>
+            	   <change when="2020-10-08" who="#SS">Simona Stoyanova updated list of languages</change>
+            	<change when="2020-11-20" who="#SS">Simona Stoyanova added EDCS numbers</change>
+	   <change when="2020-11-26" who="#SS">Simona Stoyanova restructured bibliography</change>
+	    <change when="2020-12-17" who="#system">Updated Zenodo DOI</change>
+            	<change when="2021-01-19" who="#SS">renumbered files, uris and references</change>
+                <change when="2022-03-01" who="#JP">Jonathan Prag added images</change>
+	</listChange>
+        </revisionDesc>
+    </teiHeader>
+    <facsimile>
+        <surface type="front">
+            <graphic n="screen" url="ISic000031_tiled.tif" height="4128px" width="6192px">
+                <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+            </graphic>
+            <graphic n="print" url="ISic000031.jpg" height="4128px" width="6291px">
+                <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+            </graphic>
+            <graphic n="screen" url="ISic000031_copy1_tiled.tif" height="4128px" width="6192px">
+                <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+            </graphic>
+            <graphic n="print" url="ISic000031_copy1.jpg" height="4128px" width="6291px">
+                <desc>Photo V. Mignosa, courtesy Museo Archeologico Regionale Antonino Salinas</desc>
+            </graphic>
+        </surface>
+    </facsimile>
+    <text>
+        <body>
+            <div type="edition" xml:space="preserve" xml:lang="la" resp="#TA">
+                <ab>
+                    <lb n="1" xml:id="ISic000031-10"/><w xml:id="ISic000031-20"><gap reason="lost" extent="unknown" unit="character"/><supplied reason="lost" cert="low" xml:id="ISic000031-40">curatori</supplied></w> <w xml:id="ISic000031-50"><supplied reason="lost" xml:id="ISic000031-60">kalendarii</supplied><gap reason="lost" extent="unknown" unit="character"/>iani</w> <g ref="#interpunct" xml:id="ISic000031-80">·</g> <w xml:id="ISic000031-90">quod</w> <g ref="#interpunct" xml:id="ISic000031-100">·</g> <w xml:id="ISic000031-110">mera</w> <g ref="#interpunct" xml:id="ISic000031-120">·</g> <w xml:id="ISic000031-130">fide</w> <g ref="#interpunct" xml:id="ISic000031-140">·</g> <w xml:id="ISic000031-150">admi
+                    <lb n="2" break="no" xml:id="ISic000031-160"/><supplied reason="lost" xml:id="ISic000031-170">nistravit</supplied></w> <w xml:id="ISic000031-180"><supplied reason="lost" xml:id="ISic000031-190"><g ref="#interpunct" xml:id="ISic000031-200">·</g> </supplied></w> <w xml:id="ISic000031-210"><supplied reason="lost" xml:id="ISic000031-220">eodemque</supplied></w> <w xml:id="ISic000031-230"><supplied reason="lost" xml:id="ISic000031-240"><g ref="#interpunct" xml:id="ISic000031-250">·</g> </supplied></w> <w xml:id="ISic000031-260"><supplied reason="lost" xml:id="ISic000031-270">tempore</supplied></w> <g ref="#interpunct" xml:id="ISic000031-280">·</g> <w xml:id="ISic000031-290"><expan xml:id="ISic000031-300"><abbr xml:id="ISic000031-310">cur</abbr><ex>ator</ex></expan></w> <g ref="#interpunct" xml:id="ISic000031-330">·</g> <w xml:id="ISic000031-340">portensis</w> <g ref="#interpunct" xml:id="ISic000031-350">·</g> <w xml:id="ISic000031-360"><expan xml:id="ISic000031-370"><abbr xml:id="ISic000031-380">kal</abbr><ex>endarii</ex></expan></w> <g ref="#interpunct" xml:id="ISic000031-400">·</g> <w xml:id="ISic000031-410">quod</w> <g ref="#interpunct" xml:id="ISic000031-420">·</g> <w xml:id="ISic000031-430">singulari</w> 
+                    <lb n="3" xml:id="ISic000031-440"/><w xml:id="ISic000031-450"><supplied reason="lost" xml:id="ISic000031-460">diligentia</supplied></w> <w xml:id="ISic000031-470"><supplied reason="lost" xml:id="ISic000031-480">tractavit</supplied></w> <w xml:id="ISic000031-490"><supplied reason="lost" xml:id="ISic000031-500">l</supplied>audabili</w> <g ref="#interpunct" xml:id="ISic000031-510">·</g> <w xml:id="ISic000031-520">munerario</w> <g ref="#interpunct" xml:id="ISic000031-530">·</g> <w xml:id="ISic000031-540">qui</w> <g ref="#interpunct" xml:id="ISic000031-550">·</g> <w xml:id="ISic000031-560">indulgentia</w> 
+                    <lb n="4" xml:id="ISic000031-570"/><w xml:id="ISic000031-580"><supplied reason="lost" xml:id="ISic000031-590">sacra</supplied></w> <w xml:id="ISic000031-600"><supplied reason="lost" xml:id="ISic000031-610">cum</supplied></w> <w xml:id="ISic000031-620"><supplied reason="lost" xml:id="ISic000031-630">munus</supplied></w> <w xml:id="ISic000031-640"><supplied reason="lost" xml:id="ISic000031-650">ex</supplied>hibuit</w> <g ref="#interpunct" xml:id="ISic000031-660">·</g> <g ref="#interpunct" xml:id="ISic000031-670">·</g> <w xml:id="ISic000031-680">meruit</w> <g ref="#interpunct" xml:id="ISic000031-690">·</g> <w xml:id="ISic000031-700">optando</w> <g ref="#interpunct" xml:id="ISic000031-710">·</g> <w xml:id="ISic000031-720">quod</w> <g ref="#interpunct" xml:id="ISic000031-730">·</g> <w xml:id="ISic000031-740">voluit</w> 
+                    <lb n="5" xml:id="ISic000031-750"/><w xml:id="ISic000031-760"><supplied reason="lost" xml:id="ISic000031-770">et</supplied></w> <w xml:id="ISic000031-780"><supplied reason="lost" xml:id="ISic000031-790">universis</supplied></w> <w xml:id="ISic000031-800"><supplied reason="lost" xml:id="ISic000031-810">civibus</supplied></w> <w xml:id="ISic000031-820"><supplied reason="lost" xml:id="ISic000031-830">e</supplied>ditionem</w> <g ref="#interpunct" xml:id="ISic000031-840">·</g> <w xml:id="ISic000031-850">gratissimam</w> <g ref="#interpunct" xml:id="ISic000031-860">·</g> <w xml:id="ISic000031-870">reddidit</w> <g ref="#interpunct" xml:id="ISic000031-880">·</g> <w xml:id="ISic000031-890">quod</w> <g ref="#interpunct" xml:id="ISic000031-900">·</g> <w xml:id="ISic000031-910">die
+                    <lb n="6" break="no" xml:id="ISic000031-920"/><supplied reason="lost" xml:id="ISic000031-930">bus</supplied></w> <w xml:id="ISic000031-940"><supplied reason="lost" xml:id="ISic000031-950">populum</supplied></w> <w xml:id="ISic000031-960"><supplied reason="lost" xml:id="ISic000031-970">per</supplied></w> <w xml:id="ISic000031-980"><supplied reason="lost" xml:id="ISic000031-990">multa</supplied>s</w> <g ref="#interpunct" xml:id="ISic000031-1000">·</g> <w xml:id="ISic000031-1010">horas</w> <g ref="#interpunct" xml:id="ISic000031-1020">·</g> <w xml:id="ISic000031-1030">theatri</w> <g ref="#interpunct" xml:id="ISic000031-1040">·</g> <w xml:id="ISic000031-1050">voluptas</w> <g ref="#interpunct" xml:id="ISic000031-1060">·</g> <w xml:id="ISic000031-1070">tenuit</w> <g ref="#interpunct" xml:id="ISic000031-1080">·</g> <w xml:id="ISic000031-1090">et</w> <g ref="#interpunct" xml:id="ISic000031-1100">·</g> <w xml:id="ISic000031-1110">hilaris</w> 
+                    <lb n="7" xml:id="ISic000031-1120"/><w xml:id="ISic000031-1130"><supplied reason="lost" xml:id="ISic000031-1140">totus</supplied></w> <w xml:id="ISic000031-1150"><supplied reason="lost" xml:id="ISic000031-1160">in</supplied></w> <w xml:id="ISic000031-1170"><supplied reason="lost" xml:id="ISic000031-1180">harenam</supplied></w> <w xml:id="ISic000031-1190"><supplied reason="lost" xml:id="ISic000031-1200">inde</supplied></w> <w xml:id="ISic000031-1210"><supplied reason="lost" xml:id="ISic000031-1220">a</supplied></w> <w xml:id="ISic000031-1230"><supplied reason="lost" xml:id="ISic000031-1240">m</supplied>eridie</w> <g ref="#interpunct" xml:id="ISic000031-1250">·</g> <w xml:id="ISic000031-1260">transiit</w> <g ref="#interpunct" xml:id="ISic000031-1270">·</g> <w xml:id="ISic000031-1280">in</w> <g ref="#interpunct" xml:id="ISic000031-1290">·</g> <w xml:id="ISic000031-1300">qua</w> <g ref="#interpunct" xml:id="ISic000031-1310">·</g> <w xml:id="ISic000031-1320">miratus</w> <g ref="#interpunct" xml:id="ISic000031-1330">·</g> <w xml:id="ISic000031-1340">honestissimum</w> 
+                    <lb n="8" xml:id="ISic000031-1350"/><w xml:id="ISic000031-1360"><supplied reason="lost" xml:id="ISic000031-1370">apparatum</supplied></w> <w xml:id="ISic000031-1380"><supplied reason="lost" xml:id="ISic000031-1390">instructum</supplied></w> <w xml:id="ISic000031-1400"><supplied reason="lost" xml:id="ISic000031-1410">omni</supplied></w> <w xml:id="ISic000031-1420">genere</w> <g ref="#interpunct" xml:id="ISic000031-1430">·</g> <w xml:id="ISic000031-1440">herbariarum</w> <g ref="#interpunct" xml:id="ISic000031-1450">·</g> <w xml:id="ISic000031-1460">et</w> <g ref="#interpunct" xml:id="ISic000031-1470">·</g> <w xml:id="ISic000031-1480">numerosas</w> <g ref="#interpunct" xml:id="ISic000031-1490">·</g> <w xml:id="ISic000031-1500">orientales</w> 
+                    <lb n="9" xml:id="ISic000031-1510"/><w xml:id="ISic000031-1520"><supplied reason="lost" xml:id="ISic000031-1530">bestias</supplied></w> <w xml:id="ISic000031-1540"><supplied reason="lost" xml:id="ISic000031-1550">versatusque</supplied></w> <w xml:id="ISic000031-1560"><supplied reason="lost" xml:id="ISic000031-1570">inde</supplied></w> <w xml:id="ISic000031-1580"><supplied reason="lost" xml:id="ISic000031-1590">a</supplied></w> <w xml:id="ISic000031-1600">meridie</w> <g ref="#interpunct" xml:id="ISic000031-1610">·</g> <w xml:id="ISic000031-1620">in</w> <g ref="#interpunct" xml:id="ISic000031-1630">·</g> <w xml:id="ISic000031-1640">utriusque</w> <g ref="#interpunct" xml:id="ISic000031-1650">·</g> <w xml:id="ISic000031-1660">caveis</w> <g ref="#interpunct" xml:id="ISic000031-1670">·</g> <g ref="#interpunct" xml:id="ISic000031-1680">·</g> <w xml:id="ISic000031-1690">missionibus</w> 
+                    <lb n="10" xml:id="ISic000031-1700"/><w xml:id="ISic000031-1710"><supplied reason="lost" xml:id="ISic000031-1720">delectatus</supplied></w> <w xml:id="ISic000031-1730"><supplied reason="lost" xml:id="ISic000031-1740">est</supplied></w> <w xml:id="ISic000031-1750"><supplied reason="lost" xml:id="ISic000031-1760">idemque</supplied></w> <w xml:id="ISic000031-1770"><supplied reason="lost" xml:id="ISic000031-1780">ex</supplied></w> <w xml:id="ISic000031-1790"><supplied reason="lost" xml:id="ISic000031-1800">indulg</supplied>entia</w> <g ref="#interpunct" xml:id="ISic000031-1810">·</g> <w xml:id="ISic000031-1820">sacra</w> <g ref="#interpunct" xml:id="ISic000031-1830">·</g> <w xml:id="ISic000031-1840">specialiter</w> <g ref="#interpunct" xml:id="ISic000031-1850">·</g> <w xml:id="ISic000031-1860">meruit</w> <g ref="#interpunct" xml:id="ISic000031-1870">·</g> <w xml:id="ISic000031-1880">at</w> <g ref="#interpunct" xml:id="ISic000031-1890">·</g> <w xml:id="ISic000031-1900">cultum</w> 
+                    <lb n="11" xml:id="ISic000031-1910"/><w xml:id="ISic000031-1920"><supplied reason="lost" xml:id="ISic000031-1930">epulum</supplied></w> <w xml:id="ISic000031-1940"><supplied reason="lost" xml:id="ISic000031-1950">instructumque</supplied></w> <w xml:id="ISic000031-1960"><supplied reason="lost" xml:id="ISic000031-1970">a</supplied>mplissimo</w> <g ref="#interpunct" xml:id="ISic000031-1980">·</g> <w xml:id="ISic000031-1990">apparatu</w> <g ref="#interpunct" xml:id="ISic000031-2000">·</g> <w xml:id="ISic000031-2010">cives</w> <g ref="#interpunct" xml:id="ISic000031-2020">·</g> <w xml:id="ISic000031-2030">suos</w> <g ref="#interpunct" xml:id="ISic000031-2040">·</g> <w xml:id="ISic000031-2050">universos</w> 
+                    <lb n="12" xml:id="ISic000031-2060"/><w xml:id="ISic000031-2070"><supplied reason="lost" xml:id="ISic000031-2080">ut</supplied></w> <w xml:id="ISic000031-2090"><supplied reason="lost" xml:id="ISic000031-2100">vocaret</supplied></w> <w xml:id="ISic000031-2110"><supplied reason="lost" xml:id="ISic000031-2120">cui</supplied></w> <w xml:id="ISic000031-2130"><supplied reason="lost" xml:id="ISic000031-2140">cum</supplied></w> <w xml:id="ISic000031-2150"><supplied reason="lost" xml:id="ISic000031-2160">populus</supplied></w> <w xml:id="ISic000031-2170"><supplied reason="lost" xml:id="ISic000031-2180">propter</supplied></w> <w xml:id="ISic000031-2190">voluptates</w> <g ref="#interpunct" xml:id="ISic000031-2200">·</g> <w xml:id="ISic000031-2210">honeste</w> <g ref="#interpunct" xml:id="ISic000031-2220">·</g> <w xml:id="ISic000031-2230">exhibitas</w> <g ref="#interpunct" xml:id="ISic000031-2240">·</g> <w xml:id="ISic000031-2250">ad</w> <g ref="#interpunct" xml:id="ISic000031-2260">·</g> <w xml:id="ISic000031-2270">augendam</w> 
+                    <lb n="13" xml:id="ISic000031-2280"/><w xml:id="ISic000031-2290"><supplied reason="lost" xml:id="ISic000031-2300">optimi</supplied></w> <w xml:id="ISic000031-2310"><supplied reason="lost" xml:id="ISic000031-2320">viri</supplied></w> <w xml:id="ISic000031-2330"><supplied reason="lost" xml:id="ISic000031-2340">honorificentiam</supplied></w> <w xml:id="ISic000031-2350"><supplied reason="lost" xml:id="ISic000031-2360">frequ</supplied>entissimis</w> <g ref="#interpunct" xml:id="ISic000031-2370">·</g> <w xml:id="ISic000031-2380">vocibus</w> <g ref="#interpunct" xml:id="ISic000031-2390">·</g> <w xml:id="ISic000031-2400">bigas</w> <g ref="#interpunct" xml:id="ISic000031-2410">·</g> <w xml:id="ISic000031-2420">centuriatim</w> 
+                    <lb n="14" xml:id="ISic000031-2430"/><w xml:id="ISic000031-2440"><supplied reason="lost" xml:id="ISic000031-2450">postulasset</supplied></w> <w xml:id="ISic000031-2460"><supplied reason="lost" xml:id="ISic000031-2470">motus</supplied></w> <w xml:id="ISic000031-2480"><supplied reason="lost" xml:id="ISic000031-2490">verec</supplied>undia</w> <g ref="#interpunct" xml:id="ISic000031-2500">·</g> <w xml:id="ISic000031-2510">quod</w> <g ref="#interpunct" xml:id="ISic000031-2520">·</g> <w xml:id="ISic000031-2530">esset</w> <g ref="#interpunct" xml:id="ISic000031-2540">·</g> <w xml:id="ISic000031-2550">duabus</w> <g ref="#interpunct" xml:id="ISic000031-2560">·</g> <w xml:id="ISic000031-2570">bigiis</w> <g ref="#interpunct" xml:id="ISic000031-2580">·</g> <w xml:id="ISic000031-2590">et</w> <g ref="#interpunct" xml:id="ISic000031-2600">·</g> <w xml:id="ISic000031-2610"><expan xml:id="ISic000031-2620"><abbr xml:id="ISic000031-2630">equestri</abbr><ex>bus</ex></expan></w> 
+                    <lb n="15" xml:id="ISic000031-2650"/><w xml:id="ISic000031-2660"><supplied reason="lost" cert="low" xml:id="ISic000031-2670">statuis</supplied></w> <w xml:id="ISic000031-2680"><supplied reason="lost" xml:id="ISic000031-2690">tribus</supplied></w> <w xml:id="ISic000031-2700"><supplied reason="lost" xml:id="ISic000031-2710">contentus</supplied><gap reason="lost" extent="unknown" unit="character"/></w>
+                </ab>
+            </div>
+            <div type="apparatus">
+                <listApp>
+                    <app><note>Text of <hi rend="italic">IMusPalermo</hi></note></app>
+                </listApp>
+            </div>
+            <div type="translation">
+                <p><!--Tentative translation resp="#TA"> 
+                    ...(to) [-]ianus [the curator kalendarii, 'the curator of the account-books'?, the office which?] he adminstrated with true loyalty [at the same time as] 
+                    (being) the curator portensis kalendarii (i.e. something to do with overseeing the accounts of port expenses or taxes?), office which he [conducted with] 
+                    exceptional [diligence]; the praiseworthy munerarius, who with the sacred indulgence (of the emperor?) organised public games, which 
+                    he was worthy of as expected (*I'm not at all sure about the optando here, perhaps as an ablative of respect, 'in respect to the desired/expected'?*) and which he wanted,
+                    and he gave back to all the citizens a most pleasing production which for [... days and many hours held the people] in the pleasures of theatre, and [then the whole
+                    crowd] in their merriness moved [to the arena at] midday, where it marvelled at the most distinguished [(display of the) prepared arrangements....every] type of 
+                    plant-eating animals and oriental beasts; and, having sat down, from midday the crowd in both auditoria [enjoyed] varied types of entertainment. [And likewise
+                    thanks to] the sacred indulgence (of the emperor), he proved himself particularly worthy as he invited all his fellow citizens to the most elegant [banquet which he had provided
+                    for] with the most splendid abundance. When the people, on account of the public shows (he had) virtuously organised, demanded with very frequent pleads that two-horse chariot
+                    statues (be erected) in each centurial district for this most excellent man in order to increase his honours, he in his modesty [was content] with 
+                    two chariot-statues and [three?] equestrian [statues...] --></p>
+            </div>
+            <div type="commentary">
+                <p><!--commented out pending revision--></p>
+            </div>
+            <div type="bibliography">
+                <listBibl type="edition">
+                    <bibl type="corpus" n="CIL">
+                        <citedRange>
+                            <ref target="http://arachne.uni-koeln.de/item/buchseite/650791">10.7295</ref>
+                        </citedRange>
+                        <ptr target="https://www.zotero.org/groups/382445/items/GQN8UZSI"/>
+                    </bibl>
+                    <bibl type="corpus" n="ILMusPalermo">
+                        <citedRange>31</citedRange>
+                        <ptr target="https://www.zotero.org/groups/382445/items/FZWWPUD6"/>
+                    </bibl>
+                    <bibl type="corpus" n="ILS">
+                        <citedRange>5055</citedRange>
+                        <ptr target="https://www.zotero.org/groups/382445/items/XHMS9K6S"/>
+                    </bibl>
+                    <bibl>
+                        <author>Manganaro</author>
+                        <date>1988</date>
+                        <citedRange>43</citedRange>
+                        <ptr target="https://www.zotero.org/groups/382445/items/RZSFKACR"/>
+                    </bibl>
+                </listBibl>
+	   <listBibl type="discussion"><bibl/></listBibl>
+            </div>
+        </body>
+    </text>
+</TEI>
+

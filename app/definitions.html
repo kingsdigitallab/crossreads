@@ -76,6 +76,7 @@
                   <th></th>
                   <th>
                     <input v-model="newItems.allograph" type="text" class="input">
+                    <!-- <span v-model="newItems.allograph" class="number-input" role="textbox" contenteditable class="input"></span> -->
                     <button @click="onAddItem('allograph')" class="button is-small">Add</button>
                   </th>
                   <template v-for="(allo, alloSlug) in definitions.allographs">
@@ -121,8 +122,7 @@
                   <button @click="onAddItem('feature')" class="button is-small">Add</button>
                 </th>
                 <th v-for="(feature, featureSlug) in definitions.features">
-                  <span class="item-name">{{ feature }}</span>
-                  <input @blur="onRenameFeature($event, featureSlug)" :value="feature" type="text" class="input-rename input">
+                  <span @keydown.enter="$event.target.blur()" @blur="onRenameFeature($event, featureSlug)" role="textbox" contenteditable class="input-on-hover">{{ feature }}</span>
                   <button @click="onRemoveFeature(featureSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
               </tr>
@@ -137,8 +137,9 @@
               </tr>
               <tr v-for="(component, componentSlug) in definitions.components">
                 <th>
-                  <span class="item-name">{{ component.name }}</span>
-                  <input @blur="onRenameComponent($event, component)" :value="component.name" type="text" class="input-rename input">
+                  <!-- <span class="item-name">{{ component.name }}</span> -->
+                  <!-- <input @blur="onRenameComponent($event, component)" :value="component.name" type="text" class="input-rename input"> -->
+                  <span @keydown.enter="$event.target.blur()" @blur="onRenameComponent($event, component)" role="textbox" contenteditable class="input-on-hover">{{ component.name }}</span>
                   <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
                 <td v-for="(feature, featureSlug) in definitions.features" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
@@ -225,20 +226,22 @@
         methods: {
           onRenameFeature(event, featureSlug) {
             // TODO: error management: value already taken
-            let value = event.target.value.trim()
+            console.log('renamed')
+            // let value = event.target.value.trim()
+            let value = event.target.textContent.trim()
             if (value.length) {
               this.definitions.features[featureSlug] = value
             } else {
-              event.target.value = this.definitions.features[featureSlug]
+              event.target.textContent = this.definitions.features[featureSlug]
             }
           },
           onRenameComponent(event, component) {
             // TODO: error management: value already taken
-            let value = event.target.value.trim()
+            let value = event.target.textContent.trim()
             if (value.length) {
               component.name = value
             } else {
-              event.target.value = component.name
+              event.target.textContent = component.name
             }
           },
           onRemoveAllograph(allographSlug) {

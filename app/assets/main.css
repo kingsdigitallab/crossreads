@@ -128,6 +128,10 @@ th .input {
 th:hover .btn-remove {
   visibility: visible;  
 }
+tbody tr th {
+  white-space: nowrap;
+}
+
 
 th {
   line-height: 1.85em; /* so remove icon on hover doesn't expand row */
@@ -143,4 +147,14 @@ th .input-rename {
 
 th:hover .input-rename {
   display: inline;
+}
+
+.input-on-hover {
+  display: inline-block;
+  padding: 2px;
+  border: 1px solid transparent;
+}
+
+.input-on-hover:hover, .input-on-hover:focus {
+  border: 1px solid lightgrey;
 }

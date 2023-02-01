@@ -437,11 +437,16 @@
                 processor.importStylesheet(res)
                 let doc = processor.transformToFragment(xml, document)
                 // set data-idx to each span.sign, relative to its parent span.word
+                let signCount = 0
                 for (let word of doc.querySelectorAll('.word')) {
                   let signIdx = 0
                   for (let sign of word.querySelectorAll('.sign')) {
                     sign.attributes.getNamedItem('data-idx').value = signIdx++
+                    signCount++;
                   }
+                }
+                if (signCount < 1) {
+                  this.logWarning("Word ids not found in TEI.")
                 }
                 // to string
                 this.text = new XMLSerializer().serializeToString(doc)
@@ -552,8 +557,8 @@
           updateDescriptionFromAllograph() {
             let description = this.description
             if (1 || description.allograph != this.cache.allographLast) {
+              this.description.components = []
               if (this.definitions.allographs[description.allograph]) {
-                this.description.components = []
                 for (let componentKey of this.definitions.allographs[description.allograph].components) {
                   let features = {}
                   for (let featureKey of this.definitions.components[componentKey].features) {
@@ -631,7 +636,13 @@
             this.annotation = null
             delete this.description.textTarget
             this.updateSignHighlights()
+            this.clearDescription()
             console.log('EVENT onCancelSelected')
+          },
+          clearDescription() {
+            // console.log('Untick features')
+            this.description.allograph = null
+            this.updateDescriptionFromAllograph()
           },
           onDeleteAnnotation() {
             console.log('EVENT onDeleteAnnotation')
@@ -646,6 +657,7 @@
             this.object = obj
           },
           onSelectImage(img) {
+            this.clearDescription()
             this.image = img
             if (img) {
               let options = {}
@@ -699,6 +711,10 @@
               let sha = null
               let filePath = this.getAnnotationFilePath()
               let data = this.anno.getAnnotations()
+              // sort the annotations by id so it is deterministic
+              data.sort((a, b) => {
+                return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1); 
+              })
               utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
               this.isUnsaved = false
             }
@@ -722,8 +738,8 @@
             // TODO: detect error (but 404 notan error!)
             let filePath = this.getAnnotationFilePath()
             if (filePath) {
-              //let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
-              let res = await utils.readGithubJsonFile(filePath)
+              let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
+              // let res = await utils.readGithubJsonFile(filePath)
               if (res) {
                 this.anno.setAnnotations(res.data)
                 this.updateSignHighlights()

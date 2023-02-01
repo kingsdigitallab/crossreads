@@ -44,8 +44,8 @@
   <xsl:template match="tei:ex">
   </xsl:template>
 
-  <xsl:template match="*[@id]">
-    <span class="word" id="{@id}">
+  <xsl:template match="*[id]">
+    <span class="word" id="{id}">
       <xsl:apply-templates />
     </span>
   </xsl:template>

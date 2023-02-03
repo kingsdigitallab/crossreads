@@ -1,4 +1,29 @@
 {
+  "name": "kdl-annotator",
+  "version": "0.1.0",
+  "description": "web app to create palaeographical annotations on github",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx browser-sync start --server --files '.'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingsdigitallab/crossreads.git"
+  },
+  "keywords": [
+    "palaeography",
+    "annotation",
+    "web-annotation",
+    "dts",
+    "iiif"
+  ],
+  "author": "Geoffroy Noel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kingsdigitallab/crossreads/issues"
+  },
+  "homepage": "https://github.com/kingsdigitallab/crossreads#readme",
   "dependencies": {
     "@recogito/annotorious-openseadragon": "^2.7.8",
     "bulma": "^0.9.4",
@@ -6,5 +31,8 @@
     "octokit": "^2.0.10",
     "openseadragon": "3.0",
     "vue": "^3.2.41"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.11"
   }
 }

@@ -40,3 +40,13 @@ Status: **local prototype**
 * modular backend to load & save (e.g. github, Archetype, DB)
 
 
+# Develop
+
+To install and run the app localy:
+
+```bash
+cd app
+npm ci
+npm start
+```
+

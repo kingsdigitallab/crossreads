@@ -36,7 +36,7 @@
         <div class="tabs is-large is-boxed">
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
-              <a :href="`${tab.key}.html`">
+              <a :href="`${tab.key}.html${queryString}`">
                 <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
                 {{ tab.title }}
               </a>
@@ -60,7 +60,7 @@
               <div class="panel-block">
                 <ul class="list-selectable">
                   <a v-for="(obj2, idx) in filteredObjects" href="#" @click.prevent="onSelectObject(obj2)">
-                    <li :class="{'selected': obj2 == object}">
+                    <li :class="{'selected': obj2['@id'] == selection.object}">
                       {{ obj2.title }}
                     </li>
                   </a>
@@ -234,15 +234,15 @@
               collections: './data/2023-01/collection.json',
               definitions: './data/pal/definitions-digipal.json',
             },
-            objects: [
-              {'description': 'Object 1', '@id': 'obj1', 'title': 't1'},
-              {'description': 'Object 2', '@id': 'obj2', 'title': 't2'},
-              {'description': 'Object 3', '@id': 'obj3', 'title': 't3'},
-            ],
-            object: null,
+            objects: {
+              obj1: {'description': 'Object 1', '@id': 'obj1', 'title': 't1'},
+              obj2: {'description': 'Object 2', '@id': 'obj2', 'title': 't2'},
+              obj3: {'description': 'Object 3', '@id': 'obj3', 'title': 't3'},
+            },
+            // object: null,
             searchPhrase: '',
-            images: [],
-            image: null,
+            images: {},
+            // image: null,
             text: 'test',
             // annotatedText: {
             //   textId: '',
@@ -306,12 +306,15 @@
             },
             isUnsaved: false,
             messages: [
-            ]
+            ],
+            queryString: ''
           }
         },
         mounted() {
           // TODO: chain load (from objects, to image, ...) 
           // instead of loading all here.in parallel
+          this.setSelectionFromAddressBar()
+
           loadOpenSeaDragon(this)
           this.loadObjects()
           this.loadDefinitions()
@@ -327,12 +330,26 @@
         },
         computed: {
           filteredObjects() {
-            return this.objects.filter(o => {
-              return (o.description.toLowerCase() + ' ' + o.title + '' + o['@id']).includes(this.searchPhrase.toLowerCase())
-            })
+            let ret = []
+            for (let k of Object.keys(this.objects)) {
+              let o = this.objects[k]
+              let searcheable = `${o.description.toLowerCase()} ${o.title} ${o['@id']}` 
+              if (searcheable.includes(this.searchPhrase.toLowerCase())) {
+                ret.push(o)
+              }
+            }
+            return ret
           },
           filteredImages() {
-            return this.images.filter(i => i.type == 'print')
+            let ret = []
+            for (let k of Object.keys(this.images)) {
+              let o = this.images[k]
+              if (o.type == 'print') {
+                ret.push(o)
+              }
+            }
+            return ret
+            // return this.images.filter(i => i.type == 'print')
           },
           isAnnotationSelected() {
             return !!this.annotation
@@ -351,6 +368,12 @@
               ret = this.messages[this.messages.length-1]
             }
             return ret
+          },
+          object() {
+            return this.objects[this.selection.object] || null
+          },
+          image() {
+            return this.images[this.selection.image] || null
           }
         },
         methods: {
@@ -360,21 +383,23 @@
               .then(res => res.json())
               .then(res => {
                 // console.log(res)
-                this.objects = []
+                this.objects = {}
                 for (let m of res.member) {
                   if (m) {
-                    this.objects.push({
+                    this.objects[m['@id']] = {
                       '@id': m['@id'],
                       title: m.title,
                       description: m.description,
                       "dts:download": m['dts:download']
-                    })
+                    }
                   }
                 }
-                if (this.objects.length) {
-                  this.object = this.objects[0]
+                if (Object.keys(this.objects).length) {
+                  if (!this.objects[this.selection.object]) {
+                    this.selection.object = this.objects[Object.keys(this.objects)[0]]
+                  }
                 } else {
-                  this.object = null
+                  this.selection.object = null
                 }
               })
           },
@@ -411,21 +436,26 @@
           },
           setImagesFromObjectXML(xml) {
             // get all the tei:graphic -> image locations
-            this.images = []
+            this.images = {}
             let it = xml.evaluate('//tei:graphic', xml, this.getURIFromXMLPrefix, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
             while (true) {
               let node = it.iterateNext()
               if (!node) break
               // TODO: less assumption about encoding, make it more robust 
-              this.images.push({
+              let uri = node.attributes['url'].value
+              this.images[uri] = {
                 description: node.children[0].textContent,
-                uri: node.attributes['url'].value,
+                uri: uri,
                 type: node.attributes['n'].value, // screen|print
                 surface: node.parentElement.attributes.type.value // front
-              })
+              }
             }
             let filteredImages = this.filteredImages
-            this.onSelectImage(filteredImages ? filteredImages[0] : null)
+            let img = this.image 
+            if (!img) {
+              img = filteredImages ? filteredImages[0] : null
+            }
+            this.onSelectImage(img)
           },
           setTextFromObjectXML(xml) {
             // xml (TEI) -> this.text (XHTML)
@@ -654,11 +684,11 @@
           },
           // Events - Selection
           onSelectObject(obj) {
-            this.object = obj
+            this.selection.object = obj['@id']
           },
           onSelectImage(img) {
             this.clearDescription()
-            this.image = img
+            this.selection.image = img.uri
             if (img) {
               let options = {}
               if (typeof IMG_PATH_STATIC_ROOT !== 'undefined') {
@@ -682,6 +712,7 @@
               }
               this.viewer.open(options)
             }
+            this.setAddressBarFromSelection()
             // now done in the 'open' event to make sure viewer is ready 
             // and anno.getAnnotations() returns something
             // this.loadAnnotationsFromSession()
@@ -831,8 +862,44 @@
           },
           logOk(content) {
             this.logMessage(content, 'success')
-          }
-        }
+          },
+          setAddressBarFromSelection() {
+            // ?object
+            // let searchParams = new URLSearchParams(window.location.search)
+            let searchParams = {
+              obj: this.selection.object,
+              img: this.selection.image
+            };
+
+            //
+            let newRelativePathQuery = window.location.pathname
+            let qsKeys = Object.keys(searchParams)
+            let qs = ''
+            if (qsKeys.length) {
+              for (let k of qsKeys) {
+                if (searchParams[k]) {
+                  if (qs) qs += '&';
+                  qs += `${k}=${searchParams[k]}`
+                }
+              }
+              if (qs) {
+                qs = `?${qs}`
+                newRelativePathQuery += qs
+              }
+            }
+            this.queryString = qs
+            history.pushState(null, "", newRelativePathQuery);
+          },
+          async setSelectionFromAddressBar() {
+            let searchParams = new URLSearchParams(window.location.search);
+
+            this.selection.object = searchParams.get('obj') || ''
+            this.selection.image = searchParams.get('img') || ''
+          },
+          getContentClasses(panel) {
+            return `view-${panel.selections.view}`;
+          },
+        },
       }).mount('#annotator');
     </script>
 

@@ -23,7 +23,7 @@
       <div class="tabs is-large is-boxed">
         <ul>
           <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
-            <a :href="`${tab.key}.html`">
+            <a :href="`${tab.key}.html${queryString}`">
               <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;
@@ -197,7 +197,8 @@
               allograph: '',
               component: '',
               feature: '',
-            }
+            },
+            queryString: '',
           }
         },
         computed: {
@@ -216,7 +217,7 @@
           // so we are sure all js modules have been loaded
           window.addEventListener("load", (event) => {
             this.loadDefinitions()
-          });      
+          });
         },
         watch: {
           'selection.script'() {
@@ -351,6 +352,7 @@
               this.definitionsSha = res.sha
               this.selectFirstScript()
             }
+            this.setAddressBarFromSelection()
           },
           async saveDefinitions() {
             // TODO: sha
@@ -442,6 +444,12 @@
               .replace(/\-\-+/g, '-');        // Replace multiple - with single -
             
             return ret
+          },
+          setAddressBarFromSelection() {
+            let searchParams = new URLSearchParams(window.location.search);
+
+            let qs = `?${searchParams.toString()}`
+            this.queryString = decodeURIComponent(qs)
           }
         }
       }).mount('#definitions')

@@ -288,6 +288,7 @@
               }
             },
             annotation: null,
+            annotationsSha: null,
             cache: {
               isDescriptionLoading: false,
               allographLast: '123',
@@ -736,17 +737,17 @@
             // TODO: save sha?
             this.saveAnnotationsToGithub()
           },
-          saveAnnotationsToGithub() {
+          async saveAnnotationsToGithub() {
             if (this.isUnsaved) {
               console.log('SAVE to github')
-              let sha = null
+              let sha = this.annotationsSha
               let filePath = this.getAnnotationFilePath()
               let data = this.anno.getAnnotations()
               // sort the annotations by id so it is deterministic
               data.sort((a, b) => {
                 return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1); 
               })
-              utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
+              this.annotationsSha = await utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
               this.isUnsaved = false
             }
           },
@@ -774,8 +775,10 @@
               if (res) {
                 this.anno.setAnnotations(res.data)
                 this.updateSignHighlights()
+                this.annotationsSha = res.sha
               } else {
                 this.anno.clearAnnotations()
+                this.annotationsSha = null
               }
             }
             this.isUnsaved = false

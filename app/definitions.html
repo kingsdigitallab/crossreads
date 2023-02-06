@@ -356,7 +356,7 @@
           },
           async saveDefinitions() {
             // TODO: sha
-            await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
+            this.definitionsSha = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
           },
           onShortenCollection(e) {
             const self = this;

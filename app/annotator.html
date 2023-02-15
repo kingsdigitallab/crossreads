@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Annotator</title>
-    <link rel="shortcut icon" href="#">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
 
@@ -19,7 +19,7 @@
     <script src="utils.js"></script>
     <script type="module">
       // TODO: relative import
-      import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+      import { Octokit, App } from "https://cdn.skypack.dev/octokit";
       // import { Octokit } from "./node_modules/@octokit/core/dist-web/index.js";
       window.Octokit = Octokit
     </script>    
@@ -308,13 +308,17 @@
             isUnsaved: false,
             messages: [
             ],
-            queryString: ''
+            queryString: '',
+            octokit: null,
+            user: null
           }
         },
-        mounted() {
+        async mounted() {
           // TODO: chain load (from objects, to image, ...) 
           // instead of loading all here.in parallel
           this.setSelectionFromAddressBar()
+
+          await this.initOctokit()
 
           loadOpenSeaDragon(this)
           this.loadObjects()
@@ -357,7 +361,8 @@
           },
           tabs: () => utils.tabs() ,
           canSave() {
-            return !!this.selection.gtoken
+            // return !!this.selection.gtoken
+            return this.getOctokit() !== null
           },
           lastMessage() {
             let ret = {
@@ -409,6 +414,8 @@
             if (res) {
               this.definitions = res.data
               this.updateDescriptionFromAllograph()
+            } else {
+              this.logError('Failed to load definitions from github.')
             }
             // fetch(this.apis.definitions)
             //   .then(res => res.json())
@@ -727,6 +734,7 @@
           saveAnnotationsToSession() {
             if (this.image?.uri) {
               this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
+              console.log(this.anno.getAnnotations()[0].target.selector.value)
               window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
               console.log('save annotations')
               this.isUnsaved = true
@@ -741,6 +749,13 @@
             if (this.isUnsaved) {
               console.log('SAVE to github')
               let sha = this.annotationsSha
+
+              // unselect to force annotorious to update latest changes to selected shape
+              let selectedAnnotationId = this.annotation?.id
+              // let selectedAnnotationId = null
+              this.anno.saveSelected()
+              this.anno.cancelSelected()
+              
               let filePath = this.getAnnotationFilePath()
               let data = this.anno.getAnnotations()
               // sort the annotations by id so it is deterministic
@@ -748,19 +763,50 @@
                 return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1); 
               })
               this.annotationsSha = await utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
+              
+              // restore the selection
+              if (selectedAnnotationId) {
+                this.anno.selectAnnotation(selectedAnnotationId)
+              }
+              
               this.isUnsaved = false
             }
+          },
+          async initOctokit() {
+            this.octokit = null
+            this.user = null
+
+            if (this.selection.gtoken) {
+              this.octokit = new Octokit({
+                auth: this.selection.gtoken
+              })
+
+              if (this.octokit) {
+                let res = null
+                res = await this.octokit.rest.users.getAuthenticated()
+                .catch(
+                  err => {
+                    res = null
+                    this.octokit = null
+                    if (err.message.includes('Bad credentials')) {
+                      this.logError('Bad github token. Is your tocken expired?')
+                    } else {
+                      this.logError('Github authentication: Unknown error.')
+                    }
+                  }
+                );
+                if (res) {
+                  this.user = res.data
+                }
+              }
+            }
+
+            return this.octokit
           },
           getOctokit() {
             // TODO: create wrapper class around Octokit
             // TODO: cache this
-            let ret = null
-            if (this.selection.gtoken) {
-              ret = new Octokit({
-                auth: this.selection.gtoken
-              })
-            }
-            return ret
+            return this.octokit
           },
           loadAnnotations() {
             return this.loadAnnotationsFromGithub()
@@ -862,6 +908,9 @@
           },
           logWarning(content) {
             this.logMessage(content, 'warning')
+          },
+          logError(content) {
+            this.logMessage(content, 'danger')
           },
           logOk(content) {
             this.logMessage(content, 'success')

@@ -6,10 +6,11 @@
     "SCRIPT": "Latin 1",
     "SCRIPT2": "Script One",
     "test-script": "TEST Script",
-    "base": "Base"
+    "base": "Base",
+    "latin-1": "Neil"
   },
   "features": {
-    "45": "45Â°",
+    "45": "45°",
     "above-baseline": "above baseline",
     "below-baseline": "below baseline",
     "curved": "curved",
@@ -46,7 +47,8 @@
     "touching": "touching",
     "serif": "serif",
     "sans-serif": "sans serif",
-    "blob": "blob"
+    "blob": "blob",
+    "bbb_test": "bbb_test"
   },
   "components": {
     "arch": {
@@ -61,7 +63,8 @@
         "foot",
         "foot-absent",
         "long-foot",
-        "short-foot"
+        "short-foot",
+        "straight"
       ]
     },
     "ascender": {
@@ -81,7 +84,8 @@
         "tapering",
         "unadorned",
         "vertically-symmetric",
-        "wedged"
+        "wedged",
+        "straight"
       ]
     },
     "bottom-stroke-z": {
@@ -277,6 +281,18 @@
     "right-stroke": {
       "name": "right stroke",
       "features": []
+    },
+    "t1": {
+      "name": "t1",
+      "features": []
+    },
+    "t2": {
+      "name": "t2",
+      "features": []
+    },
+    "aaa_test": {
+      "name": "aaa_test",
+      "features": []
     }
   },
   "allographs": {
@@ -331,7 +347,9 @@
       "components": [
         "crossbar",
         "left-stroke",
-        "right-stroke"
+        "right-stroke",
+        "arch",
+        "ascender"
       ]
     },
     "I": {
@@ -462,6 +480,38 @@
     "e-test-script": {
       "script": "test-script",
       "character": "e",
+      "components": []
+    },
+    "f-test-script": {
+      "script": "test-script",
+      "character": "f",
+      "components": []
+    },
+    "A-latin-1": {
+      "script": "latin-1",
+      "character": "A",
+      "components": [
+        "aaa_test"
+      ]
+    },
+    "B-latin-1": {
+      "script": "latin-1",
+      "character": "B",
+      "components": []
+    },
+    "C-latin-1": {
+      "script": "latin-1",
+      "character": "C",
+      "components": []
+    },
+    "E-latin-1": {
+      "script": "latin-1",
+      "character": "E",
+      "components": []
+    },
+    "D-latin-1": {
+      "script": "latin-1",
+      "character": "D",
       "components": []
     }
   }

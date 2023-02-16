@@ -201,6 +201,7 @@
         };
         var anno = OpenSeadragon.Annotorious(viewer, config);
         vueApp.anno = anno;
+        window.anno = anno;
         vueApp.viewer = viewer;
 
         let eventNames = [
@@ -589,7 +590,8 @@
             if (annotation) {
               annotation.body[0].value = JSON.stringify(this.description)
               this.anno.updateSelected(annotation)
-              this.saveAnnotationsToSession()
+              this.setUnsaved()
+              // this.saveAnnotationsToSession()
             }
           },
           updateDescriptionFromAllograph() {
@@ -632,7 +634,8 @@
           },
           onCreateAnnotation(annotation, overrideId) {
             console.log('EVENT onCreateAnnotation')
-            this.saveAnnotationsToSession()
+            // this.saveAnnotationsToSession()
+            this.setUnsaved()
             this.anno.selectAnnotation(annotation)
           },
           onMouseEnterAnnotation(annotation, element) {
@@ -642,15 +645,32 @@
             // console.log('EVENT onMouseLeaveAnnotation')
             // console.log(annotation)
           },
-          onChangeSelectionTarget() {
+          onChangeSelectionTarget(target) {
+            // triggered each time a selected box changes
+            // NOTE that the selected annotation's target is NOT changed yet
+            // It will be updated ONLY when deselecting.
+            // which can be done with saveSelected().
+            // Which in trun calls onUpdateAnnotation().
             console.log('EVENT onChangeSelectionTarget')
-            // wont work... bc the annotation is only modified after unselecting it and that trigger update -> save
-            this.saveAnnotationsToSession()
+            this.setUnsaved()
           },
           onUpdateAnnotation() {
+            // triggered after deselecting moved annotation
+            // Or annotation which target has been changed.
+            // NOTE that onCancelSelected() will NOT be called
             console.log('EVENT onUpdateAnnotation')
-            this.saveAnnotationsToSession()
-            // this.saveAnnotationsToSession()
+            this.onCancelSelected()
+            this.setUnsaved()
+          },
+          onCancelSelected(selection) {
+            // triggered after deselecting without changing box
+            // NOTE that onUpdateAnnotation() will NOT be called
+            // at this point this.anno.getSelected() still returns an annotation!
+            console.log('EVENT onCancelSelected')
+            this.annotation = null
+            delete this.description.textTarget
+            this.updateSignHighlights()
+            this.clearDescription()
           },
           selectAnnotation(annotation) {
             this.anno.selectAnnotation(annotation)
@@ -669,14 +689,6 @@
             }
             this.updateSignHighlights()
           },
-          onCancelSelected(selection) {
-            // at this point this.anno.getSelected() still returns an annotation!
-            this.annotation = null
-            delete this.description.textTarget
-            this.updateSignHighlights()
-            this.clearDescription()
-            console.log('EVENT onCancelSelected')
-          },
           clearDescription() {
             // console.log('Untick features')
             this.description.allograph = null
@@ -684,7 +696,7 @@
           },
           onDeleteAnnotation() {
             console.log('EVENT onDeleteAnnotation')
-            this.saveAnnotationsToSession()
+            this.setUnsaved()
           },
           onClickAnnotation() {
             console.log('EVENT onClickAnnotation')
@@ -737,6 +749,12 @@
               console.log(this.anno.getAnnotations()[0].target.selector.value)
               window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
               console.log('save annotations')
+              // this.isUnsaved = true
+            }
+          },
+          setUnsaved() {
+            // tells the Annotator that not all changes on screen are saved yet on GH
+            if (this.image?.uri) {
               this.isUnsaved = true
             }
           },
@@ -750,11 +768,16 @@
               console.log('SAVE to github')
               let sha = this.annotationsSha
 
-              // unselect to force annotorious to update latest changes to selected shape
-              let selectedAnnotationId = this.annotation?.id
-              // let selectedAnnotationId = null
-              this.anno.saveSelected()
-              this.anno.cancelSelected()
+              let selectedAnnotation = this.annotation
+              // See issue GH-10:
+              // Without this call, the changes to the selected box won't be saved.
+              // This forces Annotorious to update the annotation target,
+              // and trigger onUpdateAnnotation().
+              // It also deslects the annotation.
+              // But we re-select it after saving to GH.
+              if (selectedAnnotation) {
+                await this.anno.saveSelected()
+              }
               
               let filePath = this.getAnnotationFilePath()
               let data = this.anno.getAnnotations()
@@ -765,8 +788,9 @@
               this.annotationsSha = await utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
               
               // restore the selection
-              if (selectedAnnotationId) {
-                this.anno.selectAnnotation(selectedAnnotationId)
+              if (selectedAnnotation) {
+                this.anno.selectAnnotation(selectedAnnotation)
+                this.onSelectAnnotation(selectedAnnotation)
               }
               
               this.isUnsaved = false

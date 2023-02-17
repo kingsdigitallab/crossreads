@@ -216,13 +216,13 @@
             return !!this.selection.gtoken
           },
           filteredAllographs() {
-            return this.getFilteredDefinitions('allographs')
+            return this.getFilteredDefinitions('allographs', (a) => a.character)
           },
           filteredComponents() {
-            return this.getFilteredDefinitions('components')
+            return this.getFilteredDefinitions('components', (a) => a.name)
           },
           filteredFeatures() {
-            return this.getFilteredDefinitions('features')
+            return this.getFilteredDefinitions('features', (a) => a)
           },
         },
         mounted() {
@@ -237,11 +237,17 @@
           }
         },
         methods: {
-          getFilteredDefinitions(collectionName) {
+          getFilteredDefinitions(collectionName, getNameFromItem) {
             let ret = {}
             let items = this.definitions[collectionName]
             if (items) {
-              for (let k of Object.keys(items).sort()) {
+              function sortFunction(a, b) {
+                a = getNameFromItem(items[a])
+                b = getNameFromItem(items[b])
+                return a === b ? 0 : (a > b ? 1 : -1)
+              }
+              
+              for (let k of Object.keys(items).sort(sortFunction)) {
                 let item = items[k]
                 if (collectionName != 'allographs' || this.selection.script === item.script) {
                   ret[k] = item

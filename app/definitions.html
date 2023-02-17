@@ -93,14 +93,14 @@
                     <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
                     <button @click="onAddItem('component')" class="button is-small">Add</button>
                   </th>
-                  <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>
+                  <td :colspan="Object.keys(definitions?.allographs || {}).length" class="add-cell"></td>
                 </tr>
                 <tr v-for="(component, componentSlug) in definitions.components">
                   <th>
                     {{ component.name }}
                     <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                   </th>
-                  <td></td>
+                  <td class="add-cell"></td>
                   <template v-for="allo in definitions.allographs">
                     <td v-if="allo.script == selection.script" @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
                       <span v-if="allo.components.includes(componentSlug)" class="checked">✔</span>
@@ -133,7 +133,7 @@
                   <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
                   <button @click="onAddItem('component')" class="button is-small">Add</button>
                 </th>
-                <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>
+                <td :colspan="Object.keys(definitions?.allographs || {}).length" class="add-cell"></td>
               </tr>
               <tr v-for="(component, componentSlug) in definitions.components">
                 <th>
@@ -142,6 +142,7 @@
                   <span @keydown.enter="$event.target.blur()" @blur="onRenameComponent($event, component)" role="textbox" contenteditable class="input-on-hover">{{ component.name }}</span>
                   <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
+                <td class="add-cell"></td>
                 <td v-for="(feature, featureSlug) in definitions.features" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
                   <span v-if="component.features.includes(featureSlug)" class="checked">✔</span>
                 </td>

@@ -29,7 +29,7 @@
     <section class="section" id="annotator">
       <!-- <button @click="loadAnnotationsFromSession()">Load</button>
       <button @click="saveAnnotationsToSession()">Save</button> -->
-      <div class="container">
+      <div class="container is-fluid">
         <div :class="['notification', 'is-'+lastMessage.level, 'is-light']">
           {{ lastMessage.content }}
         </div>
@@ -42,6 +42,10 @@
               </a>
             </li>
           </ul>
+          <a href="https://github.com/kingsdigitallab/crossreads/issues" target="_blank" class="icon-text">
+            <span class="icon"><i class="fas fa-bug"></i></span>
+            <span>Issues</span>
+          </a>
         </div>
         <div class="columns is-3">
           <div class="column">

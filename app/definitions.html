@@ -75,7 +75,7 @@
                 <tr>
                   <th></th>
                   <th>
-                    <input v-model="newItems.allograph" type="text" class="input">
+                    <input v-model="newItems.allograph" type="text" class="input" @keyup.enter="onAddItem('allograph')">
                     <!-- <span v-model="newItems.allograph" class="number-input" role="textbox" contenteditable class="input"></span> -->
                     <button @click="onAddItem('allograph')" class="button is-small">Add</button>
                   </th>
@@ -90,7 +90,7 @@
               <tbody>
                 <tr>
                   <th>
-                    <input v-model="newItems.component" type="text" class="input">
+                    <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
                     <button @click="onAddItem('component')" class="button is-small">Add</button>
                   </th>
                   <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>
@@ -118,7 +118,7 @@
               <tr>
                 <th></th>
                 <th>
-                  <input v-model="newItems.feature" type="text" class="input">
+                  <input v-model="newItems.feature" type="text" class="input" @keyup.enter="onAddItem('feature')">
                   <button @click="onAddItem('feature')" class="button is-small">Add</button>
                 </th>
                 <th v-for="(feature, featureSlug) in definitions.features">
@@ -130,7 +130,7 @@
             <tbody>
               <tr>
                 <th>
-                  <input v-model="newItems.component" type="text" class="input">
+                  <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
                   <button @click="onAddItem('component')" class="button is-small">Add</button>
                 </th>
                 <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>

@@ -142,6 +142,8 @@ createApp({
         tab: 'annotator',
         showSuppliedText: false,
         gtoken: window.localStorage.getItem('gtoken') || '',
+        // TODO: remove partial duplication with /annotation
+        annotationId: '',
       },
       isUnsaved: false,
       messages: [
@@ -404,6 +406,7 @@ createApp({
           }
         }
       }
+      this.setAddressBarFromSelection()
     },
     getSignFromAnnotation(annotation = null) {
       let ret = null
@@ -692,6 +695,10 @@ createApp({
         // let res = await utils.readGithubJsonFile(filePath)
         if (res) {
           this.anno.setAnnotations(res.data)
+          if (this.selection.annotationId) {
+            this.annotation = this.anno.selectAnnotation(`#${this.selection.annotationId}`)
+            this.onSelectAnnotation(this.annotation)
+          }
           this.updateSignHighlights()
           this.annotationsSha = res.sha
         } else {
@@ -794,6 +801,7 @@ createApp({
         obj: this.selection.object,
         img: this.selection.image,
         sup: this.selection.showSuppliedText ? 1 : 0,
+        ann: (this.annotation?.id || '').replace(/^#/, '')
       };
 
       //
@@ -821,6 +829,7 @@ createApp({
       this.selection.object = searchParams.get('obj') || ''
       this.selection.image = searchParams.get('img') || ''
       this.selection.showSuppliedText = searchParams.get('sup') === '1'
+      this.selection.annotationId = searchParams.get('ann') || ''
     },
     getContentClasses(panel) {
       return `view-${panel.selections.view}`;

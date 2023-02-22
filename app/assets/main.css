@@ -3,6 +3,12 @@
   --hover-color: yellow;
   --bound-color: blue;
 }
+
+.fill-height {
+  overflow: scroll;
+  align-items: inherit;
+}
+
 .list-selectable {
   max-height: 15em;
   overflow-y: auto;
@@ -227,3 +233,4 @@ The name of the element is inserted into the class attribute:
 .tei-supplied[data-tei-reason="omitted"] {
   display: none;
 }
+

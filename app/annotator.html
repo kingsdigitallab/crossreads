@@ -115,7 +115,7 @@
                   </label>
                 </span>
               </p>
-              <div class="panel-block transcription">
+              <div class="panel-block transcription fill-height">
                 <p :class="{'show-supplied': selection.showSuppliedText, 'transcription-body': 1}" v-html="text">
                 </p>
               </div>
@@ -124,10 +124,10 @@
           <div class="column is-3">
             <div class="panel">
               <p class="panel-heading">
-                Annotation
+                Description
                 <span v-if="isAnnotationSelected">(Selected)</span>
               </p>
-              <div class="panel-block">
+              <div class="panel-block fill-height">
                 <dl class="description">
                   <dt>Allograph ({{description.allograph}})</dt> 
                   <dd>

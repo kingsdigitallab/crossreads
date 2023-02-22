@@ -163,6 +163,7 @@ createApp({
     loadOpenSeaDragon(this)
     this.loadObjects()
     this.loadDefinitions()
+    initFillHeightElements()
     // this.logOk('App loaded')
   },
   watch: {
@@ -836,3 +837,17 @@ createApp({
     },
   },
 }).mount('#annotator');
+
+
+function initFillHeightElements() {
+  for (let element of document.querySelectorAll('.fill-height')) {
+    let height = (window.innerHeight - element.offsetTop - 15)
+    if (height < 10) {
+      height = 10
+    }
+    element.style.height = `${height}px`;
+  }
+}
+
+window.addEventListener("resize", initFillHeightElements);
+

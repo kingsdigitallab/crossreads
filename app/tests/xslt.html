@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Annotator</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="../node_modules/font-awesome5/css/fontawesome-all.min.css"/>
+
+    <!-- importmap shim for Firefox -->
+    <link rel="stylesheet" href="../assets/main.css">
+
+    <script src="../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../utils.js"></script>
+    <!-- <script type="module">
+      // TODO: relative import
+      import { Octokit, App } from "https://cdn.skypack.dev/octokit";
+      window.Octokit = Octokit
+    </script>     -->
+  </head>
+  <body>
+    <section class="section" id="tei-conversion">
+      <!-- <button @click="loadAnnotationsFromSession()">Load</button>
+      <button @click="saveAnnotationsToSession()">Save</button> -->
+      <div class="container is-fluid">
+        <h2>TEI</h2>        
+        <pre>{{ tei }}</pre>
+        <h2>HTML</h2>        
+        <pre>{{ html }}</pre>
+      </div>
+    </section>
+  </body>
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      data() {
+        return {
+          title: 'conversion',
+          tei: 'TEI',
+          html: 'HTML'
+        }
+      },
+      async mounted() {
+        // TODO: chain load (from objects, to image, ...) 
+        let uri = '../data/2023-01/ISic000079.xml'
+        this.fetchAndConvertTEI(uri)
+      },
+      methods: {
+        fetchAndConvertTEI(uri) {
+          fetch(uri)
+          .then(res => res.text())
+          .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
+          .then(xml => {
+            this.tei = this.getPrettyStringFromXML(xml.querySelector('div[type="edition"]'), true)
+            this.convertTEI(xml)
+          })
+        },
+        getPrettyStringFromXML(xml, preserveIndent=false) {
+          // copied from https://stackoverflow.com/a/47317538
+          // line 3: change to just text() to strip space in text nodes
+          let resultDoc = xml;
+          if (!preserveIndent) {
+            let xsltDoc = new DOMParser().parseFromString(`<?xml version="1.0" ?>
+                <xsl:stylesheet version="1.0" 
+                  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                  xmlns:tei="http://www.tei-c.org/ns/1.0"
+                  >
+                  <xsl:output method="xml" version="1.0" encoding="utf-8" indent="yes"/>
+                  <xsl:strip-space elements="*"/>
+                  <xsl:template match="para[content-style][not(text())]">
+                    <xsl:value-of select="normalize-space(.)"/>
+                  </xsl:template>
+                  <xsl:template match="node()|@*">
+                    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>
+                  </xsl:template>
+                </xsl:stylesheet>`,
+                'text/xml'
+              );
+
+            let xsltProcessor = new XSLTProcessor();    
+            xsltProcessor.importStylesheet(xsltDoc);
+            resultDoc = xsltProcessor.transformToFragment(xml, document);
+          }
+          let ret = new XMLSerializer().serializeToString(resultDoc)
+          ret = ret.replaceAll(/<br[^>]*>/g, '<br>')
+          return ret
+        },
+        convertTEI(xml) {
+          fetch('../data/tei2html.xslt')
+          .then(res => res.text())
+          .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
+          .then(res => {
+            let processor = new XSLTProcessor()
+            processor.importStylesheet(res)
+            let doc = processor.transformToFragment(xml, document)
+            // to string
+            ret = this.getPrettyStringFromXML(doc, true)
+            ret = ret.replace(/<br\/?>/g, '\n')
+            this.html = ret
+            return ret
+          })
+        }
+      }
+    }).mount('#tei-conversion')
+
+  </script>
+</html>

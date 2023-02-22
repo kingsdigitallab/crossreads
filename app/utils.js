@@ -113,6 +113,10 @@
   ) {
     let ret = null;
     let res = null;
+
+    // °
+    console.log(JSON.stringify(data, null, 2))
+
     let options = {
       owner: "kingsdigitallab",
       repo: "crossreads",

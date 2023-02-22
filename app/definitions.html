@@ -31,6 +31,10 @@
             </a>            
           </li>
         </ul>
+        <a href="https://github.com/kingsdigitallab/crossreads/issues" target="_blank" class="icon-text">
+          <span class="icon"><i class="fas fa-bug"></i></span>
+          <span>Issues</span>
+        </a>
       </div>
       <div class="container is-fluid">
 
@@ -75,34 +79,32 @@
                 <tr>
                   <th></th>
                   <th>
-                    <input v-model="newItems.allograph" type="text" class="input">
+                    <input v-model="newItems.allograph" type="text" class="input" @keyup.enter="onAddItem('allograph')">
                     <!-- <span v-model="newItems.allograph" class="number-input" role="textbox" contenteditable class="input"></span> -->
                     <button @click="onAddItem('allograph')" class="button is-small">Add</button>
                   </th>
-                  <template v-for="(allo, alloSlug) in definitions.allographs">
-                    <th v-if="allo.script == selection.script">
-                      {{ allo.character }}
-                      <button @click="onRemoveAllograph(alloSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
-                    </th>
-                  </template>
+                  <th v-for="(allo, alloSlug) in filteredAllographs">
+                    {{ allo.character }}
+                    <button @click="onRemoveAllograph(alloSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th>
-                    <input v-model="newItems.component" type="text" class="input">
+                    <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
                     <button @click="onAddItem('component')" class="button is-small">Add</button>
                   </th>
-                  <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>
+                  <td :colspan="Object.keys(filteredAllographs).length + 1" class="add-cell"></td>
                 </tr>
-                <tr v-for="(component, componentSlug) in definitions.components">
+                <tr v-for="(component, componentSlug) in filteredComponents">
                   <th>
                     {{ component.name }}
                     <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                   </th>
-                  <td></td>
-                  <template v-for="allo in definitions.allographs">
-                    <td v-if="allo.script == selection.script" @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
+                  <td class="add-cell"></td>
+                  <template v-for="allo in filteredAllographs">
+                    <td @click.stop.prevent="onClickAllographComponent(allo, componentSlug)">
                       <span v-if="allo.components.includes(componentSlug)" class="checked">✔</span>
                     </td>
                   </template>
@@ -118,10 +120,10 @@
               <tr>
                 <th></th>
                 <th>
-                  <input v-model="newItems.feature" type="text" class="input">
+                  <input v-model="newItems.feature" type="text" class="input" @keyup.enter="onAddItem('feature')">
                   <button @click="onAddItem('feature')" class="button is-small">Add</button>
                 </th>
-                <th v-for="(feature, featureSlug) in definitions.features">
+                <th v-for="(feature, featureSlug) in filteredFeatures">
                   <span @keydown.enter="$event.target.blur()" @blur="onRenameFeature($event, featureSlug)" role="textbox" contenteditable class="input-on-hover">{{ feature }}</span>
                   <button @click="onRemoveFeature(featureSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
@@ -130,19 +132,20 @@
             <tbody>
               <tr>
                 <th>
-                  <input v-model="newItems.component" type="text" class="input">
+                  <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
                   <button @click="onAddItem('component')" class="button is-small">Add</button>
                 </th>
-                <td :colspan="Object.keys(definitions?.allographs || {}).length"></td>
+                <td :colspan="Object.keys(filteredFeatures).length + 1" class="add-cell"></td>
               </tr>
-              <tr v-for="(component, componentSlug) in definitions.components">
+              <tr v-for="(component, componentSlug) in filteredComponents">
                 <th>
                   <!-- <span class="item-name">{{ component.name }}</span> -->
                   <!-- <input @blur="onRenameComponent($event, component)" :value="component.name" type="text" class="input-rename input"> -->
                   <span @keydown.enter="$event.target.blur()" @blur="onRenameComponent($event, component)" role="textbox" contenteditable class="input-on-hover">{{ component.name }}</span>
                   <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
-                <td v-for="(feature, featureSlug) in definitions.features" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
+                <td class="add-cell"></td>
+                <td v-for="(feature, featureSlug) in filteredFeatures" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
                   <span v-if="component.features.includes(featureSlug)" class="checked">✔</span>
                 </td>
               </tr>
@@ -212,6 +215,15 @@
           canSave() {
             return !!this.selection.gtoken
           },
+          filteredAllographs() {
+            return this.getFilteredDefinitions('allographs', (a) => a.character)
+          },
+          filteredComponents() {
+            return this.getFilteredDefinitions('components', (a) => a.name)
+          },
+          filteredFeatures() {
+            return this.getFilteredDefinitions('features', (a) => a)
+          },
         },
         mounted() {
           // so we are sure all js modules have been loaded
@@ -225,6 +237,25 @@
           }
         },
         methods: {
+          getFilteredDefinitions(collectionName, getNameFromItem) {
+            let ret = {}
+            let items = this.definitions[collectionName]
+            if (items) {
+              function sortFunction(a, b) {
+                a = getNameFromItem(items[a])
+                b = getNameFromItem(items[b])
+                return a === b ? 0 : (a > b ? 1 : -1)
+              }
+              
+              for (let k of Object.keys(items).sort(sortFunction)) {
+                let item = items[k]
+                if (collectionName != 'allographs' || this.selection.script === item.script) {
+                  ret[k] = item
+                }
+              }
+            }
+            return ret
+          },
           onRenameFeature(event, featureSlug) {
             // TODO: error management: value already taken
             console.log('renamed')
@@ -350,6 +381,7 @@
             if (res) {
               this.definitions = res.data
               this.definitionsSha = res.sha
+              console.log(this.definitions)
               this.selectFirstScript()
             }
             this.setAddressBarFromSelection()

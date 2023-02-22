@@ -40,27 +40,7 @@ label.selectable {
   background-color: #eee;
   font-weight: bold;        
 }
-.transcription {
-  font-size: 150%;
-}
-.transcription .sign {
-  display: inline-block;
-  width: 1.5em;
-  border: 2px solid #ddd;
-  padding: 0.5em;       
-}
-.transcription .sign:hover {
-  background-color: var(--hover-color);
-}
-.transcription .sign.bound {
-  border-color: var(--bound-color);
-}
-.transcription .sign.selected {
-  background-color: var(--selected-color);
-}
-.transcription .sign.selected:hover {
-  cursor: url("./unlink-svgrepo-com.svg"), auto;
-}
+
 .bound .a9s-outer {
   stroke: var(--bound-color);
 }
@@ -92,6 +72,11 @@ label.selectable {
 
 td .checked {
 
+}
+
+.table-def .add-cell, .table-def .add-cell:hover {
+  background-color: #eee;
+  cursor: inherit;
 }
 
 .definitions-controls .input {
@@ -157,4 +142,84 @@ th:hover .input-rename {
 
 .input-on-hover:hover, .input-on-hover:focus {
   border: 1px solid lightgrey;
+}
+
+/* Transcription: 
+
+Note that TEI is converted into HTML using data/tei2html.xslt.
+It converts each element into span or div.
+The attributes are prefixed with data-tei-.
+The name of the element is inserted into the class attribute: 
+<w id="123"> => <span class="tei-w" data-tei="w" data-tei-id="123">
+
+*/
+
+.transcription {
+  font-size: 150%;
+}
+.transcription .sign {
+  display: inline-block;
+  width: 1.5em;
+  border: 2px solid #ddd;
+  padding: 0.5em;
+  line-height: 1.5em;
+}
+.transcription .sign:hover {
+  background-color: var(--hover-color);
+}
+.transcription .sign.bound {
+  border-color: var(--bound-color);
+}
+.transcription .sign.selected {
+  background-color: var(--selected-color);
+}
+.transcription .sign.selected:hover {
+  cursor: url("./unlink-svgrepo-com.svg"), auto;
+}
+
+.transcription-body {
+  line-height: 3em;
+}
+
+.tei-w {
+  margin-right: 1em;
+}
+
+.line-number {
+  margin-right: 1em;
+
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  padding: 0.5em;
+
+  border: 2px solid white;
+  background-color: #666;
+  font-weight: 800;
+  color: white;
+  text-align: center;
+}
+
+/* Conditional display of supplied text in the transcription, see gh-11 
+
+<p class="show-supplied"> [HTML TRANSCRIPTION] </p>
+
+.show-supplied can be toggled on or off.
+
+*/
+
+.show-supplied .tei-ex,
+.show-supplied .tei-choice .tei-reg,  .tei-choice .tei-orig,
+.show-supplied .tei-choice .tei-corr, .tei-choice .tei-sic, /* need test cases */
+.show-supplied .tei-supplied[data-tei-reason="lost"],
+.show-supplied .tei-supplied[data-tei-reason="omitted"] {
+  display: inherit;
+}
+
+.tei-ex,
+.tei-choice .tei-reg,  .show-supplied .tei-choice .tei-orig,
+.tei-choice .tei-corr, .show-supplied .tei-choice .tei-sic, /* need test cases */
+.tei-supplied[data-tei-reason="lost"], 
+.tei-supplied[data-tei-reason="omitted"] {
+  display: none;
 }

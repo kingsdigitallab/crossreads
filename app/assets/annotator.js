@@ -122,7 +122,7 @@ createApp({
           textId: null,
           wordId: null,
           signId: null
-        }
+        },
       },
       annotation: null,
       annotationsSha: null,
@@ -163,7 +163,6 @@ createApp({
     loadOpenSeaDragon(this)
     this.loadObjects()
     this.loadDefinitions()
-    initFillHeightElements()
     // this.logOk('App loaded')
   },
   watch: {
@@ -225,6 +224,9 @@ createApp({
     },
     image() {
       return this.images[this.selection.image] || null
+    },
+    userId() {
+      return this?.user?.url || ''
     }
   },
   methods: {
@@ -486,7 +488,12 @@ createApp({
     onCreateAnnotation(annotation, overrideId) {
       console.log('EVENT onCreateAnnotation')
       // this.saveAnnotationsToSession()
-      this.setUnsaved()
+      this.setUnsaved(true)
+
+      annotation.generator = "https://github.com/kingsdigitallab/crossreads#0.1"
+      annotation.creator = this.userId
+      annotation.created = new Date().toISOString()
+
       this.anno.selectAnnotation(annotation)
     },
     onMouseEnterAnnotation(annotation, element) {
@@ -503,15 +510,15 @@ createApp({
       // which can be done with saveSelected().
       // Which in trun calls onUpdateAnnotation().
       console.log('EVENT onChangeSelectionTarget')
-      this.setUnsaved()
+      this.setUnsaved(true)
     },
     onUpdateAnnotation() {
       // triggered after deselecting moved annotation
       // Or annotation which target has been changed.
       // NOTE that onCancelSelected() will NOT be called
       console.log('EVENT onUpdateAnnotation')
-      this.onCancelSelected()
       this.setUnsaved()
+      this.onCancelSelected()
     },
     onCancelSelected(selection) {
       // triggered after deselecting without changing box
@@ -594,19 +601,26 @@ createApp({
       console.log('OPEN FAILED')
     },
     // Persistence backend
-    saveAnnotationsToSession() {
-      if (this.image?.uri) {
-        this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
-        console.log(this.anno.getAnnotations()[0].target.selector.value)
-        window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
-        console.log('save annotations')
-        // this.isUnsaved = true
-      }
-    },
-    setUnsaved() {
+    // saveAnnotationsToSession() {
+    //   if (this.image?.uri) {
+    //     this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
+    //     console.log(this.anno.getAnnotations()[0].target.selector.value)
+    //     // window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
+    //     console.log('save annotations')
+    //     // this.isUnsaved = true
+    //   }
+    // },
+    setUnsaved(dontUpdateModified=false) {
       // tells the Annotator that not all changes on screen are saved yet on GH
       if (this.image?.uri) {
         this.isUnsaved = true
+        if (!dontUpdateModified) {
+          let annotation = this.anno.getSelected()
+          if (annotation) {
+            annotation.modifiedBy = this.userId
+            annotation.modified = new Date().toISOString()
+          }
+        }
       }
     },
     onClickSave() {
@@ -837,17 +851,3 @@ createApp({
     },
   },
 }).mount('#annotator');
-
-
-function initFillHeightElements() {
-  for (let element of document.querySelectorAll('.fill-height')) {
-    let height = (window.innerHeight - element.offsetTop - 15)
-    if (height < 10) {
-      height = 10
-    }
-    element.style.height = `${height}px`;
-  }
-}
-
-window.addEventListener("resize", initFillHeightElements);
-

@@ -34,7 +34,7 @@
         <div :class="['notification', 'is-'+lastMessage.level, 'is-light']">
           {{ lastMessage.content }}
         </div>
-        <div class="tabs is-large is-boxed">
+        <div class="tabs is-medium is-boxed">
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
               <a :href="`${tab.key}.html${queryString}`">
@@ -129,12 +129,20 @@
               </p>
               <div class="panel-block fill-height">
                 <dl class="description">
+                  <dt>Script</dt> 
+                  <dd>
+                    <div class="select">
+                      <select v-model="description.script" @change="onChangeScript()">
+                        <option v-for="(script, scriptKey) in filteredScripts" :value="scriptKey">{{ script }}</option>
+                      </select>
+                    </div>
+                  </dd>
                   <dt>Allograph ({{description.allograph}})</dt> 
                   <dd>
                     <!-- <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span> -->
                     <div class="select">
                       <select v-model="description.allograph" @change="onChangeAllograph()">
-                        <option v-for="(allograph, allographKey) in definitions.allographs" :value="allographKey">{{ allograph.character }} ({{ definitions.scripts[allograph.script] }})</option>
+                        <option v-for="(allograph, allographKey) in filteredAllographs" :value="allographKey">{{ allograph.character }} <template v-if="allograph.script == 'base'">(BASE)</template></option>
                       </select>
                     </div>
                   </dd>

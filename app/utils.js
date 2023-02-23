@@ -203,7 +203,6 @@
   }
 
   function initFillHeightElements() {
-    console.log('fillHeight')
     for (let element of document.querySelectorAll('.fill-height')) {
       let height = (window.innerHeight - element.offsetTop + window.scrollY - 15)
       if (height < 10) {

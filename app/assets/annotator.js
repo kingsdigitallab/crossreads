@@ -111,6 +111,7 @@ createApp({
         }
       },
       description: {
+        script: 's',
         allograph: 'a',
         components: [
           ['c1', { 'f1': false, 'f3': true }],
@@ -199,6 +200,35 @@ createApp({
       }
       return ret
       // return this.images.filter(i => i.type == 'print')
+    },
+    filteredScripts() {
+      let ret = {}
+      let scriptKeys = Object.keys(this.definitions.scripts)
+      scriptKeys = scriptKeys.sort((a, b) => {
+        a = this.definitions.scripts[a]
+        b = this.definitions.scripts[b]
+        return a === b ? 0 : (a > b ? 1 : -1);
+      })
+      for (let scriptKey of scriptKeys) {
+        if (scriptKey != 'base') {
+          ret[scriptKey] = this.definitions.scripts[scriptKey]
+        }
+      }
+      return ret
+    },
+    filteredAllographs() {
+      let ret = {}
+      let script = this.description.script
+      console.log(script)
+      if (script && script != 'base' && this.definitions.scripts[script]) {
+        for (let allographKey of Object.keys(this.definitions.allographs)) {
+          let allograph = this.definitions.allographs[allographKey]
+          if (allograph.script === 'base' || allograph.script === script) {
+            ret[allographKey] = allograph
+          }
+        }
+      }
+      return ret
     },
     isAnnotationSelected() {
       return !!this.annotation
@@ -435,6 +465,9 @@ createApp({
       this.updateDescriptionFromAllograph()
       this.updateSelectedAnnotationFromDescription()
     },
+    onChangeScript() {
+      this.setAddressBarFromSelection()
+    },
     onChangeComponentFeature() {
       this.updateSelectedAnnotationFromDescription()
     },
@@ -463,6 +496,7 @@ createApp({
           this.cache.allographLast = description.allograph
         }
       }
+      console.log(description)
     },
     // Events - Annotorious
     async onCreateSelection(selection) {
@@ -816,7 +850,8 @@ createApp({
         obj: this.selection.object,
         img: this.selection.image,
         sup: this.selection.showSuppliedText ? 1 : 0,
-        ann: (this.annotation?.id || '').replace(/^#/, '')
+        ann: (this.annotation?.id || '').replace(/^#/, ''),
+        scr: this.description.script
       };
 
       //
@@ -845,6 +880,7 @@ createApp({
       this.selection.image = searchParams.get('img') || ''
       this.selection.showSuppliedText = searchParams.get('sup') === '1'
       this.selection.annotationId = searchParams.get('ann') || ''
+      this.description.script = searchParams.get('scr') || ''
     },
     getContentClasses(panel) {
       return `view-${panel.selections.view}`;

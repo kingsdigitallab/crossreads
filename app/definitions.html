@@ -23,7 +23,7 @@
       <div :class="['notification', 'is-'+lastMessage.level, 'is-light']">
         {{ lastMessage.content }}
       </div>
-      <div class="tabs is-large is-boxed">
+      <div class="tabs is-medium is-boxed">
         <ul>
           <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
             <a :href="`${tab.key}.html${queryString}`">

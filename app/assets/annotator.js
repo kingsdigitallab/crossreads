@@ -14,6 +14,13 @@ let IMG_PATH_STATIC_ROOT = './data/images/'
 
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
 
+let isButtonPressed = false
+function logButtons(e) {
+  isButtonPressed = e.buttons == 1
+}
+document.addEventListener('mouseup', logButtons);
+document.addEventListener('mousedown', logButtons);
+
 // TODO: move this into Vue?
 function loadOpenSeaDragon(vueApp) {
   var viewer = OpenSeadragon({
@@ -146,7 +153,7 @@ createApp({
         // TODO: remove partial duplication with /annotation
         annotationId: '',
       },
-      isUnsaved: false,
+      isUnsaved: 0,
       messages: [
       ],
       queryString: '',
@@ -165,11 +172,24 @@ createApp({
     this.loadObjects()
     this.loadDefinitions()
     // this.logOk('App loaded')
+
+    setInterval(() => {
+      // we don't want to save while the user is changing a box.
+      // Because save unselect & reselect the box.
+      // This would disrupt the user's operation
+      if (!isButtonPressed) {
+        // this.saveAnnotationsToGithub()
+      }
+    }, 10000)
+
+    window.addEventListener('beforeunload', async (event) => {
+      await this.saveAnnotationsToGithub()
+    });    
   },
   watch: {
-    object(val, valOld) {
+    async object(val, valOld) {
       if (valOld) {
-        this.saveAnnotationsToGithub()
+        await this.saveAnnotationsToGithub()
       }
       this.fetchObjectXML()
     },
@@ -219,7 +239,15 @@ createApp({
     filteredAllographs() {
       let ret = {}
       let script = this.description.script
-      console.log(script)
+      // TODO: don't show allograph from base script if already in selected script
+
+      // let allographKeys = Object.keys(this.definitions.scripts)
+      // scriptKeys = scriptKeys.sort((a, b) => {
+      //   a = this.definitions.scripts[a]
+      //   b = this.definitions.scripts[b]
+      //   return a === b ? 0 : (a > b ? 1 : -1);
+      // })
+
       if (script && script != 'base' && this.definitions.scripts[script]) {
         for (let allographKey of Object.keys(this.definitions.allographs)) {
           let allograph = this.definitions.allographs[allographKey]
@@ -392,13 +420,18 @@ createApp({
       if (sign == annotationSign) {
         // unbind sign from selected annotation
         this.description.textTarget = null
-        this.updateSelectedAnnotationFromDescription()
       } else if (selectedAnnotation && !signAnnotation && !annotationSign) {
         // bind sign to selected annotation
         this.description.textTarget = this.getTextTargetFromSign(sign)
-        this.updateSelectedAnnotationFromDescription()
+
+        // update the description.allograph if none selected
+        if (!this.description.allograph) {
+          this.description.allograph = sign.innerText
+        }
+
         signAnnotation = selectedAnnotation
       }
+      this.updateSelectedAnnotationFromDescription()
       this.selectAnnotation(signAnnotation)
     },
     getAnnotationFromSign(sign) {
@@ -467,6 +500,7 @@ createApp({
     },
     onChangeScript() {
       this.setAddressBarFromSelection()
+      this.updateSelectedAnnotationFromDescription()
     },
     onChangeComponentFeature() {
       this.updateSelectedAnnotationFromDescription()
@@ -477,7 +511,6 @@ createApp({
         annotation.body[0].value = JSON.stringify(this.description)
         this.anno.updateSelected(annotation)
         this.setUnsaved()
-        // this.saveAnnotationsToSession()
       }
     },
     updateDescriptionFromAllograph() {
@@ -487,7 +520,7 @@ createApp({
         if (this.definitions.allographs[description.allograph]) {
           for (let componentKey of this.definitions.allographs[description.allograph].components) {
             let features = {}
-            for (let featureKey of this.definitions.components[componentKey].features) {
+            for (let featureKey of this.definitions.components[componentKey]?.features || []) {
               features[featureKey] = false
             }
             // console.log(features)
@@ -496,7 +529,6 @@ createApp({
           this.cache.allographLast = description.allograph
         }
       }
-      console.log(description)
     },
     // Events - Annotorious
     async onCreateSelection(selection) {
@@ -544,6 +576,7 @@ createApp({
       // which can be done with saveSelected().
       // Which in trun calls onUpdateAnnotation().
       console.log('EVENT onChangeSelectionTarget')
+      this.isUnsaved = 2
       this.setUnsaved(true)
     },
     onUpdateAnnotation() {
@@ -573,6 +606,13 @@ createApp({
       console.log('EVENT onSelectAnnotation')
       if (annotation) {
         this.description = JSON.parse(annotation.body[0].value)
+        // set the script from the allograph if absent
+        if (this.description.allograph && !this.description.script) {
+          let allograph = this.definitions.allographs[this.description.allograph]
+          if (allograph && allograph.script != 'base') {
+            this.description.script = allograph.script
+          }
+        }
         // This call sometimes returns undefined after a selectAnnotation(annotation)!
         // this.annotation = this.anno.getSelected()
         this.annotation = annotation
@@ -589,6 +629,7 @@ createApp({
     onDeleteAnnotation() {
       console.log('EVENT onDeleteAnnotation')
       this.setUnsaved()
+      this.onCancelSelected()
     },
     onClickAnnotation() {
       console.log('EVENT onClickAnnotation')
@@ -598,7 +639,8 @@ createApp({
     onSelectObject(obj) {
       this.selection.object = obj['@id']
     },
-    onSelectImage(img) {
+    async onSelectImage(img) {
+      await this.saveAnnotationsToGithub()
       this.clearDescription()
       this.selection.image = img.uri
       if (img) {
@@ -647,7 +689,9 @@ createApp({
     setUnsaved(dontUpdateModified=false) {
       // tells the Annotator that not all changes on screen are saved yet on GH
       if (this.image?.uri) {
-        this.isUnsaved = true
+        if (this.isUnsaved == 0) {
+          this.isUnsaved = 1
+        } 
         if (!dontUpdateModified) {
           let annotation = this.anno.getSelected()
           if (annotation) {
@@ -672,9 +716,9 @@ createApp({
         // Without this call, the changes to the selected box won't be saved.
         // This forces Annotorious to update the annotation target,
         // and trigger onUpdateAnnotation().
-        // It also deslects the annotation.
+        // It also deselects the annotation.
         // But we re-select it after saving to GH.
-        if (selectedAnnotation) {
+        if (selectedAnnotation && this.isUnsaved > 1) {
           await this.anno.saveSelected()
         }
 
@@ -687,12 +731,12 @@ createApp({
         this.annotationsSha = await utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
 
         // restore the selection
-        if (selectedAnnotation) {
+        if (selectedAnnotation && this.isUnsaved > 1) {
           this.anno.selectAnnotation(selectedAnnotation)
           this.onSelectAnnotation(selectedAnnotation)
         }
 
-        this.isUnsaved = false
+        this.isUnsaved = 0
       }
     },
     async initOctokit() {
@@ -736,7 +780,7 @@ createApp({
       return this.loadAnnotationsFromGithub()
     },
     async loadAnnotationsFromGithub() {
-      this.annotations = null
+      // this.annotations = null
       // TODO: detect error (but 404 notan error!)
       let filePath = this.getAnnotationFilePath()
       if (filePath) {
@@ -755,7 +799,7 @@ createApp({
           this.annotationsSha = null
         }
       }
-      this.isUnsaved = false
+      this.isUnsaved = 0
     },
     loadAnnotationsFromSession2() {
       // TODO: restore this function, and use for offline editing
@@ -776,7 +820,7 @@ createApp({
           this.anno.clearAnnotations()
         }
       }
-      this.isUnsaved = false
+      this.isUnsaved = 0
     },
     getAnnotationFilePath() {
       let ret = null

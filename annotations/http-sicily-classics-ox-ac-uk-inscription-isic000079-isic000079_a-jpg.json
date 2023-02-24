@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": "{\"script\":\"test-script\",\"allograph\":null,\"components\":[],\"textTarget\":{\"textId\":null,\"wordId\":null,\"signId\":null}}"
+      }
+    ],
+    "target": {
+      "source": "http://localhost:3000/data/images/ISic000079_a.jpg",
+      "selector": {
+        "type": "FragmentSelector",
+        "conformsTo": "http://www.w3.org/TR/media-frags/",
+        "value": "xywh=pixel:516,188,372,280"
+      }
+    },
+    "id": "#edd82112-cba4-48ba-a514-1cdc82ed2d07",
+    "generator": "https://github.com/kingsdigitallab/crossreads#0.1",
+    "creator": "https://api.github.com/users/geoffroy-noel-ddh",
+    "created": "2023-02-24T02:05:23.293Z"
+  }
+]

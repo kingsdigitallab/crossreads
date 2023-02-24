@@ -7,7 +7,7 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"I\",\"components\":[[\"main-stroke\",{\"bilinear\":true,\"concave-up\":true,\"hook-absent\":true,\"hooked-left\":false,\"hooked-right\":false,\"hooked-up\":true}],[\"top-bar\",{\"below-baseline\":true,\"on-baseline\":true,\"straight\":true,\"vertical\":true,\"long\":false,\"sans-serif\":false}],[\"bottom-bar\",{\"curved\":false,\"on-baseline\":false,\"short\":false,\"straight\":false,\"vertical\":false,\"long\":false,\"sans-serif\":false}]],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000046-110\",\"signId\":\"2\"}}"
+        "value": "{\"allograph\":\"I\",\"components\":[[\"main-stroke\",{\"bilinear\":true,\"concave-up\":true,\"hook-absent\":true,\"hooked-left\":false,\"hooked-right\":false,\"hooked-up\":true}],[\"top-bar\",{\"below-baseline\":true,\"on-baseline\":true,\"straight\":true,\"vertical\":true,\"long\":false,\"sans-serif\":false}],[\"bottom-bar\",{\"curved\":false,\"on-baseline\":false,\"short\":false,\"straight\":false,\"vertical\":false,\"long\":false,\"sans-serif\":false}]],\"textTarget\":null}"
       }
     ],
     "target": {
@@ -19,5 +19,26 @@
       }
     },
     "id": "#9e1505cc-8095-4431-8fcd-6e6366bb2398"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": "{\"allograph\":null,\"components\":[],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000046-110\",\"signId\":\"1\"}}"
+      }
+    ],
+    "target": {
+      "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000046.jpg",
+      "selector": {
+        "type": "FragmentSelector",
+        "conformsTo": "http://www.w3.org/TR/media-frags/",
+        "value": "xywh=pixel:1091.6666259765625,1138.7999267578125,506.13330078125,515.8665771484375"
+      }
+    },
+    "id": "#e5dab281-f18f-405b-9fdf-1996d5d79246"
   }
 ]

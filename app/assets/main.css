@@ -3,6 +3,12 @@
   --hover-color: yellow;
   --bound-color: blue;
 }
+
+.fill-height {
+  overflow: scroll;
+  align-items: inherit;
+}
+
 .list-selectable {
   max-height: 15em;
   overflow-y: auto;
@@ -60,6 +66,10 @@ label.selectable {
   font-size: 0.7em;
 }
 
+.section.full-width {
+  padding: 0;
+}
+
 /* Definitions screen */
 
 .table-def td {
@@ -86,7 +96,7 @@ td .checked {
 
 .scrollable-table-wrapper {
   overflow: scroll;
-  max-height: 50vh;
+  height: 50vh;
 }
 
 .scrollable-table-wrapper thead th {
@@ -223,3 +233,4 @@ The name of the element is inserted into the class attribute:
 .tei-supplied[data-tei-reason="omitted"] {
   display: none;
 }
+

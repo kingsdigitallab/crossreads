@@ -140,7 +140,7 @@
     }
 
     if (sha) {
-      console.log(sha);
+      // console.log(sha);
       options.sha = sha;
     }
     if (1) {
@@ -201,5 +201,21 @@
       {title: 'Settings', key: 'settings'},
     ]
   }
+
+  function initFillHeightElements() {
+    for (let element of document.querySelectorAll('.fill-height')) {
+      let height = (window.innerHeight - element.offsetTop + window.scrollY - 15)
+      if (height < 10) {
+        height = 10
+      }
+      element.style.height = `${height}px`;
+    }
+  }
+  
+  window.addEventListener("resize", initFillHeightElements);
+  document.addEventListener("scroll", initFillHeightElements);
+  window.addEventListener("load", (event) => {
+    initFillHeightElements();
+  });
 
 })(typeof exports === "undefined" ? (this["utils"] = {}) : exports);

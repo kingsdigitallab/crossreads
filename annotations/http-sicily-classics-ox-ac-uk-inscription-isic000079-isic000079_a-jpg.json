@@ -7,6 +7,30 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
+        "value": "{\"script\":\"test-script\",\"allograph\":null,\"components\":[]}"
+      }
+    ],
+    "target": {
+      "source": "http://localhost:3000/data/images/ISic000079_a.jpg",
+      "selector": {
+        "type": "FragmentSelector",
+        "conformsTo": "http://www.w3.org/TR/media-frags/",
+        "value": "xywh=pixel:976,244,276,232"
+      }
+    },
+    "id": "#0cd29fa5-3734-414b-b8bb-f0d836996266",
+    "generator": "https://github.com/kingsdigitallab/crossreads#0.1",
+    "creator": "https://api.github.com/users/geoffroy-noel-ddh",
+    "created": "2023-02-24T00:53:18.163Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
         "value": "{\"script\":\"test-script\",\"allograph\":\"c-test-script\",\"components\":[]}"
       }
     ],

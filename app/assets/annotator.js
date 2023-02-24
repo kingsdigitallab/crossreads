@@ -178,13 +178,19 @@ createApp({
       // Because save unselect & reselect the box.
       // This would disrupt the user's operation
       if (!isButtonPressed) {
-        // this.saveAnnotationsToGithub()
+        this.saveAnnotationsToGithub()
       }
     }, 10000)
 
-    window.addEventListener('beforeunload', async (event) => {
-      await this.saveAnnotationsToGithub()
-    });    
+    // save annotations before movinf to other tab
+    for (let tab of document.querySelectorAll('.tabs a')) {
+      tab.addEventListener('click', async (event) => {
+        let href = tab.href
+        event.preventDefault();
+        await this.saveAnnotationsToGithub()
+        window.location = href
+      })
+    }
   },
   watch: {
     async object(val, valOld) {
@@ -426,7 +432,26 @@ createApp({
 
         // update the description.allograph if none selected
         if (!this.description.allograph) {
-          this.description.allograph = sign.innerText
+          let allos = [sign.innerText]
+          if (allos[0] == allos[0].toUpperCase()) {
+            allos.push(allos[0].toLowerCase())
+          } else {
+            allos.push(allos[0].toUpperCase())
+          }
+          allosLoop:
+          for (let allo of allos) {
+            for (let k of Object.keys(this.definitions.allographs)) {
+              let allograph = this.definitions.allographs[k] 
+              if (allograph.script == this.description.script) {
+                console.log(`${allograph.character} == ${allo}`)
+                if (allograph.character == allo) {
+                  console.log(k)
+                  this.description.allograph = k
+                  break allosLoop
+                }
+              }
+            }
+          }
         }
 
         signAnnotation = selectedAnnotation
@@ -636,7 +661,8 @@ createApp({
       // this.saveAnnotationsToSession()
     },
     // Events - Selection
-    onSelectObject(obj) {
+    async onSelectObject(obj) {
+      await this.saveAnnotationsToGithub()
       this.selection.object = obj['@id']
     },
     async onSelectImage(img) {
@@ -701,10 +727,10 @@ createApp({
         }
       }
     },
-    onClickSave() {
+    async onClickSave() {
       // save the image annotations to github
       // TODO: save sha?
-      this.saveAnnotationsToGithub()
+      await this.saveAnnotationsToGithub()
     },
     async saveAnnotationsToGithub() {
       if (this.isUnsaved) {

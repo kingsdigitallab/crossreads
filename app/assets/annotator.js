@@ -472,7 +472,8 @@ createApp({
       return ret
     },
     getTextTargetFromSign(sign) {
-      let word = sign.closest('.tei-w')
+      // let word = sign.closest('.tei-w')
+      let word = sign.closest('[data-tei-id]')
       return {
         textId: null,
         wordId: word.attributes.getNamedItem('data-tei-id').value,
@@ -505,7 +506,7 @@ createApp({
       if (annotation?.body?.length) {
         let description = JSON.parse(annotation.body[0].value)
         if (description?.textTarget?.signId) {
-          let word = document.querySelector(`.tei-w[data-tei-id="${description?.textTarget?.wordId}"]`)
+          let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
           if (word) {
             ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`)
           }

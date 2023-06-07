@@ -35,11 +35,16 @@ https://github.com/glenrobson/SimpleAnnotationServer: A simple IIIF and Mirador 
 
 ## Questions
 
-* Q1. where are the annotation encoded?
-* Q2. how to encode structured annotations?
-* Q3. what is the minimal set of sustainable components that match our requirements?
-* Q4. annotators?
+* Q1. where are the annotation encoded? 
+  * github
+* Q2. how to encode structured descriptions in W3C Web Annotations? 
+  * json?
+* Q3. what is the minimal set of sustainable components that match our requirements? 
+  * See new SoW & Evolutionary Solution Overview documents.
+* Q4. other alternative or reference annotators? 
+  * See Miro board for examples.
 * Q5. does IIIP presentation API allows insertion of annotations?
+  * Yes, but not all image servers will support that API
 * Q6. where does the list of objects come from?
   * a) IIIP collections - with annotation to DTS api
   * b) DTS - with matching url convention to find corresponding IIIF manifest 
@@ -47,20 +52,20 @@ https://github.com/glenrobson/SimpleAnnotationServer: A simple IIIF and Mirador 
 ## Requirements
 
 Image
-* M view iiif image
-* M bound a graphs on image
-* M description of the graph (annotation)
+* DONE M view iiif image
+* DONE M bound a graphs on image
+* DONE M description of the graph (annotation)
 * M search/browse objects
-* S viewer is embeddable and highly customisation
+* S viewer is embeddable and highly customisable
 
 Text
-* M view text
-* M link graph to text
+* DONE M view text
+* DONE M link graph to text
 
 Annotation
 * M structured annotation
-* M save annotations
-* S terminological definition
+* DONE M save annotations
+* WIP S terminological definition
 * S browse annotations
 * S search annotations
 

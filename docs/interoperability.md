@@ -27,6 +27,13 @@ Based on this, the external services the annotator relies on are:
 | IIIF Image API  | 6 | MUST | metadata (Image Info request); tiles & regions (Image request) |
 | Github API  | 9 | MUST | web annotation |
 
+### Note about DTS Navigation API and reference system
+
+Note that, although the annotator doesn't need to call the DTS Navigation API, the format of the textual target in the web annotations it creates have to be compatible with the reference system (/member/ref) to address lines of text. Something like this:
+
+`/dts/api/documents/?id=DOCID&ref=LINEREFERENCE`
+
+That type of URL will be in the web annotation target (alongside the word id and sign/character index). This is why anyone following that link should be able to retrieve the line from the DTS server. However the annotator itself never needs to retrieve a specific line. It only fetches entire TEI documents because it is more efficient and provides contextual information.
 
 ## [Standardised conceptual model](img/cr-model2.png)
 

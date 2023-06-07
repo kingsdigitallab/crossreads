@@ -28,7 +28,7 @@ Based on this, the external services the annotator relies on are:
 | Github API  | 9 | MUST | web annotation |
 
 
-## [Standardised conceptual model](img/cr-model.png)
+## [Standardised conceptual model](img/cr-model2.png)
 
-![Standardised conceptual model](img/cr-model.png "Standardised conceptual model")
+![Standardised conceptual model](img/cr-model2.png "Standardised conceptual model")
 

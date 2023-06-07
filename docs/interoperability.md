@@ -39,3 +39,10 @@ That type of URL will be in the web annotation target (alongside the word id and
 
 ![Standardised conceptual model](img/cr-model2.png "Standardised conceptual model")
 
+This diagram connects the various standard models together: IIIF, DTS and Web Anntotion. The Palaeographical model is not really standard, although it inherits from Archetype data model.
+
+The list of TEI files is obtained via the DTS Collection API. This is why the IIIF Presentation API Collection is not needed (in red). Each TEI file is obtained as a whole document via the DTS Document API. Likewise the list of available images URLs for each object is obtained from the TEI headers rather than the Sequence endpoint from the IIIF Presentation API.
+
+The Image metadata and tiles are obtained via the IIIF Image API instantiated by the IIPsrv service.
+
+Source files in blue all accessed indirectly via middlewares (IIPSrv, DTS server and Github API).

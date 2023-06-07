@@ -4,11 +4,11 @@
 
 Below is a step-by-step summary of how the annotator currently interacts with external content sources:
 
-1. request to the DTS Collection API (currently a static copy) to obtain the list of all objects in the corpus
-2. from the Collection response, retrieve the URL of the TEI file on github
-3. fetch the whole TEI file (currently directly from github but eventually from the DTS document endpoint)
+1. request to the DTS Collection API ([currently a static copy](https://kingsdigitallab.github.io/crossreads/data/2023-01/collection.json)) to obtain the list of all objects in the corpus
+2. from the Collection response, retrieve the URL of the TEI documents
+3. fetch the whole TEI file ([currently a static copy](https://kingsdigitallab.github.io/crossreads/data/2023-01/ISic000031.xml) on github but eventually from the DTS document endpoint)
 4. get image file names from the TEI header
-5. reconstruct the image URLs from the file names (currently local copy but soon a standard IIIF image information API URL (*/info.json))
+5. reconstruct the image URLs from the file names (currently local copy but soon a [standard IIIF image information API URL](https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json) (*/info.json))
 6. pass the URL of user-selected image to OpenSeaDragon which then displays the image
 7. converts the TEI body into HTML and display it under the image
 8. as part of the conversion, assign a number to each sign, relative to the closest ancestor element with an @id (i.e. a word <w>).
@@ -20,10 +20,15 @@ Below is a step-by-step summary of how the annotator currently interacts with ex
 
 Based on this, the external services the annotator relies on are:
 
-| Service  | Data Flow step  | Priority  |
-|---|---|---|
-| DTS Collection API | 1  | MUST  |
-| DTS Document API  | 3 | SHOULD |
-| IIIF Image API  | 6 | MUST |
-| Github API  | 9 | MUST |
+| Service  | Data Flow step  | Priority  | Data |
+|---|---|---|---|
+| DTS Collection API | 1  | MUST  | member > @id, title, dts:download or dts:passage |
+| DTS Document API  | 3 | SHOULD | /facsimile/surface/graphic/@url, /text/body/div[@type='edition'] |
+| IIIF Image API  | 6 | MUST | metadata (Image Info request); tiles & regions (Image request) |
+| Github API  | 9 | MUST | web annotation |
+
+
+## [Standardised conceptual model](img/cr-model.png)
+
+![Standardised conceptual model](img/cr-model.png "Standardised conceptual model")
 

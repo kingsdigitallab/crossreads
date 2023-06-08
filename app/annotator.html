@@ -19,7 +19,9 @@
     <script src="utils.js"></script>
     <script type="module">
       // TODO: relative import
-      import { Octokit, App } from "https://esm.sh/octokit@2.0.19";
+      // TODO: modularise use of octokit, create a wrapper
+      // TODO: don't import it globally.
+      import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
       window.Octokit = Octokit
       console.log('OCTO set')
     </script>    

@@ -25,7 +25,7 @@ Based on this, the external services the annotator relies on are:
 | DTS Collection API | 1  | MUST  | member > @id, title, dts:download or dts:passage |
 | DTS Document API  | 3 | SHOULD | /facsimile/surface/graphic/@url, /text/body/div[@type='edition'] |
 | IIIF Image API  | 6 | MUST | metadata (Image Info request); tiles & regions (Image request) |
-| Github API  | 9 | MUST | web annotation |
+| Github API  | 9 | MUST | web annotation, with targets to IIIF Image API and DTS Document API |
 
 ### Note about DTS Navigation API and reference system
 
@@ -39,10 +39,10 @@ That type of URL will be in the web annotation target (alongside the word id and
 
 ![Standardised conceptual model](img/cr-model2.png "Standardised conceptual model")
 
-This diagram connects the various standard models together: IIIF, DTS and Web Anntotion. The Palaeographical model is not really standard, although it inherits from Archetype data model.
+This diagram connects the various standard models together: IIIF, DTS and Web Annotation. The Palaeographical model is not really standard, although it inherits from Archetype data model.
 
 The list of TEI files is obtained via the DTS Collection API. This is why the IIIF Presentation API Collection is not needed (in red). Each TEI file is obtained as a whole document via the DTS Document API. Likewise the list of available images URLs for each object is obtained from the TEI headers rather than the Sequence endpoint from the IIIF Presentation API.
 
-The Image metadata and tiles are obtained via the IIIF Image API instantiated by the IIPsrv service.
+The Image metadata and tiles are obtained via the IIIF Image API implemented by the IIPsrv server.
 
 Source files in blue all accessed indirectly via middlewares (IIPSrv, DTS server and Github API).

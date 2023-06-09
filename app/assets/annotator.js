@@ -436,6 +436,7 @@ createApp({
         if (sign == annotationSign) {
           // unbind sign from selected annotation
           this.description.textTarget = null
+          this.updateSelectedAnnotationFromDescription()
         } else if (selectedAnnotation && !signAnnotation && !annotationSign) {
           // bind sign to selected annotation
           this.description.textTarget = this.getTextTargetFromSign(sign)
@@ -464,9 +465,9 @@ createApp({
             }
           }
           signAnnotation = selectedAnnotation
+          this.updateSelectedAnnotationFromDescription()
         }
       }
-      this.updateSelectedAnnotationFromDescription()
       this.selectAnnotation(signAnnotation)
     },
     getAnnotationFromSign(sign) {

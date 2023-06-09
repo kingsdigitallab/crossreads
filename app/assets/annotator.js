@@ -20,6 +20,8 @@ let IMG_PATH_STATIC_ROOT = './data/images/'
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
+const debugDontSave = false;
+// debugDontSave = true;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -394,7 +396,7 @@ createApp({
           let processor = new XSLTProcessor()
           processor.importStylesheet(res)
           let doc = processor.transformToFragment(xml, document)
-          // set index of each line, starying from 1
+          // set index of each line, starting from 1
           let lineIdx = 0
           for (let lineNumber of doc.querySelectorAll('.line-number')) {
             lineIdx++;
@@ -402,7 +404,7 @@ createApp({
           }
           // set data-idx to each span.sign, relative to its parent span.word
           let signCount = 0
-          for (let word of doc.querySelectorAll('.tei-w')) {
+          for (let word of doc.querySelectorAll('span[data-tei-id]')) {
             let signIdx = 0
             for (let sign of word.querySelectorAll('.sign')) {
               sign.attributes.getNamedItem('data-idx').value = signIdx++
@@ -751,6 +753,10 @@ createApp({
       await this.saveAnnotationsToGithub()
     },
     async saveAnnotationsToGithub() {
+      if (debugDontSave) {
+        console.log('debugDontSave=True => skip saving.')
+        return
+      }
       if (this.isUnsaved) {
         if (!this.canSave)  {
           console.log('Can\'t save in read only mode.')

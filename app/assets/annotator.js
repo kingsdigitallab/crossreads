@@ -8,9 +8,16 @@
 - remove hard-coded values (e.g. paths)
 */
 
-let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
-// if defined, the viewer will fetch full image files instead of IIIF tiles
 let IMG_PATH_STATIC_ROOT = './data/images/'
+
+// if IMG_PATH_IIIF_ROOT defined, the viewer will fetch full image files instead of IIIF tiles
+// Local IIIF server
+// let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
+// Crossreads live IIIF server
+// https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json
+// let IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
+// IIIF server via local proxy to avoit CORS blockage
+// let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
 
@@ -40,7 +47,8 @@ function loadOpenSeaDragon(vueApp) {
     // disableSelect: true,
     // TODO: js error after select + click outside rect
     // fragmentUnit: 'percent', 
-    formatters: vueApp.annotoriousFormatter
+    formatters: vueApp.annotoriousFormatter,
+    readOnly: !vueApp.canSave
   };
   var anno = OpenSeadragon.Annotorious(viewer, config);
   vueApp.anno = anno;
@@ -183,7 +191,8 @@ createApp({
     }, 10000)
 
     // save annotations before movinf to other tab
-    for (let tab of document.querySelectorAll('.tabs a')) {
+    for (let tab of document.querySelectorAll('.tabs li a')) {
+
       tab.addEventListener('click', async (event) => {
         let href = tab.href
         event.preventDefault();
@@ -423,38 +432,39 @@ createApp({
       let selectedAnnotation = this.anno.getSelected()
       let signAnnotation = this.getAnnotationFromSign(sign)
       let annotationSign = this.getSignFromAnnotation()
-      if (sign == annotationSign) {
-        // unbind sign from selected annotation
-        this.description.textTarget = null
-      } else if (selectedAnnotation && !signAnnotation && !annotationSign) {
-        // bind sign to selected annotation
-        this.description.textTarget = this.getTextTargetFromSign(sign)
+      if (this.canSave) {
+        if (sign == annotationSign) {
+          // unbind sign from selected annotation
+          this.description.textTarget = null
+        } else if (selectedAnnotation && !signAnnotation && !annotationSign) {
+          // bind sign to selected annotation
+          this.description.textTarget = this.getTextTargetFromSign(sign)
 
-        // update the description.allograph if none selected
-        if (!this.description.allograph) {
-          let allos = [sign.innerText]
-          if (allos[0] == allos[0].toUpperCase()) {
-            allos.push(allos[0].toLowerCase())
-          } else {
-            allos.push(allos[0].toUpperCase())
-          }
-          allosLoop:
-          for (let allo of allos) {
-            for (let k of Object.keys(this.definitions.allographs)) {
-              let allograph = this.definitions.allographs[k] 
-              if (allograph.script == this.description.script) {
-                console.log(`${allograph.character} == ${allo}`)
-                if (allograph.character == allo) {
-                  console.log(k)
-                  this.description.allograph = k
-                  break allosLoop
+          // update the description.allograph if none selected
+          if (!this.description.allograph) {
+            let allos = [sign.innerText]
+            if (allos[0] == allos[0].toUpperCase()) {
+              allos.push(allos[0].toLowerCase())
+            } else {
+              allos.push(allos[0].toUpperCase())
+            }
+            allosLoop:
+            for (let allo of allos) {
+              for (let k of Object.keys(this.definitions.allographs)) {
+                let allograph = this.definitions.allographs[k] 
+                if (allograph.script == this.description.script) {
+                  console.log(`${allograph.character} == ${allo}`)
+                  if (allograph.character == allo) {
+                    console.log(k)
+                    this.description.allograph = k
+                    break allosLoop
+                  }
                 }
               }
             }
           }
+          signAnnotation = selectedAnnotation
         }
-
-        signAnnotation = selectedAnnotation
       }
       this.updateSelectedAnnotationFromDescription()
       this.selectAnnotation(signAnnotation)
@@ -672,24 +682,30 @@ createApp({
       this.selection.image = img.uri
       if (img) {
         let options = {}
-        if (typeof IMG_PATH_STATIC_ROOT !== 'undefined') {
-          options = {
-            type: 'image',
-            // TODO: temporary static call so app works on github pages without IIIF server
-            // http://openseadragon.github.io/examples/tilesource-image/
-            url: `${IMG_PATH_STATIC_ROOT}${this.image.uri}`,
-          }
-        } else {
+        if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
           options = {
             type: 'image',
             // TODO: doesn't use IIIF tiles!
             // http://openseadragon.github.io/examples/tilesource-iiif/
             // url: `${IMG_PATH_IIIF_ROOT}${this.image.uri}/full/full/0/default.jpg`,
           }
+          let imgid = this.image.uri.replace(/\.[^.]+$/, '');
+          let iiif_url = IMG_PATH_IIIF_ROOT
+            .replace('{DOCID}', this.object['title'])
+            .replace('{IMGID}', imgid);
+          console.log(iiif_url)
           options = [
             // 'https://libimages1.princeton.edu/loris/pudl0001%2F4609321%2Fs42%2F00000001.jp2/info.json'
-            `${IMG_PATH_IIIF_ROOT}${this.image.uri}/info.json`
+            // `${IMG_PATH_IIIF_ROOT}${this.image.uri}/info.json`
+            iiif_url
           ]
+        } else {
+          options = {
+            type: 'image',
+            // TODO: temporary static call so app works on github pages without IIIF server
+            // http://openseadragon.github.io/examples/tilesource-image/
+            url: `${IMG_PATH_STATIC_ROOT}${this.image.uri}`,
+          }
         }
         this.viewer.open(options)
       }
@@ -735,7 +751,12 @@ createApp({
     },
     async saveAnnotationsToGithub() {
       if (this.isUnsaved) {
+        if (!this.canSave)  {
+          console.log('Can\'t save in read only mode.')
+          return
+        }
         console.log('SAVE to github')
+
         let sha = this.annotationsSha
 
         let selectedAnnotation = this.annotation
@@ -771,7 +792,6 @@ createApp({
       this.user = null
 
       if (this.selection.gtoken) {
-        console.log("OCT get")
         this.octokit = new window.Octokit({
           auth: this.selection.gtoken
         })

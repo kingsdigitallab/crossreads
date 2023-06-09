@@ -23,7 +23,6 @@
       // TODO: don't import it globally.
       import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
       window.Octokit = Octokit
-      console.log('OCTO set')
     </script>    
     <script src="assets/annotator.js" defer></script>
 
@@ -134,7 +133,7 @@
                   <dt>Script</dt> 
                   <dd>
                     <div class="select">
-                      <select v-model="description.script" @change="onChangeScript()">
+                      <select v-model="description.script" @change="onChangeScript()" :disabled="!canSave">
                         <option v-for="(script, scriptKey) in filteredScripts" :value="scriptKey">{{ script }}</option>
                       </select>
                     </div>
@@ -143,7 +142,7 @@
                   <dd>
                     <!-- <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span> -->
                     <div class="select">
-                      <select v-model="description.allograph" @change="onChangeAllograph()">
+                      <select v-model="description.allograph" @change="onChangeAllograph()" :disabled="!canSave">
                         <option v-for="(allograph, allographKey) in filteredAllographs" :value="allographKey">{{ allograph.character }} <template v-if="allograph.script == 'base'">(BASE)</template></option>
                       </select>
                     </div>
@@ -161,7 +160,8 @@
                       </span>
                       <ul>
                         <li v-for="(isFeaturePresent, featureKey, index) in component[1]">
-                          <label :class="{selectable: true, selected: isFeaturePresent}"><input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()">
+                          <label :class="{selectable: true, selected: isFeaturePresent}">
+                            <input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()" :disabled="!canSave">
                             <template v-if="definitions.features[featureKey]"> 
                               {{ definitions.features[featureKey] }}
                             </template>

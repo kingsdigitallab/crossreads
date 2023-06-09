@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx browser-sync start --server --files '.'"
+    "start": "npx browser-sync start --server --files '.'",
+    "proxy-iip": "PORT=8088 node node_modules/cors-anywhere/server.js"
   },
   "repository": {
     "type": "git",

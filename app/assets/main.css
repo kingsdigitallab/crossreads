@@ -210,6 +210,10 @@ The name of the element is inserted into the class attribute:
   text-align: center;
 }
 
+br[data-tei-n="1"] {
+  display: none;
+}
+
 /* Conditional display of supplied text in the transcription, see gh-11 
 
 <p class="show-supplied"> [HTML TRANSCRIPTION] </p>

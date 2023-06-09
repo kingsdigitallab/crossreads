@@ -46,3 +46,66 @@ The list of TEI files is obtained via the DTS Collection API. This is why the II
 The Image metadata and tiles are obtained via the IIIF Image API implemented by the IIPsrv server.
 
 Source files in blue all accessed indirectly via middlewares (IIPSrv, DTS server and Github API).
+
+## Discussion about annotation targets
+
+### Textual target
+
+Logically the reference to a sign in the document can make use of these units:
+1. the document (identified by its DTS document ID or document URL)
+2. the line that contains the sign (the TEI has number for each line)
+3. the word that contains the sign (the TEI has unique ids for each word in the corpus)
+4. the sign (its index in the word, e.g. 2 for second sign)
+
+In principle (3, 4) is enough to locate a sign in the entire corpus. However to make the reference interoperable (LOD) we should use (1) as it allows reader to fetch the document from DTS. So we want (1, 3, 4).
+
+Do we need the line number (2)? Probably not. But it may be useful to specify it anyway. Note that the DTS server may allow access to specific lines of the document.
+
+https://www.w3.org/TR/annotation-model/#refinement-of-selection
+
+```
+   "source": "http://dtsdomain/dts/api/document?id=ISic000031&ref=1", // (1, 2)
+   "selector": {
+      "type": "XPathSelector",
+      "value": "/text/body/div[@type='edition']//w[@xml:id='ISic000031-50']" // (3)
+      "refinedBy": { // (4)
+        "type": "TextQuoteSelector",
+        "exact": "n",
+        "prefix": "ia",
+        "suffix": " i"
+      }
+   }
+```
+
+Questions:
+
+How can we specify the index of the sign? 
+
+Yes if TextPositionSelector can be relative to the word when we use it in a refinedBy. However one common complication is when preceding signs in the word are supplied by the editor but not engraved.
+
+In the following example, is the index of `n` in `ia[n]i`, relative to the word 3 or 13.
+3 would be more practical but its interpretation would depend on conventions external to the web annotation and this making it less self-contained and less interoperable.
+
+```
+<w xml:id="ISic000031-50">
+   <supplied reason="lost" xml:id="ISic000031-60">kalendarii</supplied>
+   <gap reason="lost" extent="unknown" unit="character"/>
+   iani
+</w>
+```
+
+### Image region target
+
+This is produced by Annotorious and contains a reference to IIIF Image URI.
+
+```
+"target": {
+   "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif",
+   "selector": {
+      "type": "FragmentSelector",
+      "conformsTo": "http://www.w3.org/TR/media-frags/",
+      "value": "xywh=pixel:4824.82763671875,2947.958984375,488.3076171875,787.592529296875"
+   }
+},
+```
+

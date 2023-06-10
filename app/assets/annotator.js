@@ -256,20 +256,36 @@ createApp({
     filteredAllographs() {
       let ret = {}
       let script = this.description.script
+
       // TODO: don't show allograph from base script if already in selected script
 
-      // let allographKeys = Object.keys(this.definitions.scripts)
-      // scriptKeys = scriptKeys.sort((a, b) => {
-      //   a = this.definitions.scripts[a]
-      //   b = this.definitions.scripts[b]
-      //   return a === b ? 0 : (a > b ? 1 : -1);
-      // })
+      // 1. sort the allograph by (chararcter, script)
+      // where script = 1 if base, 0 otherwise
+      // So A0 comes before A1 (base)
+      let allographKeys = Object.keys(this.definitions.allographs)
+      // console.log(allographKeys)
+      let get_sort_key_from_allograph_key = (akey) => {
+        let allograph = this.definitions.allographs[akey]
+        return (allograph.character) + (allograph.script == 'base' ? '1' : '0')
+      };
+      allographKeys.sort((a, b) => {
+        a = get_sort_key_from_allograph_key(a)
+        b = get_sort_key_from_allograph_key(b)
+        return (a === b ? 0 : (a > b ? 1 : -1));
+      })
 
+      // console.log(allographKeys)
+
+      let last_character = null
       if (script && script != 'base' && this.definitions.scripts[script]) {
-        for (let allographKey of Object.keys(this.definitions.allographs)) {
+        for (let allographKey of allographKeys) {
           let allograph = this.definitions.allographs[allographKey]
+          // don't add the base allograph if that charcter has already been added for specific script
           if (allograph.script === 'base' || allograph.script === script) {
-            ret[allographKey] = allograph
+            if (allograph.character !== last_character) {
+              ret[allographKey] = allograph
+              last_character = allograph.character
+            }
           }
         }
       }

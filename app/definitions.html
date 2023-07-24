@@ -12,8 +12,9 @@
     <script src="utils.js"></script>
     <script type="module">
       // TODO: relative import
-      import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
-      // import { Octokit } from "./node_modules/@octokit/core/dist-web/index.js";
+      // TODO: modularise use of octokit, create a wrapper
+      // TODO: don't import it globally.
+      import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
       window.Octokit = Octokit
     </script>    
     <link rel="stylesheet" href="./assets/main.css">

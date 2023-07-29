@@ -18,10 +18,15 @@
 
     <script src="utils.js"></script>
     <script type="module">
+      // TODO: UPGRADE
       // TODO: relative import
       // TODO: modularise use of octokit, create a wrapper
       // TODO: don't import it globally.
+      // import { Octokit } from "https://esm.sh/@octokit/core";
+      // import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
+      // import { Octokit, App } from "https://esm.sh/octokit";
       import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
+      // import { Octokit } from "./node_modules/@octokit/core/dist-web/index.js";
       window.Octokit = Octokit
     </script>    
     <script src="assets/annotator.js" defer></script>

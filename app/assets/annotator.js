@@ -19,9 +19,12 @@ let IMG_PATH_STATIC_ROOT = './data/images/'
 // IIIF server via local proxy to avoit CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
+const annotationVersion = '2023-07-28-00'
+const annotationIdPrefix = 'https://crossreads.web.ox.ac.uk/annotations/'
+const annotationGenerator = `https://github.com/kingsdigitallab/crossreads#${annotationVersion}`
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
-const debugDontSave = false;
-// debugDontSave = true;
+// const debugDontSave = false;
+const debugDontSave = true;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -29,6 +32,12 @@ function logButtons(e) {
 }
 document.addEventListener('mouseup', logButtons);
 document.addEventListener('mousedown', logButtons);
+
+function deepCopy(v) {
+  return JSON.parse(JSON.stringify(v))
+  // => Uncaught DOMException: Proxy object could not be cloned.
+  // return structuredClone(v)
+}
 
 // TODO: move this into Vue?
 function loadOpenSeaDragon(vueApp) {
@@ -313,6 +322,9 @@ createApp({
     object() {
       return this.objects[this.selection.object] || null
     },
+    objectId() {
+      return this.object['@id'] || null
+    },
     image() {
       return this.images[this.selection.image] || null
     },
@@ -533,7 +545,8 @@ createApp({
       let ret = null
       annotation = annotation || this.annotation
       if (annotation?.body?.length) {
-        let description = JSON.parse(annotation.body[0].value)
+        // let description = JSON.parse(annotation.body[0].value)
+        let description = annotation.body[0].value
         if (description?.textTarget?.signId) {
           let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
           if (word) {
@@ -563,7 +576,9 @@ createApp({
     updateSelectedAnnotationFromDescription() {
       let annotation = this.anno.getSelected()
       if (annotation) {
-        annotation.body[0].value = JSON.stringify(this.description)
+        // annotation.body[0].value = JSON.stringify(this.description)
+        annotation.body[0].value = deepCopy(this.description)
+        console.log(JSON.stringify(annotation, null, 2))
         this.anno.updateSelected(annotation)
         this.setUnsaved()
       }
@@ -594,7 +609,8 @@ createApp({
         type: 'TextualBody',
         purpose: 'describing',
         format: 'application/json',
-        value: JSON.stringify(this.description)
+        // value: JSON.stringify(this.description)
+        value: deepCopy(this.description)
       }];
 
       // use this instead of updateSelected & saveSelected()
@@ -611,7 +627,7 @@ createApp({
       // this.saveAnnotationsToSession()
       this.setUnsaved(true)
 
-      annotation.generator = "https://github.com/kingsdigitallab/crossreads#0.1"
+      annotation.generator = annotationGenerator
       annotation.creator = this.userId
       annotation.created = new Date().toISOString()
 
@@ -660,7 +676,8 @@ createApp({
     onSelectAnnotation(annotation) {
       console.log('EVENT onSelectAnnotation')
       if (annotation) {
-        this.description = JSON.parse(annotation.body[0].value)
+        this.description = deepCopy(annotation.body[0].value)
+        // this.description = JSON.parse(annotation.body[0].value)
         // set the script from the allograph if absent
         if (this.description.allograph && !this.description.script) {
           let allograph = this.definitions.allographs[this.description.allograph]
@@ -769,10 +786,6 @@ createApp({
       await this.saveAnnotationsToGithub()
     },
     async saveAnnotationsToGithub() {
-      if (debugDontSave) {
-        console.log('debugDontSave=True => skip saving.')
-        return
-      }
       if (this.isUnsaved) {
         if (!this.canSave)  {
           console.log('Can\'t save in read only mode.')
@@ -794,12 +807,17 @@ createApp({
         }
 
         let filePath = this.getAnnotationFilePath()
-        let data = this.anno.getAnnotations()
+        let annotations = deepCopy(this.anno.getAnnotations())
+        annotations = this.convertAnnotationsToW3C(annotations)
         // sort the annotations by id so it is deterministic
-        data.sort((a, b) => {
+        annotations.sort((a, b) => {
           return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1);
         })
-        this.annotationsSha = await utils.updateGithubJsonFile(filePath, data, this.getOctokit(), sha)
+        if (debugDontSave) {
+          console.log('debugDontSave=True => skip saving.')
+        } else {
+          this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
+        }
 
         // restore the selection
         if (selectedAnnotation && this.isUnsaved > 1) {
@@ -857,7 +875,9 @@ createApp({
         let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
         // let res = await utils.readGithubJsonFile(filePath)
         if (res) {
-          this.anno.setAnnotations(res.data)
+          let annotations = this.upgradeAnnotations(res.data)
+          annotations = this.convertAnnotationsToAnnotorious(annotations)
+          this.anno.setAnnotations(annotations)
           if (this.selection.annotationId) {
             this.annotation = this.anno.selectAnnotation(`#${this.selection.annotationId}`)
             this.onSelectAnnotation(this.annotation)
@@ -870,6 +890,142 @@ createApp({
         }
       }
       this.isUnsaved = 0
+    },
+    upgradeAnnotations(annotations) {
+      ret = annotations
+      for (let annotation of ret) {
+        let description = annotation?.body[0]?.value
+        // July 2023 - convert the description body/value from json string to json
+        if (typeof description === 'string') {
+          annotation.body[0].value = JSON.parse(description)
+        }
+        // bump the version
+        annotation.generator = annotationGenerator
+      }
+      return ret
+    },
+    correctAnnotationId(annotation) {
+      // "id": "#ea90b5df-1cc8-4f23-b043-dcd609be5bd1",
+      // =>
+      // "id": "http://example.com/annotations/ea90b5df-1cc8-4f23-b043-dcd609be5bd1",
+      if (annotation.id.startsWith('#')) {
+        annotation.id = annotationIdPrefix + annotation.id.substring(1)
+      }
+    },
+    convertAnnotationsToW3C(annotations) {
+      // annotorious doesn't support the full W3C standard
+      /*
+        Annotorious:
+
+        "body": [
+          {
+            "type": "TextualBody",
+            "purpose": "describing",
+            "format": "application/json",
+            "value": {
+              "allograph": "S",
+              "components": [],
+              "textTarget": {
+                "textId": null,
+                "wordId": "ISic000001-20",
+                "signId": "2"
+              },
+              "script": "SCRIPT"
+            }
+          }
+        ],
+        "target": {
+          <IMAGE TARGET>
+        }
+
+        W3C: 
+        https://www.w3.org/TR/annotation-model/#serialization-of-the-model
+
+        "body": [
+          {
+            "type": "TextualBody",
+            "purpose": "describing",
+            "format": "application/json",
+            "value": {
+              "allograph": "S",
+              "components": [],
+              "script": "SCRIPT"
+            }
+          }
+        ],
+        "target": [
+          { <IMAGE TARGET> },
+          {
+            "source": "<DTS URL>",
+            "selector": {
+              "type": "XPathSelector",
+              "value": "//*[@xml:id='ISic000001-10']",
+              "refinedBy": {
+                "type": "TextPositionSelector",
+                "start": 1,
+                "end": 2
+              }
+            }
+          },
+        ]
+
+      */
+      let ret = annotations
+      for (let annotation of ret) {
+        // 1. only one target allowed => move textual target from body/textTarget to target
+        if (!(annotation.target instanceof Array)) {
+          annotation.target = [annotation.target]
+        }
+
+        let description = annotation?.body[0]?.value
+        let textTarget = description?.textTarget
+
+        if (textTarget) {
+          delete description.textTarget
+          let textId = textTarget.textId || this.objectId
+          let startIndex = parseInt(textTarget.signId)
+          let target = {
+            "source": `https://crossreads.web.ox.ac.uk/dts/api/documents/?id=${textId}`,
+            "selector": {
+              "type": "XPathSelector",
+              "value": `//*[@xml:id='${textTarget.wordId}']`,
+              "refinedBy": {
+                "type": "TextPositionSelector",
+                "start": startIndex,
+                "end": startIndex + 1
+              }
+            }
+          }
+
+          annotation.target.push(target)          
+        }
+
+        // July 2023 - convert annotorious id to valid uri
+        this.correctAnnotationId(annotation)
+
+        console.log(JSON.stringify(annotation, null, 2))
+      }
+      return ret
+    },
+    convertAnnotationsToAnnotorious(annotations) {
+      // annotorious doesn't support the full W3C standard
+      // 1. only one target allowed => temporarily shove the textual target into the body/textTarget
+      let ret = annotations
+
+      for (let annotation of ret) {
+        if (annotation.target instanceof Array && annotation.target.length == 2) {
+          let textTarget = annotation.target[1]
+          annotation.target = [annotation.target[0]]
+
+          annotation.body.value.textTarget = {
+            textId: textTarget.source,
+            wordId: textTarget.value.replace(/^.*id='([^']+).*$/, '$1'),
+            signId: `${textTarget.selector.refinedBy.start}`
+          }
+        }
+      }
+
+      return ret
     },
     loadAnnotationsFromSession2() {
       // TODO: restore this function, and use for offline editing

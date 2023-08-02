@@ -42,12 +42,12 @@ const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/opens
 const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
 const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
-const AUTO_SAVE_EVERY_MILLISEC = -1
+const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
 // const debugDontSave = false;
-const DEBUG_DONT_SAVE = true;
+const DEBUG_DONT_SAVE = false;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -80,7 +80,7 @@ function loadOpenSeaDragon(vueApp) {
     allowEmpty: true,
     // disableSelect: true,
     // TODO: js error after select + click outside rect
-    fragmentUnit: 'percent', 
+    // fragmentUnit: 'percent', 
     formatters: vueApp.annotoriousFormatter,
     readOnly: !vueApp.canSave
   };
@@ -891,8 +891,6 @@ createApp({
         if (res) {
           let annotations = this.upgradeAnnotations(res.data)
           annotations = this.dedupeAnnotations(annotations)
-          annotations = this.convertAnnotationsToAnnotorious(annotations)
-          annotations = this.convertAnnotationsToW3C(annotations)
           annotations = this.convertAnnotationsToAnnotorious(annotations)
           this.anno.setAnnotations(annotations)
           if (this.selection.annotationId) {

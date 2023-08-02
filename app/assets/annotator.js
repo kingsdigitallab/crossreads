@@ -16,13 +16,15 @@ let IMG_PATH_STATIC_ROOT = './data/images/'
 // Crossreads live IIIF server
 // https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json
 // let IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
-// IIIF server via local proxy to avoit CORS blockage
+// IIIF server via local proxy to avoid CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
 const annotationVersion = '2023-07-28-00'
 const annotationIdPrefix = 'https://crossreads.web.ox.ac.uk/annotations/'
 const annotationGenerator = `https://github.com/kingsdigitallab/crossreads#${annotationVersion}`
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
+const collectionPath = './data/2023-01/collection.json'
+// const collectionPath = './data/dts/api/collections.json'
 // const debugDontSave = false;
 const debugDontSave = true;
 
@@ -94,8 +96,8 @@ createApp({
       // TODO: not reactive
       apis: {
         // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
-        collections: './data/2023-01/collection.json',
-        definitions: './data/pal/definitions-digipal.json',
+        collections: collectionPath,
+        definitions: definitionsPath,
       },
       objects: {
         obj1: { 'description': 'Object 1', '@id': 'obj1', 'title': 't1' },
@@ -192,16 +194,18 @@ createApp({
     this.loadDefinitions()
     // this.logOk('App loaded')
 
-    setInterval(() => {
-      // we don't want to save while the user is changing a box.
-      // Because save unselect & reselect the box.
-      // This would disrupt the user's operation
-      if (!isButtonPressed) {
-        this.saveAnnotationsToGithub()
-      }
-    }, 10000)
+    if (0) {
+      setInterval(() => {
+        // we don't want to save while the user is changing a box.
+        // Because save unselect & reselect the box.
+        // This would disrupt the user's operation
+        if (!isButtonPressed) {
+          this.saveAnnotationsToGithub()
+        }
+      }, 10000)
+    }
 
-    // save annotations before movinf to other tab
+    // save annotations before moving to other tab
     for (let tab of document.querySelectorAll('.tabs li a')) {
 
       tab.addEventListener('click', async (event) => {
@@ -220,7 +224,7 @@ createApp({
       this.fetchObjectXML()
     },
     'selection.showSuppliedText'() {
-      console.log('showSuppliedText')
+      // console.log('showSuppliedText')
       this.setAddressBarFromSelection()
     }
   },
@@ -322,8 +326,8 @@ createApp({
     object() {
       return this.objects[this.selection.object] || null
     },
-    objectId() {
-      return this.object['@id'] || null
+    objectDtsPassage() {
+      return this.object['dts:passage'] || null
     },
     image() {
       return this.images[this.selection.image] || null
@@ -346,7 +350,8 @@ createApp({
                 '@id': m['@id'],
                 title: m.title,
                 description: m.description,
-                "dts:download": m['dts:download']
+                "dts:download": m['dts:download'],
+                "dts:passage": m['dts:passage']
               }
             }
           }
@@ -458,7 +463,7 @@ createApp({
         })
     },
     onClickSign(sign) {
-      // console.log('Click sign')
+      console.log('Click sign')
       let selectedAnnotation = this.anno.getSelected()
       let signAnnotation = this.getAnnotationFromSign(sign)
       let annotationSign = this.getSignFromAnnotation()
@@ -484,9 +489,9 @@ createApp({
               for (let k of Object.keys(this.definitions.allographs)) {
                 let allograph = this.definitions.allographs[k] 
                 if (allograph.script == this.description.script) {
-                  console.log(`${allograph.character} == ${allo}`)
+                  // console.log(`${allograph.character} == ${allo}`)
                   if (allograph.character == allo) {
-                    console.log(k)
+                    // console.log(k)
                     this.description.allograph = k
                     break allosLoop
                   }
@@ -499,6 +504,18 @@ createApp({
         }
       }
       this.selectAnnotation(signAnnotation)
+    },
+    dlg(annotations=null) {
+      let ids = {}
+      if (!annotations) {
+        annotations = this.anno.getAnnotations()
+      }
+      for (let annotation of annotations) {
+        if (ids[annotation.id]) {
+          console.log('duplicate ' + annotation.id)
+        }
+        ids[annotation.id] = 1
+      }
     },
     getAnnotationFromSign(sign) {
       let ret = null
@@ -541,15 +558,20 @@ createApp({
       }
       this.setAddressBarFromSelection()
     },
-    getSignFromAnnotation(annotation = null) {
+    getSignFromAnnotation(annotation = null, dolog=false) {
       let ret = null
       annotation = annotation || this.annotation
+      if (dolog) console.log(annotation.id)
       if (annotation?.body?.length) {
+        if (dolog) console.log('h0')
         // let description = JSON.parse(annotation.body[0].value)
         let description = annotation.body[0].value
+        if (dolog) console.log(description)
         if (description?.textTarget?.signId) {
+          if (dolog) console.log('h1')
           let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
           if (word) {
+            if (dolog) console.log('h2')
             ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`)
           }
         }
@@ -602,14 +624,14 @@ createApp({
     },
     // Events - Annotorious
     async onCreateSelection(selection) {
-      // console.log('EVENT onCreateSelection')
+      // Called before onCreateAnnotation
+      console.log('EVENT onCreateSelection')
 
       // selection.motivation = 'describing'
       selection.body = [{
         type: 'TextualBody',
         purpose: 'describing',
         format: 'application/json',
-        // value: JSON.stringify(this.description)
         value: deepCopy(this.description)
       }];
 
@@ -623,7 +645,9 @@ createApp({
       await this.anno.updateSelected(selection, true);
     },
     onCreateAnnotation(annotation, overrideId) {
+      // Called after onCreateSelection
       console.log('EVENT onCreateAnnotation')
+
       // this.saveAnnotationsToSession()
       this.setUnsaved(true)
 
@@ -631,7 +655,7 @@ createApp({
       annotation.creator = this.userId
       annotation.created = new Date().toISOString()
 
-      this.anno.selectAnnotation(annotation)
+      this.selectAnnotation(annotation)
     },
     onMouseEnterAnnotation(annotation, element) {
       // console.log('EVENT onMouseEnterAnnotation')
@@ -645,7 +669,7 @@ createApp({
       // NOTE that the selected annotation's target is NOT changed yet
       // It will be updated ONLY when deselecting.
       // which can be done with saveSelected().
-      // Which in trun calls onUpdateAnnotation().
+      // Which in turn calls onUpdateAnnotation().
       console.log('EVENT onChangeSelectionTarget')
       this.isUnsaved = 2
       this.setUnsaved(true)
@@ -669,12 +693,22 @@ createApp({
       this.clearDescription()
     },
     selectAnnotation(annotation) {
-      this.anno.selectAnnotation(annotation)
-      this.onSelectAnnotation(annotation)
+      if (annotation) {
+        annotation = this.anno.selectAnnotation(annotation)
+      }
+      if (annotation) {
+        // why in a timeout? 
+        // Because annotorious selectAnnotation dedupe shapes that way.
+        // So we are sure things are all consistent by coming after.
+        setTimeout(() => {
+          this.onSelectAnnotation(annotation)  
+        }, 2)
+      }
       return annotation
     },
     onSelectAnnotation(annotation) {
       console.log('EVENT onSelectAnnotation')
+      this.dlg()
       if (annotation) {
         this.description = deepCopy(annotation.body[0].value)
         // this.description = JSON.parse(annotation.body[0].value)
@@ -787,6 +821,8 @@ createApp({
     },
     async saveAnnotationsToGithub() {
       if (this.isUnsaved) {
+        console.log('s0')
+
         if (!this.canSave)  {
           console.log('Can\'t save in read only mode.')
           return
@@ -802,28 +838,44 @@ createApp({
         // and trigger onUpdateAnnotation().
         // It also deselects the annotation.
         // But we re-select it after saving to GH.
+        console.log('s1')
+        this.dlg()
         if (selectedAnnotation && this.isUnsaved > 1) {
           await this.anno.saveSelected()
         }
+        console.log('s2')
+        this.dlg()
 
         let filePath = this.getAnnotationFilePath()
+        console.log('s2.1')
+        this.dlg()
         let annotations = deepCopy(this.anno.getAnnotations())
+        console.log('s2.2')
+        this.dlg()
         annotations = this.convertAnnotationsToW3C(annotations)
+        console.log('s2.3')
+        this.dlg()
         // sort the annotations by id so it is deterministic
         annotations.sort((a, b) => {
           return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1);
         })
+        this.dlg(annotations)
         if (debugDontSave) {
           console.log('debugDontSave=True => skip saving.')
         } else {
           this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
         }
 
+        console.log('s3')
+        this.dlg()
+
         // restore the selection
         if (selectedAnnotation && this.isUnsaved > 1) {
-          this.anno.selectAnnotation(selectedAnnotation)
-          this.onSelectAnnotation(selectedAnnotation)
+          this.selectAnnotation(selectedAnnotation)
         }
+
+        console.log('s4')
+        this.dlg()
 
         this.isUnsaved = 0
       }
@@ -869,18 +921,19 @@ createApp({
     },
     async loadAnnotationsFromGithub() {
       // this.annotations = null
-      // TODO: detect error (but 404 notan error!)
+      // TODO: detect error (but 404 not an error!)
       let filePath = this.getAnnotationFilePath()
       if (filePath) {
         let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
-        // let res = await utils.readGithubJsonFile(filePath)
         if (res) {
           let annotations = this.upgradeAnnotations(res.data)
+          annotations = this.dedupeAnnotations(annotations)
+          annotations = this.convertAnnotationsToAnnotorious(annotations)
+          annotations = this.convertAnnotationsToW3C(annotations)
           annotations = this.convertAnnotationsToAnnotorious(annotations)
           this.anno.setAnnotations(annotations)
           if (this.selection.annotationId) {
-            this.annotation = this.anno.selectAnnotation(`#${this.selection.annotationId}`)
-            this.onSelectAnnotation(this.annotation)
+            this.selectAnnotation(`${this.selection.annotationId}`)
           }
           this.updateSignHighlights()
           this.annotationsSha = res.sha
@@ -982,10 +1035,11 @@ createApp({
 
         if (textTarget) {
           delete description.textTarget
-          let textId = textTarget.textId || this.objectId
+          // let textId = textTarget.textId || this.objectId
           let startIndex = parseInt(textTarget.signId)
+          const dtsRoot = 'https://crossreads.web.ox.ac.uk'
           let target = {
-            "source": `https://crossreads.web.ox.ac.uk/dts/api/documents/?id=${textId}`,
+            "source": `${dtsRoot}${this.objectDtsPassage}`,
             "selector": {
               "type": "XPathSelector",
               "value": `//*[@xml:id='${textTarget.wordId}']`,
@@ -1003,9 +1057,18 @@ createApp({
         // July 2023 - convert annotorious id to valid uri
         this.correctAnnotationId(annotation)
 
-        console.log(JSON.stringify(annotation, null, 2))
+        // console.log(JSON.stringify(annotation, null, 2))
       }
       return ret
+    },
+    dedupeAnnotations(annotations) {
+      let ids = {}
+      return annotations.filter(an => {
+        let ret = !ids[an.id]
+        ids[an.id] = 1
+        if (!ret) console.log(`REMOVED duplicate annotation ${an.id}`)
+        return ret
+      })
     },
     convertAnnotationsToAnnotorious(annotations) {
       // annotorious doesn't support the full W3C standard
@@ -1013,14 +1076,18 @@ createApp({
       let ret = annotations
 
       for (let annotation of ret) {
-        if (annotation.target instanceof Array && annotation.target.length == 2) {
-          let textTarget = annotation.target[1]
-          annotation.target = [annotation.target[0]]
+        if (annotation.target instanceof Array && annotation.target.length > 0) {
+          let targets = annotation.target
+          annotation.target = targets[0]
 
-          annotation.body.value.textTarget = {
-            textId: textTarget.source,
-            wordId: textTarget.value.replace(/^.*id='([^']+).*$/, '$1'),
-            signId: `${textTarget.selector.refinedBy.start}`
+          if (targets.length > 1) {
+            let textTarget = targets[1]
+
+            annotation.body[0].value.textTarget = {
+              textId: textTarget.source,
+              wordId: textTarget.selector.value.replace(/^.*id='([^']+).*$/, '$1'),
+              signId: `${textTarget.selector.refinedBy.start}`
+            }
           }
         }
       }
@@ -1067,7 +1134,9 @@ createApp({
       // sets 'bound' class to annotation svg 
       // if bound to a sign in the text.
       let ret = ''
+      // console.log(annotation)
       if (this.getSignFromAnnotation(annotation)) {
+        // console.log('bound')
         ret = 'bound'
       }
       // console.log(`formatter: "${ret}"`)

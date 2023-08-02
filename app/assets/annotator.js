@@ -43,6 +43,7 @@ const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
 const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = -1
+const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
 // const debugDontSave = false;
@@ -79,7 +80,7 @@ function loadOpenSeaDragon(vueApp) {
     allowEmpty: true,
     // disableSelect: true,
     // TODO: js error after select + click outside rect
-    // fragmentUnit: 'percent', 
+    fragmentUnit: 'percent', 
     formatters: vueApp.annotoriousFormatter,
     readOnly: !vueApp.canSave
   };
@@ -470,7 +471,8 @@ createApp({
         })
     },
     onClickSign(sign) {
-      console.log('Click sign')
+      this.logEvent('onClickSign')
+
       let selectedAnnotation = this.anno.getSelected()
       let signAnnotation = this.getAnnotationFromSign(sign)
       let annotationSign = this.getSignFromAnnotation()
@@ -509,18 +511,6 @@ createApp({
         }
       }
       this.selectAnnotation(signAnnotation)
-    },
-    dlg(annotations=null) {
-      let ids = {}
-      if (!annotations) {
-        annotations = this.anno.getAnnotations()
-      }
-      for (let annotation of annotations) {
-        if (ids[annotation.id]) {
-          console.log('duplicate ' + annotation.id)
-        }
-        ids[annotation.id] = 1
-      }
     },
     getAnnotationFromSign(sign) {
       let ret = null
@@ -622,7 +612,7 @@ createApp({
     // Events - Annotorious
     async onCreateSelection(selection) {
       // Called before onCreateAnnotation
-      console.log('EVENT onCreateSelection')
+      this.logEvent('onCreateSelection')
 
       // selection.motivation = 'describing'
       selection.body = [{
@@ -643,7 +633,7 @@ createApp({
     },
     onCreateAnnotation(annotation, overrideId) {
       // Called after onCreateSelection
-      console.log('EVENT onCreateAnnotation')
+      this.logEvent('onCreateAnnotation')
 
       // this.saveAnnotationsToSession()
       this.setUnsaved(true)
@@ -666,7 +656,8 @@ createApp({
       // It will be updated ONLY when deselecting.
       // which can be done with saveSelected().
       // Which in turn calls onUpdateAnnotation().
-      console.log('EVENT onChangeSelectionTarget')
+      this.logEvent('onChangeSelectionTarget')
+      
       this.isUnsaved = 2
       this.setUnsaved(true)
     },
@@ -674,7 +665,8 @@ createApp({
       // triggered after deselecting moved annotation
       // Or annotation which target has been changed.
       // NOTE that onCancelSelected() will NOT be called
-      console.log('EVENT onUpdateAnnotation')
+      this.logEvent('onUpdateAnnotation')
+
       this.setUnsaved()
       this.onCancelSelected()
     },
@@ -682,7 +674,8 @@ createApp({
       // triggered after deselecting without changing box
       // NOTE that onUpdateAnnotation() will NOT be called
       // at this point this.anno.getSelected() still returns an annotation!
-      console.log('EVENT onCancelSelected')
+      this.logEvent('onCancelSelected')
+
       this.annotation = null
       delete this.description.textTarget
       this.updateSignHighlights()
@@ -703,7 +696,8 @@ createApp({
       return annotation
     },
     onSelectAnnotation(annotation) {
-      console.log('EVENT onSelectAnnotation')
+      this.logEvent('onSelectAnnotation')
+
       if (annotation) {
         this.description = deepCopy(annotation.body[0].value)
         // this.description = JSON.parse(annotation.body[0].value)
@@ -728,12 +722,14 @@ createApp({
       this.updateDescriptionFromAllograph()
     },
     onDeleteAnnotation() {
-      console.log('EVENT onDeleteAnnotation')
+      this.logEvent('onDeleteAnnotation')
+
       this.setUnsaved()
       this.onCancelSelected()
     },
     onClickAnnotation() {
-      console.log('EVENT onClickAnnotation')
+      this.logEvent('onClickAnnotation')
+
       // this.saveAnnotationsToSession()
     },
     // Events - Selection
@@ -1030,7 +1026,7 @@ createApp({
       return annotations.filter(an => {
         let ret = !ids[an.id]
         ids[an.id] = 1
-        if (!ret) console.log(`REMOVED duplicate annotation ${an.id}`)
+        if (!ret) console.log(`WARNING: removed duplicate annotation ${an.id}`)
         return ret
       })
     },
@@ -1104,6 +1100,21 @@ createApp({
         month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
         year = timeStamp.getFullYear() == now.getFullYear() ? "" : " " + timeStamp.getFullYear();
         return day + " " + month + year;
+      }
+    },
+    logEvent(eventName) {
+      if (LOG_EVENTS) console.log(`EVENT ${eventName}`)
+    },
+    dlg(annotations=null) {
+      let ids = {}
+      if (!annotations) {
+        annotations = this.anno.getAnnotations()
+      }
+      for (let annotation of annotations) {
+        if (ids[annotation.id]) {
+          console.log('duplicate ' + annotation.id)
+        }
+        ids[annotation.id] = 1
       }
     },
     logMessage(content, level = 'info') {

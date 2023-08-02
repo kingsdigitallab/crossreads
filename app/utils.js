@@ -115,7 +115,7 @@
     let res = null;
 
     // °
-    console.log(JSON.stringify(data, null, 2))
+    // console.log(JSON.stringify(data, null, 2))
 
     let options = {
       owner: "kingsdigitallab",

@@ -7,20 +7,39 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"S\",\"components\":[],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-20\",\"signId\":\"2\"},\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "S",
+          "components": [],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:2437.81005859375,510.3599853515625,581.2431640625,978.18994140625"
+    "target": [
+      {
+        "source": "http://127.0.0.1:5500/app/data/images/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2437.81005859375,467.830078125,581.2431640625,978.18994140625"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-20']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
-    },
-    "id": "#10446556-7d2c-46cf-ade2-d57caaf5eb8b",
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/10446556-7d2c-46cf-ade2-d57caaf5eb8b",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-06-06T15:56:25.724Z"
+    "modified": "2023-06-06T15:56:25.724Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -30,47 +49,76 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":null,\"components\":[],\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "I",
+          "components": [
+            [
+              "main-stroke",
+              {
+                "bilinear": false,
+                "concave-up": false,
+                "hook-absent": false,
+                "hooked-left": false,
+                "hooked-right": false,
+                "hooked-up": false
+              }
+            ],
+            [
+              "top-bar",
+              {
+                "below-baseline": false,
+                "on-baseline": true,
+                "straight": true,
+                "vertical": false,
+                "long": false,
+                "sans-serif": false
+              }
+            ],
+            [
+              "bottom-bar",
+              {
+                "curved": false,
+                "on-baseline": true,
+                "short": false,
+                "straight": true,
+                "vertical": false,
+                "long": false,
+                "sans-serif": false
+              }
+            ]
+          ],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "http://127.0.0.1:5500/app/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:167.8968963623047,1680.0550537109375,866.3518829345703,659.6087646484375"
-      }
-    },
-    "id": "#114bad95-b931-413d-b1fa-67156437f0f6",
-    "generator": "https://github.com/kingsdigitallab/crossreads#0.1",
-    "creator": "https://api.github.com/users/geoffroy-noel-ddh",
-    "created": "2023-07-27T14:09:51.971Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
+    "target": [
       {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": "{\"allograph\":\"I\",\"components\":[[\"main-stroke\",{\"bilinear\":false,\"concave-up\":false,\"hook-absent\":false,\"hooked-left\":false,\"hooked-right\":false,\"hooked-up\":false}],[\"top-bar\",{\"below-baseline\":false,\"on-baseline\":true,\"straight\":true,\"vertical\":false,\"long\":false,\"sans-serif\":false}],[\"bottom-bar\",{\"curved\":false,\"on-baseline\":true,\"short\":false,\"straight\":true,\"vertical\":false,\"long\":false,\"sans-serif\":false}]],\"script\":\"SCRIPT\"}"
+        "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4824.82763671875,2947.958984375,488.3076171875,787.592529296875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-250']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:4824.82763671875,2947.958984375,488.3076171875,787.592529296875"
-      }
-    },
-    "id": "#1d2d5025-4373-4e41-adb4-640e650eb744",
-    "generator": "https://github.com/kingsdigitallab/crossreads#0.1",
+    "id": "https://crossreads.web.ox.ac.uk/annotations/1d2d5025-4373-4e41-adb4-640e650eb744",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00",
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-02-24T11:15:20.428Z",
-    "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-02-24T11:15:50.367Z"
+    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
+    "modified": "2023-07-27T14:25:15.230Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -80,44 +128,41 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":null,\"components\":[],\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": null,
+          "components": [],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "http://localhost:3000/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:3855.4765625,2736.0966796875,949.83642578125,1049.0732421875"
+    "target": [
+      {
+        "source": "http://localhost:3000/data/images/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3855.4765625,2736.0966796875,949.83642578125,1049.0732421875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-250']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
-    },
-    "id": "#279eaa1f-3254-45f7-9aa9-ffb460ca5b8b",
-    "generator": "https://github.com/kingsdigitallab/crossreads#0.1",
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/279eaa1f-3254-45f7-9aa9-ffb460ca5b8b",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00",
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
-    "created": "2023-04-12T19:53:28.372Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
-      {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": "{\"allograph\":\"A\",\"components\":[[\"right-stroke\",{}],[\"left-stroke\",{}],[\"crossbar\",{\"straight\":true,\"vertical\":false,\"angled\":false,\"angled-down\":false,\"angled-up\":false,\"angular\":false,\"small\":false,\"thick\":false,\"touching\":true,\"serif\":false,\"sans-serif\":true,\"blob\":false,\"above-minim-height\":false}],[\"apex\",{}]],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-200\",\"signId\":\"0\"},\"script\":\"SCRIPT\"}"
-      }
-    ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:2998.57568359375,2788.07763671875,551.314697265625,866.351806640625"
-      }
-    },
-    "id": "#2f33fffb-d105-4fd2-81d5-a25ec50816b9",
+    "created": "2023-04-12T19:53:28.372Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-04-12T19:53:12.207Z"
+    "modified": "2023-07-27T14:25:10.683Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -127,20 +172,70 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"z\",\"components\":[[\"bottom-stroke-z\",{\"above-baseline\":false,\"below-baseline\":false,\"convex\":false,\"flat\":false,\"long\":false,\"on-baseline\":false,\"rising\":false,\"short\":false,\"tilde-shaped\":false,\"turned-up-right\":false}],[\"diagonal-stroke-z\",{\"backward-leaning\":false,\"bilinear\":false,\"long\":false,\"vertical\":false}],[\"top-stroke\",{\"above-minim-height\":false,\"at-minim-height\":false,\"convex\":false,\"flat-shaped\":false,\"hooked-down\":false,\"hooked-up\":false,\"left-hooked-down\":false,\"left-hooked-up\":false,\"long\":false,\"rising\":false,\"short\":false,\"tilde-shaped\":false,\"wedged\":false}]],\"textTarget\":null,\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "A",
+          "components": [
+            [
+              "right-stroke",
+              {}
+            ],
+            [
+              "left-stroke",
+              {}
+            ],
+            [
+              "crossbar",
+              {
+                "straight": true,
+                "vertical": false,
+                "angled": false,
+                "angled-down": false,
+                "angled-up": false,
+                "angular": false,
+                "small": false,
+                "thick": false,
+                "touching": true,
+                "serif": false,
+                "sans-serif": true,
+                "blob": false,
+                "above-minim-height": false
+              }
+            ],
+            [
+              "apex",
+              {}
+            ]
+          ],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:2306.639892578125,1679.59619140625,1091.402587890625,921.113037109375"
+    "target": [
+      {
+        "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2998.57568359375,2788.07763671875,551.314697265625,866.351806640625"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-200']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
-    },
-    "id": "#4b10085d-d126-47b6-a38f-b34bf3435d65",
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/2f33fffb-d105-4fd2-81d5-a25ec50816b9",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-04-15T21:28:32.780Z"
+    "modified": "2023-04-12T19:53:12.207Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -150,20 +245,82 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"M\",\"components\":[],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-50\",\"signId\":\"0\"},\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "z",
+          "components": [
+            [
+              "bottom-stroke-z",
+              {
+                "above-baseline": false,
+                "below-baseline": false,
+                "convex": false,
+                "flat": false,
+                "long": false,
+                "on-baseline": false,
+                "rising": false,
+                "short": false,
+                "tilde-shaped": false,
+                "turned-up-right": false
+              }
+            ],
+            [
+              "diagonal-stroke-z",
+              {
+                "backward-leaning": false,
+                "bilinear": false,
+                "long": false,
+                "vertical": false
+              }
+            ],
+            [
+              "top-stroke",
+              {
+                "above-minim-height": false,
+                "at-minim-height": false,
+                "convex": false,
+                "flat-shaped": false,
+                "hooked-down": false,
+                "hooked-up": false,
+                "left-hooked-down": false,
+                "left-hooked-up": false,
+                "long": false,
+                "rising": false,
+                "short": false,
+                "tilde-shaped": false,
+                "wedged": false
+              }
+            ]
+          ],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:3274.233642578125,567.066650390625,1261.722900390625,992.36669921875"
+    "target": [
+      {
+        "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2306.639892578125,1679.59619140625,1091.402587890625,921.113037109375"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-120']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
-    },
-    "id": "#4caff226-e8f5-487d-93ad-d85e2fe405cf",
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/4b10085d-d126-47b6-a38f-b34bf3435d65",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-06-06T15:56:29.163Z"
+    "modified": "2023-07-27T14:24:56.310Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -173,20 +330,39 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"H\",\"components\":[[\"crossbar\",{\"straight\":false,\"vertical\":false,\"angled\":false,\"angled-down\":false,\"angled-up\":false,\"angular\":false,\"small\":false,\"thick\":false,\"touching\":false,\"serif\":false,\"sans-serif\":false,\"blob\":false,\"above-minim-height\":false,\"broken\":false}],[\"left-stroke\",{}],[\"right-stroke\",{}]],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-120\",\"signId\":\"0\"},\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "M",
+          "components": [],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:4208.044921875,1685.8721923828125,668.84814453125,901.4901123046875"
+    "target": [
+      {
+        "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3274.233642578125,567.066650390625,1261.722900390625,992.36669921875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-50']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
-    },
-    "id": "#4dedeefc-218a-49b7-aa7a-a46a1f30c89b",
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/4caff226-e8f5-487d-93ad-d85e2fe405cf",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-04-15T21:28:23.488Z"
+    "modified": "2023-06-06T15:56:29.163Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -196,20 +372,98 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"ligature\",\"components\":[],\"textTarget\":null,\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "H",
+          "components": [
+            [
+              "crossbar",
+              {
+                "straight": false,
+                "vertical": false,
+                "angled": false,
+                "angled-down": false,
+                "angled-up": false,
+                "angular": false,
+                "small": false,
+                "thick": false,
+                "touching": false,
+                "serif": false,
+                "sans-serif": false,
+                "blob": false,
+                "above-minim-height": false,
+                "broken": false
+              }
+            ],
+            [
+              "left-stroke",
+              {}
+            ],
+            [
+              "right-stroke",
+              {}
+            ]
+          ],
+          "textTarget": null,
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:4208.044921875,1685.8721923828125,668.84814453125,901.4901123046875"
+    "target": [
+      {
+        "source": "https://kingsdigitallab.github.io/crossreads/data/images/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4208.044921875,1685.8721923828125,668.84814453125,901.4901123046875"
+        }
       }
-    },
-    "id": "#4dedeefc-218a-49b7-aa7a-a46a1f30c89b",
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/4dedeefc-218a-49b7-aa7a-a46a1f30c89b",
+    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
+    "modified": "2023-07-27T14:24:52.652Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "allograph": "D",
+          "components": [],
+          "script": "SCRIPT"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1062.6732177734375,354.4166564941406,1190.8399658203125,1176.6632995605469"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-20']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/514e26a3-ea2a-4921-9b16-82de6f970710",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-04-20T09:33:15.255Z"
+    "modified": "2023-06-27T09:42:06.412Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -219,43 +473,39 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"D\",\"components\":[],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-20\",\"signId\":\"0\"},\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "N-SCRIPT",
+          "components": [],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:1062.6732177734375,354.4166564941406,1190.8399658203125,1176.6632995605469"
-      }
-    },
-    "id": "#514e26a3-ea2a-4921-9b16-82de6f970710",
-    "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-06-27T09:42:06.412Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
+    "target": [
       {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": "{\"allograph\":\"A-latin-1\",\"components\":[[\"aaa_test\",{}]],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-250\",\"signId\":\"0\"},\"script\":\"latin-1\"}"
+        "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4989.60986328125,595.4199829101562,751.36328125,964.0133666992188"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-50']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
-    "target": {
-      "source": "http://127.0.0.1:5500/app/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:5952.705627441406,2068.6151733398438,455.8941650390625,497.1204833984375"
-      }
-    },
-    "id": "#7e06475e-3de9-4bfe-b8bd-71e383e399dd",
+    "id": "https://crossreads.web.ox.ac.uk/annotations/848990b8-1b31-4f49-9033-54964db7d7ab",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-07-27T14:10:26.984Z"
+    "modified": "2023-06-06T15:57:13.185Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -265,20 +515,27 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"N-SCRIPT\",\"components\":[],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-50\",\"signId\":\"2\"},\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": null,
+          "components": [],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:4989.60986328125,595.4199829101562,751.36328125,964.0133666992188"
+    "target": [
+      {
+        "source": "http://localhost:3000/data/images/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:883.0765380859375,2606.67724609375,866.351806640625,929.359375"
+        }
       }
-    },
-    "id": "#848990b8-1b31-4f49-9033-54964db7d7ab",
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/b628f576-4033-46c3-952c-2c6bf9555b40",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-06-06T15:57:13.185Z"
+    "modified": "2023-07-27T18:32:51.965Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -288,42 +545,37 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"u\",\"components\":[[\"lower-curve\",{\"closed\":true,\"curved\":false,\"flat-bottomed\":false,\"horned\":false,\"long\":false,\"round\":false,\"short\":false,\"slanted-lower-left\":false,\"through-top-stroke\":false,\"turned-down-toe\":false,\"turned-up-toe\":false,\"vertical-left\":false,\"wedged\":false}],[\"minim\",{\"angular\":false,\"approach-stroke\":false,\"backward-reaching\":false,\"curved\":false,\"foot\":false,\"foot-absent\":false,\"horizontally-symmetric-flag\":false,\"split-large-split\":false,\"tapering\":false,\"unadorned\":false,\"vertically-symmetric\":false,\"wedged\":false}]],\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-150\",\"signId\":\"0\"},\"script\":\"SCRIPT\"}"
+        "value": {
+          "allograph": "X",
+          "components": [],
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "http://localhost:3000/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:883.0765380859375,2606.67724609375,866.351806640625,929.359375"
-      }
-    },
-    "id": "#b628f576-4033-46c3-952c-2c6bf9555b40",
-    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-04-12T19:53:09.335Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
+    "target": [
       {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": "{\"allograph\":\"X\",\"components\":[],\"script\":\"SCRIPT\",\"textTarget\":{\"textId\":null,\"wordId\":\"ISic000001-170\",\"signId\":\"1\"}}"
+        "source": "http://localhost:3000/data/images/ISic000001.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1955.8031005859375,2750.273193359375,850.5999755859375,921.4833984375"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000001",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ISic000001-170']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
       }
     ],
-    "target": {
-      "source": "http://localhost:3000/data/images/ISic000001.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:1955.8031005859375,2750.273193359375,850.5999755859375,921.4833984375"
-      }
-    },
-    "id": "#ea90b5df-1cc8-4f23-b043-dcd609be5bd1",
-    "generator": "https://github.com/kingsdigitallab/crossreads#0.1",
+    "id": "https://crossreads.web.ox.ac.uk/annotations/ea90b5df-1cc8-4f23-b043-dcd609be5bd1",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00",
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2023-06-09T22:16:06.720Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",

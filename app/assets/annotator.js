@@ -1,11 +1,25 @@
-/* TODO: modularise the Vue app:
-. Objects List
-. Images List
-. Image
-. Description
-. Text
+/* 
+An annotation is stored in various places:
 
-- remove hard-coded values (e.g. paths)
+1. github (in W3C standard format)
+2. Annotorious (in Annotorious and Annotator friendly format)
+  2.a annotorious working area (e.g. DOM & selection/shapes)
+  2.b annotorious annotations set (e.g. getAnnotations)
+  (Note that a shape is promoted to an annotation)
+3. Annotator (reactive Vue data)
+  3.a .annotation: READ-ONLY pointer to annotorious selected annotation, used as bool (this is mainly used to test if there's a selection)
+  3.b .description: the script, allograph, component-feature and the textTarget (pointer to the sign in the TEI) of an annotation
+    That description is reactive and linked to the UI.
+    It is copied back into annotorious annotation model by action-related events.
+    (script + allograph + CF) -> body of the annotation
+    (textTarget) -> body of the annotation (and then target when converted into W3C format)
+
+It's advised to familiarise yourself with Annotorious events.
+
+https://annotorious.github.io/api-docs/osd-plugin/
+
+Many oddities and complications in the code below work around 
+the way Annotorious manages the cascade of annotation editing events.
 */
 
 let IMG_PATH_STATIC_ROOT = './data/images/'
@@ -19,14 +33,20 @@ let IMG_PATH_STATIC_ROOT = './data/images/'
 // IIIF server via local proxy to avoid CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
-const annotationVersion = '2023-07-28-00'
-const annotationIdPrefix = 'https://crossreads.web.ox.ac.uk/annotations/'
-const annotationGenerator = `https://github.com/kingsdigitallab/crossreads#${annotationVersion}`
-const definitionsPath = 'app/data/pal/definitions-digipal.json'
-const collectionPath = './data/2023-01/collection.json'
+const ANNOTATION_FORMAT_VERSION = '2023-07-28-00'
+const ANNOTATION_URI_PREFIX = 'https://crossreads.web.ox.ac.uk/annotations/'
+const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#${ANNOTATION_FORMAT_VERSION}`
+const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
+const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
+const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
+const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
+const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
+// -1: never; 10000: check every 10 secs
+const AUTO_SAVE_EVERY_MILLISEC = -1
+
 // const collectionPath = './data/dts/api/collections.json'
 // const debugDontSave = false;
-const debugDontSave = true;
+const DEBUG_DONT_SAVE = true;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -45,7 +65,7 @@ function deepCopy(v) {
 function loadOpenSeaDragon(vueApp) {
   var viewer = OpenSeadragon({
     id: "image-viewer",
-    prefixUrl: './node_modules/openseadragon/build/openseadragon/images/',
+    prefixUrl: OPENSEADRAGON_IMAGE_URL_PREFIX,
     tileSources: {
       type: "image",
       url: `${IMG_PATH_STATIC_ROOT}blank.jpg`
@@ -96,8 +116,8 @@ createApp({
       // TODO: not reactive
       apis: {
         // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
-        collections: collectionPath,
-        definitions: definitionsPath,
+        collections: DTS_COLLECTION_PATH,
+        definitions: DEFINITIONS_PATH,
       },
       objects: {
         obj1: { 'description': 'Object 1', '@id': 'obj1', 'title': 't1' },
@@ -194,7 +214,7 @@ createApp({
     this.loadDefinitions()
     // this.logOk('App loaded')
 
-    if (0) {
+    if (AUTO_SAVE_EVERY_MILLISEC > 0) {
       setInterval(() => {
         // we don't want to save while the user is changing a box.
         // Because save unselect & reselect the box.
@@ -202,7 +222,7 @@ createApp({
         if (!isButtonPressed) {
           this.saveAnnotationsToGithub()
         }
-      }, 10000)
+      }, AUTO_SAVE_EVERY_MILLISEC)
     }
 
     // save annotations before moving to other tab
@@ -224,7 +244,6 @@ createApp({
       this.fetchObjectXML()
     },
     'selection.showSuppliedText'() {
-      // console.log('showSuppliedText')
       this.setAddressBarFromSelection()
     }
   },
@@ -276,7 +295,6 @@ createApp({
       // where script = 1 if base, 0 otherwise
       // So A0 comes before A1 (base)
       let allographKeys = Object.keys(this.definitions.allographs)
-      // console.log(allographKeys)
       let get_sort_key_from_allograph_key = (akey) => {
         let allograph = this.definitions.allographs[akey]
         return (allograph.character) + (allograph.script == 'base' ? '1' : '0')
@@ -286,8 +304,6 @@ createApp({
         b = get_sort_key_from_allograph_key(b)
         return (a === b ? 0 : (a > b ? 1 : -1));
       })
-
-      // console.log(allographKeys)
 
       let last_character = null
       if (script && script != 'base' && this.definitions.scripts[script]) {
@@ -342,7 +358,6 @@ createApp({
       fetch(this.apis.collections)
         .then(res => res.json())
         .then(res => {
-          // console.log(res)
           this.objects = {}
           for (let m of res.member) {
             if (m) {
@@ -365,19 +380,13 @@ createApp({
         })
     },
     async loadDefinitions() {
-      let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
+      let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
       if (res) {
         this.definitions = res.data
         this.updateDescriptionFromAllograph()
       } else {
         this.logError('Failed to load definitions from github.')
       }
-      // fetch(this.apis.definitions)
-      //   .then(res => res.json())
-      //   .then(res => {
-      //     this.definitions = res
-      //     this.updateDescriptionFromAllograph()
-      //   })
     },
     fetchObjectXML() {
       // fetch the TEI XML from DTS API for the selected object (this.object)
@@ -421,8 +430,8 @@ createApp({
       this.onSelectImage(img)
     },
     setTextFromObjectXML(xml) {
-      // xml (TEI) -> this.text (XHTML)
-      fetch('./data/tei2html.xslt')
+      // xml (TEI) -> this.text (XHTML)      
+      fetch(TEI_TO_HTML_XSLT_PATH)
         .then(res => res.text())
         .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
         .then(res => {
@@ -449,7 +458,6 @@ createApp({
           }
           // to string
           this.text = new XMLSerializer().serializeToString(doc)
-          // console.log(this.text)
           // attach events to each sign
           Vue.nextTick(() => {
             for (let sign of document.querySelectorAll('.sign')) {
@@ -457,7 +465,6 @@ createApp({
               // sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
               // sign.addEventListener('mouseleave', (e) => this.onMouseLeaveSign(sign));
             }
-            // console.log('setTextFromObjectXML:updateSignHighlights')
             this.updateSignHighlights()
           })
         })
@@ -489,9 +496,7 @@ createApp({
               for (let k of Object.keys(this.definitions.allographs)) {
                 let allograph = this.definitions.allographs[k] 
                 if (allograph.script == this.description.script) {
-                  // console.log(`${allograph.character} == ${allo}`)
                   if (allograph.character == allo) {
-                    // console.log(k)
                     this.description.allograph = k
                     break allosLoop
                   }
@@ -546,7 +551,6 @@ createApp({
       for (let sign of document.querySelectorAll('.sign.bound')) {
         sign.classList.remove('bound')
       }
-      // console.log(`updateSignHighlights: ${this.anno.getAnnotations().length} annotations`)
       for (let annotation of this.anno.getAnnotations()) {
         let sign = this.getSignFromAnnotation(annotation)
         if (sign) {
@@ -558,20 +562,15 @@ createApp({
       }
       this.setAddressBarFromSelection()
     },
-    getSignFromAnnotation(annotation = null, dolog=false) {
+    getSignFromAnnotation(annotation = null) {
       let ret = null
       annotation = annotation || this.annotation
-      if (dolog) console.log(annotation.id)
       if (annotation?.body?.length) {
-        if (dolog) console.log('h0')
         // let description = JSON.parse(annotation.body[0].value)
         let description = annotation.body[0].value
-        if (dolog) console.log(description)
         if (description?.textTarget?.signId) {
-          if (dolog) console.log('h1')
           let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
           if (word) {
-            if (dolog) console.log('h2')
             ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`)
           }
         }
@@ -600,7 +599,6 @@ createApp({
       if (annotation) {
         // annotation.body[0].value = JSON.stringify(this.description)
         annotation.body[0].value = deepCopy(this.description)
-        console.log(JSON.stringify(annotation, null, 2))
         this.anno.updateSelected(annotation)
         this.setUnsaved()
       }
@@ -615,7 +613,6 @@ createApp({
             for (let featureKey of this.definitions.components[componentKey]?.features || []) {
               features[featureKey] = false
             }
-            // console.log(features)
             this.description.components.push([componentKey, features])
           }
           this.cache.allographLast = description.allograph
@@ -651,7 +648,7 @@ createApp({
       // this.saveAnnotationsToSession()
       this.setUnsaved(true)
 
-      annotation.generator = annotationGenerator
+      annotation.generator = ANNOTATION_GENERATOR_URI
       annotation.creator = this.userId
       annotation.created = new Date().toISOString()
 
@@ -662,7 +659,6 @@ createApp({
     },
     onMouseLeaveAnnotation(annotation, element) {
       // console.log('EVENT onMouseLeaveAnnotation')
-      // console.log(annotation)
     },
     onChangeSelectionTarget(target) {
       // triggered each time a selected box changes
@@ -708,7 +704,6 @@ createApp({
     },
     onSelectAnnotation(annotation) {
       console.log('EVENT onSelectAnnotation')
-      this.dlg()
       if (annotation) {
         this.description = deepCopy(annotation.body[0].value)
         // this.description = JSON.parse(annotation.body[0].value)
@@ -763,7 +758,7 @@ createApp({
           let iiif_url = IMG_PATH_IIIF_ROOT
             .replace('{DOCID}', this.object['title'])
             .replace('{IMGID}', imgid);
-          console.log(iiif_url)
+          // console.log(iiif_url)
           options = [
             // 'https://libimages1.princeton.edu/loris/pudl0001%2F4609321%2Fs42%2F00000001.jp2/info.json'
             // `${IMG_PATH_IIIF_ROOT}${this.image.uri}/info.json`
@@ -790,15 +785,6 @@ createApp({
       console.log('OPEN FAILED')
     },
     // Persistence backend
-    // saveAnnotationsToSession() {
-    //   if (this.image?.uri) {
-    //     this.cache.store.imagesAnnotations[this.image.uri] = this.anno.getAnnotations()
-    //     console.log(this.anno.getAnnotations()[0].target.selector.value)
-    //     // window.localStorage.setItem('imagesAnnotations', JSON.stringify(this.cache.store.imagesAnnotations))
-    //     console.log('save annotations')
-    //     // this.isUnsaved = true
-    //   }
-    // },
     setUnsaved(dontUpdateModified=false) {
       // tells the Annotator that not all changes on screen are saved yet on GH
       if (this.image?.uri) {
@@ -821,8 +807,6 @@ createApp({
     },
     async saveAnnotationsToGithub() {
       if (this.isUnsaved) {
-        console.log('s0')
-
         if (!this.canSave)  {
           console.log('Can\'t save in read only mode.')
           return
@@ -838,44 +822,27 @@ createApp({
         // and trigger onUpdateAnnotation().
         // It also deselects the annotation.
         // But we re-select it after saving to GH.
-        console.log('s1')
-        this.dlg()
         if (selectedAnnotation && this.isUnsaved > 1) {
           await this.anno.saveSelected()
         }
-        console.log('s2')
-        this.dlg()
 
         let filePath = this.getAnnotationFilePath()
-        console.log('s2.1')
-        this.dlg()
         let annotations = deepCopy(this.anno.getAnnotations())
-        console.log('s2.2')
-        this.dlg()
         annotations = this.convertAnnotationsToW3C(annotations)
-        console.log('s2.3')
-        this.dlg()
         // sort the annotations by id so it is deterministic
         annotations.sort((a, b) => {
           return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1);
         })
-        this.dlg(annotations)
-        if (debugDontSave) {
+        if (DEBUG_DONT_SAVE) {
           console.log('debugDontSave=True => skip saving.')
         } else {
           this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
         }
 
-        console.log('s3')
-        this.dlg()
-
         // restore the selection
         if (selectedAnnotation && this.isUnsaved > 1) {
           this.selectAnnotation(selectedAnnotation)
         }
-
-        console.log('s4')
-        this.dlg()
 
         this.isUnsaved = 0
       }
@@ -953,7 +920,7 @@ createApp({
           annotation.body[0].value = JSON.parse(description)
         }
         // bump the version
-        annotation.generator = annotationGenerator
+        annotation.generator = ANNOTATION_GENERATOR_URI
       }
       return ret
     },
@@ -962,7 +929,7 @@ createApp({
       // =>
       // "id": "http://example.com/annotations/ea90b5df-1cc8-4f23-b043-dcd609be5bd1",
       if (annotation.id.startsWith('#')) {
-        annotation.id = annotationIdPrefix + annotation.id.substring(1)
+        annotation.id = ANNOTATION_URI_PREFIX + annotation.id.substring(1)
       }
     },
     convertAnnotationsToW3C(annotations) {
@@ -1037,9 +1004,8 @@ createApp({
           delete description.textTarget
           // let textId = textTarget.textId || this.objectId
           let startIndex = parseInt(textTarget.signId)
-          const dtsRoot = 'https://crossreads.web.ox.ac.uk'
           let target = {
-            "source": `${dtsRoot}${this.objectDtsPassage}`,
+            "source": `${DTS_ROOT}${this.objectDtsPassage}`,
             "selector": {
               "type": "XPathSelector",
               "value": `//*[@xml:id='${textTarget.wordId}']`,
@@ -1056,8 +1022,6 @@ createApp({
 
         // July 2023 - convert annotorious id to valid uri
         this.correctAnnotationId(annotation)
-
-        // console.log(JSON.stringify(annotation, null, 2))
       }
       return ret
     },
@@ -1094,27 +1058,6 @@ createApp({
 
       return ret
     },
-    loadAnnotationsFromSession2() {
-      // TODO: restore this function, and use for offline editing
-      let imagesAnnotations = window.localStorage.getItem('imagesAnnotations')
-      if (imagesAnnotations) {
-        this.cache.store.imagesAnnotations = JSON.parse(imagesAnnotations)
-        let annotations = this.image?.uri ? this.cache.store.imagesAnnotations[this.image.uri] : null
-        if (annotations) {
-          // !!! this.anno.getAnnotations() just after this will return empty set.
-          // Because Annotorious uses a _lazy function that defer if tiles are not yet loaded.
-          // https://github.com/recogito/annotorious-openseadragon/blob/3321e003732da612097bb23e440717a2c510bd4d/src/OSDAnnotationLayer.js#L303
-          this.anno.setAnnotations(annotations)
-          // console.log('loadAnnotationsFromSession:updateSignHgighlights')
-          // console.log(annotations.length)
-          // console.log(this.anno.getAnnotations().length)
-          this.updateSignHighlights()
-        } else {
-          this.anno.clearAnnotations()
-        }
-      }
-      this.isUnsaved = 0
-    },
     getAnnotationFilePath() {
       let ret = null
       if (this.object && this.image) {
@@ -1131,15 +1074,13 @@ createApp({
       return ns[prefix] || null;
     },
     annotoriousFormatter(annotation) {
+      // Called by Annotorious each time it needs to render an annotation
       // sets 'bound' class to annotation svg 
       // if bound to a sign in the text.
       let ret = ''
-      // console.log(annotation)
       if (this.getSignFromAnnotation(annotation)) {
-        // console.log('bound')
         ret = 'bound'
       }
-      // console.log(`formatter: "${ret}"`)
       return ret
     },
     isTokenMissing() {

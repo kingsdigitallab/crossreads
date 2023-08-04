@@ -337,6 +337,8 @@ createApp({
       // Returns a dictionary with all possible components & features 
       // for the selected Allograph.
       // returns {C1: [F1, F2], C2: [F3, F4, F5]}
+      // They are extracted from the definitions.
+      // And also contain ghost Components.
       let ret = {}
       let selectedAllographDefinition = this.selectedAllographDefinition
       if (selectedAllographDefinition) {
@@ -344,6 +346,17 @@ createApp({
           ret[componentKey] = this.definitions.components[componentKey]
         }
       }
+      // add ghost components
+      // A component with features selected for this annotation/graph
+      // but that component is not defined for that allograph.
+      // Possible cause: change the allograph or removed a component from its definition.
+      for (let componentKey of Object.keys(this.description?.components || {})) {
+        if (!selectedAllographDefinition || !selectedAllographDefinition.components.includes(componentKey)) {
+          ret[componentKey] = deepCopy(this.description.components[componentKey])
+          ret[componentKey].isUndefined = true
+        }
+      }
+
       return ret
     },
     isAnnotationSelected() {
@@ -1005,8 +1018,6 @@ createApp({
               }
             }
             annotation.body[0].value.components = newComponents
-
-            console.log(JSON.stringify(newComponents))
           }          
         }
 

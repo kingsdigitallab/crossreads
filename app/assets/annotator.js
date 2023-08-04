@@ -52,7 +52,7 @@ const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
 // const debugDontSave = false;
-const DEBUG_DONT_SAVE = false;
+const DEBUG_DONT_SAVE = true;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -788,6 +788,8 @@ createApp({
     clearDescription() {
       // console.log('Untick features')
       this.description.allograph = null
+      this.description.components = null
+      this.description.textTarget = null
       this.updateDescriptionFromAllograph()
     },
     onDeleteAnnotation() {

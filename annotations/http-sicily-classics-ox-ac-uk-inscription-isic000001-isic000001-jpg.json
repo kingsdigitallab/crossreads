@@ -9,7 +9,7 @@
         "format": "application/json",
         "value": {
           "allograph": "S",
-          "components": [],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -39,7 +39,7 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/10446556-7d2c-46cf-ade2-d57caaf5eb8b",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
     "modified": "2023-06-06T15:56:25.724Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -51,42 +51,20 @@
         "format": "application/json",
         "value": {
           "allograph": "I",
-          "components": [
-            [
-              "main-stroke",
-              {
-                "bilinear": false,
-                "concave-up": false,
-                "hook-absent": false,
-                "hooked-left": false,
-                "hooked-right": false,
-                "hooked-up": false
-              }
-            ],
-            [
-              "top-bar",
-              {
-                "below-baseline": false,
-                "on-baseline": true,
-                "straight": true,
-                "vertical": false,
-                "long": false,
-                "sans-serif": false
-              }
-            ],
-            [
-              "bottom-bar",
-              {
-                "curved": false,
-                "on-baseline": true,
-                "short": false,
-                "straight": true,
-                "vertical": false,
-                "long": false,
-                "sans-serif": false
-              }
-            ]
-          ],
+          "components": {
+            "top-bar": {
+              "features": [
+                "on-baseline",
+                "straight"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "on-baseline",
+                "straight"
+              ]
+            }
+          },
           "script": "SCRIPT"
         }
       }
@@ -114,7 +92,7 @@
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/1d2d5025-4373-4e41-adb4-640e650eb744",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00",
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-02-24T11:15:20.428Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
@@ -130,7 +108,7 @@
         "format": "application/json",
         "value": {
           "allograph": null,
-          "components": [],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -158,7 +136,7 @@
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/279eaa1f-3254-45f7-9aa9-ffb460ca5b8b",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00",
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2023-04-12T19:53:28.372Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
@@ -174,39 +152,16 @@
         "format": "application/json",
         "value": {
           "allograph": "A",
-          "components": [
-            [
-              "right-stroke",
-              {}
-            ],
-            [
-              "left-stroke",
-              {}
-            ],
-            [
-              "crossbar",
-              {
-                "straight": false,
-                "vertical": true,
-                "angled": false,
-                "angled-down": false,
-                "angled-up": false,
-                "angular": true,
-                "small": false,
-                "thick": false,
-                "touching": false,
-                "serif": false,
-                "sans-serif": false,
-                "blob": false,
-                "above-minim-height": false,
-                "broken": true
-              }
-            ],
-            [
-              "apex",
-              {}
-            ]
-          ],
+          "components": {
+            "crossbar": {
+              "features": [
+                "vertical",
+                "angular",
+                "broken",
+                "straight"
+              ]
+            }
+          },
           "script": "SCRIPT"
         }
       }
@@ -235,8 +190,8 @@
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/2f33fffb-d105-4fd2-81d5-a25ec50816b9",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-08-03T23:50:55.941Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "modified": "2023-08-04T20:06:51.145Z",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -248,50 +203,7 @@
         "format": "application/json",
         "value": {
           "allograph": "z",
-          "components": [
-            [
-              "bottom-stroke-z",
-              {
-                "above-baseline": false,
-                "below-baseline": false,
-                "convex": false,
-                "flat": false,
-                "long": false,
-                "on-baseline": false,
-                "rising": false,
-                "short": false,
-                "tilde-shaped": false,
-                "turned-up-right": false
-              }
-            ],
-            [
-              "diagonal-stroke-z",
-              {
-                "backward-leaning": false,
-                "bilinear": false,
-                "long": false,
-                "vertical": false
-              }
-            ],
-            [
-              "top-stroke",
-              {
-                "above-minim-height": false,
-                "at-minim-height": false,
-                "convex": false,
-                "flat-shaped": false,
-                "hooked-down": false,
-                "hooked-up": false,
-                "left-hooked-down": false,
-                "left-hooked-up": false,
-                "long": false,
-                "rising": false,
-                "short": false,
-                "tilde-shaped": false,
-                "wedged": false
-              }
-            ]
-          ],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -321,7 +233,7 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/4b10085d-d126-47b6-a38f-b34bf3435d65",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
     "modified": "2023-07-27T14:24:56.310Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -333,7 +245,7 @@
         "format": "application/json",
         "value": {
           "allograph": "M",
-          "components": [],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -363,7 +275,7 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/4caff226-e8f5-487d-93ad-d85e2fe405cf",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
     "modified": "2023-06-06T15:56:29.163Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -375,35 +287,7 @@
         "format": "application/json",
         "value": {
           "allograph": "H",
-          "components": [
-            [
-              "crossbar",
-              {
-                "straight": false,
-                "vertical": false,
-                "angled": false,
-                "angled-down": false,
-                "angled-up": false,
-                "angular": false,
-                "small": false,
-                "thick": false,
-                "touching": false,
-                "serif": false,
-                "sans-serif": false,
-                "blob": false,
-                "above-minim-height": false,
-                "broken": false
-              }
-            ],
-            [
-              "left-stroke",
-              {}
-            ],
-            [
-              "right-stroke",
-              {}
-            ]
-          ],
+          "components": {},
           "textTarget": null,
           "script": "SCRIPT"
         }
@@ -422,7 +306,7 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/4dedeefc-218a-49b7-aa7a-a46a1f30c89b",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
     "modified": "2023-07-27T14:24:52.652Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -434,7 +318,7 @@
         "format": "application/json",
         "value": {
           "allograph": "D",
-          "components": [],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -464,7 +348,7 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/514e26a3-ea2a-4921-9b16-82de6f970710",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2023-06-27T09:42:06.412Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -476,7 +360,7 @@
         "format": "application/json",
         "value": {
           "allograph": "N-SCRIPT",
-          "components": [],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -506,7 +390,7 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/848990b8-1b31-4f49-9033-54964db7d7ab",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
     "modified": "2023-06-06T15:57:13.185Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -518,7 +402,7 @@
         "format": "application/json",
         "value": {
           "allograph": null,
-          "components": [],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -536,7 +420,7 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/b628f576-4033-46c3-952c-2c6bf9555b40",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
     "modified": "2023-07-27T18:32:51.965Z",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00"
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -548,7 +432,7 @@
         "format": "application/json",
         "value": {
           "allograph": "X",
-          "components": [],
+          "components": {},
           "script": "SCRIPT"
         }
       }
@@ -576,7 +460,7 @@
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/ea90b5df-1cc8-4f23-b043-dcd609be5bd1",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-07-28-00",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00",
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2023-06-09T22:16:06.720Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",

@@ -154,24 +154,24 @@
                   </dd>
                   <dt>Components</dt> 
                   <dd><ul class="components-features">
-                    <li v-for="component in description.components">
+                    <li v-for="(component, componentKey) in filteredComponents">
                       <span class="component-name">
-                        <template v-if="definitions.components[component[0]]">
-                          {{ definitions.components[component[0]].name }}
+                        <template v-if="definitions.components[componentKey]">
+                          {{ definitions.components[componentKey].name }}
                         </template>
                         <template v-else>
-                          {{ component[0] }}
+                          {{ componentKey }} [Undefined]
                         </template>
                       </span>
                       <ul>
-                        <li v-for="(isFeaturePresent, featureKey, index) in component[1]">
-                          <label :class="{selectable: true, selected: isFeaturePresent}">
-                            <input type="checkbox" v-model="component[1][featureKey]" @change="onChangeComponentFeature()" :disabled="!canSave">
+                        <li v-for="featureKey in component.features">
+                          <label :class="{selectable: true, selected: isComponentFeatureSelected(componentKey, featureKey)}">
+                            <input type="checkbox" @change="onChangeComponentFeature(componentKey, featureKey)" :checked="isComponentFeatureSelected(componentKey, featureKey)" :disabled="!canSave">
                             <template v-if="definitions.features[featureKey]"> 
                               {{ definitions.features[featureKey] }}
                             </template>
                             <template v-else>
-                              {{ featureKey }}
+                              {{ featureKey }} [Undefined]
                             </template>
                           </label>
                         </li>

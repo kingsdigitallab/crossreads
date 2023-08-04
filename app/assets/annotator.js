@@ -18,8 +18,13 @@ It's advised to familiarise yourself with Annotorious events.
 
 https://annotorious.github.io/api-docs/osd-plugin/
 
-Many oddities and complications in the code below work around 
+Unfortunately the code is more complicated than needed 
+and contains some tricks to work around 
 the way Annotorious manages the cascade of annotation editing events.
+
+TODO:
+* Create an Annotation class and move the data manipulation methods there
+
 */
 
 let IMG_PATH_STATIC_ROOT = './data/images/'
@@ -33,7 +38,7 @@ let IMG_PATH_STATIC_ROOT = './data/images/'
 // IIIF server via local proxy to avoid CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
-const ANNOTATION_FORMAT_VERSION = '2023-07-28-00'
+const ANNOTATION_FORMAT_VERSION = '2023-08-04-00'
 const ANNOTATION_URI_PREFIX = 'https://crossreads.web.ox.ac.uk/annotations/'
 const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#${ANNOTATION_FORMAT_VERSION}`
 const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
@@ -47,7 +52,7 @@ const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
 // const debugDontSave = false;
-const DEBUG_DONT_SAVE = false;
+const DEBUG_DONT_SAVE = true;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -160,13 +165,18 @@ createApp({
         }
       },
       description: {
+        // TODO: redundant with allograph.
+        // We should have either (allograph) or (script, character).
+        // (script, character) is probably more resilient and explicit.
+        // Also easier for indexing.
         script: 's',
+        // this refers to the allograph key; NOT the character key
         allograph: 'a',
-        components: [
-          ['c1', { 'f1': false, 'f3': true }],
-        ],
-        // TODO: aspects
-        // TODO: move this out of description, it should be an annotation target; not in ann body 
+        components: {
+          'c1': { features: ['f1', 'f3'] },
+        },
+        // We keep the textTarget inside the description.
+        // because Annotorious doesn't support multiple targets.
         textTarget: {
           // TODO: is there a std for this kind of ptr?
           textId: null,
@@ -178,7 +188,7 @@ createApp({
       annotationsSha: null,
       cache: {
         isDescriptionLoading: false,
-        allographLast: '123',
+        // allographLast: '123',
         // TODO: not reactive?
         store: {
           imagesAnnotations: {
@@ -290,8 +300,6 @@ createApp({
       let ret = {}
       let script = this.description.script
 
-      // TODO: don't show allograph from base script if already in selected script
-
       // 1. sort the allograph by (chararcter, script)
       // where script = 1 if base, 0 otherwise
       // So A0 comes before A1 (base)
@@ -317,6 +325,23 @@ createApp({
               last_character = allograph.character
             }
           }
+        }
+      }
+      return ret
+    },
+    selectedAllographDefinition() {
+      // returns the definition of the Allograph currently selected in the UI
+      return this.definitions.allographs[this.description.allograph]
+    },
+    filteredComponents() {
+      // Returns a dictionary with all possible components & features 
+      // for the selected Allograph.
+      // returns {C1: [F1, F2], C2: [F3, F4, F5]}
+      let ret = {}
+      let selectedAllographDefinition = this.selectedAllographDefinition
+      if (selectedAllographDefinition) {
+        for (let componentKey of selectedAllographDefinition.components) {
+          ret[componentKey] = this.definitions.components[componentKey]
         }
       }
       return ret
@@ -354,6 +379,10 @@ createApp({
     }
   },
   methods: {
+    isComponentFeatureSelected(componentKey, featureKey) {
+      let features = this.description?.components[componentKey]?.features || []
+      return features.includes(featureKey)
+    },
     loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
       fetch(this.apis.collections)
@@ -573,18 +602,40 @@ createApp({
     onMouseLeaveSign(sign) {
       // console.log('Mouseleave sign')
     },
-    onChangeAllograph() {
-      this.updateDescriptionFromAllograph()
-      this.updateSelectedAnnotationFromDescription()
-    },
     onChangeScript() {
       this.setAddressBarFromSelection()
       this.updateSelectedAnnotationFromDescription()
     },
-    onChangeComponentFeature() {
+    onChangeAllograph() {
+      this.updateDescriptionFromAllograph()
+      this.updateSelectedAnnotationFromDescription()
+    },
+    onChangeComponentFeature(componentKey, featureKey) {
+      let components = this.description?.components || {}
+      let component = components[componentKey]
+
+      if (this.isComponentFeatureSelected(componentKey, featureKey)) {
+        // remove the feature from component
+        component.features = component.features.filter(f => f != featureKey)
+        if (!component.features.length) {
+          // remove component without any selected feature
+          delete components[componentKey]
+        }
+      } else {
+        // add component if not present
+        if (!component) {
+          component = {features: []}
+          components[componentKey] = component
+        }
+        // add feature to component
+        component.features.push(featureKey)
+      }
+
       this.updateSelectedAnnotationFromDescription()
     },
     updateSelectedAnnotationFromDescription() {
+      // Vue description of the graph -> Annotorious annotation object.
+      // Should be called anytime the Vue description is modified.
       let annotation = this.anno.getSelected()
       if (annotation) {
         // annotation.body[0].value = JSON.stringify(this.description)
@@ -594,21 +645,25 @@ createApp({
       }
     },
     updateDescriptionFromAllograph() {
-      let description = this.description
-      if (1 || description.allograph != this.cache.allographLast) {
-        this.description.components = []
-        if (this.definitions.allographs[description.allograph]) {
-          for (let componentKey of this.definitions.allographs[description.allograph].components) {
-            let features = {}
-            for (let featureKey of this.definitions.components[componentKey]?.features || []) {
-              features[featureKey] = false
-            }
-            this.description.components.push([componentKey, features])
-          }
-          this.cache.allographLast = description.allograph
-        }
-      }
     },
+    // updateDescriptionFromAllographOld() {
+    //   // when user change the allograph 
+    //   // => update the list of available C-F in Vue description
+    //   let description = this.description
+    //   if (1 || description.allograph != this.cache.allographLast) {
+    //     this.description.components = []
+    //     if (this.definitions.allographs[description.allograph]) {
+    //       for (let componentKey of this.definitions.allographs[description.allograph].components) {
+    //         let features = {}
+    //         for (let featureKey of this.definitions.components[componentKey]?.features || []) {
+    //           features[featureKey] = false
+    //         }
+    //         this.description.components.push([componentKey, features])
+    //       }
+    //       this.cache.allographLast = description.allograph
+    //     }
+    //   }
+    // },
     // Events - Annotorious
     async onCreateSelection(selection) {
       // Called before onCreateAnnotation
@@ -699,7 +754,8 @@ createApp({
       this.logEvent('onSelectAnnotation')
 
       if (annotation) {
-        this.description = deepCopy(annotation.body[0].value)
+        this.description = deepCopy(annotation.body[0].value)        
+
         // this.description = JSON.parse(annotation.body[0].value)
         // set the script from the allograph if absent
         if (this.description.allograph && !this.description.script) {
@@ -746,9 +802,6 @@ createApp({
         if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
           options = {
             type: 'image',
-            // TODO: doesn't use IIIF tiles!
-            // http://openseadragon.github.io/examples/tilesource-iiif/
-            // url: `${IMG_PATH_IIIF_ROOT}${this.image.uri}/full/full/0/default.jpg`,
           }
           let imgid = this.image.uri.replace(/\.[^.]+$/, '');
           let iiif_url = IMG_PATH_IIIF_ROOT
@@ -798,7 +851,6 @@ createApp({
     },
     async onClickSave() {
       // save the image annotations to github
-      // TODO: save sha?
       await this.saveAnnotationsToGithub()
     },
     async saveAnnotationsToGithub() {
@@ -905,14 +957,59 @@ createApp({
       }
       this.isUnsaved = 0
     },
+    getAnnotationFormatVersion(annotation) {
+      // returns the annotation format version as a date. e.g. 2023-07-28-00
+      // See ANNOTATION_FORMAT_VERSION
+      return (annotation?.generator || '').replace(/^[^#]+#/, '')
+    },
     upgradeAnnotations(annotations) {
       ret = annotations
+
       for (let annotation of ret) {
         let description = annotation?.body[0]?.value
         // July 2023 - convert the description body/value from json string to json
         if (typeof description === 'string') {
           annotation.body[0].value = JSON.parse(description)
         }
+
+        let version = this.getAnnotationFormatVersion(annotation)
+        if (version < '2023-08-04-00') {
+          // more compact, self-descriptive and resilient format for the C-Fs
+          /*
+          "components": [
+            [
+              "main-stroke",
+              {
+                "bilinear": false,
+                "concave-up": true,
+                [...]
+          
+          =>
+
+          "components": {
+            "main-stroke": {
+              features: ["concave-up"]
+            }
+          }
+          */
+          let components = annotation?.body[0]?.value?.components
+          if (components) {
+            let newComponents = {}
+            for (let component of annotation?.body[0]?.value?.components) {
+              let features = []
+              for (let featureKey of Object.keys(component[1])) {
+                if (component[1][featureKey]) features.push(featureKey)
+              }
+              if (features.length) {
+                newComponents[component[0]] = {'features': features}
+              }
+            }
+            annotation.body[0].value.components = newComponents
+
+            console.log(JSON.stringify(newComponents))
+          }          
+        }
+
         // bump the version
         annotation.generator = ANNOTATION_GENERATOR_URI
       }
@@ -1030,11 +1127,11 @@ createApp({
     },
     convertAnnotationsToAnnotorious(annotations) {
       // annotorious doesn't support the full W3C standard
-      // 1. only one target allowed => temporarily shove the textual target into the body/textTarget
       let ret = annotations
 
       for (let annotation of ret) {
         if (annotation.target instanceof Array && annotation.target.length > 0) {
+          // 1. only one target allowed => temporarily shove the textual target into the body/textTarget
           let targets = annotation.target
           annotation.target = targets[0]
 

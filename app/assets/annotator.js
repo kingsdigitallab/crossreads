@@ -962,8 +962,9 @@ createApp({
           this.anno.setAnnotations(annotations)
           if (this.selection.annotationId) {
             this.selectAnnotation(`${this.selection.annotationId}`)
+          } else {
+            this.updateSignHighlights()
           }
-          this.updateSignHighlights()
           this.annotationsSha = res.sha
         } else {
           this.anno.clearAnnotations()

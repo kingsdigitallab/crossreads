@@ -105,11 +105,32 @@ createApp({
     },
     onRemoveComponent(componentSlug) {
       delete this.definitions.components[componentSlug]
-      // TODO: delete component in the allographs?
+      for (let allograph of Object.values(this.definitions.allographs)) {
+        allograph.components = allograph.components.filter(slug => slug != componentSlug)
+      }
     },
     onRemoveFeature(featureSlug) {
       delete this.definitions.features[featureSlug]
-      // TODO: delete feature in the components?
+      for (let component of Object.values(this.definitions.components)) {
+        component.features = component.features.filter(slug => slug != featureSlug)
+      }
+    },
+    removeUndefinedComponentsAndFeatures() {
+      for (let allograph of Object.values(this.definitions.allographs)) {
+        allograph.components = allograph.components.filter(slug => {
+          let res = slug in this.definitions.components
+          if (!res) { console.log(`REMOVED ${allograph.script}.${allograph.character}.${slug}`) }
+          return res
+        })
+      }
+
+      for (let component of Object.values(this.definitions.components)) {
+        component.features = component.features.filter(slug => {
+          let res = slug in this.definitions.features
+          if (!res) { console.log(`REMOVED ${component.name}.${slug}`) }
+          return res
+        })
+      }
     },
     onAddItem(itemType) {
       let name = this.newItems[itemType]
@@ -205,7 +226,7 @@ createApp({
       if (res) {
         this.definitions = res.data
         this.definitionsSha = res.sha
-        console.log(this.definitions)
+        this.removeUndefinedComponentsAndFeatures()
         this.selectFirstScript()
       }
       this.setAddressBarFromSelection()

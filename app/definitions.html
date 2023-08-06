@@ -32,7 +32,7 @@
               <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;
-              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveDefinitions()" class="button is-primary" :disabled="!canSave">Save</button>
+              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveDefinitions()" class="button is-primary" :disabled="!canSave || !isUnsaved">Save</button>
             </a>            
           </li>
         </ul>

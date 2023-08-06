@@ -26,6 +26,7 @@ createApp({
       },
       queryString: '',
       messages: [],
+      isUnsaved: 0,
     }
   },
   computed: {
@@ -90,6 +91,7 @@ createApp({
       } else {
         event.target.textContent = this.definitions.features[featureSlug]
       }
+      this.isUnsaved = 1
     },
     onRenameComponent(event, component) {
       // TODO: error management: value already taken
@@ -99,21 +101,25 @@ createApp({
       } else {
         event.target.textContent = component.name
       }
+      this.isUnsaved = 1
     },
     onRemoveAllograph(allographSlug) {
       delete this.definitions.allographs[allographSlug]
+      this.isUnsaved = 1
     },
     onRemoveComponent(componentSlug) {
       delete this.definitions.components[componentSlug]
       for (let allograph of Object.values(this.definitions.allographs)) {
         allograph.components = allograph.components.filter(slug => slug != componentSlug)
       }
+      this.isUnsaved = 1
     },
     onRemoveFeature(featureSlug) {
       delete this.definitions.features[featureSlug]
       for (let component of Object.values(this.definitions.components)) {
         component.features = component.features.filter(slug => slug != featureSlug)
       }
+      this.isUnsaved = 1
     },
     removeUndefinedComponentsAndFeatures() {
       for (let allograph of Object.values(this.definitions.allographs)) {
@@ -169,6 +175,7 @@ createApp({
       }
 
       this.newItems[itemType] = ''
+      this.isUnsaved = 1
     },
     onCreateScript() {
       // TODO: error management
@@ -176,17 +183,20 @@ createApp({
       let slug = utils.slugify(name)
       this.definitions.scripts[slug] = name
       this.selection.script = slug
+      this.isUnsaved = 1
     },
     onRenameScript() {
       // TODO: error management
       this.definitions.scripts[this.selection.script] = this.selection.scriptName
       // TODO: change slug???
+      this.isUnsaved = 1
     },
     onDeleteScript() {
       // TODO: error management
       delete this.definitions.scripts[this.selection.script]
       this.selectFirstScript()
       // TODO: delete allographs?
+      this.isUnsaved = 1
     },
     selectFirstScript() {
       this.selection.script = Object.keys(this.definitions.scripts)[0]
@@ -200,6 +210,7 @@ createApp({
       } else {
         allo.components.push(componentSlug)
       }
+      this.isUnsaved = 1
     },
     onClickComponentFeature(component, featureSlug) {
       if (component.features.includes(featureSlug)) {
@@ -207,6 +218,7 @@ createApp({
       } else {
         component.features.push(featureSlug)
       }
+      this.isUnsaved = 1
     },
     getOctokit() {
       // TODO: create wrapper class around Octokit
@@ -230,11 +242,13 @@ createApp({
         this.selectFirstScript()
       }
       this.setAddressBarFromSelection()
+      this.isUnsaved = 0
     },
     async saveDefinitions() {
       // TODO: sha
       this.definitions.updated = new Date().toISOString()
       this.definitionsSha = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
+      this.isUnsaved = 0
     },
     onShortenCollection(e) {
       const self = this;

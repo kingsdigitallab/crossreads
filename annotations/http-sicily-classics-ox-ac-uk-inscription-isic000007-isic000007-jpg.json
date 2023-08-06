@@ -7,18 +7,45 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"g\",\"components\":[],\"textTarget\":{\"textId\":null,\"wordId\":\"07825acc-e90a-46c4-8852-b4845b4aec18\",\"signId\":\"2\"}}"
+        "value": {
+          "allograph": "A",
+          "components": {
+            "crossbar": {
+              "features": [
+                "straight"
+              ]
+            }
+          },
+          "script": "SCRIPT"
+        }
       }
     ],
-    "target": {
-      "source": "http://localhost:5503/crossreads/app/data/2022/ISic000007.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:439.70111083984375,406.4500427246094,236.1314697265625,329.5460510253906"
+    "target": [
+      {
+        "source": "http://localhost:5503/crossreads/app/data/2022/ISic000007.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:439.70111083984375,406.4500427246094,236.1314697265625,329.5460510253906"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000007",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='07825acc-e90a-46c4-8852-b4845b4aec18']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
-    },
-    "id": "#835840bd-effc-443f-9f6c-b9cadba1a525"
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/835840bd-effc-443f-9f6c-b9cadba1a525",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00",
+    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
+    "modified": "2023-08-06T16:30:30.032Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -28,18 +55,43 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"e\",\"components\":[[\"eye\",{\"bulging\":true,\"flat\":false,\"high\":false,\"open\":true,\"squinting\":false}],[\"lower-curve\",{\"closed\":false,\"curved\":false,\"flat-bottomed\":false,\"horned\":false,\"long\":false,\"round\":false,\"short\":false,\"slanted-lower-left\":false,\"through-top-stroke\":false,\"turned-down-toe\":false,\"turned-up-toe\":false,\"vertical-left\":false,\"wedged\":false}],[\"tongue\",{\"convex\":false,\"horizontal\":false,\"ligatured\":false,\"ligatured-with-descender\":false,\"ligatured-with-f\":false,\"ligatured-with-minim\":false,\"ligatured-with-s\":false,\"ligatured-with-t\":false,\"long\":false,\"on-left\":false,\"rising\":false,\"short\":false,\"thick\":false,\"thin\":false,\"turned-down\":false,\"turned-up\":false}]],\"textTarget\":{\"textId\":null,\"wordId\":\"07825acc-e90a-46c4-8852-b4845b4aec18\",\"signId\":\"7\"}}"
+        "value": {
+          "allograph": "e",
+          "components": {
+            "eye": {
+              "features": [
+                "bulging",
+                "open"
+              ]
+            }
+          }
+        }
       }
     ],
-    "target": {
-      "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000007.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:1365.3333740234375,394.06671142578125,349.86669921875,392.5333251953125"
+    "target": [
+      {
+        "source": "https://kingsdigitallab.github.io/crossreads/data/2022/ISic000007.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1365.3333740234375,394.06671142578125,349.86669921875,392.5333251953125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000007",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='07825acc-e90a-46c4-8852-b4845b4aec18']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 7,
+            "end": 8
+          }
+        }
       }
-    },
-    "id": "#937b347a-ab3a-47b9-a954-03e27050c8cb"
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/937b347a-ab3a-47b9-a954-03e27050c8cb",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -49,17 +101,43 @@
         "type": "TextualBody",
         "purpose": "describing",
         "format": "application/json",
-        "value": "{\"allograph\":\"I\",\"components\":[[\"main-stroke\",{\"bilinear\":true,\"concave-up\":true,\"hook-absent\":true,\"hooked-left\":false,\"hooked-right\":false,\"hooked-up\":false}],[\"top-bar\",{\"below-baseline\":false,\"on-baseline\":false,\"straight\":false,\"vertical\":false,\"long\":false,\"sans-serif\":false}],[\"bottom-bar\",{\"curved\":false,\"on-baseline\":false,\"short\":false,\"straight\":false,\"vertical\":false,\"long\":false,\"sans-serif\":false}]],\"textTarget\":{\"textId\":null,\"wordId\":null,\"signId\":null}}"
+        "value": {
+          "allograph": "I",
+          "components": {
+            "main-stroke": {
+              "features": [
+                "bilinear",
+                "concave-up",
+                "hook-absent"
+              ]
+            }
+          }
+        }
       }
     ],
-    "target": {
-      "source": "http://0.0.0.0:8000/data/images/ISic000007.jpg",
-      "selector": {
-        "type": "FragmentSelector",
-        "conformsTo": "http://www.w3.org/TR/media-frags/",
-        "value": "xywh=pixel:3173.4339599609375,1024.2453002929688,492.6793212890625,528.9056396484375"
+    "target": [
+      {
+        "source": "http://0.0.0.0:8000/data/images/ISic000007.jpg",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3173.4339599609375,1024.2453002929688,492.6793212890625,528.9056396484375"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic000007",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='null']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": null,
+            "end": null
+          }
+        }
       }
-    },
-    "id": "#96099272-d523-40d4-8c03-6f8516c0abe5"
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/96099272-d523-40d4-8c03-6f8516c0abe5",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00"
   }
 ]

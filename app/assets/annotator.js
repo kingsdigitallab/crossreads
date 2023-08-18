@@ -94,6 +94,7 @@ function loadOpenSeaDragon(vueApp) {
   vueApp.anno = anno;
   window.anno = anno;
   vueApp.viewer = viewer;
+  window.osd = viewer;
 
   let eventNames = [
     'createSelection', 'createAnnotation', 'updateAnnotation',
@@ -104,7 +105,7 @@ function loadOpenSeaDragon(vueApp) {
   for (let eventName of eventNames) {
     anno.on(eventName, vueApp[`on${eventName[0].toUpperCase()}${eventName.substring(1)}`]);
   }
-  anno.on('open-failed', vueApp.onImageOpenFailed);
+  viewer.addHandler('open-failed', vueApp.onImageOpenFailed);
   // setAnnotations() is defered by Annotorious until tiles are loaded.
   // So we wait until it's ready to do things based on getAnnotations().
   viewer.addHandler('open', () => {
@@ -207,6 +208,8 @@ createApp({
         annotationId: '',
       },
       isUnsaved: 0,
+      // null: no asked; -1: error; 0: loading; 1: loaded
+      isImageLoaded: null,
       messages: [
       ],
       queryString: '',
@@ -366,7 +369,7 @@ createApp({
     tabs: () => utils.tabs(),
     canSave() {
       // return !!this.selection.gtoken
-      return this.getOctokit() !== null
+      return (this.isImageLoaded == 1) && (this.getOctokit() !== null)
     },
     lastMessage() {
       let ret = {
@@ -387,6 +390,9 @@ createApp({
     },
     image() {
       return this.images[this.selection.image] || null
+    },
+    imageLoadingMessage() {
+      return (this.isImageLoaded == 1) ? '' : (this.isImageLoaded == -1) ? 'ERROR: could not load the image': 'loading'
     },
     userId() {
       return this?.user?.url || ''
@@ -822,6 +828,8 @@ createApp({
     async onSelectImage(img) {
       await this.saveAnnotationsToGithub()
       this.clearDescription()
+
+      this.isImageLoaded = 0
       this.selection.image = img.uri
       if (img) {
         let options = {}
@@ -846,6 +854,7 @@ createApp({
     // Events - Other
     onImageOpenFailed() {
       // TODO
+      this.isImageLoaded = -1
       console.log('OPEN FAILED')
     },
     // Persistence backend
@@ -947,6 +956,7 @@ createApp({
       return this.octokit
     },
     loadAnnotations() {
+      this.isImageLoaded = 1
       return this.loadAnnotationsFromGithub()
     },
     async loadAnnotationsFromGithub() {

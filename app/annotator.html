@@ -110,7 +110,8 @@
                   </button>
                 </span>
               </p>
-              <div class="panel-block">
+              <div class="panel-block panel-image">
+                <div :class="['image-viewer-overlay', `image-loaded-${isImageLoaded}`]">{{ imageLoadingMessage }}</div>
                 <div id="image-viewer" style="width: 100%; height: 300px;"></div>
               </div>
               <p class="panel-heading">

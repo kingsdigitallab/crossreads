@@ -390,7 +390,7 @@ createApp({
     },
     userId() {
       return this?.user?.url || ''
-    }
+    },
   },
   methods: {
     isComponentFeatureSelected(componentKey, featureKey) {
@@ -809,32 +809,31 @@ createApp({
       await this.saveAnnotationsToGithub()
       this.selection.object = obj['@id']
     },
+    getImageUrl() {
+      let ret = `${IMG_PATH_STATIC_ROOT}${this.image.uri}`
+      if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
+        let imgid = this.image.uri.replace(/\.[^.]+$/, '');
+        ret = IMG_PATH_IIIF_ROOT
+          .replace('{DOCID}', this.object['title'])
+          .replace('{IMGID}', imgid);
+      }
+      return ret
+    },
     async onSelectImage(img) {
       await this.saveAnnotationsToGithub()
       this.clearDescription()
       this.selection.image = img.uri
       if (img) {
         let options = {}
+        let imageUrl = this.getImageUrl()
         if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
-          options = {
-            type: 'image',
-          }
-          let imgid = this.image.uri.replace(/\.[^.]+$/, '');
-          let iiif_url = IMG_PATH_IIIF_ROOT
-            .replace('{DOCID}', this.object['title'])
-            .replace('{IMGID}', imgid);
-          // console.log(iiif_url)
-          options = [
-            // 'https://libimages1.princeton.edu/loris/pudl0001%2F4609321%2Fs42%2F00000001.jp2/info.json'
-            // `${IMG_PATH_IIIF_ROOT}${this.image.uri}/info.json`
-            iiif_url
-          ]
+          options = [imageUrl]
         } else {
           options = {
             type: 'image',
             // TODO: temporary static call so app works on github pages without IIIF server
             // http://openseadragon.github.io/examples/tilesource-image/
-            url: `${IMG_PATH_STATIC_ROOT}${this.image.uri}`,
+            url: imageUrl,
           }
         }
         this.viewer.open(options)
@@ -1170,6 +1169,9 @@ createApp({
         ret = 'annotations/' + utils.slugify(`${this.object['@id']}/${this.image.uri}`) + '.json'
       }
       return ret
+    },
+    getAnnotationsAbsolutePath() {
+      return `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${this.getAnnotationFilePath()}`;
     },
     // Low-level Utilities
     getURIFromXMLPrefix(prefix) {

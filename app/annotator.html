@@ -100,6 +100,7 @@
             <div class="panel">
               <p class="panel-heading">
                 Image
+                <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="side-links">
                   <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved">
                     <template v-if="!canSave">Read Only</template>
@@ -113,7 +114,8 @@
                 <div id="image-viewer" style="width: 100%; height: 300px;"></div>
               </div>
               <p class="panel-heading">
-                Transcription
+                Transcription 
+                <a v-if="object" :href="object['dts:download']" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="side-links">
                   <label>
                     <input type="checkbox" v-model="selection.showSuppliedText">
@@ -131,6 +133,7 @@
             <div class="panel">
               <p class="panel-heading">
                 Description
+                <a v-if="image" :href="getAnnotationsAbsolutePath()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span v-if="isAnnotationSelected">(Selected)</span>
               </p>
               <div class="panel-block fill-height">

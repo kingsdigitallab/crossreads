@@ -34,7 +34,7 @@ let IMG_PATH_STATIC_ROOT = './data/images/'
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
 // Crossreads live IIIF server
 // https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json
-// let IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
+let IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 // IIIF server via local proxy to avoid CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
@@ -42,7 +42,8 @@ const ANNOTATION_FORMAT_VERSION = '2023-08-04-00'
 const ANNOTATION_URI_PREFIX = 'https://crossreads.web.ox.ac.uk/annotations/'
 const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#${ANNOTATION_FORMAT_VERSION}`
 const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
-const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
+// const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
+const DTS_COLLECTION_PATH = './data/2023-08/collection.json'
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
 const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
 const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
@@ -51,7 +52,7 @@ const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
-// const debugDontSave = false;
+// const DEBUG_DONT_SAVE = true;
 const DEBUG_DONT_SAVE = false;
 
 let isButtonPressed = false

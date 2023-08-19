@@ -1,9 +1,24 @@
 (function (exports) {
   function base64Encode(str) {
+    // https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
     if (typeof window !== "undefined") {
-      return btoa(str);
+      // return btoa(str);
+      const bytes = new TextEncoder().encode(str)
+      const binString = Array.from(bytes, (x) => String.fromCodePoint(x)).join("");
+      return btoa(binString);      
     } else {
-      return Buffer.from(str).toString("base64");
+      throw new Error('add support for unicode to base64Encode() browser implementation')
+      // return Buffer.from(str).toString("base64");
+    }
+  }
+
+  function base64Decode(str) {
+    if (typeof window !== "undefined") {
+      const binString = atob(str);
+      return new TextDecoder().decode(Uint8Array.from(binString, (m) => m.codePointAt(0)));
+    } else {
+      throw new Error('add support for unicode to base64Decode() browser implementation')
+      // return Buffer.from(str).toString("base64");
     }
   }
 
@@ -14,38 +29,15 @@
    * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
    * @see https://stackoverflow.com/a/8831937
    */
-  function hashCode(str) {
-    let hash = 0;
-    for (let i = 0, len = str.length; i < len; i++) {
-        let chr = str.charCodeAt(i);
-        hash = (hash << 5) - hash + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-  }
-
-  // LEGACY: used for upgrading legacy issue files
-  // generate a hash code (int) for that issue, so it can be indexed
-  exports.getKeyFromIssue_0_1_0 = function(issue, includeWebPath=false) {
-    // TODO: use the WCAG numbers instead of the whole code
-    // so we can marge with Axe-core issues. 
-    let ret = `${issue.code}|${issue.context}|${issue.selector}`
-    if (includeWebPath) {
-      ret = `${issue.webpath}|` + ret
-    }
-    ret = hashCode(ret)
-    return ret
-  }
-
-  // generate a hash code (int) for that issue, so it can be indexed
-  exports.getKeyFromIssue = function(issue, includeWebPath=false) {
-    let ret = `${issue.rule.standard}|${issue.rule.principle}|${issue.rule.guideline}|${issue.rule.rule}|${issue.context}|${issue.selector}`
-    if (includeWebPath) {
-      ret = `${issue.webpath}|` + ret
-    }
-    ret = hashCode(ret)
-    return ret
-  }
+  // function hashCode(str) {
+  //   let hash = 0;
+  //   for (let i = 0, len = str.length; i < len; i++) {
+  //       let chr = str.charCodeAt(i);
+  //       hash = (hash << 5) - hash + chr;
+  //       hash |= 0; // Convert to 32bit integer
+  //   }
+  //   return hash;
+  // }
 
   // client-side
   exports.readGithubJsonFile = async function (filePath, octokit) {
@@ -96,7 +88,8 @@
 
     if (res) {
       ret = {
-        data: JSON.parse(atob(res.content)),
+        // data: JSON.parse(atob(res.content)),
+        data: JSON.parse(base64Decode(res.content)),
         sha: res.sha,
       };
     }
@@ -162,32 +155,6 @@
     }
 
     return ret;
-  };
-
-  // server-side
-  exports.copyScreenshots = function (projectSlug, source, target) {
-    const path = require("path");
-    const fs = require("fs");
-    const pathScripts = __dirname;
-    const screenshotsPath = path.join(
-      pathScripts,
-      "..",
-      "projects",
-      projectSlug,
-      "screenshots"
-    );
-    const shotDirs = [
-      path.join(screenshotsPath, source),
-      path.join(screenshotsPath, target),
-    ];
-    fs.mkdirSync(shotDirs[1], { recursive: true });
-    fs.readdirSync(shotDirs[0]).forEach((filename) => {
-      fs.copyFileSync(
-        path.join(shotDirs[0], filename),
-        path.join(shotDirs[1], filename)
-      );
-      // console.log(`${path.join(shotDirs[0], filename)} -> ${path.join(shotDirs[1], filename)}`)
-    });
   };
 
   exports.slugify = function(str) {

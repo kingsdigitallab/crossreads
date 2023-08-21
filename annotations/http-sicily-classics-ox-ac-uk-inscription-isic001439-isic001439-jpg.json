@@ -8,10 +8,9 @@
         "purpose": "describing",
         "format": "application/json",
         "value": {
-          "script": "SCRIPT",
+          "script": "latin-1",
           "allograph": null,
-          "components": null,
-          "textTarget": null
+          "components": null
         }
       }
     ],
@@ -23,11 +22,25 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:59.2733154296875,233.7042999267578,114.90885925292969,131.93238830566406"
         }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001439",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ByRnI']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/c07ed948-058b-46a8-873c-1980bdd34f12",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-08-04-00",
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
-    "created": "2023-08-21T18:11:42.926Z"
+    "created": "2023-08-21T18:11:42.926Z",
+    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
+    "modified": "2023-08-21T18:11:54.099Z"
   }
 ]

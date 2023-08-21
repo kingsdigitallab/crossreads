@@ -109,9 +109,7 @@ function loadOpenSeaDragon(vueApp) {
   // setAnnotations() is defered by Annotorious until tiles are loaded.
   // So we wait until it's ready to do things based on getAnnotations().
   viewer.addHandler('open', () => {
-    // vueApp.updateSignHighlights()
-    // vueApp.loadAnnotationsFromSession()
-    vueApp.loadAnnotations()
+    vueApp.onImageLoaded()
   });
 
 };
@@ -829,7 +827,7 @@ createApp({
       await this.saveAnnotationsToGithub()
       this.clearDescription()
 
-      this.isImageLoaded = 0
+      this.setImageLoadedStatus(0)
       this.selection.image = img.uri
       if (img) {
         let options = {}
@@ -854,7 +852,7 @@ createApp({
     // Events - Other
     onImageOpenFailed() {
       // TODO
-      this.isImageLoaded = -1
+      this.setImageLoadedStatus(-1)
       console.log('OPEN FAILED')
     },
     // Persistence backend
@@ -955,8 +953,16 @@ createApp({
       // TODO: cache this
       return this.octokit
     },
+    setImageLoadedStatus(isLoaded) {
+      this.isImageLoaded = isLoaded
+      this.anno.readOnly = !this.canSave
+    },
+    onImageLoaded() {
+      // called by OSD on successful image loading
+      this.setImageLoadedStatus(1)
+      this.loadAnnotations()
+    },
     loadAnnotations() {
-      this.isImageLoaded = 1
       return this.loadAnnotationsFromGithub()
     },
     async loadAnnotationsFromGithub() {

@@ -398,7 +398,7 @@ createApp({
   },
   methods: {
     isComponentFeatureSelected(componentKey, featureKey) {
-      let features = this.description?.components[componentKey]?.features || []
+      let features = (this.description?.components || {})[componentKey]?.features || []
       return features.includes(featureKey)
     },
     loadObjects() {

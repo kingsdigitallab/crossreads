@@ -62,7 +62,7 @@
               </p>
               <div class="panel-block">
                 <p class="control has-icons-left">
-                  <input class="input" type="text" placeholder="Search" v-model="searchPhrase">
+                  <input class="input" type="text" placeholder="Search" v-model="searchPhrase" @keyup.delete.stop>
                   <span class="icon is-left">
                     <i class="fas fa-search" aria-hidden="true"></i>
                   </span>
@@ -156,6 +156,26 @@
                       </select>
                     </div>
                   </dd>
+
+                  <dt>Tags</dt> 
+                  <dd class="description-tags">
+                    <div class="field has-addons">
+                      <div class="control">
+                        <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="tag" list="available-tags" @keyup.delete.stop @keyup.enter="onAddTag()" :disabled="!canSave || !isAnnotationSelected">
+                      </div>
+                      <datalist id="available-tags">
+                        <option v-for="tag in tags" :value="tag" />
+                      </datalist>
+                      <div class="control">
+                        <button class="button" @click="onAddTag()" :disabled="!canSave || Boolean(tagFormatError) || !isAnnotationSelected">Add</button>
+                      </div>
+                    </div>
+                    <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
+                    <div class="tags">
+                      <a v-for="tag in description.tags" class="tag is-info is-light" @click="onDeleteTag(tag)">{{ tag }}</a>
+                    </div>
+                  </dd>
+
                   <dt>Components</dt> 
                   <dd><ul class="components-features">
                     <li v-for="(component, componentKey) in filteredComponents">

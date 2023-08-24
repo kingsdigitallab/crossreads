@@ -42,9 +42,19 @@ label.selectable {
 }
 .description dt {
   margin-top: 1em;
-  border-top: 1px solid grey;
+  margin-bottom: 0.5em;
+  padding: 0.2em;
+  border-top: 1px solid #bbb;
   background-color: #eee;
   font-weight: bold;        
+}
+.description .tag:hover {
+  text-decoration: line-through;
+}
+.tag-error {
+  color: darkred;
+  font-weight: bold;
+  font-style: italic;
 }
 
 .bound .a9s-outer {

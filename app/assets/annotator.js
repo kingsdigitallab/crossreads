@@ -68,6 +68,10 @@ function deepCopy(v) {
   // return structuredClone(v)
 }
 
+class AvailableTags {
+
+}
+
 // TODO: move this into Vue?
 function loadOpenSeaDragon(vueApp) {
   var viewer = OpenSeadragon({
@@ -183,7 +187,13 @@ createApp({
           wordId: null,
           signId: null
         },
+        // tags assigned to the selected graph
+        tags: ['tag-1', 'tag-2']
       },
+      // tag the user is typing
+      tag: '',
+      // all available tags (for auto-complete)
+      tags: ['tag-1', 'tag-2', 'type-1', 'type-3'],
       annotation: null,
       annotationsSha: null,
       cache: {
@@ -401,6 +411,29 @@ createApp({
     userId() {
       return this?.user?.url || ''
     },
+    tagFormatError() {
+      let ret = ''
+      let tag = (this?.tag || '').trim()
+      if (tag) {
+        if (!tag.match(/^[a-z0-9.-]+$/)) {
+          ret = 'Please only use digits, lowercase alphabet, - and .'
+        } else {
+          if (!tag.match(/[a-z0-9]$/)) {
+            ret = 'Please end with a digit or letter.'
+          }
+          if (!ret && !tag.match(/^[a-z0-9]/)) {
+            ret = 'Please start with a digit or letter.'
+          }
+          if (!ret && tag.match(/[^a-z0-9]{2}/)) {
+            ret = 'Please surround each . or - with letters or digits.'
+          }
+          if (!ret && (this?.description?.tags || []).includes(tag)) {
+            ret = 'This tag is already applied.'
+          }
+        }
+      }
+      return ret
+    }
   },
   methods: {
     isComponentFeatureSelected(componentKey, featureKey) {
@@ -800,6 +833,8 @@ createApp({
       this.description.allograph = null
       this.description.components = null
       this.description.textTarget = null
+      this.description.tags = null
+      this.tag = ''
       this.updateDescriptionFromAllograph()
     },
     onDeleteAnnotation() {
@@ -1313,5 +1348,27 @@ createApp({
     getContentClasses(panel) {
       return `view-${panel.selections.view}`;
     },
+    onAddTag() {
+      if (this.tagFormatError) return;
+
+      let tag = this.tag
+
+      tag = tag.trim()
+
+      if (!this.description.tags) {
+        this.description.tags = []
+      }
+
+      if (this.description.tags.includes(tag)) return;
+
+      this.description.tags.push(tag)
+      this.updateSelectedAnnotationFromDescription()
+      this.tag = ''
+    },
+    onDeleteTag(tag) {
+      if (!this.description.tags) return;
+      this.description.tags = this.description.tags.filter(t => t != tag)
+      this.updateSelectedAnnotationFromDescription()
+    }
   },
 }).mount('#annotator');

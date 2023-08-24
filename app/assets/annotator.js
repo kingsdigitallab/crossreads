@@ -367,7 +367,10 @@ createApp({
     tabs: () => utils.tabs(),
     canSave() {
       // return !!this.selection.gtoken
-      return (this.isImageLoaded == 1) && (this.getOctokit() !== null)
+      return (this.isImageLoaded == 1) && this.isLoggedIn
+    },
+    isLoggedIn() {
+      return (this.getOctokit() !== null)
     },
     lastMessage() {
       let ret = {
@@ -385,6 +388,9 @@ createApp({
     },
     objectDtsPassage() {
       return this.object['dts:passage'] || null
+    },
+    objectDtsURL() {
+      return this.object["dts:download"] || null
     },
     image() {
       return this.images[this.selection.image] || null
@@ -439,8 +445,7 @@ createApp({
     fetchObjectXML() {
       // fetch the TEI XML from DTS API for the selected object (this.object)
       if (this.object) {
-        const uri = this.object["dts:download"]
-        const self = this
+        const uri = this.objectDtsURL
         fetch(uri)
           .then(res => res.text())
           .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
@@ -502,7 +507,7 @@ createApp({
             }
           }
           if (signCount < 1) {
-            this.logWarning("Word ids not found in TEI.")
+            this.logWarning(`Word ids not found in TEI file ${this.objectDtsURL}.`)
           }
           // to string
           this.text = new XMLSerializer().serializeToString(doc)
@@ -810,6 +815,7 @@ createApp({
     },
     // Events - Selection
     async onSelectObject(obj) {
+      this.clearMessages()
       await this.saveAnnotationsToGithub()
       this.selection.object = obj['@id']
     },
@@ -1261,6 +1267,9 @@ createApp({
     },
     logOk(content) {
       this.logMessage(content, 'success')
+    },
+    clearMessages() {
+      this.messages = []
     },
     setAddressBarFromSelection() {
       // ?object

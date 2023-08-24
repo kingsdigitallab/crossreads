@@ -44,7 +44,7 @@
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
               <a :href="`${tab.key}.html${queryString}`">
-                <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
+                <template v-if="!isLoggedIn && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
                 {{ tab.title }}
               </a>
             </li>

@@ -1383,6 +1383,8 @@ createApp({
 
       tag = tag.trim()
 
+      if(!tag) return;
+
       if (!this.description.tags) {
         this.description.tags = []
       }

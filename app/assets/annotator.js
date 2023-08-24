@@ -70,6 +70,29 @@ function deepCopy(v) {
 
 class AvailableTags {
 
+  constructor() {
+    this.tags = []
+  }
+
+  addTag(tag) {
+    if (this.tags.includes(tag)) return;
+    this.tags.push(tag)
+    this.saveToSession()
+  }
+
+  load() {
+    // TODO: load from github
+    // if copy in session is more recent, use that instead
+  }
+
+  loadFromSession() {
+    this.tags = JSON.parse(window.localStorage.getItem('AvailableTags.tags') || '[]')
+  }
+
+  saveToSession() {
+    window.localStorage.setItem('AvailableTags.tags', JSON.stringify(this.tags))
+  }
+
 }
 
 // TODO: move this into Vue?
@@ -226,6 +249,11 @@ createApp({
     }
   },
   async mounted() {
+    this.availableTags = new AvailableTags()
+    this.availableTags.loadFromSession()
+    this.tags = this.availableTags.tags
+
+
     // TODO: chain load (from objects, to image, ...) 
     // instead of loading all here.in parallel
     this.setSelectionFromAddressBar()
@@ -1362,6 +1390,7 @@ createApp({
       if (this.description.tags.includes(tag)) return;
 
       this.description.tags.push(tag)
+      this.availableTags.addTag(tag)
       this.updateSelectedAnnotationFromDescription()
       this.tag = ''
     },

@@ -237,6 +237,8 @@ createApp({
         gtoken: window.localStorage.getItem('gtoken') || '',
         // TODO: remove partial duplication with /annotation
         annotationId: '',
+        object: null,
+        image: null,
       },
       isUnsaved: 0,
       // null: no asked; -1: error; 0: loading; 1: loaded
@@ -289,26 +291,29 @@ createApp({
   },
   watch: {
     async object(val, valOld) {
+      if (valOld == val) return;
       if (valOld) {
         await this.saveAnnotationsToGithub()
       }
       this.fetchObjectXML()
+      this.searchPhrase = val.title
+    },
+    async searchPhrase(val, valOld) {
+      if (valOld == val) return;
+
+      for (let obj of Object.values(this.objects)) {
+        if (obj.title == val) {
+          this.object = obj
+        }
+      }
     },
     'selection.showSuppliedText'() {
       this.setAddressBarFromSelection()
-    }
+    },
   },
   computed: {
     filteredObjects() {
-      let ret = []
-      for (let k of Object.keys(this.objects)) {
-        let o = this.objects[k]
-        let searcheable = `${o.description.toLowerCase()} ${o.title} ${o['@id']}`
-        if (searcheable.includes(this.searchPhrase.toLowerCase())) {
-          ret.push(o)
-        }
-      }
-      return ret
+      return this.objects
     },
     filteredImages() {
       let ret = []
@@ -421,8 +426,15 @@ createApp({
       }
       return ret
     },
-    object() {
-      return this.objects[this.selection.object] || null
+    object: {
+      get() {
+        return this.objects[this.selection.object] || null
+      },
+      async set(newValue) {
+        this.clearMessages()
+        await this.saveAnnotationsToGithub()
+        this.selection.object = newValue ? newValue['@id'] : null
+      }
     },
     objectDtsPassage() {
       return this.object['dts:passage'] || null
@@ -430,8 +442,36 @@ createApp({
     objectDtsURL() {
       return this.object["dts:download"] || null
     },
-    image() {
-      return this.images[this.selection.image] || null
+    image: {
+      get() {
+        return this.images[this.selection.image] || null
+      }, 
+      async set(newValue) {
+        await this.saveAnnotationsToGithub()
+        this.clearDescription()
+  
+        this.setImageLoadedStatus(0)
+        this.selection.image = newValue.uri
+        if (newValue) {
+          let options = {}
+          let imageUrl = this.getImageUrl()
+          if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
+            options = [imageUrl]
+          } else {
+            options = {
+              type: 'image',
+              // TODO: temporary static call so app works on github pages without IIIF server
+              // http://openseadragon.github.io/examples/tilesource-image/
+              url: imageUrl,
+            }
+          }
+          this.viewer.open(options)
+        }
+        this.setAddressBarFromSelection()
+        // now done in the 'open' event to make sure viewer is ready 
+        // and anno.getAnnotations() returns something
+        // this.loadAnnotationsFromSession()    
+      }
     },
     imageLoadingMessage() {
       return (this.isImageLoaded == 1) ? '' : (this.isImageLoaded == -1) ? 'ERROR: could not load the image': 'loading'
@@ -511,10 +551,6 @@ createApp({
           .then(res => res.text())
           .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
           .then(xml => {
-            // self.tei = res
-            // Only to ease debugging
-            // window.tei = res
-
             this.setImagesFromObjectXML(xml)
             this.setTextFromObjectXML(xml)
           })
@@ -538,10 +574,12 @@ createApp({
       }
       let filteredImages = this.filteredImages
       let img = this.image
+      console.log(img)
       if (!img) {
         img = filteredImages ? filteredImages[0] : null
       }
-      this.onSelectImage(img)
+      // this.onSelectImage(img)
+      this.image = img
     },
     setTextFromObjectXML(xml) {
       // xml (TEI) -> this.text (XHTML)      
@@ -877,11 +915,11 @@ createApp({
       // this.saveAnnotationsToSession()
     },
     // Events - Selection
-    async onSelectObject(obj) {
-      this.clearMessages()
-      await this.saveAnnotationsToGithub()
-      this.selection.object = obj['@id']
-    },
+    // async onSelectObject(obj) {
+    //   this.clearMessages()
+    //   await this.saveAnnotationsToGithub()
+    //   this.selection.object = obj['@id']
+    // },
     getImageUrl() {
       let ret = `${IMG_PATH_STATIC_ROOT}${this.image.uri}`
       if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
@@ -891,32 +929,6 @@ createApp({
           .replace('{IMGID}', imgid);
       }
       return ret
-    },
-    async onSelectImage(img) {
-      await this.saveAnnotationsToGithub()
-      this.clearDescription()
-
-      this.setImageLoadedStatus(0)
-      this.selection.image = img.uri
-      if (img) {
-        let options = {}
-        let imageUrl = this.getImageUrl()
-        if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
-          options = [imageUrl]
-        } else {
-          options = {
-            type: 'image',
-            // TODO: temporary static call so app works on github pages without IIIF server
-            // http://openseadragon.github.io/examples/tilesource-image/
-            url: imageUrl,
-          }
-        }
-        this.viewer.open(options)
-      }
-      this.setAddressBarFromSelection()
-      // now done in the 'open' event to make sure viewer is ready 
-      // and anno.getAnnotations() returns something
-      // this.loadAnnotationsFromSession()
     },
     // Events - Other
     onImageOpenFailed() {

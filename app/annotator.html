@@ -54,49 +54,55 @@
             <span>Issues</span>
           </a>
         </div>
-        <div class="columns is-3">
-          <div class="column">
-            <div class="panel panel-objects">
-              <p class="panel-heading">
-                Objects
-              </p>
-              <div class="panel-block">
-                <p class="control has-icons-left">
-                  <input class="input" type="text" placeholder="Search" v-model="searchPhrase" @keyup.delete.stop>
-                  <span class="icon is-left">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                  </span>
-                </p>
+
+        <div class="panel panel-objects">
+          <div class="panel-block">
+            <div class="columns">
+              
+              <div class="column is-6">
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Object</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <p class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Search" v-model="searchPhrase" list="available-objects" @keyup.delete.stop>
+                        <span class="icon is-left">
+                          <i class="fas fa-search" aria-hidden="true"></i>
+                        </span>
+                        <datalist id="available-objects">
+                          <option v-for="obj2 in filteredObjects" :value="obj2.title" />
+                        </datalist>
+                      </p>
+                    </div>
+                  </div>                  
+                </div>
               </div>
-              <div class="panel-block">
-                <ul class="list-selectable">
-                  <a v-for="(obj2, idx) in filteredObjects" href="#" @click.prevent="onSelectObject(obj2)">
-                    <li :class="{'selected': obj2['@id'] == selection.object}">
-                      {{ obj2.title }}
-                    </li>
-                  </a>
-                </ul>
-                <!-- <div class="select list-objects">
-                  <select v-model="object" size="10">
-                    <option v-for="(obj2, idx) in filteredObjects">{{ obj2.name }}</option>
-                  </select>
-                </div> -->
+
+              <div class="column is-6">
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Image</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="select">
+                        <select v-model="image" :disabled="filteredImages.length < 2">
+                          <option v-for="(img, idx) in filteredImages" :value="img">{{ img.uri }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p class="panel-heading">
-                Images
-              </p>
-              <div class="panel-block">
-                <ul class="list-selectable">
-                  <a v-for="(img, idx) in filteredImages" href="#" @click.prevent="onSelectImage(img)">
-                    <li :class="{'selected': img == image}">
-                      {{ img.uri }}
-                    </li>
-                  </a>
-                </ul>
-              </div>
+
             </div>
           </div>
-          <div class="column is-6">
+        </div>
+
+        <div class="columns">
+          <div class="column is-9">
             <div class="panel">
               <p class="panel-heading">
                 Image

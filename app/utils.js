@@ -53,7 +53,9 @@
         });
         res = res.data;
       } catch (err) {
-        console.log(err);
+        if (err?.message != 'Not Found') {
+          console.log(err);
+        }
       }
     } else {
       if (0) {

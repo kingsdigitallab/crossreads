@@ -58,14 +58,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
+          "allograph": "τ-greek-1",
           "components": null,
           "tags": [
             "t2",
             "tag1",
             "tag2"
-          ],
-          "textTarget": null
+          ]
         }
       }
     ],
@@ -77,6 +76,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:51.324928283691406,219.65216064453125,124.5841293334961,156.96426391601562"
         }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001439",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ByRnI']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/ea94bc1d-da48-4335-91b6-b456e19e2fce",
@@ -84,6 +95,6 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2023-08-24T22:12:43.890Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2023-08-30T23:07:28.469Z"
+    "modified": "2023-08-30T23:07:38.731Z"
   }
 ]

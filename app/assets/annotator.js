@@ -574,7 +574,6 @@ createApp({
       }
       let filteredImages = this.filteredImages
       let img = this.image
-      console.log(img)
       if (!img) {
         img = filteredImages ? filteredImages[0] : null
       }
@@ -1412,6 +1411,19 @@ createApp({
       if (!this.description.tags) return;
       this.description.tags = this.description.tags.filter(t => t != tag)
       this.updateSelectedAnnotationFromDescription()
+    },
+    onBlurObjectSearch() {
+      this.resetSearchPhrase()
+    },
+    onEscapeObjectSearch() {
+      if (this.searchPhrase == '') {
+        this.resetSearchPhrase()
+      } else {
+        this.searchPhrase = ''
+      }
+    },
+    resetSearchPhrase() {
+      this.searchPhrase = this?.object?.title || ''
     }
   },
 }).mount('#annotator');

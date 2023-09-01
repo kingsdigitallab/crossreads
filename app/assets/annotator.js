@@ -38,7 +38,7 @@ let IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?
 // IIIF server via local proxy to avoid CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
-const ANNOTATION_FORMAT_VERSION = '2023-08-04-00'
+const ANNOTATION_FORMAT_VERSION = '2023-09-01-00'
 const ANNOTATION_URI_PREFIX = 'https://crossreads.web.ox.ac.uk/annotations/'
 const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#${ANNOTATION_FORMAT_VERSION}`
 const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
@@ -1144,7 +1144,7 @@ createApp({
             "purpose": "describing",
             "format": "application/json",
             "value": {
-              "allograph": "S",
+              "allograph": "S-SCRIPT",
               "components": [],
               "textTarget": {
                 "textId": null,
@@ -1168,7 +1168,7 @@ createApp({
             "purpose": "describing",
             "format": "application/json",
             "value": {
-              "allograph": "S",
+              "character": "S",
               "components": [],
               "script": "SCRIPT"
             }
@@ -1223,6 +1223,20 @@ createApp({
 
         // July 2023 - convert annotorious id to valid uri
         this.correctAnnotationId(annotation)
+
+        // 2023-09-01
+        // Stored annotation uses Character instead of Allograph
+        // Annotation in app memory still uses Allograph
+        // See issue gh-34
+        let allographKey = annotation?.body[0]?.value?.allograph
+        if (allographKey) {
+          let allograph = this.definitions.allographs[allographKey]
+          if (allograph) {
+            annotation.body[0].value.character = allograph.character
+            delete annotation.body[0].value.allograph
+          }
+        }
+
       }
       return ret
     },
@@ -1255,8 +1269,24 @@ createApp({
             }
           }
         }
-      }
 
+        // 2023-09-01
+        // Stored annotation uses Character instead of Allograph
+        // Annotation in app memory still uses Allograph
+        // See issue gh-34
+        if (annotation?.body[0]?.value?.character) {
+          for (let k of Object.keys(this.definitions.allographs)) {
+            let allograph = this.definitions.allographs[k]
+            if (allograph.script == annotation?.body[0]?.value?.script 
+                && allograph.character == annotation?.body[0]?.value?.character) {
+              annotation.body[0].value.allograph = k
+              delete annotation.body[0].value.character
+            }
+          }
+        }
+
+      }
+      
       return ret
     },
     getAnnotationFilePath() {

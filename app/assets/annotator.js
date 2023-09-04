@@ -315,6 +315,9 @@ createApp({
     filteredObjects() {
       return this.objects
     },
+    filteredObjectTitles() {
+      return Object.values(this.filteredObjects).map(obj => obj.title)
+    },
     filteredImages() {
       let ret = []
       for (let k of Object.keys(this.images)) {
@@ -1456,4 +1459,4 @@ createApp({
       this.searchPhrase = this?.object?.title || ''
     }
   },
-}).mount('#annotator');
+}).use(vuetify).mount('#annotator');

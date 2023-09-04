@@ -16,6 +16,36 @@
     <script src="./node_modules/vue/dist/vue.global.js"></script>
     <link rel="stylesheet" href="./assets/main.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.css">
+
+    <!-- <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet"> -->
+    <!-- https://vuejs.org/guide/quick-start.html#enabling-import-maps -->
+    <!-- <script type="importmap">
+      {
+        "imports":{
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+          "vuetify-fa": "https://cdn.jsdelivr.net/npm/vuetify@3.3.15/lib/iconsets/fa.mjs"
+        }
+      }
+    </script> -->
+    
+    <script type="module">
+      const { createVuetify } = Vuetify
+      // import { aliases, fa } from "vuetify-fa"
+      // const { aliases, fa } = Vuetify
+      window.vuetify = createVuetify()
+      // window.vuetify = createVuetify({
+      //   icons: {
+      //     defaultSet: 'fa',
+      //     aliases,
+      //     sets: {
+      //       fa,
+      //     },
+      //   },
+      // })
+    </script>
+
     <script src="utils.js"></script>
     <script type="module">
       // TODO: UPGRADE
@@ -66,7 +96,23 @@
                   </div>
                   <div class="field-body">
                     <div class="field">
-                      <p class="control has-icons-left">
+
+                      <div>
+                        <!-- https://vuetifyjs.com/en/components/combobox/ -->
+                        <v-combobox
+                          clearable
+                          v-model="searchPhrase"
+                          :items="filteredObjectTitles"
+                          variant="outlined"
+                          @keyup.delete.stop
+                          @keyup.escape.stop="onEscapeObjectSearch()"
+                          @blur="onBlurObjectSearch()"
+                          density="compact"
+                        >
+                        </v-combobox>
+                      </div>
+
+                      <!-- <p class="control has-icons-left">
                         <input class="input" type="text" 
                           placeholder="Search" v-model="searchPhrase" 
                           list="available-objects" 
@@ -80,7 +126,7 @@
                         <datalist id="available-objects">
                           <option v-for="obj2 in filteredObjects" :value="obj2.title" />
                         </datalist>
-                      </p>
+                      </p> -->
                     </div>
                   </div>                  
                 </div>

@@ -272,3 +272,28 @@ br[data-tei-n="1"] {
     color: red;
   }
 }
+
+/* ---- */
+
+.mdi {
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
+  display:inline-block;
+  font-style:normal;
+  font-variant:normal;
+  text-rendering:auto;
+  line-height:1;
+
+  font-family:Font Awesome\ 5 Free;
+  font-weight:900;
+}
+
+.fa-times-circle2:before, 
+.mdi-close-circle:before {
+  content:"\f057"
+}
+
+.fa-caret-down2:before, 
+.mdi-menu-down:before {
+  content:"\f0d7"
+}

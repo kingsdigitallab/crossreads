@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-09-05T13:08:31.493Z",
+  "updated": "2023-09-05T13:50:15.238Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -44,7 +44,12 @@
     "touching": "touching",
     "serif": "serif",
     "sans-serif": "sans serif",
-    "broken": "broken"
+    "broken": "broken",
+    "diagonal": "diagonal",
+    "parallel": "parallel",
+    "ascending": "ascending",
+    "descending": "descending",
+    "point": "point"
   },
   "components": {
     "arch": {
@@ -152,7 +157,11 @@
     },
     "apex": {
       "name": "apex",
-      "features": []
+      "features": [
+        "angular",
+        "curved",
+        "square"
+      ]
     },
     "crossbar": {
       "name": "crossbar",

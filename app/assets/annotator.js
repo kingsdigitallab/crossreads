@@ -507,10 +507,6 @@ createApp({
     }
   },
   methods: {
-    isComponentFeatureSelected(componentKey, featureKey) {
-      let features = (this.description?.components || {})[componentKey]?.features || []
-      return features.includes(featureKey)
-    },
     loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
       fetch(this.apis.collections)
@@ -734,8 +730,16 @@ createApp({
       this.updateDescriptionFromAllograph()
       this.updateSelectedAnnotationFromDescription()
     },
+    isComponentFeatureSelected(componentKey, featureKey) {
+      let features = (this.description?.components || {})[componentKey]?.features || []
+      return features.includes(featureKey)
+    },
     onChangeComponentFeature(componentKey, featureKey) {
-      let components = this.description?.components || {}
+      let components = this.description?.components
+      if (!components) {
+        components = {}
+        this.description.components = components
+      }
       let component = components[componentKey]
 
       if (this.isComponentFeatureSelected(componentKey, featureKey)) {

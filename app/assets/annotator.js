@@ -548,12 +548,16 @@ createApp({
         const uri = this.objectDtsURL
         fetch(uri)
           .then(res => res.text())
-          .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
+          .then(res => this.getDOMFromTEIString(res))
           .then(xml => {
             this.setImagesFromObjectXML(xml)
             this.setTextFromObjectXML(xml)
           })
       }
+    },
+    getDOMFromTEIString(str) {
+      str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+      return new window.DOMParser().parseFromString(str, 'text/xml')
     },
     setImagesFromObjectXML(xml) {
       // get all the tei:graphic -> image locations

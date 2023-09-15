@@ -6,10 +6,11 @@ TODO:
 . show the correct label for the script
 . pagination
 . link to annotator
-
+. remove all hard-coded values
 */
 
 const INDEX_PATH = 'index.json'
+const ITEMS_PER_PAGE = 12
 
 class AvailableTags {
 
@@ -105,23 +106,59 @@ createApp({
         ret = this.messages[this.messages.length - 1]
       }
       return ret
+    },
+    facets() {
+      // chr: 
+      //   buckets
+      //     - doc_count: 3
+      //       key: "A"
+      //       selected: false
+      return this.results?.data?.aggregations
     }
   },
   methods: {
     async loadIndex() {
       this.index = await utils.fetchJsonFile(INDEX_PATH)
+
+      // order field
+      for (let item of this.index) {
+        // reduce item.img
+        item.or1 = `${item.img}-${item.scr}-${item.chr}`
+      }
+
       let config = {
-        searchableFields: ['chr', 'scr', 'tag']
+        sortings: {
+          or1: {
+            field: 'or1',
+            order: 'desc'
+          }
+        },
+        aggregations: {
+          scr: {
+            title: 'Script',
+            size: 30
+          },
+          chr: {
+            title: 'Character',
+            size: 30
+          },
+          tag: {
+            title: 'Tags',
+            size: 30,
+          },
+        },
+        searchableFields: ['tag']
       }
       this.itemsjs = window.itemsjs(this.index, config);
-      // itemsjs.search()
-      console.log(this.index)
     },
     search() {
       // .pagination
       // data.items
       // data.aggregations
-      this.results = this.itemsjs.search()
+      this.results = this.itemsjs.search({
+        per_page: ITEMS_PER_PAGE,
+        sort: 'or1'
+      })
     },
     getThumbUrlFromItem(item) {
       let ret = null
@@ -131,7 +168,7 @@ createApp({
       return ret
     },
     getDocIdFromItem(item) {
-      let ret = item.doc.replace(/^.*id=/, '')
+      let ret = (item?.doc || '').replace(/^.*id=/, '')
       return ret
     },
     getAnnotatorLinkFromItem(item) {

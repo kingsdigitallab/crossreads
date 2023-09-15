@@ -65,12 +65,19 @@
           <div class="column is-3 filters">
             <h2 class="title is-3">Filters</h2>
             <div class="panel">
-              <p class="panel-heading">
-                Filter
-              </p>
-              <p class="panel-block">
-
-              </p>
+              <template v-for="(facet, facetKey) in facets">
+                <p class="panel-heading">
+                  {{ facetKey }}
+                </p>
+                <div class="panel-block facet-options">
+                  <ul>
+                    <li v-for="option in facet.buckets">
+                      <span class="option-label">{{ option.key }}</span>
+                      <span class="option-count">{{ option.doc_count }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </template>
             </div>
           </div>
           <div class="column is-9 results">

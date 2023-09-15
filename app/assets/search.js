@@ -52,6 +52,7 @@ createApp({
         annotationId: '',
         object: null,
         image: null,
+        searchPhrase: '',
       },
       // See itemsjs.search()
       results: {
@@ -83,6 +84,9 @@ createApp({
     // loadOpenSeaDragon(this)
   },
   watch: {
+    'selection.searchPhrase'() {
+      this.search()
+    }
   },
   computed: {
     tabs: () => utils.tabs(),
@@ -124,6 +128,7 @@ createApp({
       for (let item of this.index) {
         // reduce item.img
         item.or1 = `${item.img}-${item.scr}-${item.chr}`
+        item.docId = this.getDocIdFromItem(item)
       }
 
       let config = {
@@ -147,7 +152,7 @@ createApp({
             size: 30,
           },
         },
-        searchableFields: ['tag']
+        searchableFields: ['tag', 'docId']
       }
       this.itemsjs = window.itemsjs(this.index, config);
     },
@@ -157,7 +162,8 @@ createApp({
       // data.aggregations
       this.results = this.itemsjs.search({
         per_page: ITEMS_PER_PAGE,
-        sort: 'or1'
+        sort: 'or1',
+        query: this.selection.searchPhrase,
       })
     },
     getThumbUrlFromItem(item) {

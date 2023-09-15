@@ -65,6 +65,13 @@
           <div class="column is-3 filters">
             <h2 class="title is-3">Filters</h2>
             <div class="panel">
+              <p class="panel-heading">
+                Keywords (tag, inscription ID)
+              </p>
+              <div class="panel-block search-phrase">
+                <input type="text" v-model="selection.searchPhrase" class="input">
+              </div>
+
               <template v-for="(facet, facetKey) in facets">
                 <p class="panel-heading">
                   {{ facetKey }}

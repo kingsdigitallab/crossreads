@@ -83,7 +83,9 @@
                   <div class="media">
                     <div class="media-left">
                       <figure class="image">
-                        <img :src="getThumbUrlFromItem(item)" alt="Placeholder image">
+                        <a :href="getAnnotatorLinkFromItem(item)">
+                          <img :src="getThumbUrlFromItem(item)" alt="Placeholder image">
+                        </a>
                       </figure>
                     </div>
                     <div class="media-content">
@@ -92,7 +94,12 @@
                     </div>
                   </div>                
                   
+                  <div class="content">
+                    {{ getDocIdFromItem(item) }}
+                  </div>
+
                 </div>         
+
               </span>
             </div>
           </div>

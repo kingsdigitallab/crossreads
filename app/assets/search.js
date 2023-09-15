@@ -124,10 +124,22 @@ createApp({
       this.results = this.itemsjs.search()
     },
     getThumbUrlFromItem(item) {
-      let ret = null;
+      let ret = null
       let crop = item.box.substring(11)
       ret = `${item.img}/${crop}/,48/0/default.jpg`
 
+      return ret
+    },
+    getDocIdFromItem(item) {
+      let ret = item.doc.replace(/^.*id=/, '')
+      return ret
+    },
+    getAnnotatorLinkFromItem(item) {
+      // TODO: remove hard-coded assumptions.
+      // the transforms (obj, img) should be more dynamic than that.
+      let ret = ''
+      let annotatorImageId = item.img.replace('_tiled.tif', `.jpg`).replace(/^.*\//, '')
+      ret = `/annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
     }
   }

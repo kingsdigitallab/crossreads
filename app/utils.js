@@ -99,6 +99,15 @@
     return ret;
   };
 
+  exports.fetchJsonFile = async function(path) {
+    let ret = null
+    let res = await fetch(path);
+    if (res && res.status == 200) {
+      ret = await res.json();
+    }
+    return ret
+  }
+
   // client-side
   exports.updateGithubJsonFile = async function (
     filePath,
@@ -167,6 +176,7 @@
     return [
       {title: 'Annotator', key: 'annotator'},
       {title: 'Definitions', key: 'definitions'},
+      {title: 'Search', key: 'search'},
       {title: 'Settings', key: 'settings'},
     ]
   }

@@ -1,0 +1,134 @@
+/* 
+TODO:
+. read index.json from github
+. sort results
+. show the MS
+. show the correct label for the script
+. pagination
+. link to annotator
+
+*/
+
+const INDEX_PATH = 'index.json'
+
+class AvailableTags {
+
+  constructor() {
+    this.tags = []
+  }
+
+  addTag(tag) {
+    if (this.tags.includes(tag)) return;
+    this.tags.push(tag)
+    this.saveToSession()
+  }
+
+  load() {
+    // TODO: load from github
+    // if copy in session is more recent, use that instead
+  }
+
+  loadFromSession() {
+    this.tags = JSON.parse(window.localStorage.getItem('AvailableTags.tags') || '[]')
+  }
+
+  saveToSession() {
+    window.localStorage.setItem('AvailableTags.tags', JSON.stringify(this.tags))
+  }
+
+}
+
+const { createApp } = Vue
+
+createApp({
+  data() {
+    return {
+      selection: {
+        tab: 'search',
+        showSuppliedText: false,
+        gtoken: window.localStorage.getItem('gtoken') || '',
+        // TODO: remove partial duplication with /annotation
+        annotationId: '',
+        object: null,
+        image: null,
+      },
+      // See itemsjs.search()
+      results: {
+        pagination: {},
+        data: {
+          items: [],
+          aggregations: {},
+        }
+      },
+      messages: [
+      ],
+      cache: {
+      },
+      queryString: '',
+      octokit: null,
+      user: null
+    }
+  },
+  async mounted() {
+    this.availableTags = new AvailableTags()
+    this.availableTags.loadFromSession()
+    this.tags = this.availableTags.tags
+
+    await this.loadIndex()
+    this.search()
+
+    // await this.initOctokit()
+
+    // loadOpenSeaDragon(this)
+  },
+  watch: {
+  },
+  computed: {
+    tabs: () => utils.tabs(),
+    items() {
+      return this.results?.data?.items
+    },
+    pagination() {
+      return this.results?.pagination || {
+        page: 1,
+        per_page: 12,
+        total: 0
+      }
+    },
+    lastMessage() {
+      let ret = {
+        content: '',
+        level: 'info',
+        created: new Date()
+      }
+      if (this.messages.length) {
+        ret = this.messages[this.messages.length - 1]
+      }
+      return ret
+    }
+  },
+  methods: {
+    async loadIndex() {
+      this.index = await utils.fetchJsonFile(INDEX_PATH)
+      let config = {
+        searchableFields: ['chr', 'scr', 'tag']
+      }
+      this.itemsjs = window.itemsjs(this.index, config);
+      // itemsjs.search()
+      console.log(this.index)
+    },
+    search() {
+      // .pagination
+      // data.items
+      // data.aggregations
+      this.results = this.itemsjs.search()
+    },
+    getThumbUrlFromItem(item) {
+      let ret = null;
+      let crop = item.box.substring(11)
+      ret = `${item.img}/${crop}/,48/0/default.jpg`
+
+      return ret
+    }
+  }
+}).use(vuetify).mount('#search');

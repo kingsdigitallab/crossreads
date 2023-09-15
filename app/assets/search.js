@@ -53,6 +53,7 @@ createApp({
         object: null,
         image: null,
         searchPhrase: '',
+        facets: {}
       },
       // See itemsjs.search()
       results: {
@@ -85,6 +86,7 @@ createApp({
   },
   watch: {
     'selection.searchPhrase'() {
+      this.selection.facets = {}
       this.search()
     }
   },
@@ -164,7 +166,9 @@ createApp({
         per_page: ITEMS_PER_PAGE,
         sort: 'or1',
         query: this.selection.searchPhrase,
+        filters: this.selection.facets
       })
+      console.log(this.selection.facets)
     },
     getThumbUrlFromItem(item) {
       let ret = null
@@ -184,6 +188,27 @@ createApp({
       let annotatorImageId = item.img.replace('_tiled.tif', `.jpg`).replace(/^.*\//, '')
       ret = `/annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
+    },
+    onClickFacetOption(facetKey, optionKey) {
+      let facet = this.selection.facets[facetKey]
+      if (!facet) {
+        facet = this.selection.facets[facetKey] = []
+      } else {
+        if (facet.includes(optionKey)) {
+          if (facet.length == 1) {
+            delete this.selection.facets[facetKey]
+          } else {
+            this.selection.facets[facetKey] = facet.filter(
+              o => o != optionKey
+            )
+          }
+          facet = null
+        }
+      }
+      if (facet) {
+        facet.push(optionKey)
+      }
+      this.search()
     }
   }
 }).use(vuetify).mount('#search');

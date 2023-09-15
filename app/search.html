@@ -78,7 +78,7 @@
                 </p>
                 <div class="panel-block facet-options">
                   <ul>
-                    <li v-for="option in facet.buckets">
+                    <li v-for="option in facet.buckets" @click="onClickFacetOption(facetKey, option.key)" :class="{'is-selected': option.selected}">
                       <span class="option-label">{{ option.key }}</span>
                       <span class="option-count">{{ option.doc_count }}</span>
                     </li>

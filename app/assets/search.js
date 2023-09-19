@@ -80,7 +80,7 @@ createApp({
 
     await this.loadIndex()
     this.setSelectionFromAddressBar()
-    this.search()
+    this.search(true)
 
     // await this.initOctokit()
 
@@ -205,7 +205,7 @@ createApp({
       // the transforms (obj, img) should be more dynamic than that.
       let ret = ''
       let annotatorImageId = item.img.replace('_tiled.tif', `.jpg`).replace(/^.*\//, '')
-      ret = `../annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
+      ret = `./annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
     },
     onClickFacetOption(facetKey, optionKey) {
@@ -268,7 +268,7 @@ createApp({
       // this.description.script = searchParams.get('scr') || ''
 
       this.selection.searchPhrase = searchParams.get('q') || ''
-      this.selection.page = searchParams.get('pag') || ''
+      this.selection.page = parseInt(searchParams.get('pag') || '1')
 
       for (let facet of Object.keys(this.getFacetDefinitions())) {
         let options = searchParams.get(`f.${facet}`)

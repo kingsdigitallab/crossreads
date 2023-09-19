@@ -1,0 +1,24 @@
+name: Index the annotations
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8,13,18 * * *"
+
+jobs:
+  index:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 19.x
+      - name: Indexing
+        run: |
+          cd tools && node index.js
+      - name: Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated annotations indexing

@@ -53,7 +53,8 @@ createApp({
         object: null,
         image: null,
         searchPhrase: '',
-        facets: {}
+        facets: {},
+        page: 1
       },
       // See itemsjs.search()
       results: {
@@ -120,6 +121,14 @@ createApp({
       //       key: "A"
       //       selected: false
       return this.results?.data?.aggregations
+    },
+    pageMax() {
+      let ret = 1
+      let pagination = this?.results?.pagination
+      if (pagination) {
+        ret = Math.ceil(pagination.total / pagination.per_page)
+      }
+      return ret
     }
   },
   methods: {
@@ -158,12 +167,16 @@ createApp({
       }
       this.itemsjs = window.itemsjs(this.index, config);
     },
-    search() {
+    search(keepPage=false) {
       // .pagination
       // data.items
       // data.aggregations
+      if (!keepPage) {
+        this.selection.page = 1
+      }
       this.results = this.itemsjs.search({
         per_page: ITEMS_PER_PAGE,
+        page: this.selection.page,
         sort: 'or1',
         query: this.selection.searchPhrase,
         filters: this.selection.facets
@@ -178,7 +191,9 @@ createApp({
       return ret
     },
     getDocIdFromItem(item) {
-      let ret = (item?.doc || '').replace(/^.*id=/, '')
+      // TODO get from doc when doc will be always populated
+      // let ret = (item?.doc || '').replace(/^.*id=/, '')
+      let ret = (item?.img || '').replace(/^.*inscription_images\/([^/]+)\/.*$/, '$1')
       return ret
     },
     getAnnotatorLinkFromItem(item) {
@@ -209,6 +224,15 @@ createApp({
         facet.push(optionKey)
       }
       this.search()
+    },
+    onClickPagination(step) {
+      let page = this.selection.page + step
+      if (page < 1) page = 1;
+      if (page > this.pageMax) page = this.pageMax;
+      if (this.selection.page != page) {
+        this.selection.page = page
+        this.search(true)
+      }
     }
   }
 }).use(vuetify).mount('#search');

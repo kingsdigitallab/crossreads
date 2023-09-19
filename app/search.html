@@ -89,6 +89,28 @@
           </div>
           <div class="column is-9 results">
             <h2 class="title is-3">Annotations ({{ pagination.total }})</h2>
+            <div>
+
+              <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <a @click.stop.prevent="onClickPagination(-1)" class="pagination-previous">Prev</a>
+                <a @click.stop.prevent="onClickPagination(1)" class="pagination-next">Next</a>
+                <p class="pagination-list">
+                  Page {{ selection.page }} / {{ this.pageMax }}
+                </p>
+              </nav>
+                <!-- <ul class="pagination-list">
+                  <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                  <li><span class="pagination-ellipsis">&hellip;</span></li>
+                  <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
+                  <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
+                  <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
+                  <li><span class="pagination-ellipsis">&hellip;</span></li>
+                  <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
+                </ul>
+              </nav>              
+              <a href="#" @click.stop.prevent="onClickPagination(-1)" class="button">Prev</a> 
+              <a href="#" @click.stop.prevent="onClickPagination(1)" class="button">Next</a> -->
+            </div>
             <div class="items">
               <span v-for="item in items" class="card item">
 

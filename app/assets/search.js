@@ -79,6 +79,7 @@ createApp({
     this.tags = this.availableTags.tags
 
     await this.loadIndex()
+    this.setSelectionFromAddressBar()
     this.search()
 
     // await this.initOctokit()
@@ -149,23 +150,26 @@ createApp({
             order: 'desc'
           }
         },
-        aggregations: {
-          scr: {
-            title: 'Script',
-            size: 30
-          },
-          chr: {
-            title: 'Character',
-            size: 30
-          },
-          tag: {
-            title: 'Tags',
-            size: 30,
-          },
-        },
+        aggregations: this.getFacetDefinitions(),
         searchableFields: ['tag', 'docId']
       }
       this.itemsjs = window.itemsjs(this.index, config);
+    },
+    getFacetDefinitions() {
+      return {
+        scr: {
+          title: 'Script',
+          size: 30
+        },
+        chr: {
+          title: 'Character',
+          size: 30
+        },
+        tag: {
+          title: 'Tags',
+          size: 30,
+        }
+      }
     },
     search(keepPage=false) {
       // .pagination
@@ -181,7 +185,7 @@ createApp({
         query: this.selection.searchPhrase,
         filters: this.selection.facets
       })
-      console.log(this.selection.facets)
+      this.setAddressBarFromSelection()
     },
     getThumbUrlFromItem(item) {
       let ret = null
@@ -233,6 +237,45 @@ createApp({
         this.selection.page = page
         this.search(true)
       }
-    }
+    },
+    setAddressBarFromSelection() {
+      // ?object
+      // let searchParams = new URLSearchParams(window.location.search)
+      let searchParams = {
+        obj: this.selection.object,
+        img: this.selection.image,
+        sup: this.selection.showSuppliedText ? 1 : 0,
+        ann: (this.annotation?.id || '').replace(/^#/, ''),
+        // scr: this.description.script,
+
+        q: this.selection.searchPhrase,
+        pag: this.selection.page,
+      };
+
+      for (let facet of Object.keys(this.selection.facets)) {
+        searchParams[`f.${facet}`] = this.selection.facets[facet].join('|')
+      }
+
+      utils.setQueryString(searchParams)
+    },
+    setSelectionFromAddressBar() {
+      let searchParams = new URLSearchParams(window.location.search);
+
+      this.selection.object = searchParams.get('obj') || ''
+      this.selection.image = searchParams.get('img') || ''
+      this.selection.showSuppliedText = searchParams.get('sup') === '1'
+      this.selection.annotationId = searchParams.get('ann') || ''
+      // this.description.script = searchParams.get('scr') || ''
+
+      this.selection.searchPhrase = searchParams.get('q') || ''
+      this.selection.page = searchParams.get('pag') || ''
+
+      for (let facet of Object.keys(this.getFacetDefinitions())) {
+        let options = searchParams.get(`f.${facet}`)
+        if (options) {
+          this.selection.facets[facet] = options.split('|')
+        }
+      }
+    },
   }
 }).use(vuetify).mount('#search');

@@ -1397,24 +1397,7 @@ createApp({
         scr: this.description.script
       };
 
-      //
-      let newRelativePathQuery = window.location.pathname
-      let qsKeys = Object.keys(searchParams)
-      let qs = ''
-      if (qsKeys.length) {
-        for (let k of qsKeys) {
-          if (searchParams[k]) {
-            if (qs) qs += '&';
-            qs += `${k}=${searchParams[k]}`
-          }
-        }
-        if (qs) {
-          qs = `?${qs}`
-          newRelativePathQuery += qs
-        }
-      }
-      this.queryString = qs
-      history.pushState(null, "", newRelativePathQuery);
+      utils.setQueryString(searchParams)
     },
     async setSelectionFromAddressBar() {
       let searchParams = new URLSearchParams(window.location.search);

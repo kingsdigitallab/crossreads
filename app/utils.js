@@ -172,6 +172,26 @@
     return str.replace(/\W+/g, '-').toLowerCase()
   }
 
+  exports.setQueryString = function(parameters) {
+    let newRelativePathQuery = window.location.pathname
+    let qsKeys = Object.keys(parameters)
+    let qs = ''
+    if (qsKeys.length) {
+      for (let k of qsKeys) {
+        if (parameters[k]) {
+          if (qs) qs += '&';
+          qs += `${k}=${parameters[k]}`
+        }
+      }
+      if (qs) {
+        qs = `?${qs}`
+        newRelativePathQuery += qs
+      }
+    }
+    this.queryString = qs
+    history.pushState(null, "", newRelativePathQuery);
+  }
+
   exports.tabs = function() {
     return [
       {title: 'Annotator', key: 'annotator'},

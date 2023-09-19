@@ -205,7 +205,7 @@ createApp({
       // the transforms (obj, img) should be more dynamic than that.
       let ret = ''
       let annotatorImageId = item.img.replace('_tiled.tif', `.jpg`).replace(/^.*\//, '')
-      ret = `/annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
+      ret = `../annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
     },
     onClickFacetOption(facetKey, optionKey) {

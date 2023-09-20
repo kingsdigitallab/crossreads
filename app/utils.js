@@ -1,7 +1,16 @@
 (function (exports) {
+
+  // true if this code is running in the browser
+  const isBrowser = (typeof window !== "undefined")
+
+  let fs = null
+  if (!isBrowser) {
+    fs = require('fs');
+  }
+
   function base64Encode(str) {
     // https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-    if (typeof window !== "undefined") {
+    if (isBrowser) {
       // return btoa(str);
       const bytes = new TextEncoder().encode(str)
       const binString = Array.from(bytes, (x) => String.fromCodePoint(x)).join("");
@@ -13,7 +22,7 @@
   }
 
   function base64Decode(str) {
-    if (typeof window !== "undefined") {
+    if (isBrowser) {
       const binString = atob(str);
       return new TextDecoder().decode(Uint8Array.from(binString, (m) => m.codePointAt(0)));
     } else {
@@ -104,6 +113,15 @@
     let res = await fetch(path);
     if (res && res.status == 200) {
       ret = await res.json();
+    }
+    return ret
+  }
+
+  exports.readJsonFile = function(path) {
+    let ret = null
+    if (fs.existsSync(path)) {
+      let content = fs.readFileSync(path, {encoding:'utf8', flag:'r'})
+      ret = JSON.parse(content)
     }
     return ret
   }
@@ -211,10 +229,12 @@
     }
   }
   
-  window.addEventListener("resize", initFillHeightElements);
-  document.addEventListener("scroll", initFillHeightElements);
-  window.addEventListener("load", (event) => {
-    initFillHeightElements();
-  });
+  if (isBrowser) {
+    window.addEventListener("resize", initFillHeightElements);
+    document.addEventListener("scroll", initFillHeightElements);
+    window.addEventListener("load", (event) => {
+      initFillHeightElements();
+    });
+  }
 
 })(typeof exports === "undefined" ? (this["utils"] = {}) : exports);

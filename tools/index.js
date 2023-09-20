@@ -11,10 +11,12 @@ C shorter id?
 C include the letter and word in the dts selector?
 */
 const fs = require('fs');
+const utils = require("../app/utils");
 const path = require("path");
 
 const INDEX_PATH = '../app/index.json'
 const ANNOTATIONS_PATH = '../annotations'
+const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
 
 // Set to true to minify the index.json output.
 // false to make it more readable for debugging purpose.
@@ -38,17 +40,18 @@ class AnnotationIndex {
     //   'doc': 'https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001408',
     // }
 
-    if (!fs.existsSync(filePath)) return
-    let content = fs.readFileSync(filePath, {encoding:'utf8', flag:'r'})
-    content = JSON.parse(content)
+    let content = utils.readJsonFile(filePath)
+    if (!content) return;
 
     for (let annotation of content) {
       let bodyValue = annotation?.body[0]?.value
+
       if (bodyValue?.character) {
+        let scriptName = this.definitions.scripts[bodyValue.script]
         this.annotations.push({
           'id': annotation.id,
           'chr': bodyValue.character,
-          'scr': bodyValue.script,
+          'scr': scriptName,
           'tag': bodyValue.tags,
           'doc': annotation.target[1]?.source,
           'img': annotation.target[0].source,
@@ -65,7 +68,13 @@ class AnnotationIndex {
     }
   }
 
+  async loadDefinitions() {
+    this.definitions = utils.readJsonFile(DEFINITIONS_PATH)    
+  }
+
   build(annotations_path) {
+
+    this.loadDefinitions()
 
     for (let filename of fs.readdirSync(annotations_path).sort()) {
       let filePath = path.join(annotations_path, filename);

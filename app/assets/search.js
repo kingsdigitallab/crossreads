@@ -9,7 +9,8 @@ TODO:
 . remove all hard-coded values
 */
 
-const INDEX_PATH = 'index.json'
+// const INDEX_PATH = 'index.json'
+const INDEX_PATH = 'app/index.json'
 const ITEMS_PER_PAGE = 12
 
 class AvailableTags {
@@ -134,7 +135,9 @@ createApp({
   },
   methods: {
     async loadIndex() {
-      this.index = await utils.fetchJsonFile(INDEX_PATH)
+      // this.index = await utils.fetchJsonFile(INDEX_PATH)
+      // fetch with API so we don't need to republish site each time the index is rebuilt.
+      this.index = await utils.readGithubJsonFile(INDEX_PATH)
 
       // order field
       for (let item of this.index) {

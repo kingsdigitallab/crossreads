@@ -137,7 +137,8 @@ createApp({
     async loadIndex() {
       // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
-      this.index = await utils.readGithubJsonFile(INDEX_PATH)
+      let res = await utils.readGithubJsonFile(INDEX_PATH)
+      this.index = res.data
 
       // order field
       for (let item of this.index) {

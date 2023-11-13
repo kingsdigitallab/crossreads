@@ -15,10 +15,20 @@
 
   exports.getHtmlFromTei = function(xmlString) {
     // Remove diacritic, b/c 
-    // a) some erroneously come out as single text() character in the XSLT
-    // b) partners requested they are hidden in annotator text viewer
+    // a) XSLT template to markup each sign splits combined marks / modifier
+    // b) partners requested they are hidden in annotator text viewer (because they are editorially supplied)
     // c) more complex to map to characters in the palaeographic definitions
-    xmlString = xmlString.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+    // But:
+    // this removes non-combining marks as well, such as punctuation (ductus elevatus? middle dot) <g>
+    // Example, see 1408 and https://github.com/kingsdigitallab/crossreads/issues/37
+    // https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/ISic001408.xml
+    // έο̄ς
+    // xmlString = xmlString.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+    // xmlString = xmlString.normalize("NFD")
+
+    // Remove spaces around <lb break="no">
+    // TODO: try to do it with XSLT? (too fiddly)
+    xmlString = xmlString.replace(/\s*(<lb[^>]+break="no"[^>]*>)\s*/g, '$1')
 
     let ret = xmlUtils.xslt(xmlString, TEI2HTML_XSLT, true)
 

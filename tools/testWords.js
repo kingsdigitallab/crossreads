@@ -15,14 +15,10 @@ const DTS_COLLECTION_JSON='../app/data/2023-08/inscriptions.json'
 
 const TEI_FOLDER = './ISicily/inscriptions/'
 
-const namespaces = {
-  'tei': 'http://www.tei-c.org/ns/1.0',
-  'xhtml': 'http://www.w3.org/1999/xhtml',
-};
-
 class TestWords {
 
   constructor() {
+    this.errors = {}
   }
 
   downloadCorpus() {
@@ -35,6 +31,7 @@ class TestWords {
   async test() {
     this.downloadCorpus()
 
+    // Short list the corpus (4500+ files) to what we are currently lusting in the Annotator
     let shortList = utils.readJsonFile(DTS_COLLECTION_JSON)
     // shortList = null
 
@@ -52,17 +49,18 @@ class TestWords {
         // let res = await this.getPlainText(filePath)
         // console.log(res, res.length)
         // totalLength += res.length
-        if (errors > 0) break;
+        if (errors > 5) break;
       }
     }
 
     // (${(totalLength/1024/1024).toFixed(3)} MB)
     console.log(`${errors} TEI files with errors (${total} parsed)`)
+    this.reportFailures()
   }
 
   async getPlainText(filePath) {
     let xml = await xmlUtils.fromString(filePath)
-    let ret = xmlUtils.xpath(xml, "//tei:text/tei:body/tei:div[@type='edition']//text()", namespaces)
+    let ret = xmlUtils.xpath(xml, "//tei:text/tei:body/tei:div[@type='edition']//text()")
     ret = xmlUtils.toString(ret)
     ret = ret.replace(/\s+/g, ' ')
     return ret
@@ -70,12 +68,12 @@ class TestWords {
 
   testTEI(filePath) {
     let ret = true
-    console.log(filePath)
+    // console.log(filePath)
 
     let content = this.readFile(filePath)
     if (!content) return;
 
-    let res = this.getHtmlFromTei(content)    
+    let res = this.getHtmlFromTei(content)
 
     if (res) {
       // 1. data-idx can only increase by 1 or reset to 0
@@ -93,29 +91,48 @@ class TestWords {
         idxLast = idx
       }
 
-      message = 'space within a word'
-      // nodes = xmlUtils.xpath(res, "//*[contains(@class, 'tei-w') and //text() = ' ']")
-      nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]//text()")
-      for (let node of nodes) {
-        // console.log(xmlUtils.toString(node)+']')
-        if (xmlUtils.toString(node).match(/^.*\s.*$/)) {
-          ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
-        }
-      }    
-
-      message = 'word without id'
-      nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word') and not(@data-tei-id)]")
-      for (let node of nodes) {
-        ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
-      }    
-
-      message = 'nested word'
-      nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]//*[contains(@class, 'is-word')]")
-      for (let node of nodes) {
-        ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+      if (filePath.includes('1408')) {
+        // xmlUtils.xpath(res, "//*[(contains(@class, 'is-word') or (@data-tei='g')) and normalize-space(string-join(.//text(), '')) = '']")
+        console.log(xmlUtils.toString(res))
       }
 
-      message = 'characters without is-word ancestor'
+      if (0) {
+        message = 'empty word / <g>'
+        for (let node of xmlUtils.xpath(res, "//*[(contains(@class, 'is-word') or (@data-tei='g')) and normalize-space(string-join(.//text(), '')) = '']")) {
+          ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+        }        
+      }
+
+      if (0) {
+        message = 'space within a word'
+        // nodes = xmlUtils.xpath(res, "//*[contains(@class, 'tei-w') and //text() = ' ']")
+        for (let word of xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]")) {
+          nodes = xmlUtils.xpath(word, ".//text()")
+          let text = nodes.reduce((ac, v) => ac + (xmlUtils.toString(v) || ' '), '')
+          text = text.trim()
+          if (text.match(/^.*\s.*$/)) {
+            ret = this.fail(filePath, message, '', '', `"${text}"`)
+          }  
+        }
+      }
+
+      if (0) {
+        message = 'word without id'
+        nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word') and not(@data-tei-id)]")
+        for (let node of nodes) {
+          ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+        }    
+      }
+
+      if (0) {
+        message = 'nested word'
+        nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]//*[contains(@class, 'is-word')]")
+        for (let node of nodes) {
+          ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+        }
+      }
+
+      message = 'characters outside .is-word'
       nodes = xmlUtils.xpath(res, "//text()")
       for (let node of nodes) {
         // console.log(xmlUtils.toString(node)+']')
@@ -138,8 +155,21 @@ class TestWords {
     if (expected != got) {
       gotExpected = `expected ${expected}; got ${got};`
     }
-    console.log(`FAIL: in ${fileName}; rule: "${rule}"; ${gotExpected}\n  context: ${context}`)
+    console.log(`FAIL: in ${fileName}; rule: "${rule}"; ${gotExpected}`)
+    if (context) {
+      console.log(`  context: ${context}`)
+    }
+    if (!this.errors[rule]) this.errors[rule] = {};
+    if (!this.errors[rule][fileName]) this.errors[rule][fileName] = 0;
+    this.errors[rule][fileName] += 1
     return false
+  }
+
+  reportFailures() {
+    for (let rule of Object.keys(this.errors)) {
+      let quantity = Object.values(this.errors[rule]).length
+      console.log(`Error: '${rule}' in ${quantity} files`)
+    }
   }
 
   getHtmlFromTei(xmlString) {

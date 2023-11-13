@@ -8,7 +8,7 @@
   <xsl:output method="html" encoding="utf-8" indent="yes"/>
   
   <xsl:template match="/">
-    <xsl:apply-templates select="//tei:text/tei:body/tei:div[@type='edition']"/>
+    <xsl:apply-templates select="//tei:text/tei:body/tei:div[@type='edition'][not(@subtype='transliteration')]"/>
   </xsl:template>
 
   <xsl:template match="comment()">

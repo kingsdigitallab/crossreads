@@ -228,7 +228,12 @@
       element.style.height = `${height}px`;
     }
   }
-  
+
+  exports.exec = function(command) {
+    const {execSync} = require('child_process')
+    return execSync(command)
+  }
+
   if (isBrowser) {
     window.addEventListener("resize", initFillHeightElements);
     document.addEventListener("scroll", initFillHeightElements);

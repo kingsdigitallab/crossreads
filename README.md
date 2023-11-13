@@ -1,8 +1,8 @@
 KDL codebase for the CROSSREADS research project
 
-Main site: https://crossreads.web.ox.ac.uk/
-
 Annotator: https://kingsdigitallab.github.io/crossreads/annotator.html
+
+Main site: https://crossreads.web.ox.ac.uk/
 
 # Content
 
@@ -50,3 +50,12 @@ npm ci
 npm start
 ```
 
+## Testing
+
+Test that the encoding of the TEI corpus allows word and sign segmentation.
+
+```bash
+cd tools
+npm ci
+npm run test:words
+```

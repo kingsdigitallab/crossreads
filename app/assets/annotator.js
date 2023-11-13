@@ -46,6 +46,7 @@ const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
 const DTS_COLLECTION_PATH = './data/2023-08/collection.json'
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
 const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
+const HTML_TO_HTML_XSLT_PATH = './data/html2html.xslt'
 const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
@@ -548,10 +549,10 @@ createApp({
         const uri = this.objectDtsURL
         fetch(uri)
           .then(res => res.text())
-          .then(res => this.getDOMFromTEIString(res))
-          .then(xml => {
-            this.setImagesFromObjectXML(xml)
-            this.setTextFromObjectXML(xml)
+          // .then(res => this.getDOMFromTEIString(res))
+          .then(async (xmlString) => {
+            await this.setImagesFromXMLString(xmlString)
+            this.setTextFromXMLString(xmlString)
           })
       }
     },
@@ -559,13 +560,14 @@ createApp({
       str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
       return new window.DOMParser().parseFromString(str, 'text/xml')
     },
-    setImagesFromObjectXML(xml) {
+    async setImagesFromXMLString(xmlString) {
       // get all the tei:graphic -> image locations
       this.images = {}
-      let it = xml.evaluate('//tei:graphic', xml, this.getURIFromXMLPrefix, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
-      while (true) {
-        let node = it.iterateNext()
-        if (!node) break
+      // let it = xml.evaluate('//tei:graphic', xml, this.getURIFromXMLPrefix, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
+      let xmlObject = await xmlUtils.fromString(xmlString)
+      for (let node of xmlUtils.xpath(xmlObject, '//tei:graphic')) {
+        // let node = it.iterateNext()
+        // if (!node) break
         // TODO: less assumption about encoding, make it more robust 
         let uri = node.attributes['url'].value
         this.images[uri] = {
@@ -583,7 +585,21 @@ createApp({
       // this.onSelectImage(img)
       this.image = img
     },
-    setTextFromObjectXML(xml) {
+    setTextFromXMLString(xmlString) {
+      let res = crossreadsXML.getHtmlFromTei(xmlString)
+      this.text = xmlUtils.toString(res)
+      console.log(this.text)
+      // attach events to each sign
+      Vue.nextTick(() => {
+        for (let sign of document.querySelectorAll('.sign')) {
+          sign.addEventListener('click', (e) => this.onClickSign(sign));
+          // sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
+          // sign.addEventListener('mouseleave', (e) => this.onMouseLeaveSign(sign));
+        }
+        this.updateSignHighlights()
+      })
+    },
+    setTextFromObjectXML2(xml) {
       // xml (TEI) -> this.text (XHTML)      
       fetch(TEI_TO_HTML_XSLT_PATH)
         .then(res => res.text())
@@ -612,6 +628,7 @@ createApp({
           }
           // to string
           this.text = new XMLSerializer().serializeToString(doc)
+          console.log(this.text)
           // attach events to each sign
           Vue.nextTick(() => {
             for (let sign of document.querySelectorAll('.sign')) {

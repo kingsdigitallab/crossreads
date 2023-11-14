@@ -18,13 +18,17 @@
     // a) XSLT template to markup each sign splits combined marks / modifier
     // b) partners requested they are hidden in annotator text viewer (because they are editorially supplied)
     // c) more complex to map to characters in the palaeographic definitions
-    // But:
-    // this removes non-combining marks as well, such as punctuation (ductus elevatus? middle dot) <g>
     // Example, see 1408 and https://github.com/kingsdigitallab/crossreads/issues/37
     // https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/ISic001408.xml
     // έο̄ς
-    // xmlString = xmlString.normalize("NFD").replace(/\p{Diacritic}/gu, "")
-    // xmlString = xmlString.normalize("NFD")
+    // 
+    xmlString = xmlString.normalize("NFD")
+    // But:
+    // this removes non-combining marks as well, such as punctuation (ductus elevatus? middle dot) <g>
+    // <g ref="#interpunct">·</g>
+    // DONT USE THIS: it will remove non-diacritics, like &#183; (middle dot)
+    // xmlString = xmlString.replace(/\p{Diacritic}/gu, "")
+    xmlString = xmlString.replace(/[\u0300-\u036f]/gu, "")
 
     // Remove spaces around <lb break="no">
     // TODO: try to do it with XSLT? (too fiddly)

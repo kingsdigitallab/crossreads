@@ -13,6 +13,8 @@
   exports.xslt = function(xml, xsltPath, isOuputHtml=false) {
     let ret = null
 
+    if (!xml) return ret;
+
     let transformJsonPath = writeTransformJson(xsltPath, isOuputHtml)
 
     // https://www.saxonica.com/saxon-js/documentation2/index.html#!api/transform

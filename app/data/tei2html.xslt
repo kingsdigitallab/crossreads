@@ -53,18 +53,18 @@
     <xsl:attribute name="class">
       <xsl:value-of select="concat('tei-', local-name())"/>
       <xsl:if test="@type"> tei-type-<xsl:value-of select="@type"/></xsl:if>
-      <xsl:if test="local-name() = 'w' or local-name() = 'name' or local-name() = 'g' or local-name() = 'placeName2' or local-name() = 'num2' or local-name() = 'orgName2' or local-name()='orig2'"> is-word</xsl:if>
+      <xsl:if test="local-name() = 'w' or local-name() = 'name' or local-name() = 'g' or local-name() = 'placeName' or local-name() = 'num' or local-name() = 'orgName' or local-name()='orig'"> is-word</xsl:if>
     </xsl:attribute>
     <xsl:attribute name="data-tei"><xsl:value-of select="local-name()" /></xsl:attribute>
     <!-- (tei:w|tei:name|tei:num) -->
     <xsl:apply-templates select="@*" mode="data-tei" />
-  </xsl:template>
+  </xsl:template> 
 
   <xsl:template match="@*" mode="data-tei">
     <xsl:attribute name="{concat('data-tei-', local-name())}"><xsl:value-of select="." /></xsl:attribute>
   </xsl:template>
 
-  <xsl:template match="tei:w//text()|tei:name//text()|tei:g//text()">
+  <xsl:template match="tei:w//text()|tei:name//text()|tei:g//text()|tei:placeName//text()|tei:num//text()|tei:orgName//text()|tei:orig//text()">
     <xsl:call-template name="mark-up-every-character">
       <xsl:with-param name="text" select="."/>
     </xsl:call-template>

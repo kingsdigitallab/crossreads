@@ -1,7 +1,3 @@
----
-title: DTS Specification
----
-
 ## References
 
 * Current DTS server POC: [https://github.com/ISicily/isicily-dts](https://github.com/ISicily/isicily-dts)

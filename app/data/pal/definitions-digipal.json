@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-11-14T17:35:42.900Z",
+  "updated": "2023-11-14T17:46:38.363Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -215,6 +215,22 @@
     },
     "t2": {
       "name": "t2",
+      "features": []
+    },
+    "lower-bowl": {
+      "name": "lower bowl",
+      "features": []
+    },
+    "middle-bar": {
+      "name": "middle bar",
+      "features": []
+    },
+    "body": {
+      "name": "body",
+      "features": []
+    },
+    "tail": {
+      "name": "tail",
       "features": []
     }
   },
@@ -434,12 +450,21 @@
     "Β-greek-1": {
       "script": "greek-1",
       "character": "Β",
-      "components": []
+      "components": [
+        "downstroke",
+        "lower-bowl",
+        "upper-bowl"
+      ]
     },
     "Γ-greek-1": {
       "script": "greek-1",
       "character": "Γ",
-      "components": []
+      "components": [
+        "top-bar",
+        "downstroke",
+        "bottom-bar",
+        "main-stroke"
+      ]
     },
     "Δ-greek-1": {
       "script": "greek-1",

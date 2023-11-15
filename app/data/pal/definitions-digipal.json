@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-11-15T07:21:58.813Z",
+  "updated": "2023-11-15T07:29:21.749Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -36,7 +36,6 @@
     "thin": "thin",
     "pointed": "pointed",
     "traversing": "traversing",
-    "diamond-shaped": "diamond shaped",
     "not-touching": "not touching",
     "touching": "touching",
     "serif": "serif",
@@ -46,7 +45,9 @@
     "parallel": "parallel",
     "ascending": "ascending",
     "descending": "descending",
-    "point": "point"
+    "point": "point",
+    "circular": "circular",
+    "rhomboid": "rhomboid"
   },
   "components": {
     "arch": {
@@ -67,7 +68,13 @@
     },
     "bowl": {
       "name": "bowl",
-      "features": []
+      "features": [
+        "round",
+        "rounded",
+        "angular",
+        "closed",
+        "open"
+      ]
     },
     "descender": {
       "name": "descender",
@@ -79,7 +86,16 @@
     },
     "downstroke": {
       "name": "downstroke",
-      "features": []
+      "features": [
+        "above-baseline",
+        "below-baseline",
+        "curved",
+        "high",
+        "on-baseline",
+        "sans-serif",
+        "serif",
+        "straight"
+      ]
     },
     "eye": {
       "name": "eye",
@@ -119,7 +135,9 @@
     },
     "upper-bowl": {
       "name": "upper bowl",
-      "features": []
+      "features": [
+        "round"
+      ]
     },
     "upper-branch": {
       "name": "upper branch",
@@ -149,7 +167,13 @@
         "straight",
         "vertical",
         "long",
-        "sans-serif"
+        "sans-serif",
+        "serif",
+        "horizontal",
+        "parallel",
+        "diagonal",
+        "touching",
+        "traversing"
       ]
     },
     "apex": {
@@ -176,7 +200,8 @@
         "descending",
         "not-touching",
         "point",
-        "short"
+        "short",
+        "circular"
       ]
     },
     "left-stroke": {
@@ -219,7 +244,9 @@
     },
     "lower-bowl": {
       "name": "lower bowl",
-      "features": []
+      "features": [
+        "round"
+      ]
     },
     "middle-bar": {
       "name": "middle bar",
@@ -227,7 +254,11 @@
     },
     "body": {
       "name": "body",
-      "features": []
+      "features": [
+        "circular",
+        "rhomboid",
+        "small"
+      ]
     },
     "tail": {
       "name": "tail",

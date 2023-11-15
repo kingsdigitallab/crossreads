@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-11-14T17:46:38.363Z",
+  "updated": "2023-11-15T07:10:45.041Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -232,6 +232,14 @@
     "tail": {
       "name": "tail",
       "features": []
+    },
+    "upper-bar": {
+      "name": "upper bar",
+      "features": []
+    },
+    "lower-bar": {
+      "name": "lower bar",
+      "features": []
     }
   },
   "allographs": {
@@ -453,7 +461,8 @@
       "components": [
         "downstroke",
         "lower-bowl",
-        "upper-bowl"
+        "upper-bowl",
+        "main-stroke"
       ]
     },
     "Γ-greek-1": {
@@ -469,37 +478,71 @@
     "Δ-greek-1": {
       "script": "greek-1",
       "character": "Δ",
-      "components": []
+      "components": [
+        "bowl",
+        "downstroke",
+        "main-stroke",
+        "left-stroke",
+        "right-stroke"
+      ]
     },
     "Ε-greek-1": {
       "script": "greek-1",
       "character": "Ε",
-      "components": []
+      "components": [
+        "bottom-bar",
+        "downstroke",
+        "middle-bar",
+        "main-stroke",
+        "top-bar"
+      ]
     },
     "Ζ-greek-1": {
       "script": "greek-1",
       "character": "Ζ",
-      "components": []
+      "components": [
+        "top-bar",
+        "main-stroke",
+        "downstroke",
+        "bottom-bar"
+      ]
     },
     "Η-greek-1": {
       "script": "greek-1",
       "character": "Η",
-      "components": []
+      "components": [
+        "bottom-bar",
+        "left-stroke",
+        "crossbar",
+        "right-stroke",
+        "top-bar"
+      ]
     },
     "Θ-greek-1": {
       "script": "greek-1",
       "character": "Θ",
-      "components": []
+      "components": [
+        "body",
+        "crossbar"
+      ]
     },
     "Ι-greek-1": {
       "script": "greek-1",
       "character": "Ι",
-      "components": []
+      "components": [
+        "downstroke",
+        "main-stroke"
+      ]
     },
     "Κ-greek-1": {
       "script": "greek-1",
       "character": "Κ",
-      "components": []
+      "components": [
+        "main-stroke",
+        "downstroke",
+        "upper-bar",
+        "lower-bar"
+      ]
     },
     "Λ-greek-1": {
       "script": "greek-1",
@@ -570,6 +613,16 @@
       "script": "greek-1",
       "character": "Ω",
       "components": []
+    },
+    "ϝ-greek-1": {
+      "script": "greek-1",
+      "character": "ϝ",
+      "components": [
+        "bottom-bar",
+        "downstroke",
+        "main-stroke",
+        "top-bar"
+      ]
     }
   }
 }

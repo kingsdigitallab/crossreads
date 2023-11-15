@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-11-15T07:29:21.749Z",
+  "updated": "2023-11-15T07:35:46.380Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -216,7 +216,9 @@
         "short",
         "straight",
         "long",
-        "diagonal"
+        "diagonal",
+        "vertical",
+        "traversing"
       ]
     },
     "right-stroke": {
@@ -274,7 +276,15 @@
     },
     "left-bar": {
       "name": "left bar",
-      "features": []
+      "features": [
+        "curved",
+        "diagonal",
+        "above-baseline",
+        "on-baseline",
+        "straight",
+        "short",
+        "long"
+      ]
     },
     "right-bar": {
       "name": "right bar",

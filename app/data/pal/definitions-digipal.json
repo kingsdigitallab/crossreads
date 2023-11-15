@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-11-15T07:10:45.041Z",
+  "updated": "2023-11-15T07:13:43.963Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -239,6 +239,18 @@
     },
     "lower-bar": {
       "name": "lower bar",
+      "features": []
+    },
+    "left-bar": {
+      "name": "left bar",
+      "features": []
+    },
+    "right-bar": {
+      "name": "right bar",
+      "features": []
+    },
+    "middle-stroke": {
+      "name": "middle stroke",
       "features": []
     }
   },
@@ -547,17 +559,34 @@
     "Λ-greek-1": {
       "script": "greek-1",
       "character": "Λ",
-      "components": []
+      "components": [
+        "top-bar",
+        "main-stroke",
+        "downstroke",
+        "bottom-bar",
+        "left-stroke",
+        "right-stroke"
+      ]
     },
     "Μ-greek-1": {
       "script": "greek-1",
       "character": "Μ",
-      "components": []
+      "components": [
+        "right-stroke",
+        "left-stroke",
+        "left-bar",
+        "right-bar",
+        "tail"
+      ]
     },
     "Ν-greek-1": {
       "script": "greek-1",
       "character": "Ν",
-      "components": []
+      "components": [
+        "right-stroke",
+        "left-stroke",
+        "middle-stroke"
+      ]
     },
     "Ξ-greek-1": {
       "script": "greek-1",

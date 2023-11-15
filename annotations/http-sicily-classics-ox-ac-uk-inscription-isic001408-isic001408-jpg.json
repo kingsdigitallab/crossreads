@@ -468,7 +468,18 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "straight"
+              ]
+            }
+          },
           "tags": null,
           "character": "Σ"
         }
@@ -490,8 +501,8 @@
           "value": "//*[@xml:id='BwHFq']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 9,
-            "end": 10
+            "start": 8,
+            "end": 9
           }
         }
       }
@@ -501,7 +512,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-09-05T13:15:23.601Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-09-05T13:15:30.079Z"
+    "modified": "2023-11-15T09:01:39.335Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

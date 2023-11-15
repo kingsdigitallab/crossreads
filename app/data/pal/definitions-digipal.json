@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-11-15T07:35:46.380Z",
+  "updated": "2023-11-15T07:37:58.423Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -47,7 +47,8 @@
     "descending": "descending",
     "point": "point",
     "circular": "circular",
-    "rhomboid": "rhomboid"
+    "rhomboid": "rhomboid",
+    "converging": "converging"
   },
   "components": {
     "arch": {
@@ -272,7 +273,16 @@
     },
     "lower-bar": {
       "name": "lower bar",
-      "features": []
+      "features": [
+        "converging",
+        "diagonal",
+        "straight",
+        "touching",
+        "not-touching",
+        "on-baseline",
+        "above-baseline",
+        "curved"
+      ]
     },
     "left-bar": {
       "name": "left bar",

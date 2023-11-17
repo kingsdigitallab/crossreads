@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "iiif:start": "docker run --rm -d -v /home/jeff/src/prj/crossreads/crossreads/data/2022:/usr/local/share/images -p 5004:5004 --name crossreads-img lorisimageserver/loris",
     "iiif:stop": "docker stop crossreads-img",
-    "collection:filter": "node filterCollection.js ../app/data/2023-08/inscriptions.json"
+    "collection:filter": "node filterCollection.js ../app/data/2023-08/inscriptions.json",
+    "test:words": "node testWords.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/kingsdigitallab/crossreads/issues"
   },
-  "homepage": "https://github.com/kingsdigitallab/crossreads#readme"
+  "homepage": "https://github.com/kingsdigitallab/crossreads#readme",
+  "dependencies": {
+    "saxon-js": "^2.5.0"
+  }
 }

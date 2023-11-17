@@ -164,7 +164,7 @@ class TestWords {
     if (expected != got) {
       gotExpected = `expected ${expected}; got ${got};`
     }
-    console.log(`FAIL: in ${fileName}; rule: "${rule}"; ${gotExpected}`)
+    console.log(`FAIL: in ${process.cwd()}${fileName} ; rule: "${rule}"; ${gotExpected}`)
     if (context) {
       console.log(`  context: ${context}`)
     }

@@ -238,6 +238,80 @@
         "value": {
           "script": "greek-1",
           "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            },
+            "crossbar": {
+              "features": [
+                "straight",
+                "touching",
+                "sans-serif"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "diagonal"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "sans-serif",
+                "straight",
+                "on-baseline",
+                "vertical"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Α"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001435/ISic001435_copy3_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1991.58544921875,570.0894165039062,312.02880859375,309.5523681640625"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001435",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ByCyG']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 8,
+            "end": 9
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/3d0bfbab-0957-4b75-bde2-96b64d38e9f1",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-22T16:14:00.776Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-22T16:15:40.882Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
             "downstroke": {
               "features": [
                 "on-baseline",

@@ -11,8 +11,7 @@
           "script": "greek-1",
           "components": null,
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "character": "Μ"
         }
       }
     ],
@@ -22,13 +21,27 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:213.53509521484375,962.9937133789062,161.7958984375,129.43670654296875"
+          "value": "xywh=pixel:213.53509521484375,962.9937133789062,161.7958984375,133.75128173828125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001445",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BynxU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
         }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/f4e59a5e-645d-4597-ae1b-69af5e69d719",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-22T17:00:18.636Z"
+    "created": "2023-11-22T17:00:18.636Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-22T17:00:25.181Z"
   }
 ]

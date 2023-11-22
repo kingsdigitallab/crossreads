@@ -219,7 +219,8 @@
               "features": [
                 "sans-serif",
                 "straight",
-                "on-baseline"
+                "on-baseline",
+                "diagonal"
               ]
             }
           },
@@ -255,6 +256,51 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-22T17:26:39.023Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-22T17:27:03.320Z"
+    "modified": "2023-11-22T17:27:05.004Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ι"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001463/ISic001463_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3636.03173828125,1329.0904541015625,225.9443359375,743.5628662109375"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001463",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CACam']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 4,
+            "end": 5
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/70e61556-abc2-42e5-a583-858d16f4c5ba",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-22T17:27:12.897Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-22T17:27:14.177Z"
   }
 ]

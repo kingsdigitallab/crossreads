@@ -340,7 +340,14 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "top-bar": {
+              "features": [
+                "curved",
+                "touching"
+              ]
+            }
+          },
           "tags": null,
           "character": "Γ"
         }
@@ -373,6 +380,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-22T16:36:25.876Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-22T16:36:29.610Z"
+    "modified": "2023-11-22T16:36:37.437Z"
   }
 ]

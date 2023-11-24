@@ -618,7 +618,33 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "left-stroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "diagonal"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "sans-serif",
+                "straight",
+                "on-baseline",
+                "diagonal"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "on-baseline",
+                "straight",
+                "sans-serif",
+                "horizontal",
+                "touching"
+              ]
+            }
+          },
           "tags": null,
           "character": "Δ"
         }
@@ -651,7 +677,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T17:34:57.548Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T17:35:05.539Z"
+    "modified": "2023-11-24T23:08:45.705Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1844,7 +1870,8 @@
                 "sans-serif",
                 "diagonal",
                 "touching",
-                "below-baseline"
+                "below-baseline",
+                "parallel"
               ]
             },
             "middle-bar": {
@@ -1852,7 +1879,8 @@
                 "diagonal",
                 "sans-serif",
                 "straight",
-                "touching"
+                "touching",
+                "parallel"
               ]
             },
             "top-bar": {
@@ -1860,7 +1888,8 @@
                 "straight",
                 "sans-serif",
                 "diagonal",
-                "touching"
+                "touching",
+                "parallel"
               ]
             }
           },
@@ -1896,7 +1925,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T17:34:43.960Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T23:08:10.910Z"
+    "modified": "2023-11-24T23:08:20.642Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

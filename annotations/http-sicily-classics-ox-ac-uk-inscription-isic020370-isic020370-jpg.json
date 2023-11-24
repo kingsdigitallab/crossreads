@@ -56,6 +56,51 @@
           "script": "greek-1",
           "components": null,
           "tags": null,
+          "character": "Μ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic020370/ISic020370_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4851.6943359375,2928.7041015625,707.81884765625,602.752197265625"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020370",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='bsksi']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/33d2ba51-efa9-4a7f-80cf-6f0e3bfd4b10",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-24T21:43:05.692Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T21:43:07.746Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
           "character": "Ι"
         }
       }
@@ -144,10 +189,9 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "Ε"
         }
       }
     ],
@@ -159,12 +203,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:4768.74658203125,2348.071533203125,613.81201171875,735.468017578125"
         }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020370",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='bsksi']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/9d30051c-2ef0-4bc4-aa3c-fe23a9e6bb11",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T21:42:59.483Z"
+    "created": "2023-11-24T21:42:59.483Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T21:43:00.788Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -9,6 +9,51 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Μ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001473/ISic001473_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1185.916015625,2533.052734375,1206.790283203125,709.87646484375"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001473",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CAnaK']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/196dc054-7fbc-4a6a-8e39-a1dbc60cfad9",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-24T17:18:19.392Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T17:18:20.292Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "allograph": null,
           "components": null,
           "tags": null,
@@ -22,13 +67,13 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1185.916015625,2533.052734375,1206.790283203125,709.87646484375"
+          "value": "xywh=pixel:2499.187744140625,2639.5341796875,887.345703125,763.1171875"
         }
       }
     ],
-    "id": "https://crossreads.web.ox.ac.uk/annotations/196dc054-7fbc-4a6a-8e39-a1dbc60cfad9",
+    "id": "https://crossreads.web.ox.ac.uk/annotations/7290c5b3-c31f-4718-a91b-0b17d77c82b1",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T17:18:19.392Z"
+    "created": "2023-11-24T17:18:24.840Z"
   }
 ]

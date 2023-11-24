@@ -954,10 +954,9 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "Δ"
         }
       }
     ],
@@ -969,12 +968,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:1120.9326171875,489.61016845703125,83.6363525390625,120.9090576171875"
         }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic003364",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='EfMtK']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 5,
+            "end": 6
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/4f723e0c-7b36-446e-a1bc-8ba40aea330e",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T21:14:43.302Z"
+    "created": "2023-11-24T21:14:43.302Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T21:14:45.553Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

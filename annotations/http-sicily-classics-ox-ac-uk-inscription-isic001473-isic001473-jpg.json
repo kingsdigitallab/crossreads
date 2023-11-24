@@ -54,6 +54,85 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "straight",
+                "sans-serif",
+                "parallel",
+                "diagonal",
+                "touching",
+                "below-baseline"
+              ]
+            },
+            "middle-bar": {
+              "features": [
+                "diagonal",
+                "sans-serif",
+                "straight",
+                "touching",
+                "parallel"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "straight",
+                "sans-serif",
+                "diagonal",
+                "touching",
+                "parallel"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Σ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001472/ISic001472_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4159.8232421875,1683.9893798828125,545.8310546875,1299.4256591796875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001473",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CAjpQ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/2634d79f-cac7-4e28-8b15-3bc022c660ee",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-24T17:16:34.601Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T22:23:05.457Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": null,
           "tags": null,
           "character": "Ι"
@@ -189,7 +268,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            }
+          },
           "tags": null,
           "character": "Α"
         }
@@ -222,7 +307,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T17:20:06.619Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T17:20:07.662Z"
+    "modified": "2023-11-24T22:23:35.070Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -189,10 +189,9 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "Σ"
         }
       }
     ],
@@ -202,14 +201,28 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:4682.05810546875,1911.9105224609375,443.6728515625,1002.7005615234375"
+          "value": "xywh=pixel:4682.05810546875,1876.4166259765625,479.16650390625,1038.1944580078125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001473",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CAnZq']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
         }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/ac784b4f-1569-4a9b-8f69-30935a3a1964",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T17:19:19.427Z"
+    "created": "2023-11-24T17:19:19.427Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T17:19:22.698Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -255,6 +268,51 @@
     "created": "2023-11-24T17:18:51.906Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2023-11-24T17:18:52.972Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ο"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001473/ISic001473_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4123.0302734375,1920.783935546875,541.28076171875,550.154296875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001473",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CAnZq']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 5,
+            "end": 6
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/edee975d-420a-45f4-9daa-b15c16838af7",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-24T17:19:28.876Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T17:19:29.826Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

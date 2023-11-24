@@ -84,7 +84,18 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "straight"
+              ]
+            }
+          },
           "tags": null,
           "character": "Σ"
         }
@@ -96,7 +107,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:4159.8232421875,1683.9893798828125,416.33203125,1056.0614013671875"
+          "value": "xywh=pixel:4159.8232421875,1683.9893798828125,545.8310546875,1299.4256591796875"
         }
       },
       {
@@ -117,7 +128,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T17:16:34.601Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T17:16:37.642Z"
+    "modified": "2023-11-24T22:22:40.932Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

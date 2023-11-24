@@ -65,13 +65,58 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:2042.5379638671875,1291.8729248046875,718.8785400390625,552.9835205078125"
+          "value": "xywh=pixel:2816.71484375,1065.1497802734375,497.685302734375,641.4608154296875"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/c0e63422-0a67-495e-b4df-1b0bab716934",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-24T21:42:19.858Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ο"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic020370/ISic020370_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2086.776611328125,1302.9326171875,674.639892578125,541.923828125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020370",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='bsksY']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
         }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/d011ac29-675a-4691-a97f-40d33ba561ea",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T21:42:09.647Z"
+    "created": "2023-11-24T21:42:09.647Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2023-11-24T21:42:15.554Z"
   }
 ]

@@ -224,6 +224,15 @@ br[data-tei-n="1"] {
   display: none;
 }
 
+.tei-del, .tei-del .sign {
+  text-decoration: line-through;
+}
+
+.tei-supplied .sign {
+  color: grey;
+  border: 0.10em solid #eee;
+}
+
 /* Conditional display of supplied text in the transcription, see gh-11 
 
 <p class="show-supplied"> [HTML TRANSCRIPTION] </p>

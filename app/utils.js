@@ -220,12 +220,13 @@
   }
 
   function initFillHeightElements() {
-    for (let element of document.querySelectorAll('.fill-height')) {
+    for (let element of document.querySelectorAll('.responsive-height')) {
       let height = (window.innerHeight - element.offsetTop + window.scrollY - 15)
       if (height < 10) {
         height = 10
       }
       element.style.height = `${height}px`;
+      console.log(element.style.height)
     }
   }
 

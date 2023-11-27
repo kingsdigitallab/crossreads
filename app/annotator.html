@@ -186,7 +186,7 @@
                   </label>
                 </span>
               </p>
-              <div class="panel-block transcription fill-height">
+              <div class="panel-block transcription responsive-height">
                 <p :class="{'show-supplied': selection.showSuppliedText, 'transcription-body': 1}" v-html="text">
                 </p>
               </div>
@@ -199,7 +199,7 @@
                 <a v-if="image" :href="getAnnotationsAbsolutePath()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span v-if="isAnnotationSelected">(Selected)</span>
               </p>
-              <div class="panel-block fill-height">
+              <div class="panel-block responsive-height">
                 <dl class="description">
                   <dt>Script</dt> 
                   <dd>

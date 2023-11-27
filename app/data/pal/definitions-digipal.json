@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2023-11-15T08:33:27.774Z",
+  "updated": "2023-11-27T17:35:47.563Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -78,7 +78,10 @@
         "on-baseline",
         "sans-serif",
         "serif",
-        "straight"
+        "straight",
+        "traversing",
+        "diagonal",
+        "vertical"
       ]
     },
     "lower-branch-k": {
@@ -110,7 +113,8 @@
         "round",
         "angular",
         "open",
-        "closed"
+        "closed",
+        "rounded"
       ]
     },
     "top-bar": {
@@ -146,7 +150,9 @@
         "parallel",
         "diagonal",
         "touching",
-        "traversing"
+        "traversing",
+        "above-baseline",
+        "below-baseline"
       ]
     },
     "apex": {
@@ -172,7 +178,8 @@
         "not-touching",
         "point",
         "short",
-        "circular"
+        "circular",
+        "horizontal"
       ]
     },
     "left-stroke": {
@@ -205,7 +212,8 @@
         "below-baseline",
         "above-baseline",
         "diagonal",
-        "traversing"
+        "traversing",
+        "vertical"
       ]
     },
     "t1": {
@@ -220,7 +228,10 @@
       "name": "lower bowl",
       "features": [
         "round",
-        "angular"
+        "angular",
+        "closed",
+        "open",
+        "rounded"
       ]
     },
     "middle-bar": {
@@ -237,7 +248,9 @@
         "straight",
         "touching",
         "traversing",
-        "parallel"
+        "parallel",
+        "curved",
+        "horizontal"
       ]
     },
     "body": {
@@ -296,7 +309,10 @@
         "on-baseline",
         "straight",
         "short",
-        "long"
+        "long",
+        "sans-serif",
+        "serif",
+        "traversing"
       ]
     },
     "right-bar": {
@@ -311,7 +327,8 @@
         "serif",
         "straight",
         "short",
-        "long"
+        "long",
+        "traversing"
       ]
     },
     "middle-stroke": {
@@ -549,7 +566,10 @@
         "downstroke",
         "lower-bowl",
         "upper-bowl",
-        "main-stroke"
+        "main-stroke",
+        "left-stroke",
+        "middle-bar",
+        "right-stroke"
       ]
     },
     "Γ-greek-1": {
@@ -582,7 +602,9 @@
         "downstroke",
         "middle-bar",
         "main-stroke",
-        "top-bar"
+        "top-bar",
+        "lower-bowl",
+        "upper-bowl"
       ]
     },
     "Ζ-greek-1": {
@@ -619,7 +641,11 @@
       "character": "Ι",
       "components": [
         "downstroke",
-        "main-stroke"
+        "main-stroke",
+        "apex",
+        "bottom-bar",
+        "middle-bar",
+        "top-bar"
       ]
     },
     "Κ-greek-1": {
@@ -652,7 +678,8 @@
         "left-stroke",
         "left-bar",
         "right-bar",
-        "tail"
+        "tail",
+        "apex"
       ]
     },
     "Ν-greek-1": {
@@ -671,7 +698,8 @@
         "main-stroke",
         "bottom-bar",
         "middle-bar",
-        "top-bar"
+        "top-bar",
+        "downstroke"
       ]
     },
     "Ο-greek-1": {
@@ -745,7 +773,9 @@
       "character": "Χ",
       "components": [
         "main-stroke",
-        "downstroke"
+        "downstroke",
+        "left-bar",
+        "right-bar"
       ]
     },
     "Ψ-greek-1": {
@@ -772,7 +802,8 @@
         "bottom-bar",
         "downstroke",
         "main-stroke",
-        "top-bar"
+        "top-bar",
+        "middle-bar"
       ]
     },
     "ϙ-greek-1": {

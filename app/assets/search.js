@@ -189,14 +189,44 @@ createApp({
         query: this.selection.searchPhrase,
         filters: this.selection.facets
       })
+      // img.addEventListener('load', loaded)
+      this.$nextTick(() => {
+        this.resetThumbs()
+        // this.loadLazyThumbs()
+      })
       this.setAddressBarFromSelection()
     },
+    resetThumbs() {
+      for (let element of document.querySelectorAll('.graph-thumb')) {
+        element.classList.add('thumb-loading')
+        // element.src = this.placeholderThumb(1)
+        if (element.classList.contains('thumb-unbound')) {
+          element.classList.remove('thumb-unbound')
+          element.addEventListener('load', (event) => {
+            element.classList.remove('thumb-loading')
+          })  
+        }
+        // element.classList.remove('thumb-unbound')
+      }
+    },
+    // loadLazyThumbs() {
+    //   for (let element of document.querySelectorAll('img[data-img]')) {
+    //     element.src = element.attributes['data-img'].value
+    //     // element.classList.remove('thumb-unloaded')
+    //   }
+    // },
     getThumbUrlFromItem(item) {
       let ret = null
       let crop = item.box.substring(11)
       ret = `${item.img}/${crop}/,48/0/default.jpg`
 
       return ret
+    },
+    placeholderThumb(item) {
+      return 'data:image/svg+xml;UTF8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"><rect x="0" y="0" rx="2" ry="2" width="48" height="48" style="fill:lightgrey;stroke:grey;stroke-width:2;opacity:1" /></svg>'
+    },
+    getThumbClass(item) {
+      return 'unloaded-thumb'
     },
     getDocIdFromItem(item) {
       // TODO get from doc when doc will be always populated

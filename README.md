@@ -59,3 +59,23 @@ cd tools
 npm ci
 npm run test:words
 ```
+
+## Controlling which inscriptions are listed in the Annotator
+
+A javscript command line app regenerates the DTS sub-collection to inscription listed in the annotator.
+
+It takes two input files:
+* [inscriptions.js](https://github.com/kingsdigitallab/crossreads/blob/main/app/data/2023-08/inscriptions.json): an array of inscription IDs.
+* [collections.json](https://github.com/kingsdigitallab/crossreads/blob/main/app/data/dts/api/collections.json): the full collection of inscriptions obtained from the DTS Poc in Nov 2022.
+
+And produces [collection.json](https://github.com/kingsdigitallab/crossreads/blob/main/app/data/2023-08/collection.json) a subset, or sub-collection, made by filtering the full collections.json with the shortlisted IDs.
+
+Note that the IDs are case sensitive.
+
+To add more inscriptions to the Annotator, add the desired IDs to the inscriptions.js file then ask a KDL developper to run the filtering script.
+
+```
+cd tools
+npm ci
+npm run collection:filter
+```

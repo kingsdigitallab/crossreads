@@ -12,9 +12,10 @@ A pure client-side javascript application running in the browser allowing resear
 to bound graphs found in photographs of text-bearing objects and describe them using 
 a structured language.
 
-### Principles
+### Principles & aims
 
-* The architecture is meant to be open and modular so it can be easily integrated with other services.
+* "Severless" app: most of the code runs in the browser. The data is read from and written to github.
+* The architecture is meant to be open and modular so it can be easily integrated with other services
 * Follow existing data standards, as much as possible
 * Intuitive and efficient UI, designed to streamline bulk annotation of a large number of graphs
 

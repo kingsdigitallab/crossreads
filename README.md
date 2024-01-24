@@ -78,3 +78,6 @@ cd tools
 npm ci
 npm run collection:filter
 ```
+
+Then, to publish the changes to the live annotator, [run the deployment action on github](https://github.com/kingsdigitallab/crossreads/actions/workflows/static.yml).
+

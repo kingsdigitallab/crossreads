@@ -18,7 +18,7 @@ a structured language.
 * Follow existing data standards, as much as possible
 * Intuitive and efficient UI, designed to streamline bulk annotation of a large number of graphs
 
-Status: **local prototype**
+Status: **working prototype**
 
 ### Features:
 
@@ -32,13 +32,11 @@ Status: **local prototype**
 * describe the palaeographical features of the graph using previously fetched definitions
 * encode the annotation according to Web Annotation standard
 * extract the diplomatic version of the TEI text and show it below the image viewer
+* load & save annotations to github (currently saved in Browser session)
 
-### TODO:
+### TODO
 
-* new UI to edit the palaeographical definitions
-* load & save annotation to github (currently saved in Browser session)
-* modular backend to load & save (e.g. github, Archetype, DB)
-
+See the github issue section and the [milestones](https://github.com/kingsdigitallab/crossreads/milestones).
 
 # Develop
 

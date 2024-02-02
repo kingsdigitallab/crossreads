@@ -4,9 +4,9 @@
 
 Below is a step-by-step summary of how the annotator currently interacts with external content sources:
 
-1. request to the DTS Collection API ([currently a static copy](https://kingsdigitallab.github.io/crossreads/data/2023-01/collection.json)) to obtain the list of all objects in the corpus
+1. request to the DTS Collection API ([currently a static copy](https://kingsdigitallab.github.io/crossreads/data/2023-08/collection.json)) to obtain the list of all objects in the corpus
 2. from the Collection response, retrieve the URL of the TEI documents
-3. fetch the whole TEI file ([currently a static copy](https://kingsdigitallab.github.io/crossreads/data/2023-01/ISic000031.xml) on github but eventually from the DTS document endpoint)
+3. fetch the whole TEI file from github (as the DTS implementation doesn't support the documenbt endpoint)
 4. get image file names from the TEI header
 5. reconstruct the image URLs from the file names (currently local copy but soon a [standard IIIF image information API URL](https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json) (\*/info.json))
 6. pass the URL of user-selected image to OpenSeaDragon which then displays the image

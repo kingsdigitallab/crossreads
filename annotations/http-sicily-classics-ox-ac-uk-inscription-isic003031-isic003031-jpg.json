@@ -9,10 +9,16 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            }
+          },
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "textTarget": null,
+          "character": "Α"
         }
       }
     ],
@@ -29,7 +35,9 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/5652c430-d5bb-4154-8367-7a08b7dc1b93",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-02-20T17:44:42.375Z"
+    "created": "2024-02-20T17:44:42.375Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-02-20T17:45:04.602Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

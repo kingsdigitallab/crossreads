@@ -572,6 +572,38 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic003031/ISic003031_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1800.6636962890625,664.1038208007812,67.7236328125,32.1129150390625"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/a948c284-e0e6-4f24-acd0-af01f5f803c6",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-02-20T18:04:37.718Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": {
             "downstroke": {
               "features": [
@@ -841,6 +873,7 @@
             }
           },
           "tags": null,
+          "textTarget": null,
           "character": "Ν"
         }
       }
@@ -853,18 +886,6 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:1544.8330078125,1074.546875,285.23681640625,283.71142578125"
         }
-      },
-      {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic003031",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//*[@xml:id='DDKAy']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 5,
-            "end": 6
-          }
-        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/ffcddbf6-1890-4b71-be82-a062d943d361",
@@ -872,6 +893,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-02-20T18:01:25.812Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-02-20T18:04:03.556Z"
+    "modified": "2024-02-20T18:04:31.051Z"
   }
 ]

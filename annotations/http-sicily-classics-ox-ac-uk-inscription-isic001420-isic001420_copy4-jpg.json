@@ -178,10 +178,16 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            }
+          },
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "textTarget": null,
+          "character": "Υ"
         }
       }
     ],
@@ -191,7 +197,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1110.9971923828125,1811.984619140625,200.8651123046875,243.514404296875"
+          "value": "xywh=pixel:1110.9971923828125,1800.978271484375,203.61669921875,254.520751953125"
         }
       }
     ],

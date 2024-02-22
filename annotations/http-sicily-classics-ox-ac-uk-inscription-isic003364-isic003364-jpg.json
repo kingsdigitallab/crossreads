@@ -2979,7 +2979,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "square"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ο"
         }
@@ -3010,7 +3016,9 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/fafaea85-949e-44ba-8a16-dfead950dec7",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T21:11:02.704Z"
+    "created": "2023-11-24T21:11:02.704Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-02-22T17:06:04.165Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

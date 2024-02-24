@@ -2,6 +2,7 @@
   --selected-color: orange;
   --hover-color: yellow;
   --bound-color: blue;
+  --broken-color: red;
 }
 
 .responsive-height {
@@ -59,6 +60,9 @@ label.selectable {
 
 .bound .a9s-outer {
   stroke: var(--bound-color);
+}
+.broken .a9s-outer {
+  stroke: var(--broken-color);
 }
 .a9s-annotation.selected .a9s-inner {
   fill: var(--selected-color);

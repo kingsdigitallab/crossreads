@@ -1,14 +1,14 @@
 /* 
-An annotation is stored in various places:
+An annotation is stored in various places & formats:
 
-1. github (in W3C standard format)
-2. Annotorious (in Annotorious and Annotator friendly format)
+1. github (in W3C standard format): for permanent storage & standard interoperability
+2. Annotorious (in Annotorious and KDL Annotator friendly format)
   2.a annotorious working area (e.g. DOM & selection/shapes)
   2.b annotorious annotations set (e.g. getAnnotations)
   (Note that a shape is promoted to an annotation)
-3. Annotator (reactive Vue data)
+3. KDL Annotator (reactive Vue data)
   3.a .annotation: READ-ONLY pointer to annotorious selected annotation, used as bool (this is mainly used to test if there's a selection)
-  3.b .description: the script, allograph, component-feature and the textTarget (pointer to the sign in the TEI) of an annotation
+  3.b .description: working copy of the script, allograph, component-feature and the textTarget (pointer to the sign in the TEI) of an annotation
     That description is reactive and linked to the UI.
     It is copied back into annotorious annotation model by action-related events.
     (script + allograph + CF) -> body of the annotation
@@ -18,9 +18,9 @@ It's advised to familiarise yourself with Annotorious events.
 
 https://annotorious.github.io/api-docs/osd-plugin/
 
-Unfortunately the code is more complicated than needed 
-and contains some tricks to work around 
-the way Annotorious manages the cascade of annotation editing events.
+Unfortunately the following code is more complicated than needed 
+to work around the way Annotorious manages 
+the cascade of annotation editing events.
 
 TODO:
 * Create an Annotation class and move the data manipulation methods there
@@ -28,6 +28,8 @@ TODO:
 */
 
 let IMG_PATH_STATIC_ROOT = './data/images/'
+let NO_MATCHING_SIGN = 'NO_MATCHING_SIGN'
+let NO_MATCHING_WORD = 'NO_MATCHING_WORD'
 
 // if IMG_PATH_IIIF_ROOT defined, the viewer will fetch full image files instead of IIIF tiles
 // Local IIIF server
@@ -588,7 +590,7 @@ createApp({
     setTextFromXMLString(xmlString) {
       let res = crossreadsXML.getHtmlFromTei(xmlString)
       this.text = xmlUtils.toString(res)
-      console.log(this.text)
+      // console.log(this.text)
       // attach events to each sign
       Vue.nextTick(() => {
         for (let sign of document.querySelectorAll('.sign')) {
@@ -628,7 +630,7 @@ createApp({
           }
           // to string
           this.text = new XMLSerializer().serializeToString(doc)
-          console.log(this.text)
+          // console.log(this.text)
           // attach events to each sign
           Vue.nextTick(() => {
             for (let sign of document.querySelectorAll('.sign')) {
@@ -723,15 +725,29 @@ createApp({
       this.setAddressBarFromSelection()
     },
     getSignFromAnnotation(annotation = null) {
+      // returns the DOM element matching the sign
+      // referred by the passed annotation.
+      // If annotation is null, use the currently selected one.
+      // Returns null if there is no match.
+      let sign = this.getSignOrErrorCodeFromAnnotation(annotation)
+      return (sign?.tagName) ? sign : null
+    },
+    getSignOrErrorCodeFromAnnotation(annotation = null) {
+      // returns the DOM element matching the sign
+      // referred by the passed annotation.
+      // If annotation is null, use the currently selected one.
+      // If annotation doesn't refer to a sign, returns null.
+      // If matching sign element not found, return NO_MATCHING_SIGN.
+      // If parent word element not found, return NO_MATCHING_WORD.
       let ret = null
       annotation = annotation || this.annotation
       if (annotation?.body?.length) {
-        // let description = JSON.parse(annotation.body[0].value)
         let description = annotation.body[0].value
         if (description?.textTarget?.signId) {
+          ret = NO_MATCHING_WORD
           let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
           if (word) {
-            ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`)
+            ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`) || NO_MATCHING_SIGN
           }
         }
       }
@@ -1340,8 +1356,9 @@ createApp({
       // sets 'bound' class to annotation svg 
       // if bound to a sign in the text.
       let ret = ''
-      if (this.getSignFromAnnotation(annotation)) {
-        ret = 'bound'
+      let signOrCode = this.getSignOrErrorCodeFromAnnotation(annotation)
+      if (signOrCode) {
+        ret = (signOrCode?.tagName) ? 'bound' : 'broken'
       }
       return ret
     },

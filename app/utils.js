@@ -226,7 +226,7 @@
         height = 10
       }
       element.style.height = `${height}px`;
-      console.log(element.style.height)
+      // console.log(element.style.height)
     }
   }
 

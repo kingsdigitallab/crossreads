@@ -16,6 +16,9 @@ BASE_TO = 100
 ANNOTATION_FORMAT_VERSION = '2023-09-01-00'
 ANNOTATION_GENERATOR_URI = f'https://github.com/kingsdigitallab/crossreads#{ANNOTATION_FORMAT_VERSION}'
 PATH_INSCRIPTIONS_RELATIVE = '../../../app/data/2023-08/inscriptions.json'
+READ_ONLY = False
+FILTERED_ANNOTATION_FILE = None
+# FILTERED_ANNOTATION_FILE = 'isic030002-isic001408'
 
 class AnnotationIDConvertor:
 
@@ -109,7 +112,7 @@ class AnnotationIDConvertor:
 
         for file in sorted(path_annotations.glob('*.json')):
             file = Path(file)
-            if 1 or 'isic030002-isic001408' in str(file):
+            if not FILTERED_ANNOTATION_FILE or FILTERED_ANNOTATION_FILE in str(file):
                 self.annotations_file_path = file
                 print(file.name)
                 changed = 0
@@ -136,7 +139,7 @@ class AnnotationIDConvertor:
                 if len(annotations) != changed:
                     print(f'  {len(annotations)} annotations = {changed} converted + {len(annotations) - changed} unchanged.')
 
-                if 0 and changed:
+                if not READ_ONLY and changed:
                     print('  WRITTEN')
                     file.write_bytes(json.dumps(annotations, indent=2, ensure_ascii=False).encode('utf8'))
             

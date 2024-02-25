@@ -98,7 +98,10 @@ class AnnotationIDConvertor:
         # e.g. returns ISic020292
         # from current annotation > target > source .
         # "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020292",
-        return self.annotation['target'][1]['source'][-10:]
+        # ret = self.annotation['target'][1]['source'][-10:]
+        ret = re.sub(r'http-sicily-classics-ox-ac-uk-inscription-isic(\d+)-.*', r'ISic\1', self.annotations_file_path.name)
+        return ret
+
 
 
     def convert_all_annotations_files(self):
@@ -106,6 +109,7 @@ class AnnotationIDConvertor:
 
         for file in path_annotations.glob('*.json'):
             if 1 or 'isic020292' in str(file):
+                self.annotations_file_path = file
                 print(file.name)
                 changed = 0
                 annotations = json.loads(file.read_text())
@@ -132,7 +136,7 @@ class AnnotationIDConvertor:
 
                 if 0 and changed:
                     print('  WRITTEN')
-                    file.write_text(json.dumps(annotations, indent=2))
+                    file.write_bytes(json.dumps(annotations, indent=2, ensure_ascii=False).encode('utf8'))
             
 convertor = AnnotationIDConvertor()
 convertor.convert_all_annotations_files()

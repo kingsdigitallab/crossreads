@@ -107,8 +107,9 @@ class AnnotationIDConvertor:
     def convert_all_annotations_files(self):
         path_annotations = (Path(__file__) / PATH_ANNOTATIONS_RELATIVE).resolve()
 
-        for file in path_annotations.glob('*.json'):
-            if 1 or 'isic020292' in str(file):
+        for file in sorted(path_annotations.glob('*.json')):
+            file = Path(file)
+            if 1 or 'isic030002-isic001408' in str(file):
                 self.annotations_file_path = file
                 print(file.name)
                 changed = 0
@@ -132,7 +133,8 @@ class AnnotationIDConvertor:
                                 target['selector']['value'] = selector_new
                                 # print(f'  {selector} => {selector_new}')
                 
-                print(f'  {len(annotations)} annotations = {changed} converted + {len(annotations) - changed} unchanged.')
+                if len(annotations) != changed:
+                    print(f'  {len(annotations)} annotations = {changed} converted + {len(annotations) - changed} unchanged.')
 
                 if 0 and changed:
                     print('  WRITTEN')

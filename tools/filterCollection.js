@@ -8,7 +8,9 @@ if (!srcPath.endsWith('.json')) {
 }
 
 const shortListPath = '../app/data/2023-08/inscriptions.json'
-const fullCollectionPath = '../app/data/dts/api/collections.json'
+// const fullCollectionLocation = '../app/data/dts/api/collections.json'
+const fullCollectionLocation = 'https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json'
+
 let filteredCollectionPath = path.dirname(srcPath) + '/' + 'collection.json'
 
 async function readJsonFile(path) {
@@ -20,13 +22,21 @@ async function writeJsonFile(path, content) {
     fs.writeFileSync(path, JSON.stringify(content, null, 2));
 }
 
+async function readCollectionJson() {
+    let res = await fetch(fullCollectionLocation)
+    return await res.text()
+}
+
 async function filter() {
+    let ret = 0
+
     // 1. read the list of inscription ids
     let shortList = await readJsonFile(shortListPath)
     // 2. read the collection
-    let fullCollection = await readJsonFile(fullCollectionPath)
-    let filteredCollection = await readJsonFile(fullCollectionPath)
-
+    let fullCollectionJson = await readCollectionJson()
+    let fullCollection = JSON.parse(fullCollectionJson)
+    let filteredCollection = JSON.parse(fullCollectionJson)
+    
     // 3. filter the collection by the list of inscriptions
     filteredCollection.member = fullCollection.member.filter(m => shortList.includes(m?.title))
 
@@ -43,11 +53,19 @@ async function filter() {
         }
     }
     
-    console.log(`TASK    filter ${shortList.length} inscriptions (${shortListPath}) from ${fullCollection.member.length} (${fullCollectionPath})`)
+    console.log(`TASK    filter ${shortList.length} inscriptions (${shortListPath}) from ${fullCollection.member.length} (${fullCollectionLocation})`)
     console.log(`WRITTEN ${filteredCollection.member.length} inscriptions into ${filteredCollectionPath}`)
     if (missingids.length) {
+        ret = 1
         console.log(`WARNING: ${missingids} were not found in the full collection file.`)
     }
+
+    ret = 0
+    return ret
 }
 
-filter()
+async function start() {
+    process.exitCode = await filter()
+}
+
+start()

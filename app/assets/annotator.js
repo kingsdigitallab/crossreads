@@ -65,6 +65,10 @@ function logButtons(e) {
 document.addEventListener('mouseup', logButtons);
 document.addEventListener('mousedown', logButtons);
 
+function getUncachedURL(url) {
+  return `${url}?ts=${new Date().toISOString().substring(0, 13)}`;
+}
+
 function deepCopy(v) {
   return JSON.parse(JSON.stringify(v))
   // => Uncaught DOMException: Proxy object could not be cloned.
@@ -512,7 +516,7 @@ createApp({
   methods: {
     loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
-      fetch(this.apis.collections)
+      fetch(getUncachedURL(this.apis.collections))
         .then(res => res.json())
         .then(res => {
           this.objects = {}
@@ -549,7 +553,7 @@ createApp({
       // fetch the TEI XML from DTS API for the selected object (this.object)
       if (this.object) {
         const uri = this.objectDtsURL
-        fetch(uri)
+        fetch(getUncachedURL(uri))
           .then(res => res.text())
           // .then(res => this.getDOMFromTEIString(res))
           .then(async (xmlString) => {
@@ -600,47 +604,6 @@ createApp({
         }
         this.updateSignHighlights()
       })
-    },
-    setTextFromObjectXML2(xml) {
-      // xml (TEI) -> this.text (XHTML)      
-      fetch(TEI_TO_HTML_XSLT_PATH)
-        .then(res => res.text())
-        .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
-        .then(res => {
-          let processor = new XSLTProcessor()
-          processor.importStylesheet(res)
-          let doc = processor.transformToFragment(xml, document)
-          // set index of each line, starting from 1
-          let lineIdx = 0
-          for (let lineNumber of doc.querySelectorAll('.line-number')) {
-            lineIdx++;
-            lineNumber.innerText = lineIdx
-          }
-          // set data-idx to each span.sign, relative to its parent span.word
-          let signCount = 0
-          for (let word of doc.querySelectorAll('span[data-tei-id]')) {
-            let signIdx = 0
-            for (let sign of word.querySelectorAll('.sign')) {
-              sign.attributes.getNamedItem('data-idx').value = signIdx++
-              signCount++;
-            }
-          }
-          if (signCount < 1) {
-            this.logWarning(`Word ids not found in TEI file ${this.objectDtsURL}.`)
-          }
-          // to string
-          this.text = new XMLSerializer().serializeToString(doc)
-          // console.log(this.text)
-          // attach events to each sign
-          Vue.nextTick(() => {
-            for (let sign of document.querySelectorAll('.sign')) {
-              sign.addEventListener('click', (e) => this.onClickSign(sign));
-              // sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
-              // sign.addEventListener('mouseleave', (e) => this.onMouseLeaveSign(sign));
-            }
-            this.updateSignHighlights()
-          })
-        })
     },
     onClickSign(sign) {
       this.logEvent('onClickSign')

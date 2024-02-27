@@ -1,0 +1,26 @@
+name: Update annotator sub-collection
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/data/**/inscriptions.json'
+
+jobs:
+  subcollect:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 19.x
+      - name: Filter DTS collection
+        run: |
+          cd tools && npm ci && npm run collection:filter
+      - name: Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automatic update of the annotator sub-collection

@@ -45,7 +45,7 @@ const ANNOTATION_URI_PREFIX = 'https://crossreads.web.ox.ac.uk/annotations/'
 const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#${ANNOTATION_FORMAT_VERSION}`
 const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
 // const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
-const DTS_COLLECTION_PATH = './data/2023-08/collection.json'
+const DTS_COLLECTION_PATH = 'app/data/2023-08/collection.json'
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
 const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
 const HTML_TO_HTML_XSLT_PATH = './data/html2html.xslt'
@@ -156,8 +156,8 @@ createApp({
       // TODO: not reactive
       apis: {
         // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
-        collections: DTS_COLLECTION_PATH,
-        definitions: DEFINITIONS_PATH,
+        // collections: DTS_COLLECTION_PATH,
+        // definitions: DEFINITIONS_PATH,
       },
       objects: {
         obj1: { 'description': 'Object 1', '@id': 'obj1', 'title': 't1' },
@@ -514,31 +514,31 @@ createApp({
     }
   },
   methods: {
-    loadObjects() {
+    async loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
-      fetch(getUncachedURL(this.apis.collections))
-        .then(res => res.json())
-        .then(res => {
-          this.objects = {}
-          for (let m of res.member) {
-            if (m) {
-              this.objects[m['@id']] = {
-                '@id': m['@id'],
-                title: m.title,
-                description: m.description,
-                "dts:download": m['dts:download'],
-                "dts:passage": m['dts:passage']
-              }
+      // fetch(getUncachedURL(this.apis.collections))
+      let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
+      if (res) {
+        this.objects = {}
+        for (let m of res.data.member) {
+          if (m) {
+            this.objects[m['@id']] = {
+              '@id': m['@id'],
+              title: m.title,
+              description: m.description,
+              "dts:download": m['dts:download'],
+              "dts:passage": m['dts:passage']
             }
           }
-          if (Object.keys(this.objects).length) {
-            if (!this.objects[this.selection.object]) {
-              this.selection.object = this.objects[Object.keys(this.objects)[0]]
-            }
-          } else {
-            this.selection.object = null
+        }
+        if (Object.keys(this.objects).length) {
+          if (!this.objects[this.selection.object]) {
+            this.selection.object = this.objects[Object.keys(this.objects)[0]]
           }
-        })
+        } else {
+          this.selection.object = null
+        }
+      }
     },
     async loadDefinitions() {
       let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())

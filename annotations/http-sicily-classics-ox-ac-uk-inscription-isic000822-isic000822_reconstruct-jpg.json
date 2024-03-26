@@ -9,10 +9,16 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
           "tags": null,
-          "textTarget": null
+          "textTarget": null,
+          "character": "Ο"
         }
       }
     ],
@@ -29,7 +35,9 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/025b9dd6-8aeb-4cbd-8c1f-37127952506a",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/valentinamignosa",
-    "created": "2024-03-26T21:28:38.187Z"
+    "created": "2024-03-26T21:28:38.187Z",
+    "modifiedBy": "https://api.github.com/users/valentinamignosa",
+    "modified": "2024-03-26T21:29:51.641Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -231,10 +231,17 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
-          "components": null,
+          "components": {
+            "bottom-bar": {
+              "features": [
+                "straight",
+                "sans-serif"
+              ]
+            }
+          },
           "tags": null,
-          "textTarget": null
+          "textTarget": null,
+          "character": "Ε"
         }
       }
     ],
@@ -251,6 +258,8 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/aa7f1763-7fb4-445f-9245-7691c7d64320",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/valentinamignosa",
-    "created": "2024-03-26T21:31:01.001Z"
+    "created": "2024-03-26T21:31:01.001Z",
+    "modifiedBy": "https://api.github.com/users/valentinamignosa",
+    "modified": "2024-03-26T21:31:21.395Z"
   }
 ]

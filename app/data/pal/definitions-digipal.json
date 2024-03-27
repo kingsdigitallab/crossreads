@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2024-03-27T11:58:30.190Z",
+  "updated": "2024-03-27T11:59:35.869Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -342,7 +342,13 @@
     },
     "spine": {
       "name": "spine",
-      "features": []
+      "features": [
+        "above-baseline",
+        "below-baseline",
+        "long",
+        "on-baseline",
+        "short"
+      ]
     }
   },
   "allographs": {
@@ -437,7 +443,9 @@
     "O-latin-1": {
       "script": "latin-1",
       "character": "O",
-      "components": []
+      "components": [
+        "body"
+      ]
     },
     "P-latin-1": {
       "script": "latin-1",

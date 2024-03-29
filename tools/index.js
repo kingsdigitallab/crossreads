@@ -38,6 +38,7 @@ class AnnotationIndex {
     //   'img': "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001408/ISic001408_tiled.tif",
     //   'box': 'xywh=pixel:3433.048828125,1742.54443359375,256.946044921875,253.8504638671875',
     //   'doc': 'https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic001408',
+    //   'com': ['', '']
     // }
 
     let content = utils.readJsonFile(filePath)
@@ -48,6 +49,17 @@ class AnnotationIndex {
 
       if (bodyValue?.character) {
         let scriptName = this.definitions.scripts[bodyValue.script]
+        let description = {'com': [], 'fea': [], 'cxf': []}
+        for (let componentKey of Object.keys(bodyValue?.components || {})) {
+          description['com'].push(componentKey)
+          description['fea'] = [...description['fea'], ...bodyValue?.components[componentKey]?.features]
+          description['cxf'] = [
+            ...description['cxf'], 
+            ...bodyValue?.components[componentKey]?.features.map(f => `${componentKey} is ${f}`)
+          ]
+        }
+        // only keep distinct features
+        description['fea'] = [...new Set(description['fea'])]
         this.annotations.push({
           'id': annotation.id,
           'chr': bodyValue.character,
@@ -55,7 +67,8 @@ class AnnotationIndex {
           'tag': bodyValue.tags,
           'doc': annotation.target[1]?.source,
           'img': annotation.target[0].source,
-          'box': annotation.target[0].selector.value
+          'box': annotation.target[0].selector.value,
+          ...description
         })
       }
 

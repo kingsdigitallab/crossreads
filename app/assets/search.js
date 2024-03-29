@@ -1,17 +1,14 @@
 /* 
 TODO:
-. read index.json from github
 . sort results
-. show the MS
 . show the correct label for the script
-. pagination
-. link to annotator
 . remove all hard-coded values
 */
 
 // const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
 const ITEMS_PER_PAGE = 24
+const IS_LOCAL = window.location.hostname == 'localhost'
 
 class AvailableTags {
 
@@ -144,8 +141,13 @@ createApp({
     async loadIndex() {
       // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
-      let res = await utils.readGithubJsonFile(INDEX_PATH)
-      this.index = res.data
+
+      if (IS_LOCAL) {
+        this.index = await utils.fetchJsonFile('index.json')
+      } else {
+        let res = await utils.readGithubJsonFile(INDEX_PATH)
+        this.index = res.data
+      }
 
       // order field
       for (let item of this.index) {
@@ -171,6 +173,18 @@ createApp({
     },
     getFacetDefinitions() {
       return {
+        com: {
+          title: 'Components',
+          size: 30,
+        },
+        fea: {
+          title: 'Features',
+          size: 30,
+        },
+        cxf: {
+          title: 'Component x Features',
+          size: 30,
+        },
         scr: {
           title: 'Script',
           size: 30
@@ -182,7 +196,7 @@ createApp({
         tag: {
           title: 'Tags',
           size: 30,
-        }
+        },
       }
     },
     search(keepPage=false) {

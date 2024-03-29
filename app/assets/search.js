@@ -165,6 +165,9 @@ createApp({
         searchableFields: ['tag', 'docId']
       }
       this.itemsjs = window.itemsjs(this.index, config);
+
+      window.addEventListener('resize', this.loadVisibleThumbs);
+      window.addEventListener('scroll', this.loadVisibleThumbs);
     },
     getFacetDefinitions() {
       return {
@@ -198,45 +201,31 @@ createApp({
       })
       // img.addEventListener('load', loaded)
       this.$nextTick(() => {
-        this.resetThumbs()
+        this.loadVisibleThumbs()
         // this.loadLazyThumbs()
       })
       this.setAddressBarFromSelection()
     },
-    resetThumbs() {
+    loadVisibleThumbs() {
       for (let element of document.querySelectorAll('.graph-thumb')) {
         let dataSrc = element.attributes['data-src']
         if (dataSrc) {
-          let dist = window.innerHeight - element.offsetTop
-          console.log(dist)
-          element.classList.add('thumb-loading')
-          element.src = dataSrc.value
-          element.removeAttribute('data-src')
-          element.addEventListener('load', (event) => {
-            element.classList.remove('thumb-loading')
-          })  
+          let distanceFromBottom = window.innerHeight - element.getBoundingClientRect().top
+          let distanceFromTop = element.getBoundingClientRect().bottom
+          let distanceFromEdge = Math.min(distanceFromBottom, distanceFromTop)
+          // console.log(distanceFromBottom)
+          // element.setAttribute('data-dist', distanceFromBottom)
+          if (distanceFromEdge > -200) {
+            element.classList.add('thumb-loading')
+            element.src = dataSrc.value
+            element.removeAttribute('data-src')
+            element.addEventListener('load', (event) => {
+              element.classList.remove('thumb-loading')
+            })  
+          }
         }
-        // element.classList.add('thumb-loading')
-        // element.addEventListener('load', (event) => {
-        //   element.classList.remove('thumb-loading')
-        // })  
-
-        // element.src = this.placeholderThumb(1)
-        // if (element.classList.contains('thumb-unbound')) {
-        //   element.classList.remove('thumb-unbound')
-        //   element.addEventListener('load', (event) => {
-        //     element.classList.remove('thumb-loading')
-        //   })  
-        // }
-        // element.classList.remove('thumb-unbound')
       }
     },
-    // loadLazyThumbs() {
-    //   for (let element of document.querySelectorAll('img[data-img]')) {
-    //     element.src = element.attributes['data-img'].value
-    //     // element.classList.remove('thumb-unloaded')
-    //   }
-    // },
     getThumbUrlFromItem(item) {
       let ret = null
       let crop = item.box.substring(11)

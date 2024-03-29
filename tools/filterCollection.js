@@ -10,6 +10,7 @@ if (!srcPath.endsWith('.json')) {
 const shortListPath = '../app/data/2023-08/inscriptions.json'
 // const fullCollectionLocation = '../app/data/dts/api/collections.json'
 const fullCollectionLocation = 'https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json'
+// const fullCollectionLocation = 'http://sicily.classics.ox.ac.uk/collections.json'
 
 let filteredCollectionPath = path.dirname(srcPath) + '/' + 'collection.json'
 

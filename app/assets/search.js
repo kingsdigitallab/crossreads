@@ -11,7 +11,7 @@ TODO:
 
 // const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
-const ITEMS_PER_PAGE = 12
+const ITEMS_PER_PAGE = 24
 
 class AvailableTags {
 
@@ -55,7 +55,11 @@ createApp({
         image: null,
         searchPhrase: '',
         facets: {},
-        page: 1
+        page: 1,
+        perPage: ITEMS_PER_PAGE
+      },
+      options: {
+        perPage: [12, 24, 50, 100]
       },
       // See itemsjs.search()
       results: {
@@ -70,7 +74,6 @@ createApp({
       cache: {
       },
       queryString: '',
-      octokit: null,
       user: null
     }
   },
@@ -91,6 +94,10 @@ createApp({
     'selection.searchPhrase'() {
       this.selection.facets = {}
       this.search()
+    },
+    'selection.perPage'() {
+      console.log('selection.perPage')
+      this.search()
     }
   },
   computed: {
@@ -101,7 +108,7 @@ createApp({
     pagination() {
       return this.results?.pagination || {
         page: 1,
-        per_page: 12,
+        per_page: this.selection.perPage,
         total: 0
       }
     },
@@ -183,7 +190,7 @@ createApp({
         this.selection.page = 1
       }
       this.results = this.itemsjs.search({
-        per_page: ITEMS_PER_PAGE,
+        per_page: this.selection.perPage,
         page: this.selection.page,
         sort: 'or1',
         query: this.selection.searchPhrase,
@@ -198,14 +205,29 @@ createApp({
     },
     resetThumbs() {
       for (let element of document.querySelectorAll('.graph-thumb')) {
-        element.classList.add('thumb-loading')
-        // element.src = this.placeholderThumb(1)
-        if (element.classList.contains('thumb-unbound')) {
-          element.classList.remove('thumb-unbound')
+        let dataSrc = element.attributes['data-src']
+        if (dataSrc) {
+          let dist = window.innerHeight - element.offsetTop
+          console.log(dist)
+          element.classList.add('thumb-loading')
+          element.src = dataSrc.value
+          element.removeAttribute('data-src')
           element.addEventListener('load', (event) => {
             element.classList.remove('thumb-loading')
           })  
         }
+        // element.classList.add('thumb-loading')
+        // element.addEventListener('load', (event) => {
+        //   element.classList.remove('thumb-loading')
+        // })  
+
+        // element.src = this.placeholderThumb(1)
+        // if (element.classList.contains('thumb-unbound')) {
+        //   element.classList.remove('thumb-unbound')
+        //   element.addEventListener('load', (event) => {
+        //     element.classList.remove('thumb-loading')
+        //   })  
+        // }
         // element.classList.remove('thumb-unbound')
       }
     },
@@ -223,6 +245,7 @@ createApp({
       return ret
     },
     placeholderThumb(item) {
+      // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=
       return 'data:image/svg+xml;UTF8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"><rect x="0" y="0" rx="2" ry="2" width="48" height="48" style="fill:lightgrey;stroke:grey;stroke-width:2;opacity:1" /></svg>'
     },
     getThumbClass(item) {
@@ -284,6 +307,7 @@ createApp({
 
         q: this.selection.searchPhrase,
         pag: this.selection.page,
+        ppg: this.selection.perPage,
       };
 
       for (let facet of Object.keys(this.selection.facets)) {
@@ -303,6 +327,7 @@ createApp({
 
       this.selection.searchPhrase = searchParams.get('q') || ''
       this.selection.page = parseInt(searchParams.get('pag') || '1')
+      this.selection.perPage = parseInt(searchParams.get('ppg') || ITEMS_PER_PAGE)
 
       for (let facet of Object.keys(this.getFacetDefinitions())) {
         let options = searchParams.get(`f.${facet}`)

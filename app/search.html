@@ -50,7 +50,6 @@
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
               <a :href="`${tab.key}.html${queryString}`">
-                <template v-if="!isLoggedIn && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
                 {{ tab.title }}
               </a>
             </li>
@@ -89,13 +88,18 @@
           </div>
           <div class="column is-9 results">
             <h2 class="title is-3">Annotations ({{ pagination.total }})</h2>
-            <div>
+            <div class="results-controls">
 
               <nav class="pagination is-centered" role="navigation" aria-label="pagination">
                 <a @click.stop.prevent="onClickPagination(-1)" class="pagination-previous">Prev</a>
                 <a @click.stop.prevent="onClickPagination(1)" class="pagination-next">Next</a>
                 <p class="pagination-list">
                   Page {{ selection.page }} / {{ this.pageMax }}
+                </p>
+                <p class="select navigation-page-size">
+                  <select v-model="selection.perPage">
+                    <option v-for="size in options.perPage" :value="size">{{ size }} per page</option>
+                  </select>
                 </p>
               </nav>
                 <!-- <ul class="pagination-list">
@@ -120,7 +124,7 @@
                     <div class="media-left">
                       <figure class="image">
                         <a :href="getAnnotatorLinkFromItem(item)">
-                          <img :src="getThumbUrlFromItem(item)" alt="Placeholder image" loading="lazy" class="graph-thumb thumb-loading thumb-unbound">
+                          <img :data-src="getThumbUrlFromItem(item)" :src="placeholderThumb(item)" alt="Placeholder image" class="graph-thumb thumb-loading">
                         </a>
                       </figure>
                     </div>

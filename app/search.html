@@ -142,6 +142,15 @@
 
               </span>
             </div>
+            <div class="results-controls">
+              <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <a @click.stop.prevent="onClickPagination(-1)" class="pagination-previous">Prev</a>
+                <a @click.stop.prevent="onClickPagination(1)" class="pagination-next">Next</a>
+                <p class="pagination-list">
+                  Page {{ selection.page }} / {{ this.pageMax }}
+                </p>
+              </nav>
+            </div>
           </div>
         </div>
 

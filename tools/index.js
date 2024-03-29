@@ -87,8 +87,9 @@ class AnnotationIndex {
   }
 
   write() {
-    fs.writeFileSync(this.path, JSON.stringify(this.annotations, null, COMPRESS_OUTPUT ? 0 : 2))
-    console.log(`WRITTEN ${this.path}, ${this.annotations.length} annotation(s).`)
+    let content = JSON.stringify(this.annotations, null, COMPRESS_OUTPUT ? 0 : 2)
+    fs.writeFileSync(this.path, content)
+    console.log(`WRITTEN ${this.path}, ${this.annotations.length} annotation(s), ${(content.length / 1024 / 1024).toFixed(2)} MB.`)
   }
 
 }

@@ -252,7 +252,6 @@ createApp({
       isImageLoaded: null,
       messages: [
       ],
-      queryString: '',
       octokit: null,
       user: null
     }
@@ -1382,6 +1381,9 @@ createApp({
     },
     clearMessages() {
       this.messages = []
+    },
+    getQueryString() {
+      return utils.getQueryString()
     },
     setAddressBarFromSelection() {
       // ?object

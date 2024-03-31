@@ -24,7 +24,6 @@ createApp({
         component: '',
         feature: '',
       },
-      queryString: '',
       messages: [],
       isUnsaved: 0,
     }
@@ -337,11 +336,14 @@ createApp({
       
       return ret
     },
+    getQueryString() {
+      return utils.getQueryString()
+    },
     setAddressBarFromSelection() {
       let searchParams = new URLSearchParams(window.location.search);
 
       let qs = `?${searchParams.toString()}`
-      this.queryString = decodeURIComponent(qs)
+      decodeURIComponent(qs)
     },
     lastMessage() {
       let ret = {

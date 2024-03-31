@@ -28,7 +28,7 @@
       <div class="tabs is-medium is-boxed">
         <ul>
           <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
-            <a :href="`${tab.key}.html${queryString}`">
+            <a :href="`${tab.key}.html`+this.getQueryString()">
               <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;

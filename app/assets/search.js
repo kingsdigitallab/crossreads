@@ -70,7 +70,6 @@ createApp({
       ],
       cache: {
       },
-      queryString: '',
       user: null
     }
   },
@@ -298,6 +297,9 @@ createApp({
         this.search(true)
       }
     },
+    getQueryString() {
+      return utils.getQueryString()
+    },
     setAddressBarFromSelection() {
       // ?object
       // let searchParams = new URLSearchParams(window.location.search)
@@ -316,7 +318,6 @@ createApp({
       for (let facet of Object.keys(this.selection.facets)) {
         searchParams[`f.${facet}`] = this.selection.facets[facet].join('|')
       }
-
       utils.setQueryString(searchParams)
     },
     setSelectionFromAddressBar() {

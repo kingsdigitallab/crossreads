@@ -206,8 +206,13 @@
         newRelativePathQuery += qs
       }
     }
-    this.queryString = qs
     history.pushState(null, "", newRelativePathQuery);
+    return qs
+  }
+
+  exports.getQueryString = function() {
+    // returns query string, starting with ?
+    return window.location.search
   }
 
   exports.tabs = function() {

@@ -172,18 +172,6 @@ createApp({
     },
     getFacetDefinitions() {
       return {
-        com: {
-          title: 'Components',
-          size: 30,
-        },
-        fea: {
-          title: 'Features',
-          size: 30,
-        },
-        cxf: {
-          title: 'Component x Features',
-          size: 30,
-        },
         scr: {
           title: 'Script',
           size: 30
@@ -194,6 +182,18 @@ createApp({
         },
         tag: {
           title: 'Tags',
+          size: 30,
+        },
+        com: {
+          title: 'Components',
+          size: 30,
+        },
+        fea: {
+          title: 'Features',
+          size: 30,
+        },
+        cxf: {
+          title: 'Component x Features',
           size: 30,
         },
       }

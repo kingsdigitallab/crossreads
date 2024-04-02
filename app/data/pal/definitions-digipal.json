@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2024-02-22T16:08:38.061Z",
+  "updated": "2024-03-27T12:16:26.881Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -216,14 +216,6 @@
         "vertical"
       ]
     },
-    "t1": {
-      "name": "t1",
-      "features": []
-    },
-    "t2": {
-      "name": "t2",
-      "features": []
-    },
     "lower-bowl": {
       "name": "lower bowl",
       "features": [
@@ -347,6 +339,16 @@
         "touching",
         "vertical"
       ]
+    },
+    "spine": {
+      "name": "spine",
+      "features": [
+        "above-baseline",
+        "below-baseline",
+        "long",
+        "on-baseline",
+        "short"
+      ]
     }
   },
   "allographs": {
@@ -368,26 +370,35 @@
     "B-latin-1": {
       "script": "latin-1",
       "character": "B",
-      "components": []
+      "components": [
+        "lower-bowl",
+        "upper-bowl",
+        "downstroke"
+      ]
     },
     "C-latin-1": {
       "script": "latin-1",
       "character": "C",
-      "components": []
+      "components": [
+        "body"
+      ]
     },
     "D-latin-1": {
       "script": "latin-1",
       "character": "D",
-      "components": []
+      "components": [
+        "downstroke",
+        "bowl"
+      ]
     },
     "E-latin-1": {
       "script": "latin-1",
       "character": "E",
       "components": [
         "top-bar",
-        "main-stroke",
-        "crossbar",
-        "bottom-bar"
+        "bottom-bar",
+        "downstroke",
+        "middle-bar"
       ]
     },
     "F-latin-1": {
@@ -413,55 +424,83 @@
       "script": "latin-1",
       "character": "I",
       "components": [
-        "main-stroke",
-        "top-bar",
-        "bottom-bar"
+        "downstroke"
       ]
     },
     "L-latin-1": {
       "script": "latin-1",
       "character": "L",
-      "components": []
+      "components": [
+        "downstroke",
+        "bottom-bar"
+      ]
     },
     "M-latin-1": {
       "script": "latin-1",
       "character": "M",
-      "components": []
+      "components": [
+        "apex",
+        "left-stroke",
+        "left-bar",
+        "right-bar",
+        "right-stroke"
+      ]
     },
     "O-latin-1": {
       "script": "latin-1",
       "character": "O",
-      "components": []
+      "components": [
+        "body"
+      ]
     },
     "P-latin-1": {
       "script": "latin-1",
       "character": "P",
-      "components": []
+      "components": [
+        "downstroke",
+        "bowl"
+      ]
     },
     "Q-latin-1": {
       "script": "latin-1",
       "character": "Q",
-      "components": []
+      "components": [
+        "body",
+        "tail"
+      ]
     },
     "R-latin-1": {
       "script": "latin-1",
       "character": "R",
-      "components": []
+      "components": [
+        "downstroke",
+        "bowl",
+        "right-bar"
+      ]
     },
     "S-latin-1": {
       "script": "latin-1",
       "character": "S",
-      "components": []
+      "components": [
+        "spine"
+      ]
     },
     "T-latin-1": {
       "script": "latin-1",
       "character": "T",
-      "components": []
+      "components": [
+        "downstroke",
+        "top-bar"
+      ]
     },
     "U-latin-1": {
       "script": "latin-1",
       "character": "U",
-      "components": []
+      "components": [
+        "apex",
+        "left-stroke",
+        "right-stroke"
+      ]
     },
     "X-latin-1": {
       "script": "latin-1",
@@ -498,7 +537,11 @@
     "N-latin-1": {
       "script": "latin-1",
       "character": "N",
-      "components": []
+      "components": [
+        "left-stroke",
+        "middle-bar",
+        "right-stroke"
+      ]
     },
     "Z-latin-1": {
       "script": "latin-1",

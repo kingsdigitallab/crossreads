@@ -253,7 +253,11 @@ createApp({
       messages: [
       ],
       octokit: null,
-      user: null
+      user: null,
+      // date & user with most recent changes
+      // last time the annotations were loaded.
+      modified: null,
+      modifiedBy: null,
     }
   },
   async mounted() {
@@ -508,6 +512,14 @@ createApp({
             ret = 'This tag is already applied.'
           }
         }
+      }
+      return ret
+    },
+    getLastModifiedMessage() {
+      let ret = 'No info about last changes'
+      if (this.modified) {
+        let userParts = this.modifiedBy.split('/')
+        ret = `Last changed on ${(new Date(this.modified)).toLocaleString()} by ${userParts[userParts.length-1]}`
       }
       return ret
     }
@@ -1055,13 +1067,27 @@ createApp({
     loadAnnotations() {
       return this.loadAnnotationsFromGithub()
     },
+    setLastModified(annotations) {
+      this.modified = null;
+      this.modifiedBy = null;
+      if (annotations) {
+        for (let an of annotations) {
+          if (an?.modified && ((this.modified == null) || (an?.modified > this.modified))) {
+            this.modified = an.modified
+            this.modifiedBy = an.modifiedBy
+          }
+        }
+      }
+    },
     async loadAnnotationsFromGithub() {
       // this.annotations = null
       // TODO: detect error (but 404 not an error!)
       let filePath = this.getAnnotationFilePath()
+      this.setLastModified()
       if (filePath) {
         let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
         if (res) {
+          this.setLastModified(res.data)
           let annotations = this.upgradeAnnotations(res.data)
           annotations = this.dedupeAnnotations(annotations)
           annotations = this.convertAnnotationsToAnnotorious(annotations)

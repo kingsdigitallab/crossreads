@@ -164,6 +164,7 @@
                 Image
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="side-links">
+                  <span :title="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
                   <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved">
                     <template v-if="!canSave">Read Only</template>
                     <template v-else>

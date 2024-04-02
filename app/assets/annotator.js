@@ -542,6 +542,10 @@ createApp({
     async loadDefinitions() {
       let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
       if (res) {
+        // sort all the features alphabetically gh-4
+        for (let component of Object.values(res.data.components)) {
+          component.features.sort()
+        }
         this.definitions = res.data
         this.updateDescriptionFromAllograph()
       } else {

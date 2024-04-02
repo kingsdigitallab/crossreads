@@ -30,6 +30,7 @@ TODO:
 let IMG_PATH_STATIC_ROOT = './data/images/'
 let NO_MATCHING_SIGN = 'NO_MATCHING_SIGN'
 let NO_MATCHING_WORD = 'NO_MATCHING_WORD'
+const EDIT_LOCK_IN_MINUTES = 10
 
 // if IMG_PATH_IIIF_ROOT defined, the viewer will fetch full image files instead of IIIF tiles
 // Local IIIF server
@@ -423,7 +424,10 @@ createApp({
     tabs: () => utils.tabs(),
     canSave() {
       // return !!this.selection.gtoken
-      return (this.isImageLoaded == 1) && this.isLoggedIn
+      return (this.isImageLoaded == 1) && this.isLoggedIn && !this.isLocked
+    },
+    isLocked() {
+      return this.modified && (((new Date() - new Date(this.modified)) / 1000 / 60) < EDIT_LOCK_IN_MINUTES) && (this.modifiedBy !== this.user)
     },
     isLoggedIn() {
       return (this.getOctokit() !== null)

@@ -166,7 +166,9 @@
                 <span class="side-links">
                   <span :title="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
                   <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved">
-                    <template v-if="!canSave">Read Only</template>
+                    <template v-if="!canSave">
+                      <template v-if="isLocked">LOCKED</template><template v-else>Read Only</template>
+                    </template>
                     <template v-else>
                       <template v-if="isUnsaved">Save</template><template v-else>Saved</template>
                     </template>

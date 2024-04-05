@@ -121,8 +121,7 @@
           "script": "greek-1",
           "components": null,
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "character": "Υ"
         }
       }
     ],
@@ -132,14 +131,28 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:2332.815673828125,632.017578125,224.5556640625,381.39605712890625"
+          "value": "xywh=pixel:2352.217529296875,588.8449096679688,224.5556640625,381.39605712890625"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='UΙeAy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
         }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/f16503c4-6230-41c2-a8d4-0d45a4ac8d89",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/valentinamignosa",
-    "created": "2024-04-05T08:40:39.457Z"
+    "created": "2024-04-05T08:40:39.457Z",
+    "modifiedBy": "https://api.github.com/users/valentinamignosa",
+    "modified": "2024-04-05T08:40:48.443Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

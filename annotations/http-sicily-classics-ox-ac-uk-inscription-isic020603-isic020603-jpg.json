@@ -119,7 +119,14 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "bottom-bar": {
+              "features": [
+                "straight",
+                "touching"
+              ]
+            }
+          },
           "tags": null,
           "character": "Η"
         }
@@ -152,6 +159,6 @@
     "creator": "https://api.github.com/users/valentinamignosa",
     "created": "2024-04-05T08:29:27.281Z",
     "modifiedBy": "https://api.github.com/users/valentinamignosa",
-    "modified": "2024-04-05T08:30:24.304Z"
+    "modified": "2024-04-05T08:30:36.568Z"
   }
 ]

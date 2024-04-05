@@ -260,7 +260,14 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "top-bar": {
+              "features": [
+                "horizontal",
+                "not-touching"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ζ"
         }

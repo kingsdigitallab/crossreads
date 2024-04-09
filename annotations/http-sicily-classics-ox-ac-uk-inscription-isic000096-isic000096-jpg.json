@@ -9,8 +9,16 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
-          "tags": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
+          "tags": [
+            "incomplete"
+          ],
           "character": "O"
         }
       }
@@ -42,6 +50,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T17:01:32.274Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-09T17:01:36.431Z"
+    "modified": "2024-04-09T17:01:42.934Z"
   }
 ]

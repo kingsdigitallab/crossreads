@@ -6,6 +6,7 @@
     <title>Annotator</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
 
     <script src="./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>
@@ -164,14 +165,9 @@
                 Image
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="side-links">
-                  <span :title="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
-                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved">
-                    <template v-if="!canSave">
-                      <template v-if="isLocked">LOCKED</template><template v-else>Read Only</template>
-                    </template>
-                    <template v-else>
-                      <template v-if="isUnsaved">Save</template><template v-else>Saved</template>
-                    </template>
+                  <span :data-tooltip="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
+                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved" :data-tooltip="editState.description">
+                    {{ editState.label }}
                   </button>
                 </span>
               </p>

@@ -3,12 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Palaeographical Definitions</title>
+    <title>Settings</title>
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
 
+    <script type="module">
+      // import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
+      const pkg = await import("https://cdn.skypack.dev/octokit@2.0.14");
+      console.log(pkg)
+      const { Octokit } = pkg;
+      window.Octokit = Octokit;
+    </script>    
     <script src="utils.js"></script>
+    <!-- <script type="module">
+      import { utils2 } from "./utils.js";
+      window.utils = utils
+    </script> -->
     <script src="./node_modules/vue/dist/vue.global.js"></script>
     <link rel="stylesheet" href="./assets/main.css">
   </head>
@@ -27,9 +38,23 @@
         </div>
         <form :class="{notification: 1, 'is-warning': isTokenMissing}">
           <div class="field">
-            <label class="label">Personal access token:</label>
-            <input type="password" v-model="selection.gtoken" class="input">
-            <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank">Please generate and provide a github Personal Access Token to interact with the page</a>
+            <label class="label" for="gtoken">Personal access token:</label>
+            <div class="field has-addons">
+              <div class="control">
+                <input id="gtoken" type="password" v-model="selection.gtoken" class="input">
+              </div>
+              <div class="control">
+                <button @click="testToken()" type="button" class="button is-info">Test</button>
+              </div>
+            </div>
+            <h2 class="title is-4">Instructions</h2>
+            <p>
+              To annotate please paste your Github Personal Access Token (PAT).
+              <br>
+              To create a PAT, log into Github and click "Generate New Token" <a href="https://github.com/settings/tokens" target="_blank">on the PAT screen</a>.
+              <br>
+              Give it a name (e.g. Annotator), tick only 'public_repo' under the 'repo' section, save and copy the token in a secret place.
+            </p>
           </div>
         </form>
       </div>
@@ -43,14 +68,23 @@
             selection: {
               tab: 'settings',
               gtoken: window.localStorage.getItem('gtoken') || '',
+            },
+            authState: {
+              ok: null,
+              label: '',
+              description: ''
             }
           }
+        },
+        async mounted() {
+          await this.testToken()
         },
         computed: {
           tabs: () => utils.tabs(),
           canSave() {
             return !!this.selection.gtoken
           },
+          isTokenMissing: () => false,
         },
         watch: {
           "selection.gtoken": (v, vOld) => {
@@ -60,6 +94,12 @@
         methods: {
           getQueryString() {
             return utils.getQueryString()
+          },
+          async testToken() {
+            let token = this.selection.gtoken
+            let afs = new utils.AnyFileSystem()
+            this.authState = await afs.authenticateToGithub(token)
+            return false
           }
         }
       }).mount('#settings')

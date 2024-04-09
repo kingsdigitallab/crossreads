@@ -526,7 +526,43 @@ createApp({
         ret = `Last changed on ${(new Date(this.modified)).toLocaleString()} by ${userParts[userParts.length-1]}`
       }
       return ret
-    }
+    },
+    editState() {
+      let ret = null
+      if (this.isImageLoaded !== 1) {
+        ret = {
+          label: 'Read only (Not ready)',
+          description: 'No inscription image was loaded. make sure an image is selected and it is loaded properly from the image server.',
+        }
+      } else if (!this.isLoggedIn) {
+        ret = {
+          label: 'Read only (Log in)',
+          description: 'Go to \'Settings\' tab to log in with your github token',
+        }
+      } else if (this.isLocked) {
+        let userParts = this.modifiedBy.split('/')
+        ret = {
+          label: 'Read only (Wait)',
+          description: `Reload after a few minutes, this image has just been annotated by ${userParts[userParts.length-1]}`,
+        }
+      } else if (this.isUnsaved) {
+        ret = {
+          label: 'Saved',
+          description: `All changes saved to github ${(new Date(this.modified)).toLocaleString()}`,
+        }
+      } else if (this.canSave) {
+        ret = {
+          label: 'Save',
+          description: '',
+        }
+      } else {
+        ret = {
+          label: '???',
+          description: 'Unknown editorial state (bug)',
+        }
+      }
+      return ret
+    },
   },
   methods: {
     async loadObjects() {
@@ -1040,7 +1076,7 @@ createApp({
                 res = null
                 this.octokit = null
                 if (err.message.includes('Bad credentials')) {
-                  this.logError('Bad github token. Is your tocken expired?')
+                  this.logError('Bad github token. Is your token expired?')
                 } else {
                   this.logError('Github authentication: Unknown error.')
                 }

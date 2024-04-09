@@ -1,8 +1,6 @@
 /*
 TODO
-M git workflow
 S error management
-D read annotations from folder
 S add metadata to index
 S index of tags
 S all annotations should have a DTS target even if not letter bound
@@ -11,6 +9,7 @@ C shorter id?
 C include the letter and word in the dts selector?
 */
 const fs = require('fs');
+
 const utils = require("../app/utils");
 const path = require("path");
 

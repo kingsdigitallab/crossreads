@@ -1,3 +1,8 @@
+// export let utils2 = {};
+
+// import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
+// This module can be imported from the browser or nodejs
+// https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 (function (exports) {
 
   // true if this code is running in the browser
@@ -6,6 +11,227 @@
   let fs = null
   if (!isBrowser) {
     fs = require('fs');
+  }
+
+  exports.slugify = function(str) {
+    return str.replace(/\W+/g, '-').toLowerCase()
+  }
+
+  exports.setQueryString = function(parameters) {
+    let newRelativePathQuery = window.location.pathname
+    let qsKeys = Object.keys(parameters)
+    let qs = ''
+    if (qsKeys.length) {
+      for (let k of qsKeys) {
+        if (parameters[k]) {
+          if (qs) qs += '&';
+          qs += `${k}=${parameters[k]}`
+        }
+      }
+      if (qs) {
+        qs = `?${qs}`
+        newRelativePathQuery += qs
+      }
+    }
+    history.pushState(null, "", newRelativePathQuery);
+    return qs
+  }
+
+  exports.getQueryString = function() {
+    // returns query string, starting with ?
+    return window.location.search
+  }
+
+  exports.tabs = function() {
+    return [
+      {title: 'Annotator', key: 'annotator'},
+      {title: 'Definitions', key: 'definitions'},
+      {title: 'Search', key: 'search'},
+      {title: 'Settings', key: 'settings'},
+    ]
+  }
+
+  function initFillHeightElements() {
+    for (let element of document.querySelectorAll('.responsive-height')) {
+      let height = (window.innerHeight - element.offsetTop + window.scrollY - 15)
+      if (height < 10) {
+        height = 10
+      }
+      element.style.height = `${height}px`;
+      // console.log(element.style.height)
+    }
+  }
+
+  exports.exec = function(command) {
+    const {execSync} = require('child_process')
+    return execSync(command)
+  }
+
+  // --------------------------------------------
+  // FILE SYSTEM
+  // --------------------------------------------
+
+  exports.AnyFileSystem = class {  
+    /*
+    Unified file read/write interface over different file systems.
+
+    Should support the following systems:
+    * github: classic token authentication is needed for write operations
+    * http  : read-only fetches
+    * local : read/write from locally mounted filesystem
+
+    Advantages:
+    * similar protocol across medium (e.g. return values, error codes)
+    * allows to move data from one system to another with minimal code change (e.g. archival, testing)
+    * same data can be accessed from dame code running in nodejs or browser
+
+    author: geoffroy-noel-ddh
+    */
+
+    SYSTEMS = {
+      LOCAL: 1,
+      HTTP:  2,
+      GIT:   3,
+    }
+
+    constructor() {
+      this.resetAuthStatus()
+    }
+
+    resetAuthStatus() {
+      this.user = null
+      this.octokit = null
+      this.authStatus = {
+        // null if auth not attempted yet; true: successful; false: error
+        ok: null,
+        label: 'unused',
+        description: 'Authentication not attempted yet'
+      }
+    }
+
+    isAuthenticated() {
+      return this.authStatus.ok
+    }
+
+    async authenticateToGithub(gitToken) {
+      this.resetAuthStatus()
+      if (gitToken) {
+
+        this.octokit = new window.Octokit({
+          auth: gitToken
+        })  
+
+        if (this.octokit) {
+          let res = null
+          res = await this.octokit.rest.users.getAuthenticated()
+            .catch(
+              err => {
+                this.authStatus = {
+                  // null if auth not attempted yet; true: successful; false: error
+                  ok: false,
+                  label: 'Error',
+                  description: `Git authentication error: "${err.message}"`
+                }  
+                res = null
+                this.octokit = null
+              }
+            );
+          if (res) {
+            this.user = res.data
+            this.authStatus = {
+              // null if auth not attempted yet; true: successful; false: error
+              ok: true,
+              label: 'Authenticated',
+              description: `Git authentication was successful.`
+            }  
+          }
+        } else {
+          this.authStatus = {
+            // null if auth not attempted yet; true: successful; false: error
+            ok: false,
+            label: 'unknown',
+            description: 'Unexpected empty response from git auth.'
+          }  
+        }
+      }
+
+      return this.authStatus
+    }
+
+    async readJson(relativePath, system=null) {
+      let ret = null;
+
+      if (!system) {
+        system = this.guessSystemFromPath(relativePath)
+      }
+
+      if (system == this.SYSTEMS.GIT) {
+        ret = await exports.readGithubJsonFile(relativePath, this.octokit)
+      } else {
+        let data = null
+        if (system == this.SYSTEMS.GIT) {
+          data = await exports.fetchJsonFile(relativePath)        
+        }
+        if (system == this.SYSTEMS.LOCAL) {
+          data = await exports.readJsonFile(relativePath)
+        }
+        if (data) {
+          ret = {
+            data: data,
+            sha: null,
+            ok: true,
+            label: 'ok',
+            description: 'ok',
+          }
+        }
+      }
+
+      return ret
+    }
+
+    async writeJson(relativePath, data, system=null, sha=null) {
+      let ret = null;
+      if (!system) {
+        system = this.guessSystemFromPath(relativePath)
+      }
+
+      if (system == this.SYSTEMS.GIT) {
+        ret = await exports.updateGithubJsonFile(relativePath, data, this.octokit, sha)
+      } else {
+        let res = null
+        if (system == this.SYSTEMS.GIT) {
+          // TODO: error
+          // res = await exports.fetchJsonFile(relativePath)        
+        }
+        if (system == this.SYSTEMS.LOCAL) {
+          res = await exports.writeJsonFile(relativePath, data)
+        }
+        if (res) {
+          ret = {
+            data: data,
+            sha: null,
+            ok: res,
+            label: 'ok',
+            description: 'ok',
+          }
+        }
+        // TODO: error case
+      }
+
+      return ret
+    }
+
+    guessSystemFromPath(path) {
+      // TODO: determine the system based on settings & path
+      // isBrowser
+      // file://
+      // github://
+      let ret = this.SYSTEMS.GIT
+      if (path.startsWith('http:') || path.startsWith('https:')) {
+        ret = this.SYSTEMS.HTTP
+      }
+      return ret
+    }
   }
 
   function base64Encode(str) {
@@ -31,23 +257,6 @@
     }
   }
 
-  /**
-   * Returns a hash code from a string
-   * @param  {String} str The string to hash.
-   * @return {Number}    A 32bit integer
-   * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
-   * @see https://stackoverflow.com/a/8831937
-   */
-  // function hashCode(str) {
-  //   let hash = 0;
-  //   for (let i = 0, len = str.length; i < len; i++) {
-  //       let chr = str.charCodeAt(i);
-  //       hash = (hash << 5) - hash + chr;
-  //       hash |= 0; // Convert to 32bit integer
-  //   }
-  //   return hash;
-  // }
-
   // client-side
   exports.readGithubJsonFile = async function (filePath, octokit) {
     let ret = null;
@@ -67,19 +276,8 @@
         }
       }
     } else {
-      if (0) {
-        // we don't use octokit here
-        // as we want this call to work without a github PAT
-        // https://stackoverflow.com/a/42518434
-        // TODO: use Octokit if PAT provided, so we don't exceed rate limits
-        let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
-
-        // let res = await fetch(getUrl, {cache: "no-cache"})
-        let res = await fetch(getUrl);
-        if (res && res.status == 200) {
-          res = await res.json();
-        }
-      } else {
+      const USE_RAW_FOR_GIT_ANONYMOUS = true
+      if (USE_RAW_FOR_GIT_ANONYMOUS) {
         let getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`
         if (0) {
           // TODO: simple relative fetch, no sha
@@ -94,6 +292,18 @@
           };
         }
         res = null;
+      } else {
+        // we don't use octokit here
+        // as we want this call to work without a github PAT
+        // https://stackoverflow.com/a/42518434
+        // TODO: use Octokit if PAT provided, so we don't exceed rate limits
+        let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
+
+        // let res = await fetch(getUrl, {cache: "no-cache"})
+        let res = await fetch(getUrl);
+        if (res && res.status == 200) {
+          res = await res.json();
+        }
       }
     }
 
@@ -186,59 +396,7 @@
     return ret;
   };
 
-  exports.slugify = function(str) {
-    return str.replace(/\W+/g, '-').toLowerCase()
-  }
-
-  exports.setQueryString = function(parameters) {
-    let newRelativePathQuery = window.location.pathname
-    let qsKeys = Object.keys(parameters)
-    let qs = ''
-    if (qsKeys.length) {
-      for (let k of qsKeys) {
-        if (parameters[k]) {
-          if (qs) qs += '&';
-          qs += `${k}=${parameters[k]}`
-        }
-      }
-      if (qs) {
-        qs = `?${qs}`
-        newRelativePathQuery += qs
-      }
-    }
-    history.pushState(null, "", newRelativePathQuery);
-    return qs
-  }
-
-  exports.getQueryString = function() {
-    // returns query string, starting with ?
-    return window.location.search
-  }
-
-  exports.tabs = function() {
-    return [
-      {title: 'Annotator', key: 'annotator'},
-      {title: 'Definitions', key: 'definitions'},
-      {title: 'Search', key: 'search'},
-      {title: 'Settings', key: 'settings'},
-    ]
-  }
-
-  function initFillHeightElements() {
-    for (let element of document.querySelectorAll('.responsive-height')) {
-      let height = (window.innerHeight - element.offsetTop + window.scrollY - 15)
-      if (height < 10) {
-        height = 10
-      }
-      element.style.height = `${height}px`;
-      // console.log(element.style.height)
-    }
-  }
-
-  exports.exec = function(command) {
-    const {execSync} = require('child_process')
-    return execSync(command)
-  }
+  // --------------------------------------------
 
   if (isBrowser) {
     window.addEventListener("resize", initFillHeightElements);

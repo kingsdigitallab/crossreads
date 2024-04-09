@@ -54,10 +54,16 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "allograph": null,
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif"
+              ]
+            }
+          },
           "tags": null,
-          "textTarget": null
+          "character": "I"
         }
       }
     ],
@@ -69,12 +75,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2122.7783203125,1559.06689453125,113.50244140625,224.7120361328125"
         }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AJUEA']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 3,
+            "end": 4
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/0b4fbeed-c10b-47f3-a21c-c9d92cb6e7a9",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-04-09T17:08:26.484Z"
+    "created": "2024-04-09T17:08:26.484Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-04-09T17:08:37.065Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

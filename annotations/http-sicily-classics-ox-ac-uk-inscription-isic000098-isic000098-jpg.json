@@ -2332,7 +2332,13 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
           "tags": null,
           "character": "O"
         }
@@ -2365,7 +2371,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T21:52:33.795Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-09T21:52:36.801Z"
+    "modified": "2024-04-09T21:52:39.317Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

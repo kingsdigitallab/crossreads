@@ -162,7 +162,26 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "high",
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "horizontal",
+                "on-baseline",
+                "serif",
+                "straight",
+                "touching"
+              ]
+            }
+          },
           "tags": [],
           "character": "L"
         }
@@ -195,7 +214,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T19:27:19.163Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-09T19:28:39.229Z"
+    "modified": "2024-04-09T19:29:04.195Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -2224,6 +2243,38 @@
     "created": "2024-04-09T16:43:29.001Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-04-09T16:44:15.024Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "allograph": null,
+          "components": null,
+          "tags": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000092/ISic000092_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4150.505859375,1956.5267333984375,137.45458984375,229.0909423828125"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/6bf57a56-6389-47bb-9c94-f3cba0644715",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-09T19:29:41.551Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -4558,6 +4609,57 @@
     "created": "2024-04-09T19:21:36.804Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-04-09T19:22:12.501Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "components": {
+            "spine": {
+              "features": [
+                "on-baseline"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "S"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000092/ISic000092_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4019.5966796875,1952.599365234375,130.9091796875,227.78173828125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AJUFK']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/f536e133-acd2-4d68-9340-a445583b416f",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-09T19:29:13.378Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-04-09T19:29:22.105Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

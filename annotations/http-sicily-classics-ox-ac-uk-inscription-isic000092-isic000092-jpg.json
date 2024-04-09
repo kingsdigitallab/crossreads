@@ -1665,6 +1665,38 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000092/ISic000092_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2744.246826171875,2264.3662109375,221.498291015625,205.7890625"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/441c8fd1-8858-489f-8415-b851391b09a8",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-09T19:40:42.646Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
           "components": {
             "body": {
               "features": [
@@ -2589,6 +2621,11 @@
                 "straight",
                 "touching"
               ]
+            },
+            "apex": {
+              "features": [
+                "angular"
+              ]
             }
           },
           "tags": null,
@@ -2623,7 +2660,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T19:40:04.899Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-09T19:40:32.153Z"
+    "modified": "2024-04-09T19:40:33.624Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

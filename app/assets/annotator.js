@@ -427,7 +427,7 @@ createApp({
       return (this.isImageLoaded == 1) && this.isLoggedIn && !this.isLocked
     },
     isLocked() {
-      return this.modified && (((new Date() - new Date(this.modified)) / 1000 / 60) < EDIT_LOCK_IN_MINUTES) && (this.modifiedBy !== this.user)
+      return this.modified && (((new Date() - new Date(this.modified)) / 1000 / 60) < EDIT_LOCK_IN_MINUTES) && (this.modifiedBy !== this.userId)
     },
     isLoggedIn() {
       return (this.getOctokit() !== null)

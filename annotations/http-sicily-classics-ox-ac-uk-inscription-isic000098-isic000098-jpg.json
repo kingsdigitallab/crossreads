@@ -141,7 +141,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:2931.94189453125,1334.2523193359375,134.68115234375,264.1148681640625"
+          "value": "xywh=pixel:2938.9384765625,1334.2523193359375,127.6845703125,265.864013671875"
         }
       },
       {
@@ -162,7 +162,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T20:46:27.340Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-09T20:46:31.214Z"
+    "modified": "2024-04-09T20:46:41.422Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -2622,6 +2622,51 @@
     "created": "2024-04-09T20:37:33.259Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-04-09T20:38:30.674Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "character": "R"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000098/ISic000098_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3057.877685546875,1337.75048828125,176.659423828125,265.864013671875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AJεGΙ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/ef037584-1fd8-4c7d-a04f-471626f4279a",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-09T20:46:48.414Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-04-09T20:46:53.998Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

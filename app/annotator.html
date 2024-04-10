@@ -166,7 +166,7 @@
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="side-links">
                   <span :data-tooltip="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
-                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved" :data-tooltip="editState.description">
+                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!(canEdit && isUnsaved)" :data-tooltip="editState.description">
                     {{ editState.label }}
                   </button>
                 </span>
@@ -203,7 +203,7 @@
                   <dt>Script</dt> 
                   <dd>
                     <div class="select">
-                      <select v-model="description.script" @change="onChangeScript()" :disabled="!canSave">
+                      <select v-model="description.script" @change="onChangeScript()" :disabled="!canEdit">
                         <option v-for="(script, scriptKey) in filteredScripts" :value="scriptKey">{{ script }}</option>
                       </select>
                     </div>
@@ -212,7 +212,7 @@
                   <dd>
                     <!-- <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span> -->
                     <div class="select">
-                      <select v-model="description.allograph" @change="onChangeAllograph()" :disabled="!canSave">
+                      <select v-model="description.allograph" @change="onChangeAllograph()" :disabled="!canEdit">
                         <option v-for="(allograph, allographKey) in filteredAllographs" :value="allographKey">{{ allograph.character }} <template v-if="allograph.script == 'base'">(BASE)</template></option>
                       </select>
                     </div>
@@ -222,13 +222,13 @@
                   <dd class="description-tags">
                     <div class="field has-addons">
                       <div class="control">
-                        <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="tag" list="available-tags" @keyup.delete.stop @keyup.enter="onAddTag()" :disabled="!canSave || !isAnnotationSelected">
+                        <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="tag" list="available-tags" @keyup.delete.stop @keyup.enter="onAddTag()" :disabled="!canEdit || !isAnnotationSelected">
                       </div>
                       <datalist id="available-tags">
                         <option v-for="tag in tags" :value="tag" />
                       </datalist>
                       <div class="control">
-                        <button class="button" @click="onAddTag()" :disabled="!canSave || Boolean(tagFormatError) || !isAnnotationSelected">Add</button>
+                        <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !isAnnotationSelected">Add</button>
                       </div>
                     </div>
                     <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
@@ -254,7 +254,7 @@
                       <ul>
                         <li v-for="featureKey in component.features">
                           <label :class="{selectable: true, selected: isComponentFeatureSelected(componentKey, featureKey)}">
-                            <input type="checkbox" @change="onChangeComponentFeature(componentKey, featureKey)" :checked="isComponentFeatureSelected(componentKey, featureKey)" :disabled="!canSave">
+                            <input type="checkbox" @change="onChangeComponentFeature(componentKey, featureKey)" :checked="isComponentFeatureSelected(componentKey, featureKey)" :disabled="!canEdit">
                             <template v-if="definitions.features[featureKey]"> 
                               {{ definitions.features[featureKey] }}
                             </template>

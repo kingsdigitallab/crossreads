@@ -123,7 +123,7 @@ function loadOpenSeaDragon(vueApp) {
     // TODO: js error after select + click outside rect
     // fragmentUnit: 'percent', 
     formatters: vueApp.annotoriousFormatter,
-    readOnly: !vueApp.canSave
+    readOnly: !vueApp.canEdit
   };
   var anno = OpenSeadragon.Annotorious(viewer, config);
   vueApp.anno = anno;
@@ -422,8 +422,7 @@ createApp({
       return !!this.annotation
     },
     tabs: () => utils.tabs(),
-    canSave() {
-      // return !!this.selection.gtoken
+    canEdit() {
       return (this.isImageLoaded == 1) && this.isLoggedIn && !this.isLocked
     },
     isLocked() {
@@ -547,20 +546,15 @@ createApp({
         }
       } else if (this.isUnsaved) {
         ret = {
-          label: 'Saved',
-          description: `All changes saved to github ${(new Date(this.modified)).toLocaleString()}`,
-        }
-      } else if (this.canSave) {
-        ret = {
           label: 'Save',
           description: '',
         }
       } else {
         ret = {
-          label: '???',
-          description: 'Unknown editorial state (bug)',
+          label: 'Saved',
+          description: `All changes saved to github ${(new Date(this.modified)).toLocaleString()}`,
         }
-      }
+      } 
       return ret
     },
   },
@@ -666,7 +660,7 @@ createApp({
       let selectedAnnotation = this.anno.getSelected()
       let signAnnotation = this.getAnnotationFromSign(sign)
       let annotationSign = this.getSignFromAnnotation()
-      if (this.canSave) {
+      if (this.canEdit) {
         if (sign == annotationSign) {
           // unbind sign from selected annotation
           this.description.textTarget = null
@@ -1019,7 +1013,7 @@ createApp({
     },
     async saveAnnotationsToGithub() {
       if (this.isUnsaved) {
-        if (!this.canSave)  {
+        if (!this.canEdit)  {
           console.log('Can\'t save in read only mode.')
           return
         }
@@ -1097,7 +1091,7 @@ createApp({
     },
     setImageLoadedStatus(isLoaded) {
       this.isImageLoaded = isLoaded
-      this.anno.readOnly = !this.canSave
+      this.anno.readOnly = !this.canEdit
     },
     onImageLoaded() {
       // called by OSD on successful image loading

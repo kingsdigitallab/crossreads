@@ -710,6 +710,38 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000097/ISic000097_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:894.65478515625,1082.92529296875,152.60498046875,268.374267578125"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/8c4b0e63-5405-42a9-8761-81a78ce949f3",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-10T15:02:15.589Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
           "components": {
             "apex": {
               "features": [

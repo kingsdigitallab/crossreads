@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2024-03-27T12:16:26.881Z",
+  "updated": "2024-04-10T14:46:40.563Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -132,7 +132,9 @@
         "touching",
         "traversing",
         "horizontal",
-        "parallel"
+        "parallel",
+        "ascending",
+        "descending"
       ]
     },
     "bottom-bar": {
@@ -251,7 +253,8 @@
         "circular",
         "rhomboid",
         "small",
-        "square"
+        "square",
+        "oval"
       ]
     },
     "tail": {
@@ -259,7 +262,14 @@
       "features": [
         "short",
         "vertical",
-        "diagonal"
+        "diagonal",
+        "curved",
+        "long",
+        "below-baseline",
+        "on-baseline",
+        "straight",
+        "serif",
+        "sans-serif"
       ]
     },
     "upper-bar": {
@@ -349,6 +359,10 @@
         "on-baseline",
         "short"
       ]
+    },
+    "foot": {
+      "name": "foot",
+      "features": []
     }
   },
   "allographs": {
@@ -404,12 +418,19 @@
     "F-latin-1": {
       "script": "latin-1",
       "character": "F",
-      "components": []
+      "components": [
+        "downstroke",
+        "middle-bar",
+        "top-bar"
+      ]
     },
     "G-latin-1": {
       "script": "latin-1",
       "character": "G",
-      "components": []
+      "components": [
+        "body",
+        "tail"
+      ]
     },
     "H-latin-1": {
       "script": "latin-1",
@@ -458,7 +479,8 @@
       "character": "P",
       "components": [
         "downstroke",
-        "bowl"
+        "bowl",
+        "foot"
       ]
     },
     "Q-latin-1": {
@@ -505,12 +527,20 @@
     "X-latin-1": {
       "script": "latin-1",
       "character": "X",
-      "components": []
+      "components": [
+        "left-stroke",
+        "right-stroke"
+      ]
     },
     "Y-latin-1": {
       "script": "latin-1",
       "character": "Y",
-      "components": []
+      "components": [
+        "left-stroke",
+        "right-stroke",
+        "downstroke",
+        "apex"
+      ]
     },
     "Z-script-1": {
       "script": "script-1",

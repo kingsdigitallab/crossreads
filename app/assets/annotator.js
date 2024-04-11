@@ -248,6 +248,7 @@ createApp({
         object: null,
         image: null,
       },
+      // 0: no box edited; 1: 1+ box created/descr changed; 2: 1+ box moved/resized
       isUnsaved: 0,
       // null: no asked; -1: error; 0: loading; 1: loaded
       isImageLoaded: null,
@@ -522,7 +523,7 @@ createApp({
       let ret = 'No info about last changes'
       if (this.modified) {
         let userParts = this.modifiedBy.split('/')
-        ret = `Last changed on ${(new Date(this.modified)).toLocaleString()} by ${userParts[userParts.length-1]}`
+        ret = `Last changed \non ${(new Date(this.modified)).toLocaleString()} \nby ${userParts[userParts.length-1]}`
       }
       return ret
     },
@@ -868,11 +869,7 @@ createApp({
       this.logEvent('onCreateAnnotation')
 
       // this.saveAnnotationsToSession()
-      this.setUnsaved(true)
-
-      annotation.generator = ANNOTATION_GENERATOR_URI
-      annotation.creator = this.userId
-      annotation.created = new Date().toISOString()
+      this.setUnsaved(annotation)
 
       this.selectAnnotation(annotation)
     },
@@ -891,7 +888,7 @@ createApp({
       this.logEvent('onChangeSelectionTarget')
       
       this.isUnsaved = 2
-      this.setUnsaved(true)
+      this.setUnsaved()
     },
     onUpdateAnnotation() {
       // triggered after deselecting moved annotation
@@ -992,17 +989,25 @@ createApp({
       console.log('OPEN FAILED')
     },
     // Persistence backend
-    setUnsaved(dontUpdateModified=false) {
+    setUnsaved(newAnnotation=null) {
       // tells the Annotator that not all changes on screen are saved yet on GH
       if (this.image?.uri) {
         if (this.isUnsaved == 0) {
           this.isUnsaved = 1
         } 
-        if (!dontUpdateModified) {
-          let annotation = this.anno.getSelected()
-          if (annotation) {
-            annotation.modifiedBy = this.userId
-            annotation.modified = new Date().toISOString()
+
+        this.modifiedBy = this.userId
+        this.modified = new Date().toISOString()
+
+        let annotation = newAnnotation || this.anno.getSelected()
+        if (annotation) {
+          if (newAnnotation) {
+            annotation.generator = ANNOTATION_GENERATOR_URI
+            annotation.creator = this.modifiedBy
+            annotation.created = this.modified
+          } else {
+            annotation.modifiedBy = this.modifiedBy
+            annotation.modified = this.modified
           }
         }
       }
@@ -1035,12 +1040,13 @@ createApp({
         let filePath = this.getAnnotationFilePath()
         let annotations = deepCopy(this.anno.getAnnotations())
         annotations = this.convertAnnotationsToW3C(annotations)
-        // sort the annotations by id so it is deterministic
+        // sort the annotations by id so output is deterministic
         annotations.sort((a, b) => {
           return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1);
         })
         if (DEBUG_DONT_SAVE) {
-          console.log('debugDontSave=True => skip saving.')
+          console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
+          console.log(annotations)
         } else {
           this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
         }
@@ -1106,9 +1112,10 @@ createApp({
       this.modifiedBy = null;
       if (annotations) {
         for (let an of annotations) {
-          if (an?.modified && ((this.modified == null) || (an?.modified > this.modified))) {
-            this.modified = an.modified
-            this.modifiedBy = an.modifiedBy
+          let anModified = an?.modified || an?.created
+          if (anModified && ((this.modified == null) || (anModified > this.modified))) {
+            this.modified = anModified
+            this.modifiedBy = an?.modifiedBy || an?.createdBy
           }
         }
       }

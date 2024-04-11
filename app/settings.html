@@ -7,21 +7,10 @@
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
-
-    <script type="module">
-      // import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
-      const pkg = await import("https://cdn.skypack.dev/octokit@2.0.14");
-      console.log(pkg)
-      const { Octokit } = pkg;
-      window.Octokit = Octokit;
-    </script>    
-    <script src="utils.js"></script>
-    <!-- <script type="module">
-      import { utils2 } from "./utils.js";
-      window.utils = utils
-    </script> -->
-    <script src="./node_modules/vue/dist/vue.global.js"></script>
     <link rel="stylesheet" href="./assets/main.css">
+
+    <script src="./node_modules/vue/dist/vue.global.js"></script>
+    <script type="module" src="assets/settings.mjs"></script>
   </head>
   <body>
     <section class="section" id="settings">
@@ -30,7 +19,7 @@
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
               <a :href="`${tab.key}.html`+this.getQueryString()">
-                <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
+                <template v-if="!afs.authStatus.ok && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
                 {{ tab.title }}
               </a>
             </li>
@@ -47,6 +36,12 @@
                 <button @click="testToken()" type="button" class="button is-info">Test</button>
               </div>
             </div>
+            <p>
+              <template v-if="!afs.authStatus.ok">ERROR:</template>
+              {{ afs.authStatus.description }}
+              <template v-if="afs.authStatus.ok"><br>User: <a target="_blank" :href="afs.user.url">{{ afs.user.url}}</a></template>
+            </p>
+            <br>
             <h2 class="title is-4">Instructions</h2>
             <p>
               To annotate please paste your Github Personal Access Token (PAT).
@@ -59,50 +54,5 @@
         </form>
       </div>
     </section>
-    <script>
-      const { createApp } = Vue
-
-      createApp({
-        data() {
-          return {
-            selection: {
-              tab: 'settings',
-              gtoken: window.localStorage.getItem('gtoken') || '',
-            },
-            authState: {
-              ok: null,
-              label: '',
-              description: ''
-            }
-          }
-        },
-        async mounted() {
-          await this.testToken()
-        },
-        computed: {
-          tabs: () => utils.tabs(),
-          canSave() {
-            return !!this.selection.gtoken
-          },
-          isTokenMissing: () => false,
-        },
-        watch: {
-          "selection.gtoken": (v, vOld) => {
-            window.localStorage.setItem('gtoken', v)
-          }
-        },
-        methods: {
-          getQueryString() {
-            return utils.getQueryString()
-          },
-          async testToken() {
-            let token = this.selection.gtoken
-            let afs = new utils.AnyFileSystem()
-            this.authState = await afs.authenticateToGithub(token)
-            return false
-          }
-        }
-      }).mount('#settings')
-    </script>
   </body>
 </html>

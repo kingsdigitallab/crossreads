@@ -1,8 +1,9 @@
 // This module can be imported from the browser or nodejs
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
-// todo: import vue from node_modules
+// TODO: import vue from node_modules
 import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
+// import { Octokit } from "./node_modules/octokit/dist-web/index.js";
 
 function mod(exports) {
 

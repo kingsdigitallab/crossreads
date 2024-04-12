@@ -27,6 +27,13 @@ TODO:
 
 */
 
+import { utils } from "../utils.mjs";
+import { createApp, nextTick } from "vue";
+import { createVuetify } from "../node_modules/vuetify/dist/vuetify.esm.js";
+import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
+
+let vuetify = createVuetify()
+
 let IMG_PATH_STATIC_ROOT = './data/images/'
 let NO_MATCHING_SIGN = 'NO_MATCHING_SIGN'
 let NO_MATCHING_WORD = 'NO_MATCHING_WORD'
@@ -148,8 +155,6 @@ function loadOpenSeaDragon(vueApp) {
   });
 
 };
-
-const { createApp } = Vue
 
 createApp({
   data() {
@@ -646,7 +651,7 @@ createApp({
       this.text = xmlUtils.toString(res)
       // console.log(this.text)
       // attach events to each sign
-      Vue.nextTick(() => {
+      nextTick(() => {
         for (let sign of document.querySelectorAll('.sign')) {
           sign.addEventListener('click', (e) => this.onClickSign(sign));
           // sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
@@ -1064,7 +1069,7 @@ createApp({
       this.user = null
 
       if (this.selection.gtoken) {
-        this.octokit = new window.Octokit({
+        this.octokit = new Octokit({
           auth: this.selection.gtoken
         })
 
@@ -1152,7 +1157,7 @@ createApp({
       return (annotation?.generator || '').replace(/^[^#]+#/, '')
     },
     upgradeAnnotations(annotations) {
-      ret = annotations
+      let ret = annotations
 
       for (let annotation of ret) {
         let description = annotation?.body[0]?.value

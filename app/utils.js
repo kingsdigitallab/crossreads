@@ -1,5 +1,8 @@
 // export let utils2 = {};
 
+1 / 0;
+throw Error('Deprecated use utils.mjs instead');
+
 // import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
 // This module can be imported from the browser or nodejs
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file

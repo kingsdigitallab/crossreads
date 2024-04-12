@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Annotator</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <!-- <script src="importmap.js"></script> -->
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "./node_modules/vue/dist/vue.esm-browser.js"
+        }
+      }
+    </script>
+
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
     <link rel="stylesheet" href="./node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
@@ -14,10 +24,11 @@
     <script src="./node_modules/@recogito/annotorious-openseadragon/dist/openseadragon-annotorious.min.js"></script>
 
     <!-- importmap shim for Firefox -->
-    <script src="./node_modules/vue/dist/vue.global.js"></script>
+    <!-- <script src="./node_modules/vue/dist/vue.global.js"></script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.css"> -->
+    <link rel="stylesheet" href="./node_modules/vuetify/dist/vuetify.min.css">
 
     <!-- <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet"> -->
     <!-- https://vuejs.org/guide/quick-start.html#enabling-import-maps -->
@@ -30,40 +41,12 @@
       }
     </script> -->
     
-    <script type="module">
-      const { createVuetify } = Vuetify
-      // import { aliases, fa } from "vuetify-fa"
-      // const { aliases, fa } = Vuetify
-      window.vuetify = createVuetify()
-      // window.vuetify = createVuetify({
-      //   icons: {
-      //     defaultSet: 'fa',
-      //     aliases,
-      //     sets: {
-      //       fa,
-      //     },
-      //   },
-      // })
-    </script>
-
     <!-- https://www.saxonica.com/download/javascript.xml -->
     <script src="assets/SaxonJS2.rt.js"></script>
-    <script src="utils.js"></script>
+    <!-- <script src="utils.js"></script> -->
     <script src="xml-utils.js"></script>
     <script src="crossreads-xml.js"></script>
-    <script type="module">
-      // TODO: UPGRADE
-      // TODO: relative import
-      // TODO: modularise use of octokit, create a wrapper
-      // TODO: don't import it globally.
-      // import { Octokit } from "https://esm.sh/@octokit/core";
-      // import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
-      // import { Octokit, App } from "https://esm.sh/octokit";
-      import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
-      // import { Octokit } from "./node_modules/@octokit/core/dist-web/index.js";
-      window.Octokit = Octokit
-    </script>    
-    <script src="assets/annotator.js" defer></script>
+    <script src="assets/annotator.mjs" type="module"></script>
 
     <link rel="stylesheet" href="./assets/main.css">
   </head>

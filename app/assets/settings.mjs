@@ -1,7 +1,5 @@
 import { utils } from "../utils.mjs";
-
-// todo: import vue here
-const { createApp } = Vue
+import { createApp } from "../node_modules/vue/dist/vue.esm-browser.js";
 
 createApp({
   data() {

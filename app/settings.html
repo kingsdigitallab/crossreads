@@ -9,7 +9,15 @@
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
     <link rel="stylesheet" href="./assets/main.css">
 
-    <script src="./node_modules/vue/dist/vue.global.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "./node_modules/vue/dist/vue.esm-browser.js"
+        }
+      }
+    </script>
+
+    <!-- <script src="./node_modules/vue/dist/vue.global.js"></script> -->
     <script type="module" src="assets/settings.mjs"></script>
   </head>
   <body>

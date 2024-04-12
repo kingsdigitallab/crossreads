@@ -1,4 +1,6 @@
-const { createApp } = Vue
+import { utils } from "../utils.mjs";
+import { createApp, nextTick } from "vue";
+import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
 
 // const componentFeatureUri = '/digipal/api/componentfeature/'
 const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'

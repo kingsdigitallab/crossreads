@@ -6,6 +6,10 @@
     <title>Annotator</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
+
     <!-- <script src="importmap.js"></script> -->
     <script type="importmap">
       {
@@ -15,40 +19,19 @@
       }
     </script>
 
-    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
-    <link rel="stylesheet" href="./node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css">
-    <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
-    <link rel="stylesheet" href="./assets/main.css">
-
     <script src="./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>
     <link rel="stylesheet" href="./node_modules/@recogito/annotorious-openseadragon/dist/annotorious.min.css">
     <script src="./node_modules/@recogito/annotorious-openseadragon/dist/openseadragon-annotorious.min.js"></script>
-
-    <!-- importmap shim for Firefox -->
-    <!-- <script src="./node_modules/vue/dist/vue.global.js"></script> -->
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.js"></script> -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.css"> -->
     <link rel="stylesheet" href="./node_modules/vuetify/dist/vuetify.min.css">
-
-    <!-- <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet"> -->
-    <!-- https://vuejs.org/guide/quick-start.html#enabling-import-maps -->
-    <!-- <script type="importmap">
-      {
-        "imports":{
-          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-          "vuetify-fa": "https://cdn.jsdelivr.net/npm/vuetify@3.3.15/lib/iconsets/fa.mjs"
-        }
-      }
-    </script> -->
     
     <!-- https://www.saxonica.com/download/javascript.xml -->
     <script src="assets/SaxonJS2.rt.js"></script>
-    <!-- <script src="utils.js"></script> -->
+    <!-- TODO: modularise -->
     <script src="xml-utils.js"></script>
     <script src="crossreads-xml.js"></script>
+    
     <script src="assets/annotator.mjs" type="module"></script>
-
+    <link rel="stylesheet" href="./assets/main.css">
   </head>
   <body>
     <section class="section full-width" id="annotator">

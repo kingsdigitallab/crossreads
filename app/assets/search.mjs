@@ -5,6 +5,9 @@ TODO:
 . remove all hard-coded values
 */
 
+import { utils } from "../utils.mjs";
+import { createApp, nextTick } from "vue";
+
 // const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
 const ITEMS_PER_PAGE = 24
@@ -36,8 +39,6 @@ class AvailableTags {
   }
 
 }
-
-const { createApp } = Vue
 
 createApp({
   data() {
@@ -341,4 +342,4 @@ createApp({
       }
     },
   }
-}).use(vuetify).mount('#search');
+}).mount('#search');

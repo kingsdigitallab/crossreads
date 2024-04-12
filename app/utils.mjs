@@ -2,17 +2,18 @@
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
 // TODO: import vue from node_modules
-import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
+//// import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
 // import { Octokit } from "./node_modules/octokit/dist-web/index.js";
 
-function mod(exports) {
+async function mod(exports) {
 
   // true if this code is running in the browser
   const isBrowser = (typeof window !== "undefined")
 
   let fs = null
   if (!isBrowser) {
-    fs = require('fs');
+    // fs = require('fs');
+    fs = (await import('fs'));
   }
 
   exports.slugify = function(str) {
@@ -65,6 +66,7 @@ function mod(exports) {
   }
 
   exports.exec = function(command) {
+    // TODO: test
     const {execSync} = require('child_process')
     return execSync(command)
   }
@@ -411,7 +413,7 @@ function mod(exports) {
 }
 
 let res = {}
-mod(res)
+await mod(res)
 export const utils = res;
 
 //})(typeof exports === "undefined" ? (this["utils"] = {}) : exports);

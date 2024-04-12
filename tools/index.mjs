@@ -8,10 +8,12 @@ C remove decimals from region
 C shorter id?
 C include the letter and word in the dts selector?
 */
-const fs = require('fs');
+// const fs = require('fs');
+import * as fs from 'fs';
+import { utils } from "../app/utils.mjs";
 
-const utils = require("../app/utils");
-const path = require("path");
+// const path = require("path");
+import * as path from 'path';
 
 const INDEX_PATH = '../app/index.json'
 const ANNOTATIONS_PATH = '../annotations'

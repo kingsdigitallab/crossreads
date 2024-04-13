@@ -34,7 +34,7 @@ import { crossreadsXML } from "../crossreads-xml.mjs";
 import { createApp, nextTick } from "vue";
 import { createVuetify } from "../node_modules/vuetify/dist/vuetify.esm.js";
 // TODO: remove direct access to octokit from this module
-import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
+import { Octokit } from "octokit";
 
 let vuetify = createVuetify()
 

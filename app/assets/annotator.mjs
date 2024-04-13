@@ -56,8 +56,6 @@ const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
 // const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
 const DTS_COLLECTION_PATH = 'app/data/2023-08/collection.json'
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
-const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
-const HTML_TO_HTML_XSLT_PATH = './data/html2html.xslt'
 const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
@@ -647,8 +645,8 @@ createApp({
       // this.onSelectImage(img)
       this.image = img
     },
-    setTextFromXMLString(xmlString) {
-      let res = crossreadsXML.getHtmlFromTei(xmlString)
+    async setTextFromXMLString(xmlString) {
+      let res = await crossreadsXML.getHtmlFromTei(xmlString)
       this.text = xmlUtils.toString(res)
       // console.log(this.text)
       // attach events to each sign

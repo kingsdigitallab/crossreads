@@ -1,21 +1,29 @@
-(function (exports) {
+import { utils } from './utils.mjs';
+import SaxonJS from 'saxon-js';
+// console.log(pkg)
+
+async function mod(exports) {
 
   // true if this code is running in the browser
   const isBrowser = (typeof window !== "undefined");
-  const SaxonJS = isBrowser ? window.SaxonJS : require('saxon-js');
-  const fs = isBrowser ? null : require('fs');
-  const utils = isBrowser ? window.utils : require("./utils");
+  // const SaxonJS = isBrowser ? window.SaxonJS : require('saxon-js');
+  let fs = null
+  if (!isBrowser) {
+    fs = (await import('fs'));
+  }
+
+  // const utils = isBrowser ? window.utils : require("./utils.mjs");
 
   exports.removeNamespaces = function(xmlString) {
     return xmlString.replace(/\s*xmlns(:\w+)?="[^"]*"/g, "")
   }
 
-  exports.xslt = function(xml, xsltPath, isOuputHtml=false) {
+  exports.xslt = async function(xml, xsltPath, isOuputHtml=false) {
     let ret = null
 
     if (!xml) return ret;
 
-    let transformJsonPath = writeTransformJson(xsltPath, isOuputHtml)
+    let transformJsonPath = await writeTransformJson(xsltPath, isOuputHtml)
 
     // https://www.saxonica.com/saxon-js/documentation2/index.html#!api/transform
 
@@ -54,14 +62,14 @@
     return ret
   }
 
-  function writeTransformJson(xsltPath, isOuputHtml=false) {
+  async function writeTransformJson(xsltPath, isOuputHtml=false) {
     let ret = xsltPath.replace(/\.xslt?$/, '.sef.json')
     if (!isBrowser) {
       if (!fs.existsSync(xsltPath)) {
         throw new Error(`Transform file not found: ${xsltPath}`)
       }
       if (getFileModifiedTime(ret) < getFileModifiedTime(xsltPath)) {
-        utils.exec(`npx xslt3 -xsl:${xsltPath} -export:${ret} -t -ns:##html5 -nogo`)
+        await utils.exec(`npx xslt3 -xsl:${xsltPath} -export:${ret} -t -ns:##html5 -nogo`)
       }
     }
     return ret    
@@ -145,4 +153,8 @@
     return await SaxonJS.getResource(options)
   }
 
-})(typeof exports === "undefined" ? (this["xmlUtils"] = {}) : exports);
+};
+
+let res = {}
+await mod(res)
+export const xmlUtils = res;

@@ -1,8 +1,7 @@
 // This module can be imported from the browser or nodejs
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
-// TODO: import vue from node_modules
-//// import { Octokit } from "https://cdn.skypack.dev/octokit@2.0.14";
+import { Octokit } from 'octokit';
 // import { Octokit } from "./node_modules/octokit/dist-web/index.js";
 
 async function mod(exports) {
@@ -12,7 +11,6 @@ async function mod(exports) {
 
   let fs = null
   if (!isBrowser) {
-    // fs = require('fs');
     fs = (await import('fs'));
   }
 
@@ -65,10 +63,11 @@ async function mod(exports) {
     }
   }
 
-  exports.exec = function(command) {
+  exports.exec = async function(command) {
     // TODO: test
-    const {execSync} = require('child_process')
-    return execSync(command)
+    // const {execSync} = require('child_process')
+    let child_process = (await import('child_process'));
+    return child_process.execSync(command)
   }
 
   // --------------------------------------------

@@ -28,6 +28,9 @@ TODO:
 */
 
 import { utils } from "../utils.mjs";
+import { xmlUtils } from "../xml-utils.mjs";
+import { crossreadsXML } from "../crossreads-xml.mjs";
+
 import { createApp, nextTick } from "vue";
 import { createVuetify } from "../node_modules/vuetify/dist/vuetify.esm.js";
 // TODO: remove direct access to octokit from this module

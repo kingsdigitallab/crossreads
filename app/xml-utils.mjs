@@ -1,18 +1,14 @@
 import { utils } from './utils.mjs';
-import SaxonJS from 'saxon-js';
-// console.log(pkg)
+import { SaxonJS } from './saxon-js.mjs';
+
+// true if this code is running in the browser
+const isBrowser = (typeof window !== "undefined");
+let fs = null
+if (!isBrowser) {
+  fs = (await import('fs'));
+}
 
 async function mod(exports) {
-
-  // true if this code is running in the browser
-  const isBrowser = (typeof window !== "undefined");
-  // const SaxonJS = isBrowser ? window.SaxonJS : require('saxon-js');
-  let fs = null
-  if (!isBrowser) {
-    fs = (await import('fs'));
-  }
-
-  // const utils = isBrowser ? window.utils : require("./utils.mjs");
 
   exports.removeNamespaces = function(xmlString) {
     return xmlString.replace(/\s*xmlns(:\w+)?="[^"]*"/g, "")
@@ -155,6 +151,5 @@ async function mod(exports) {
 
 };
 
-let res = {}
-await mod(res)
-export const xmlUtils = res;
+export let xmlUtils = {}
+await mod(xmlUtils)

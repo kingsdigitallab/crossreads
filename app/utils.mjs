@@ -411,8 +411,7 @@ async function mod(exports) {
   }
 }
 
-let res = {}
-await mod(res)
-export const utils = res;
+export let utils = {}
+await mod(utils)
 
 //})(typeof exports === "undefined" ? (this["utils"] = {}) : exports);

@@ -46,7 +46,6 @@ async function mod(exports) {
 
 }
 
-let res = {}
-await mod(res)
-export const crossreadsXML = res;
+export let crossreadsXML = {}
+await mod(crossreadsXML)
 

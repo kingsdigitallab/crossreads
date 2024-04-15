@@ -1211,6 +1211,51 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "allograph": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000097/ISic000097_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:816.46142578125,2639.1181640625,76.3636474609375,37.091064453125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AJΤRA']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/3a7c47f3-d052-4944-9e87-a80a2ed005b7",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-15T16:33:58.367Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-04-15T16:33:59.240Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
           "components": {
             "top-bar": {
               "features": [
@@ -3207,7 +3252,9 @@
             "right-bar": {
               "features": [
                 "curved",
-                "diagonal"
+                "diagonal",
+                "on-baseline",
+                "serif"
               ]
             }
           },
@@ -3243,7 +3290,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-15T16:33:39.672Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-15T16:33:51.061Z"
+    "modified": "2024-04-15T16:33:54.412Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

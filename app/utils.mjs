@@ -281,7 +281,7 @@ async function mod(exports) {
         getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
       }
       res = await exports.fetchJsonFile(getUrl)
-      if (ret) {
+      if (res) {
         if (USE_RAW_FOR_GIT_ANONYMOUS) {
           ret.data = res
         } else {

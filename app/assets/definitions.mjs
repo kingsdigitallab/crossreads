@@ -236,7 +236,7 @@ createApp({
       // // TODO: temporarily locals
       let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
       // let res = await utils.readGithubJsonFile('../' + definitionsPath)
-      if (res) {
+      if (res.ok) {
         this.definitions = res.data
         this.definitionsSha = res.sha
         this.removeUndefinedComponentsAndFeatures()
@@ -246,10 +246,12 @@ createApp({
       this.isUnsaved = 0
     },
     async saveDefinitions() {
-      // TODO: sha
       this.definitions.updated = new Date().toISOString()
-      this.definitionsSha = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
-      this.isUnsaved = 0
+      let res = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
+      if (res.ok) {
+        this.definitionsSha = res.sha
+        this.isUnsaved = 0
+      }
     },
     onShortenCollection(e) {
       const self = this;

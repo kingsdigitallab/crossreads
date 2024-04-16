@@ -34,7 +34,7 @@ import { crossreadsXML } from "../crossreads-xml.mjs";
 import { createApp, nextTick } from "vue";
 import { createVuetify } from "../node_modules/vuetify/dist/vuetify.esm.js";
 // TODO: remove direct access to octokit from this module
-import { Octokit } from "octokit";
+// import { Octokit } from "octokit";
 
 let vuetify = createVuetify()
 
@@ -233,7 +233,7 @@ createApp({
       // all available tags (for auto-complete)
       tags: ['tag-1', 'tag-2', 'type-1', 'type-3'],
       annotation: null,
-      annotationsSha: null,
+      // annotationsSha: null,
       cache: {
         isDescriptionLoading: false,
         // allographLast: '123',
@@ -259,10 +259,14 @@ createApp({
       isUnsaved: 0,
       // null: no asked; -1: error; 0: loading; 1: loaded
       isImageLoaded: null,
-      messages: [
-      ],
-      octokit: null,
-      user: null,
+      messages: [],
+      // instance of AnyFileSystem, to access github resources
+      afs: null,
+      // the github sha of the annotations file.
+      // needed for writing it and detecting conflicts.
+      annotationsSha: null,
+      // octokit: null,
+      // user: null,
       // date & user with most recent changes
       // last time the annotations were loaded.
       modified: null,
@@ -279,7 +283,8 @@ createApp({
     // instead of loading all here.in parallel
     this.setSelectionFromAddressBar()
 
-    await this.initOctokit()
+    // await this.initOctokit()
+    await this.initAnyFileSystem()
 
     loadOpenSeaDragon(this)
     this.loadObjects()
@@ -437,7 +442,8 @@ createApp({
       return this.modified && (((new Date() - new Date(this.modified)) / 1000 / 60) < EDIT_LOCK_IN_MINUTES) && (this.modifiedBy !== this.userId)
     },
     isLoggedIn() {
-      return (this.getOctokit() !== null)
+      // return (this.getOctokit() !== null)
+      return this.afs?.isAuthenticated()
     },
     lastMessage() {
       let ret = {
@@ -501,7 +507,8 @@ createApp({
       return (this.isImageLoaded == 1) ? '' : (this.isImageLoaded == -1) ? 'ERROR: could not load the image': 'loading'
     },
     userId() {
-      return this?.user?.url || ''
+      // return this?.user?.url || ''
+      return this?.afs?.user?.url || ''
     },
     tagFormatError() {
       let ret = ''
@@ -570,7 +577,8 @@ createApp({
     async loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
       // fetch(getUncachedURL(this.apis.collections))
-      let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
+      // let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
+      let res = await this.afs.readJson(DTS_COLLECTION_PATH)
       if (res) {
         this.objects = {}
         for (let m of res.data.member) {
@@ -594,7 +602,8 @@ createApp({
       }
     },
     async loadDefinitions() {
-      let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
+      // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
+      let res = await this.afs.readJson(DEFINITIONS_PATH)
       if (res) {
         // sort all the features alphabetically gh-4
         for (let component of Object.values(res.data.components)) {
@@ -1031,8 +1040,6 @@ createApp({
         }
         console.log('SAVE to github')
 
-        let sha = this.annotationsSha
-
         let selectedAnnotation = this.annotation
         // See issue GH-10:
         // Without this call, the changes to the selected box won't be saved.
@@ -1055,7 +1062,12 @@ createApp({
           console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
           console.log(annotations)
         } else {
-          this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
+          // this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
+          let res = await this.afs.writeJson(filePath, annotations, this.annotationsSha)
+          // TODO: conflict & error management
+          if (res.ok) {
+            this.annotationsSha = res.sha
+          }
         }
 
         // restore the selection
@@ -1066,42 +1078,46 @@ createApp({
         this.isUnsaved = 0
       }
     },
-    async initOctokit() {
-      this.octokit = null
-      this.user = null
-
-      if (this.selection.gtoken) {
-        this.octokit = new Octokit({
-          auth: this.selection.gtoken
-        })
-
-        if (this.octokit) {
-          let res = null
-          res = await this.octokit.rest.users.getAuthenticated()
-            .catch(
-              err => {
-                res = null
-                this.octokit = null
-                if (err.message.includes('Bad credentials')) {
-                  this.logError('Bad github token. Is your token expired?')
-                } else {
-                  this.logError('Github authentication: Unknown error.')
-                }
-              }
-            );
-          if (res) {
-            this.user = res.data
-          }
-        }
-      }
-
-      return this.octokit
+    async initAnyFileSystem() {
+      this.afs = new utils.AnyFileSystem()
+      await this.afs.authenticateToGithub(this.selection.gtoken)
     },
-    getOctokit() {
-      // TODO: create wrapper class around Octokit
-      // TODO: cache this
-      return this.octokit
-    },
+    // async initOctokit() {
+    //   this.octokit = null
+    //   this.user = null
+
+    //   if (this.selection.gtoken) {
+    //     this.octokit = new Octokit({
+    //       auth: this.selection.gtoken
+    //     })
+
+    //     if (this.octokit) {
+    //       let res = null
+    //       res = await this.octokit.rest.users.getAuthenticated()
+    //         .catch(
+    //           err => {
+    //             res = null
+    //             this.octokit = null
+    //             if (err.message.includes('Bad credentials')) {
+    //               this.logError('Bad github token. Is your token expired?')
+    //             } else {
+    //               this.logError('Github authentication: Unknown error.')
+    //             }
+    //           }
+    //         );
+    //       if (res) {
+    //         this.user = res.data
+    //       }
+    //     }
+    //   }
+
+    //   return this.octokit
+    // },
+    // getOctokit() {
+    //   // TODO: create wrapper class around Octokit
+    //   // TODO: cache this
+    //   return this.octokit
+    // },
     setImageLoadedStatus(isLoaded) {
       this.isImageLoaded = isLoaded
       this.anno.readOnly = !this.canEdit
@@ -1122,7 +1138,7 @@ createApp({
           let anModified = an?.modified || an?.created
           if (anModified && ((this.modified == null) || (anModified > this.modified))) {
             this.modified = anModified
-            this.modifiedBy = an?.modifiedBy || an?.createdBy
+            this.modifiedBy = an?.modifiedBy || an?.creator
           }
         }
       }
@@ -1133,8 +1149,9 @@ createApp({
       let filePath = this.getAnnotationFilePath()
       this.setLastModified()
       if (filePath) {
-        let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
-        if (res) {
+        // let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
+        let res = await this.afs.readJson(filePath)
+        if (res && res.ok) {
           this.setLastModified(res.data)
           let annotations = this.upgradeAnnotations(res.data)
           annotations = this.dedupeAnnotations(annotations)

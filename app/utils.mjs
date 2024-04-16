@@ -137,7 +137,6 @@ async function mod(exports) {
                   description: `${err.message}`
                 }  
                 res = null
-                this.octokit = null
               }
             );
           if (res) {
@@ -159,6 +158,11 @@ async function mod(exports) {
         }
       }
 
+      if (!this.authStatus.ok) {
+        this.octokit = null
+        this.user = null
+      }
+
       return this.authStatus
     }
 
@@ -172,28 +176,19 @@ async function mod(exports) {
       if (system == this.SYSTEMS.GIT) {
         ret = await exports.readGithubJsonFile(relativePath, this.octokit)
       } else {
-        let data = null
-        if (system == this.SYSTEMS.GIT) {
-          data = await exports.fetchJsonFile(relativePath)        
+        if (system == this.SYSTEMS.HTTP) {
+          ret = await exports.fetchJsonFile(relativePath)        
         }
         if (system == this.SYSTEMS.LOCAL) {
-          data = await exports.readJsonFile(relativePath)
-        }
-        if (data) {
-          ret = {
-            data: data,
-            sha: null,
-            ok: true,
-            label: 'ok',
-            description: 'ok',
-          }
+          ret = await exports.readJsonFile(relativePath)
         }
       }
 
       return ret
     }
 
-    async writeJson(relativePath, data, system=null, sha=null) {
+    async writeJson(relativePath, data, sha=null, system=null) {
+      // todo: default error struct
       let ret = null;
       if (!system) {
         system = this.guessSystemFromPath(relativePath)
@@ -202,24 +197,13 @@ async function mod(exports) {
       if (system == this.SYSTEMS.GIT) {
         ret = await exports.updateGithubJsonFile(relativePath, data, this.octokit, sha)
       } else {
-        let res = null
-        if (system == this.SYSTEMS.GIT) {
+        if (system == this.SYSTEMS.HTTP) {
           // TODO: error
-          // res = await exports.fetchJsonFile(relativePath)        
+          // ret = await exports.fetchJsonFile(relativePath)        
         }
         if (system == this.SYSTEMS.LOCAL) {
-          res = await exports.writeJsonFile(relativePath, data)
+          ret = await exports.writeJsonFile(relativePath, data)
         }
-        if (res) {
-          ret = {
-            data: data,
-            sha: null,
-            ok: res,
-            label: 'ok',
-            description: 'ok',
-          }
-        }
-        // TODO: error case
       }
 
       return ret
@@ -263,7 +247,12 @@ async function mod(exports) {
 
   // client-side
   exports.readGithubJsonFile = async function (filePath, octokit) {
-    let ret = null;
+    let ret = {
+      data: null,
+      sha: null,
+      label: 'Error',
+      description: 'Unknown error',
+    };
     let res = null;
     if (octokit) {
       let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
@@ -273,50 +262,39 @@ async function mod(exports) {
             "If-None-Match": "",
           },
         });
-        res = res.data;
+        ret.sha = res.data.sha;
+        ret.data = JSON.parse(base64Decode(res.data.content))
       } catch (err) {
-        if (err?.message != 'Not Found') {
-          console.log(err);
-        }
+        ret.description = err?.message
+        // TODO: populate label
+        // if (err?.message != 'Not Found') {
+        //   console.log(err);
+        // }
       }
     } else {
       const USE_RAW_FOR_GIT_ANONYMOUS = true
+      let getUrl = null
       if (USE_RAW_FOR_GIT_ANONYMOUS) {
-        let getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`
-        if (0) {
-          // TODO: simple relative fetch, no sha
-          getUrl = `${filePath}`
-        }
-        let res = null;
-        res = await fetch(getUrl);
-        if (res && res.status == 200) {
-          ret = {
-            data: await res.json(),
-            sha: null,
-          };
-        }
-        res = null;
+        getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`
       } else {
-        // we don't use octokit here
-        // as we want this call to work without a github PAT
-        // https://stackoverflow.com/a/42518434
-        // TODO: use Octokit if PAT provided, so we don't exceed rate limits
-        let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
-
-        // let res = await fetch(getUrl, {cache: "no-cache"})
-        let res = await fetch(getUrl);
-        if (res && res.status == 200) {
-          res = await res.json();
+        // no need for octokit or token BUT rate limit is easily exceeded
+        getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
+      }
+      res = await exports.fetchJsonFile(getUrl)
+      if (ret) {
+        if (USE_RAW_FOR_GIT_ANONYMOUS) {
+          ret.data = res
+        } else {
+          ret.data = JSON.parse(base64Decode(ret.content))
+          ret.sha = res.sha
         }
       }
     }
 
-    if (res) {
-      ret = {
-        // data: JSON.parse(atob(res.content)),
-        data: JSON.parse(base64Decode(res.content)),
-        sha: res.sha,
-      };
+    ret.ok = Boolean(ret.data)
+    if (ret.ok) {
+      ret.label = 'ok'
+      ret.description = 'ok'
     }
 
     return ret;
@@ -347,7 +325,12 @@ async function mod(exports) {
     octokit,
     sha = null
   ) {
-    let ret = null;
+    let ret = {
+      sha: null,
+      ok: false,
+      label: 'Error',
+      description: 'Unknown error',
+    };
     let res = null;
 
     // °
@@ -368,10 +351,9 @@ async function mod(exports) {
     if (!sha) {
       let getUrl = `https://api.github.com/repos/${options.owner}/${options.repo}/contents/${filePath}`;
 
-      res = await fetch(getUrl);
-      if (res && res.status == 200) {
-        res = await res.json();
-        sha = res.sha;
+      res = await exports.fetchJsonFile(getUrl);
+      if (res) {
+        sha = res.sha        
       }
     }
 
@@ -385,14 +367,20 @@ async function mod(exports) {
           "PUT /repos/{owner}/{repo}/contents/{path}",
           options
         );
-        ret = res.data.content.sha;
+        ret = {
+          ok: true,
+          sha: res.data.content.sha,
+          label: 'ok',
+          description: 'ok'
+        }
       } catch (err) {
         console.log(err);
         if (err.message.includes("does not match")) {
+          ret.label = 'Conflict'
+          ret.description = 'Conflict'
           console.log("CONFLICT");
-          // git conflict
-          ret = 0;
         } else {
+          ret.description = err.message
         }
       }
     }

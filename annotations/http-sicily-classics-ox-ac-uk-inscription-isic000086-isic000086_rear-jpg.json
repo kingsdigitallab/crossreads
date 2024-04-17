@@ -41,10 +41,19 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
-          "components": null,
-          "tags": null,
-          "textTarget": null
+          "components": {
+            "bottom-bar": {
+              "features": [
+                "above-baseline",
+                "horizontal"
+              ]
+            }
+          },
+          "tags": [
+            "test"
+          ],
+          "textTarget": null,
+          "character": "Η"
         }
       }
     ],
@@ -61,7 +70,9 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/3f32468d-fbc8-41d3-9542-8a240a723369",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
-    "created": "2024-04-17T16:27:43.013Z"
+    "created": "2024-04-17T16:27:43.013Z",
+    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
+    "modified": "2024-04-17T16:27:56.682Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

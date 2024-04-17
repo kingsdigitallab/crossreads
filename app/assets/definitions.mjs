@@ -1,4 +1,5 @@
-const { createApp } = Vue
+import { utils } from "../utils.mjs";
+import { createApp, nextTick } from "vue";
 
 // const componentFeatureUri = '/digipal/api/componentfeature/'
 const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
@@ -24,8 +25,9 @@ createApp({
         component: '',
         feature: '',
       },
-      messages: [],
       isUnsaved: 0,
+      messages: [],
+      afs: null,
     }
   },
   computed: {
@@ -36,8 +38,11 @@ createApp({
         {title: 'Components x Features', key: 'cf'},
       ]
     },
-    canSave() {
-      return !!this.selection.gtoken
+    isLoggedIn() {
+      return this.afs?.isAuthenticated()
+    },
+    canEdit() {
+      return this.isLoggedIn
     },
     filteredAllographs() {
       return this.getFilteredDefinitions('allographs', (a) => a.character)
@@ -48,12 +53,21 @@ createApp({
     filteredFeatures() {
       return this.getFilteredDefinitions('features', (a) => a)
     },
+    lastMessage() {
+      let ret = {
+        content: '',
+        level: 'info',
+        created: new Date()
+      }
+      if (this.messages.length) {
+        ret = this.messages[this.messages.length - 1]
+      }
+      return ret
+    },
   },
-  mounted() {
-    // so we are sure all js modules have been loaded
-    window.addEventListener("load", (event) => {
-      this.loadDefinitions()
-    });
+  async mounted() {
+    await this.initAnyFileSystem()
+    this.loadDefinitions()
   },
   watch: {
     'selection.script'() {
@@ -61,6 +75,10 @@ createApp({
     }
   },
   methods: {
+    async initAnyFileSystem() {
+      this.afs = new utils.AnyFileSystem()
+      await this.afs.authenticateToGithub(this.selection.gtoken)
+    },
     getFilteredDefinitions(collectionName, getNameFromItem) {
       let ret = {}
       let items = this.definitions[collectionName]
@@ -219,35 +237,34 @@ createApp({
       }
       this.isUnsaved = 1
     },
-    getOctokit() {
-      // TODO: create wrapper class around Octokit
-      // TODO: cache this
-      let ret = null
-      if (this.selection.gtoken) {
-        ret = new Octokit({
-          auth: this.selection.gtoken
-        })
-      }
-      return ret
-    },
     async loadDefinitions() {
       // // TODO: temporarily locals
-      let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
-      // let res = await utils.readGithubJsonFile('../' + definitionsPath)
-      if (res) {
+      // let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
+      let res = await this.afs.readJson(definitionsPath)
+      if (res.ok) {
         this.definitions = res.data
         this.definitionsSha = res.sha
         this.removeUndefinedComponentsAndFeatures()
         this.selectFirstScript()
+        this.clearMessages()
+      } else {
+        this.logMessage(`Could not load definitions (${res.description})`, 'danger')
       }
       this.setAddressBarFromSelection()
       this.isUnsaved = 0
     },
     async saveDefinitions() {
-      // TODO: sha
       this.definitions.updated = new Date().toISOString()
-      this.definitionsSha = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
-      this.isUnsaved = 0
+      // let res = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
+      let res = await this.afs.writeJson(definitionsPath, this.definitions, this.definitionsSha)
+      if (res.ok) {
+        this.definitionsSha = res.sha
+        this.isUnsaved = 0
+        this.clearMessages()
+        this.logMessage('Definitions saved.', 'info')
+      } else {
+        this.logMessage(`Could not save definitions (${res.description})`, 'danger')
+      }
     },
     onShortenCollection(e) {
       const self = this;
@@ -345,16 +362,16 @@ createApp({
       let qs = `?${searchParams.toString()}`
       decodeURIComponent(qs)
     },
-    lastMessage() {
-      let ret = {
-        content: '',
-        level: 'info',
+    logMessage(content, level = 'info') {
+      // level: info|primary|success|warning|danger
+      this.messages.push({
+        content: content,
+        level: level,
         created: new Date()
-      }
-      if (this.messages.length) {
-        ret = this.messages[this.messages.length - 1]
-      }
-      return ret
+      })
+    },
+    clearMessages() {
+      this.messages.length = 0
     },
   }
 }).mount('#definitions')

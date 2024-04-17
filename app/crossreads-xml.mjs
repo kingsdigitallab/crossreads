@@ -1,10 +1,12 @@
-(function (exports) {
+import { xmlUtils } from './xml-utils.mjs'
+
+async function mod(exports) {
 
   // true if this code is running in the browser
   const isBrowser = (typeof window !== "undefined");
   // const SaxonJS = isBrowser ? window.SaxonJS : require('saxon-js');
   // const fs = isBrowser ? null : require('fs');
-  const xmlUtils = isBrowser ? window.xmlUtils : require("./xml-utils");
+  // const xmlUtils = isBrowser ? window.xmlUtils : require("./xml-utils");
 
   let TEI2HTML_XSLT = 'data/tei2html.xslt'
   let HTML2HTML_XSLT = 'data/html2html.xslt'
@@ -13,7 +15,7 @@
     HTML2HTML_XSLT = `../app/${HTML2HTML_XSLT}`
   }
 
-  exports.getHtmlFromTei = function(xmlString) {
+  exports.getHtmlFromTei = async function(xmlString) {
     // Remove diacritic, b/c 
     // a) XSLT template to markup each sign splits combined marks / modifier
     // b) partners requested they are hidden in annotator text viewer (because they are editorially supplied)
@@ -34,12 +36,16 @@
     // TODO: try to do it with XSLT? (too fiddly)
     xmlString = xmlString.replace(/\s*(<lb[^>]+break="no"[^>]*>)\s*/g, '$1')
 
-    let ret = xmlUtils.xslt(xmlString, TEI2HTML_XSLT, true)
+    let ret = await xmlUtils.xslt(xmlString, TEI2HTML_XSLT, true)
 
     // assign the @data-idx sequentially relative to each .is-word
-    ret = xmlUtils.xslt(ret, HTML2HTML_XSLT, true)
+    ret = await xmlUtils.xslt(ret, HTML2HTML_XSLT, true)
 
     return ret
   }
 
-})(typeof exports === "undefined" ? (this["crossreadsXML"] = {}) : exports);
+}
+
+export let crossreadsXML = {}
+await mod(crossreadsXML)
+

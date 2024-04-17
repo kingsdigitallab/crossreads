@@ -3,10 +3,11 @@ TODO
 . 36: <span class="tei-g is-word" data-tei="g" data-tei-ref="#cross_latin"/>
 . nested g o w
 */
-const fs = require('fs');
-const path = require("path");
-const utils = require("../app/utils");
-const xmlUtils = require("../app/xml-utils");
+import fs from 'fs';
+import path from "path";
+import { utils } from "../app/utils.mjs";
+import { xmlUtils } from "../app/xml-utils.mjs";
+import { crossreadsXML } from '../app/crossreads-xml.mjs';
 const HELP = 'Test that the encoding of the TEI corpus allows word and sign segmentation.'
 
 const DOWNLOAD_CORPUS = 'git clone https://github.com/ISicily/ISicily'
@@ -20,15 +21,15 @@ class TestWords {
     this.errors = {}
   }
 
-  downloadCorpus() {
+  async downloadCorpus() {
     if (!fs.existsSync(TEI_FOLDER)) {
       console.log(`Cloning corpus repository...`)
-      utils.exec(DOWNLOAD_CORPUS)
+      await utils.exec(DOWNLOAD_CORPUS)
     }
   }
 
   async test() {
-    this.downloadCorpus()
+    await this.downloadCorpus()
 
     // Short list the corpus (4500+ files) to what we are currently lusting in the Annotator
     let shortList = utils.readJsonFile(DTS_COLLECTION_JSON)
@@ -44,7 +45,7 @@ class TestWords {
       let filePath = path.join(TEI_FOLDER, filename);
       if (filePath.endsWith('.xml') && !fs.lstatSync(filePath).isDirectory()) {
         total += 1
-        errors += this.testTEI(filePath) ? 0 : 1
+        errors += await this.testTEI(filePath) ? 0 : 1
         // let res = await this.getPlainText(filePath)
         // console.log(res, res.length)
         // totalLength += res.length
@@ -65,14 +66,14 @@ class TestWords {
     return ret
   }
 
-  testTEI(filePath) {
+  async testTEI(filePath) {
     let ret = true
     // console.log(filePath)
 
     let content = this.readFile(filePath)
     if (!content) return;
 
-    let res = this.getHtmlFromTei(content)
+    let res = await this.getHtmlFromTei(content)
 
     if (!res) {
       this.fail(filePath, 'Edition not found')
@@ -181,22 +182,8 @@ class TestWords {
     }
   }
 
-  getHtmlFromTei(xmlString) {
-    let crossreadsXML = require('../app/crossreads-xml')
-    return crossreadsXML.getHtmlFromTei(xmlString)
-
-    // // Remove diacritic, b/c 
-    // // a) some erroneously come out as single text() character in the XSLT
-    // // b) partners requested they are hidden in annotator text viewer
-    // // c) more complex to map to characters in the palaeographic definitions
-    // xmlString = xmlString.normalize("NFD").replace(/\p{Diacritic}/gu, "")
-
-    // let ret = xmlUtils.xslt(xmlString, TEI2HTML_XSLT, true)
-
-    // // assign the @data-idx sequentially relative to each .is-word
-    // ret = xmlUtils.xslt(ret, HTML2HTML_XSLT, true)
-
-    // return ret
+  async getHtmlFromTei(xmlString) {
+    return await crossreadsXML.getHtmlFromTei(xmlString)
   }
 
   readFile(path) {
@@ -215,19 +202,6 @@ class TestWords {
 
     // return xmlString.match(/<ab><\/ab>/g)
   }
-
-  // getHTMLFromTEI(xmlString) {
-  //   fetch(TEI_TO_HTML_XSLT_PATH)
-  //   .then(res => res.text())
-  //   .then(res => new window.DOMParser().parseFromString(res, 'text/xml'))
-  //   .then(res => {
-  //     let processor = new XSLTProcessor()
-  //     processor.importStylesheet(res)
-  //     let doc = processor.transformToFragment(xml, document)
-  //     // set index of each line, starting from 1
-  //     let lineIdx = 0
-  //     for (let lineNumber of doc.querySelectorAll('.line-number')) {
-  // }
 
   addAnnotationsFromFile(filePath) {
     // annotation = {

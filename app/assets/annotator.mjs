@@ -27,6 +27,17 @@ TODO:
 
 */
 
+import { utils } from "../utils.mjs";
+import { xmlUtils } from "../xml-utils.mjs";
+import { crossreadsXML } from "../crossreads-xml.mjs";
+
+import { createApp, nextTick } from "vue";
+import { createVuetify } from "../node_modules/vuetify/dist/vuetify.esm.js";
+// TODO: remove direct access to octokit from this module
+// import { Octokit } from "octokit";
+
+let vuetify = createVuetify()
+
 let IMG_PATH_STATIC_ROOT = './data/images/'
 let NO_MATCHING_SIGN = 'NO_MATCHING_SIGN'
 let NO_MATCHING_WORD = 'NO_MATCHING_WORD'
@@ -48,8 +59,6 @@ const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
 // const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
 const DTS_COLLECTION_PATH = 'app/data/2023-08/collection.json'
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
-const TEI_TO_HTML_XSLT_PATH = './data/tei2html.xslt'
-const HTML_TO_HTML_XSLT_PATH = './data/html2html.xslt'
 const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
@@ -123,7 +132,7 @@ function loadOpenSeaDragon(vueApp) {
     // TODO: js error after select + click outside rect
     // fragmentUnit: 'percent', 
     formatters: vueApp.annotoriousFormatter,
-    readOnly: !vueApp.canSave
+    readOnly: !vueApp.canEdit
   };
   var anno = OpenSeadragon.Annotorious(viewer, config);
   vueApp.anno = anno;
@@ -148,8 +157,6 @@ function loadOpenSeaDragon(vueApp) {
   });
 
 };
-
-const { createApp } = Vue
 
 createApp({
   data() {
@@ -226,7 +233,7 @@ createApp({
       // all available tags (for auto-complete)
       tags: ['tag-1', 'tag-2', 'type-1', 'type-3'],
       annotation: null,
-      annotationsSha: null,
+      // annotationsSha: null,
       cache: {
         isDescriptionLoading: false,
         // allographLast: '123',
@@ -248,13 +255,18 @@ createApp({
         object: null,
         image: null,
       },
+      // 0: no box edited; 1: 1+ box created/descr changed; 2: 1+ box moved/resized
       isUnsaved: 0,
       // null: no asked; -1: error; 0: loading; 1: loaded
       isImageLoaded: null,
-      messages: [
-      ],
-      octokit: null,
-      user: null,
+      messages: [],
+      // instance of AnyFileSystem, to access github resources
+      afs: null,
+      // the github sha of the annotations file.
+      // needed for writing it and detecting conflicts.
+      annotationsSha: null,
+      // octokit: null,
+      // user: null,
       // date & user with most recent changes
       // last time the annotations were loaded.
       modified: null,
@@ -266,12 +278,12 @@ createApp({
     this.availableTags.loadFromSession()
     this.tags = this.availableTags.tags
 
-
     // TODO: chain load (from objects, to image, ...) 
     // instead of loading all here.in parallel
     this.setSelectionFromAddressBar()
 
-    await this.initOctokit()
+    // await this.initOctokit()
+    await this.initAnyFileSystem()
 
     loadOpenSeaDragon(this)
     this.loadObjects()
@@ -422,15 +434,15 @@ createApp({
       return !!this.annotation
     },
     tabs: () => utils.tabs(),
-    canSave() {
-      // return !!this.selection.gtoken
+    canEdit() {
       return (this.isImageLoaded == 1) && this.isLoggedIn && !this.isLocked
     },
     isLocked() {
       return this.modified && (((new Date() - new Date(this.modified)) / 1000 / 60) < EDIT_LOCK_IN_MINUTES) && (this.modifiedBy !== this.userId)
     },
     isLoggedIn() {
-      return (this.getOctokit() !== null)
+      // return (this.getOctokit() !== null)
+      return this.afs?.isAuthenticated()
     },
     lastMessage() {
       let ret = {
@@ -494,7 +506,8 @@ createApp({
       return (this.isImageLoaded == 1) ? '' : (this.isImageLoaded == -1) ? 'ERROR: could not load the image': 'loading'
     },
     userId() {
-      return this?.user?.url || ''
+      // return this?.user?.url || ''
+      return this?.afs?.user?.url || ''
     },
     tagFormatError() {
       let ret = ''
@@ -523,17 +536,49 @@ createApp({
       let ret = 'No info about last changes'
       if (this.modified) {
         let userParts = this.modifiedBy.split('/')
-        ret = `Last changed on ${(new Date(this.modified)).toLocaleString()} by ${userParts[userParts.length-1]}`
+        ret = `Last changed \non ${(new Date(this.modified)).toLocaleString()} \nby ${userParts[userParts.length-1]}`
       }
       return ret
-    }
+    },
+    editState() {
+      let ret = null
+      if (this.isImageLoaded !== 1) {
+        ret = {
+          label: 'Read only (Not ready)',
+          description: 'No inscription image was loaded. make sure an image is selected and it is loaded properly from the image server.',
+        }
+      } else if (!this.isLoggedIn) {
+        ret = {
+          label: 'Read only (Log in)',
+          description: 'Go to \'Settings\' tab to log in with your github token',
+        }
+      } else if (this.isLocked) {
+        let userParts = this.modifiedBy.split('/')
+        ret = {
+          label: 'Read only (Wait)',
+          description: `Reload after a few minutes, this image has just been annotated by ${userParts[userParts.length-1]}`,
+        }
+      } else if (this.isUnsaved) {
+        ret = {
+          label: 'Save',
+          description: '',
+        }
+      } else {
+        ret = {
+          label: 'Saved',
+          description: `All changes saved to github ${(new Date(this.modified)).toLocaleString()}`,
+        }
+      } 
+      return ret
+    },
   },
   methods: {
     async loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
       // fetch(getUncachedURL(this.apis.collections))
-      let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
-      if (res) {
+      // let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
+      let res = await this.afs.readJson(DTS_COLLECTION_PATH)
+      if (res.ok) {
         this.objects = {}
         for (let m of res.data.member) {
           if (m) {
@@ -556,8 +601,9 @@ createApp({
       }
     },
     async loadDefinitions() {
-      let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
-      if (res) {
+      // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
+      let res = await this.afs.readJson(DEFINITIONS_PATH)
+      if (res.ok) {
         // sort all the features alphabetically gh-4
         for (let component of Object.values(res.data.components)) {
           component.features.sort()
@@ -610,12 +656,12 @@ createApp({
       // this.onSelectImage(img)
       this.image = img
     },
-    setTextFromXMLString(xmlString) {
-      let res = crossreadsXML.getHtmlFromTei(xmlString)
+    async setTextFromXMLString(xmlString) {
+      let res = await crossreadsXML.getHtmlFromTei(xmlString)
       this.text = xmlUtils.toString(res)
       // console.log(this.text)
       // attach events to each sign
-      Vue.nextTick(() => {
+      nextTick(() => {
         for (let sign of document.querySelectorAll('.sign')) {
           sign.addEventListener('click', (e) => this.onClickSign(sign));
           // sign.addEventListener('mouseenter', (e) => this.onMouseEnterSign(sign));
@@ -630,7 +676,7 @@ createApp({
       let selectedAnnotation = this.anno.getSelected()
       let signAnnotation = this.getAnnotationFromSign(sign)
       let annotationSign = this.getSignFromAnnotation()
-      if (this.canSave) {
+      if (this.canEdit) {
         if (sign == annotationSign) {
           // unbind sign from selected annotation
           this.description.textTarget = null
@@ -838,11 +884,7 @@ createApp({
       this.logEvent('onCreateAnnotation')
 
       // this.saveAnnotationsToSession()
-      this.setUnsaved(true)
-
-      annotation.generator = ANNOTATION_GENERATOR_URI
-      annotation.creator = this.userId
-      annotation.created = new Date().toISOString()
+      this.setUnsaved(annotation)
 
       this.selectAnnotation(annotation)
     },
@@ -861,7 +903,7 @@ createApp({
       this.logEvent('onChangeSelectionTarget')
       
       this.isUnsaved = 2
-      this.setUnsaved(true)
+      this.setUnsaved()
     },
     onUpdateAnnotation() {
       // triggered after deselecting moved annotation
@@ -962,17 +1004,25 @@ createApp({
       console.log('OPEN FAILED')
     },
     // Persistence backend
-    setUnsaved(dontUpdateModified=false) {
+    setUnsaved(newAnnotation=null) {
       // tells the Annotator that not all changes on screen are saved yet on GH
       if (this.image?.uri) {
         if (this.isUnsaved == 0) {
           this.isUnsaved = 1
         } 
-        if (!dontUpdateModified) {
-          let annotation = this.anno.getSelected()
-          if (annotation) {
-            annotation.modifiedBy = this.userId
-            annotation.modified = new Date().toISOString()
+
+        this.modifiedBy = this.userId
+        this.modified = new Date().toISOString()
+
+        let annotation = newAnnotation || this.anno.getSelected()
+        if (annotation) {
+          if (newAnnotation) {
+            annotation.generator = ANNOTATION_GENERATOR_URI
+            annotation.creator = this.modifiedBy
+            annotation.created = this.modified
+          } else {
+            annotation.modifiedBy = this.modifiedBy
+            annotation.modified = this.modified
           }
         }
       }
@@ -983,13 +1033,11 @@ createApp({
     },
     async saveAnnotationsToGithub() {
       if (this.isUnsaved) {
-        if (!this.canSave)  {
+        if (!this.canEdit)  {
           console.log('Can\'t save in read only mode.')
           return
         }
         console.log('SAVE to github')
-
-        let sha = this.annotationsSha
 
         let selectedAnnotation = this.annotation
         // See issue GH-10:
@@ -1005,14 +1053,22 @@ createApp({
         let filePath = this.getAnnotationFilePath()
         let annotations = deepCopy(this.anno.getAnnotations())
         annotations = this.convertAnnotationsToW3C(annotations)
-        // sort the annotations by id so it is deterministic
+        // sort the annotations by id so output is deterministic
         annotations.sort((a, b) => {
           return a.id === b.id ? 0 : (a.id > b.id ? 1 : -1);
         })
         if (DEBUG_DONT_SAVE) {
-          console.log('debugDontSave=True => skip saving.')
+          console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
+          console.log(annotations)
         } else {
-          this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
+          // this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
+          let res = await this.afs.writeJson(filePath, annotations, this.annotationsSha)
+          // TODO: conflict & error management
+          if (res.ok) {
+            this.annotationsSha = res.sha
+          } else {
+            this.logError(`${res.description}`)
+          }
         }
 
         // restore the selection
@@ -1023,45 +1079,49 @@ createApp({
         this.isUnsaved = 0
       }
     },
-    async initOctokit() {
-      this.octokit = null
-      this.user = null
-
-      if (this.selection.gtoken) {
-        this.octokit = new window.Octokit({
-          auth: this.selection.gtoken
-        })
-
-        if (this.octokit) {
-          let res = null
-          res = await this.octokit.rest.users.getAuthenticated()
-            .catch(
-              err => {
-                res = null
-                this.octokit = null
-                if (err.message.includes('Bad credentials')) {
-                  this.logError('Bad github token. Is your tocken expired?')
-                } else {
-                  this.logError('Github authentication: Unknown error.')
-                }
-              }
-            );
-          if (res) {
-            this.user = res.data
-          }
-        }
-      }
-
-      return this.octokit
+    async initAnyFileSystem() {
+      this.afs = new utils.AnyFileSystem()
+      await this.afs.authenticateToGithub(this.selection.gtoken)
     },
-    getOctokit() {
-      // TODO: create wrapper class around Octokit
-      // TODO: cache this
-      return this.octokit
-    },
+    // async initOctokit() {
+    //   this.octokit = null
+    //   this.user = null
+
+    //   if (this.selection.gtoken) {
+    //     this.octokit = new Octokit({
+    //       auth: this.selection.gtoken
+    //     })
+
+    //     if (this.octokit) {
+    //       let res = null
+    //       res = await this.octokit.rest.users.getAuthenticated()
+    //         .catch(
+    //           err => {
+    //             res = null
+    //             this.octokit = null
+    //             if (err.message.includes('Bad credentials')) {
+    //               this.logError('Bad github token. Is your token expired?')
+    //             } else {
+    //               this.logError('Github authentication: Unknown error.')
+    //             }
+    //           }
+    //         );
+    //       if (res) {
+    //         this.user = res.data
+    //       }
+    //     }
+    //   }
+
+    //   return this.octokit
+    // },
+    // getOctokit() {
+    //   // TODO: create wrapper class around Octokit
+    //   // TODO: cache this
+    //   return this.octokit
+    // },
     setImageLoadedStatus(isLoaded) {
       this.isImageLoaded = isLoaded
-      this.anno.readOnly = !this.canSave
+      this.anno.readOnly = !this.canEdit
     },
     onImageLoaded() {
       // called by OSD on successful image loading
@@ -1076,9 +1136,10 @@ createApp({
       this.modifiedBy = null;
       if (annotations) {
         for (let an of annotations) {
-          if (an?.modified && ((this.modified == null) || (an?.modified > this.modified))) {
-            this.modified = an.modified
-            this.modifiedBy = an.modifiedBy
+          let anModified = an?.modified || an?.created
+          if (anModified && ((this.modified == null) || (anModified > this.modified))) {
+            this.modified = anModified
+            this.modifiedBy = an?.modifiedBy || an?.creator
           }
         }
       }
@@ -1089,8 +1150,9 @@ createApp({
       let filePath = this.getAnnotationFilePath()
       this.setLastModified()
       if (filePath) {
-        let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
-        if (res) {
+        // let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
+        let res = await this.afs.readJson(filePath)
+        if (res && res.ok) {
           this.setLastModified(res.data)
           let annotations = this.upgradeAnnotations(res.data)
           annotations = this.dedupeAnnotations(annotations)
@@ -1115,7 +1177,7 @@ createApp({
       return (annotation?.generator || '').replace(/^[^#]+#/, '')
     },
     upgradeAnnotations(annotations) {
-      ret = annotations
+      let ret = annotations
 
       for (let annotation of ret) {
         let description = annotation?.body[0]?.value

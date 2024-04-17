@@ -5,65 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Annotator</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
+
+    <!-- <script src="importmap.js"></script> -->
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "./node_modules/vue/dist/vue.esm-browser.js",
+          "octokit": "https://cdn.skypack.dev/octokit@2.0.14"
+        }
+      }
+    </script>
 
     <script src="./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>
     <link rel="stylesheet" href="./node_modules/@recogito/annotorious-openseadragon/dist/annotorious.min.css">
     <script src="./node_modules/@recogito/annotorious-openseadragon/dist/openseadragon-annotorious.min.js"></script>
-
-    <!-- importmap shim for Firefox -->
-    <script src="./node_modules/vue/dist/vue.global.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.3.15/dist/vuetify.min.css">
-
-    <!-- <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet"> -->
-    <!-- https://vuejs.org/guide/quick-start.html#enabling-import-maps -->
-    <!-- <script type="importmap">
-      {
-        "imports":{
-          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-          "vuetify-fa": "https://cdn.jsdelivr.net/npm/vuetify@3.3.15/lib/iconsets/fa.mjs"
-        }
-      }
-    </script> -->
+    <link rel="stylesheet" href="./node_modules/vuetify/dist/vuetify.min.css">
     
-    <script type="module">
-      const { createVuetify } = Vuetify
-      // import { aliases, fa } from "vuetify-fa"
-      // const { aliases, fa } = Vuetify
-      window.vuetify = createVuetify()
-      // window.vuetify = createVuetify({
-      //   icons: {
-      //     defaultSet: 'fa',
-      //     aliases,
-      //     sets: {
-      //       fa,
-      //     },
-      //   },
-      // })
-    </script>
-
-    <!-- https://www.saxonica.com/download/javascript.xml -->
-    <script src="assets/SaxonJS2.rt.js"></script>
-    <script src="utils.js"></script>
-    <script src="xml-utils.js"></script>
-    <script src="crossreads-xml.js"></script>
-    <script type="module">
-      // TODO: UPGRADE
-      // TODO: relative import
-      // TODO: modularise use of octokit, create a wrapper
-      // TODO: don't import it globally.
-      // import { Octokit } from "https://esm.sh/@octokit/core";
-      // import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
-      // import { Octokit, App } from "https://esm.sh/octokit";
-      import { Octokit, App } from "https://cdn.skypack.dev/octokit@2.0.14";
-      // import { Octokit } from "./node_modules/@octokit/core/dist-web/index.js";
-      window.Octokit = Octokit
-    </script>    
-    <script src="assets/annotator.js" defer></script>
-
+    <script src="assets/annotator.mjs" type="module"></script>
     <link rel="stylesheet" href="./assets/main.css">
   </head>
   <body>
@@ -164,14 +126,9 @@
                 Image
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="side-links">
-                  <span :title="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
-                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!canSave || !isUnsaved">
-                    <template v-if="!canSave">
-                      <template v-if="isLocked">LOCKED</template><template v-else>Read Only</template>
-                    </template>
-                    <template v-else>
-                      <template v-if="isUnsaved">Save</template><template v-else>Saved</template>
-                    </template>
+                  <span :data-tooltip="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
+                  <button @click="onClickSave()" class="button is-small is-default" :disabled="!(canEdit && isUnsaved)" :data-tooltip="editState.description">
+                    {{ editState.label }}
                   </button>
                 </span>
               </p>
@@ -207,7 +164,7 @@
                   <dt>Script</dt> 
                   <dd>
                     <div class="select">
-                      <select v-model="description.script" @change="onChangeScript()" :disabled="!canSave">
+                      <select v-model="description.script" @change="onChangeScript()" :disabled="!canEdit">
                         <option v-for="(script, scriptKey) in filteredScripts" :value="scriptKey">{{ script }}</option>
                       </select>
                     </div>
@@ -216,7 +173,7 @@
                   <dd>
                     <!-- <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span> -->
                     <div class="select">
-                      <select v-model="description.allograph" @change="onChangeAllograph()" :disabled="!canSave">
+                      <select v-model="description.allograph" @change="onChangeAllograph()" :disabled="!canEdit">
                         <option v-for="(allograph, allographKey) in filteredAllographs" :value="allographKey">{{ allograph.character }} <template v-if="allograph.script == 'base'">(BASE)</template></option>
                       </select>
                     </div>
@@ -226,13 +183,13 @@
                   <dd class="description-tags">
                     <div class="field has-addons">
                       <div class="control">
-                        <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="tag" list="available-tags" @keyup.delete.stop @keyup.enter="onAddTag()" :disabled="!canSave || !isAnnotationSelected">
+                        <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="tag" list="available-tags" @keyup.delete.stop @keyup.enter="onAddTag()" :disabled="!canEdit || !isAnnotationSelected">
                       </div>
                       <datalist id="available-tags">
                         <option v-for="tag in tags" :value="tag" />
                       </datalist>
                       <div class="control">
-                        <button class="button" @click="onAddTag()" :disabled="!canSave || Boolean(tagFormatError) || !isAnnotationSelected">Add</button>
+                        <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !isAnnotationSelected">Add</button>
                       </div>
                     </div>
                     <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
@@ -258,7 +215,7 @@
                       <ul>
                         <li v-for="featureKey in component.features">
                           <label :class="{selectable: true, selected: isComponentFeatureSelected(componentKey, featureKey)}">
-                            <input type="checkbox" @change="onChangeComponentFeature(componentKey, featureKey)" :checked="isComponentFeatureSelected(componentKey, featureKey)" :disabled="!canSave">
+                            <input type="checkbox" @change="onChangeComponentFeature(componentKey, featureKey)" :checked="isComponentFeatureSelected(componentKey, featureKey)" :disabled="!canEdit">
                             <template v-if="definitions.features[featureKey]"> 
                               {{ definitions.features[featureKey] }}
                             </template>

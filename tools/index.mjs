@@ -1,8 +1,6 @@
 /*
 TODO
-M git workflow
 S error management
-D read annotations from folder
 S add metadata to index
 S index of tags
 S all annotations should have a DTS target even if not letter bound
@@ -10,9 +8,12 @@ C remove decimals from region
 C shorter id?
 C include the letter and word in the dts selector?
 */
-const fs = require('fs');
-const utils = require("../app/utils");
-const path = require("path");
+// const fs = require('fs');
+import * as fs from 'fs';
+import { utils } from "../app/utils.mjs";
+
+// const path = require("path");
+import * as path from 'path';
 
 const INDEX_PATH = '../app/index.json'
 const ANNOTATIONS_PATH = '../annotations'

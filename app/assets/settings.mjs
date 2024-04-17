@@ -19,7 +19,6 @@ createApp({
   },
   watch: {
     "selection.gtoken": (v, vOld) => {
-      console.log(v)
       window.localStorage.setItem('gtoken', v)
     }
   },

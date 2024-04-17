@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Palaeographical Definitions</title>
     <link rel="shortcut icon" href="#">
+
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
-    <link rel="stylesheet" href="./assets/main.css">
 
     <!-- <script src="importmap.js"></script> -->
     <script type="importmap">
@@ -20,6 +20,7 @@
     </script>
 
     <script src="assets/definitions.mjs" type="module"></script>
+    <link rel="stylesheet" href="./assets/main.css">
   </head>
   <body>
     <section id="definitions" class="section full-width">
@@ -30,10 +31,10 @@
         <ul>
           <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
             <a :href="`${tab.key}.html`+this.getQueryString()">
-              <template v-if="!canSave && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
+              <template v-if="!isLoggedIn && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;
-              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveDefinitions()" class="button is-primary" :disabled="!canSave || !isUnsaved">Save</button>
+              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveDefinitions()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </a>            
           </li>
         </ul>

@@ -278,7 +278,6 @@ createApp({
     this.availableTags.loadFromSession()
     this.tags = this.availableTags.tags
 
-
     // TODO: chain load (from objects, to image, ...) 
     // instead of loading all here.in parallel
     this.setSelectionFromAddressBar()
@@ -579,7 +578,7 @@ createApp({
       // fetch(getUncachedURL(this.apis.collections))
       // let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
       let res = await this.afs.readJson(DTS_COLLECTION_PATH)
-      if (res) {
+      if (res.ok) {
         this.objects = {}
         for (let m of res.data.member) {
           if (m) {
@@ -604,7 +603,7 @@ createApp({
     async loadDefinitions() {
       // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
       let res = await this.afs.readJson(DEFINITIONS_PATH)
-      if (res) {
+      if (res.ok) {
         // sort all the features alphabetically gh-4
         for (let component of Object.values(res.data.components)) {
           component.features.sort()

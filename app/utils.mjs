@@ -121,7 +121,11 @@ async function mod(exports) {
       if (gitToken) {
 
         this.octokit = new Octokit({
-          auth: gitToken
+          auth: gitToken,
+          // Otherwise any conflict takes sevral seconds to return
+          // causing a long, confusing delay in the UI.
+          // Unfortunately we can't disable retry for specific requests.
+          retry: { enabled: false }
         })  
 
         if (this.octokit) {
@@ -374,11 +378,10 @@ async function mod(exports) {
           description: 'ok'
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         if (err.message.includes("does not match")) {
           ret.label = 'Conflict'
-          ret.description = 'Conflict'
-          console.log("CONFLICT");
+          ret.description = 'Conflict: file already changed by another interface. Please reload the web page to get the latest version.'
         } else {
           ret.description = err.message
         }

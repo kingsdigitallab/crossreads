@@ -378,7 +378,7 @@ async function mod(exports) {
           description: 'ok'
         }
       } catch (err) {
-        // console.log(err);
+        console.log(err.message);
         if (err.message.includes("does not match")) {
           ret.label = 'Conflict'
           ret.description = 'Conflict: file already changed by another interface. Please reload the web page to get the latest version.'

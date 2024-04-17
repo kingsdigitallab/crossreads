@@ -1067,9 +1067,7 @@ createApp({
           if (res.ok) {
             this.annotationsSha = res.sha
           } else {
-            if (res.label.toLowerCase().includes('conflict')) {
-              this.logError('Editorial conflict: this record has been ')
-            }
+            this.logError(`${res.description}`)
           }
         }
 

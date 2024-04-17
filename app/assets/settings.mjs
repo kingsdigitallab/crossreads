@@ -16,13 +16,10 @@ createApp({
   },
   computed: {
     tabs: () => utils.tabs(),
-    canSave() {
-      return !!this.selection.gtoken
-    },
-    isTokenMissing: () => false,
   },
   watch: {
     "selection.gtoken": (v, vOld) => {
+      console.log(v)
       window.localStorage.setItem('gtoken', v)
     }
   },

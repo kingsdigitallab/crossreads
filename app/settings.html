@@ -22,9 +22,11 @@
     <script type="module" src="assets/settings.mjs"></script>
   </head>
   <body>
-    <section class="section" id="settings">
-      <div id="definitions" class="container">
-        <div class="tabs is-large is-boxed">
+    <section class="section full-width" id="settings">
+      <div class="container is-fluid">
+        <div :class="['notification', 'is-light']">
+        </div>
+        <div class="tabs is-medium is-boxed">
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
               <a :href="`${tab.key}.html`+this.getQueryString()">
@@ -34,19 +36,19 @@
             </li>
           </ul>
         </div>
-        <form :class="{notification: 1, 'is-warning': isTokenMissing}">
+        <form :class="{notification: 1, 'is-warning': !afs.authStatus.ok}">
           <div class="field">
             <label class="label" for="gtoken">Personal access token:</label>
             <div class="field has-addons">
               <div class="control">
-                <input id="gtoken" type="password" v-model="selection.gtoken" class="input">
+                <input id="gtoken" type="password" v-model="selection.gtoken" class="input" autocomplete="new-password">
               </div>
               <div class="control">
                 <button @click="testToken()" type="button" class="button is-info">Test</button>
               </div>
             </div>
             <p>
-              <template v-if="!afs.authStatus.ok">ERROR:</template>
+              <template v-if="!afs.authStatus.ok"><i class="fas fa-exclamation-triangle"></i>&nbsp;ERROR:</template>
               {{ afs.authStatus.description }}
               <template v-if="afs.authStatus.ok"><br>User: <a target="_blank" :href="afs.user.url">{{ afs.user.url}}</a></template>
             </p>

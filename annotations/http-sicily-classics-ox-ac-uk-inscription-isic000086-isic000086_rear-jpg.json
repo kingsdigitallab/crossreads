@@ -54,67 +54,6 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": {
-            "top-bar": {
-              "features": [
-                "ascending",
-                "straight",
-                "diagonal",
-                "sans-serif"
-              ]
-            },
-            "downstroke": {
-              "features": [
-                "above-baseline"
-              ]
-            }
-          },
-          "tags": [
-            "test"
-          ],
-          "character": "Γ"
-        }
-      }
-    ],
-    "target": [
-      {
-        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000086/ISic000086_rear_tiled.tif",
-        "selector": {
-          "type": "FragmentSelector",
-          "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1275.3474731445312,623.9052734375,858.6666259765625,2244.7999267578125"
-        }
-      },
-      {
-        "source": "https://crossreads.web.ox.ac.uknull",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//*[@xml:id='AIΙAe']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 3,
-            "end": 4
-          }
-        }
-      }
-    ],
-    "id": "https://crossreads.web.ox.ac.uk/annotations/4a0489f3-757d-4781-b5af-ef7a999b2d75",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
-    "creator": "https://api.github.com/users/geoffroy-noel-ddh",
-    "created": "2024-04-17T15:44:42.752Z",
-    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2024-04-17T15:57:05.887Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
-      {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": {
-          "script": "greek-1",
           "components": null,
           "tags": null,
           "character": "Γ"
@@ -149,50 +88,5 @@
     "created": "2024-04-17T15:56:47.990Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
     "modified": "2024-04-17T15:57:03.743Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
-      {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": {
-          "script": "greek-1",
-          "components": null,
-          "tags": null,
-          "character": "Ε"
-        }
-      }
-    ],
-    "target": [
-      {
-        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000086/ISic000086_rear_tiled.tif",
-        "selector": {
-          "type": "FragmentSelector",
-          "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:3066.533935546875,968.9478149414062,1214.532958984375,1189.9855346679688"
-        }
-      },
-      {
-        "source": "https://crossreads.web.ox.ac.uknull",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//*[@xml:id='AIΙAΙ']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 8,
-            "end": 9
-          }
-        }
-      }
-    ],
-    "id": "https://crossreads.web.ox.ac.uk/annotations/c79fc802-0f1c-4511-b856-0a8f9d57a72a",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
-    "creator": "https://api.github.com/users/geoffroy-noel-ddh",
-    "created": "2024-04-17T15:56:44.443Z",
-    "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2024-04-17T15:57:00.320Z"
   }
 ]

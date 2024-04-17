@@ -8,13 +8,26 @@
         "purpose": "describing",
         "format": "application/json",
         "value": {
-          "script": "",
-          "allograph": null,
-          "components": null,
+          "script": "greek-1",
+          "components": {
+            "top-bar": {
+              "features": [
+                "ascending",
+                "straight",
+                "diagonal"
+              ]
+            },
+            "downstroke": {
+              "features": [
+                "above-baseline"
+              ]
+            }
+          },
           "textTarget": null,
           "tags": [
             "test"
-          ]
+          ],
+          "character": "Γ"
         }
       }
     ],
@@ -33,6 +46,6 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2024-04-17T15:44:42.752Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2024-04-17T15:48:24.082Z"
+    "modified": "2024-04-17T15:56:37.938Z"
   }
 ]

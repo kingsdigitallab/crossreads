@@ -460,7 +460,7 @@ createApp({
         return this.objects[this.selection.object] || null
       },
       async set(newValue) {
-        this.clearMessages()
+        // this.clearMessages()
         await this.saveAnnotationsToGithub()
         this.selection.object = newValue ? newValue['@id'] : null
       }
@@ -469,7 +469,19 @@ createApp({
       return this.object['dts:passage'] || null
     },
     objectDtsURL() {
-      return this.object["dts:download"] || null
+      let ret = this.object["dts:download"] || null
+      if (ret) {
+        if (ret.startsWith('http:/')) {
+          // see gh-61
+          // http://sicily.classics.ox.ac.uk/inscription/ISic000086.xml?ts=2024-04-18T16
+          // https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/ISic000086.xml?ts=2024-04-18T16        
+          // temporary patch: we fetch the github url
+          let retOld = ret;
+          ret = ret.replace(/^.*(ISic[^/]*\.xml).*$/, 'https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/$1')
+          this.logWarning(`Converted invalid http URL (${retOld}) to https (${ret}). See Issue 61 on github.`)
+        }
+      }
+      return ret
     },
     image: {
       get() {
@@ -1066,6 +1078,7 @@ createApp({
           // TODO: conflict & error management
           if (res.ok) {
             this.annotationsSha = res.sha
+            this.logOk('Saved annotations.')
           } else {
             this.logError(`${res.description}`)
           }
@@ -1475,9 +1488,6 @@ createApp({
     logOk(content) {
       this.logMessage(content, 'success')
     },
-    clearMessages() {
-      this.messages = []
-    },
     getQueryString() {
       return utils.getQueryString()
     },
@@ -1543,6 +1553,9 @@ createApp({
     },
     resetSearchPhrase() {
       this.searchPhrase = this?.object?.title || ''
-    }
+    },
+    clearMessages() {
+      this.messages.length = 0
+    },
   },
 }).use(vuetify).mount('#annotator');

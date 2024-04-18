@@ -82,7 +82,7 @@ class AnnotationIndex {
     }
   }
 
-  async loadDefinitions() {
+  loadDefinitions() {
     this.definitions = utils.readJsonFile(DEFINITIONS_PATH)    
   }
 

@@ -1,5 +1,6 @@
 import { utils } from "../utils.mjs";
 import { createApp, nextTick } from "vue";
+import { AnyFileSystem } from "../any-file-system.mjs";
 
 // const componentFeatureUri = '/digipal/api/componentfeature/'
 const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
@@ -76,7 +77,7 @@ createApp({
   },
   methods: {
     async initAnyFileSystem() {
-      this.afs = new utils.AnyFileSystem()
+      this.afs = new AnyFileSystem()
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
     getFilteredDefinitions(collectionName, getNameFromItem) {

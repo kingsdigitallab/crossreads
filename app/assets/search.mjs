@@ -6,6 +6,7 @@ TODO:
 */
 
 import { utils } from "../utils.mjs";
+import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
 
 // const INDEX_PATH = 'index.json'
@@ -145,7 +146,9 @@ createApp({
       if (IS_LOCAL) {
         this.index = await utils.fetchJsonFile('index.json')
       } else {
-        let res = await utils.readGithubJsonFile(INDEX_PATH)
+        let afs = new AnyFileSystem()
+        let res = await afs.readJson(INDEX_PATH)
+        // let res = await utils.readGithubJsonFile(INDEX_PATH)
         this.index = res.data
       }
 

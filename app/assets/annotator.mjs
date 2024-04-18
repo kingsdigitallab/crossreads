@@ -29,6 +29,7 @@ TODO:
 
 import { utils } from "../utils.mjs";
 import { xmlUtils } from "../xml-utils.mjs";
+import { AnyFileSystem } from "../any-file-system.mjs";
 import { crossreadsXML } from "../crossreads-xml.mjs";
 
 import { createApp, nextTick } from "vue";
@@ -1093,7 +1094,7 @@ createApp({
       }
     },
     async initAnyFileSystem() {
-      this.afs = new utils.AnyFileSystem()
+      this.afs = new AnyFileSystem()
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
     // async initOctokit() {

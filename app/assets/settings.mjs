@@ -1,4 +1,5 @@
 import { utils } from "../utils.mjs";
+import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp } from "../node_modules/vue/dist/vue.esm-browser.js";
 
 createApp({
@@ -8,7 +9,7 @@ createApp({
         tab: 'settings',
         gtoken: window.localStorage.getItem('gtoken') || '',
       },
-      afs: new utils.AnyFileSystem(),
+      afs: new AnyFileSystem(),
     }
   },
   async mounted() {

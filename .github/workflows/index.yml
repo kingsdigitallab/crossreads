@@ -16,7 +16,7 @@ jobs:
         with: 
           node-version: 19.x
       - name: Install dependencies
-        run: cd tools && npn ci
+        run: cd tools && npm ci
       - name: Indexing
         run: cd tools && npm index
       - name: Commit and push

@@ -4,6 +4,8 @@
 import { Octokit } from 'octokit';
 import { utils } from './utils.mjs';
 
+const isBrowser = (typeof window !== "undefined")
+
 export class AnyFileSystem {  
   /*
   Unified file read/write interface over different file systems.

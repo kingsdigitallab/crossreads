@@ -1,9 +1,6 @@
 // This module can be imported from the browser or nodejs
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
-import { Octokit } from 'octokit';
-// import { Octokit } from "./node_modules/octokit/dist-web/index.js";
-
 async function mod(exports) {
 
   // true if this code is running in the browser

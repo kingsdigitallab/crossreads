@@ -1414,6 +1414,9 @@ createApp({
     getAnnotationsAbsolutePath() {
       return `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${this.getAnnotationFilePath()}`;
     },
+    getCollectionPath() {
+      return `https://github.com/kingsdigitallab/crossreads/blob/main/${DTS_COLLECTION_PATH}`
+    },
     // Low-level Utilities
     getURIFromXMLPrefix(prefix) {
       const ns = {

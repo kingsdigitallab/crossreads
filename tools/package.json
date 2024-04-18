@@ -11,7 +11,8 @@
     "iiif:start": "docker run --rm -d -v /home/jeff/src/prj/crossreads/crossreads/data/2022:/usr/local/share/images -p 5004:5004 --name crossreads-img lorisimageserver/loris",
     "iiif:stop": "docker stop crossreads-img",
     "collection:filter": "node filterCollection.js ../app/data/2023-08/inscriptions.json",
-    "test:words": "node testWords.js"
+    "test:words": "node testWords.js",
+    "index": "node index.mjs"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/kingsdigitallab/crossreads#readme",
   "dependencies": {
+    "octokit": "^2.0.14",
     "saxon-js": "^2.5.0"
   }
 }

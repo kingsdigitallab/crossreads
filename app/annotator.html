@@ -128,6 +128,10 @@
                 Image
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="side-links">
+                  <label>
+                    <input type="checkbox" v-model="selection.hideBoxes">
+                    Hide boxes
+                  </label>
                   <span :data-tooltip="getLastModifiedMessage" class="icon"><i class="far fa-clock"></i></span>
                   <button @click="onClickSave()" class="button is-small is-default" :disabled="!(canEdit && isUnsaved)" :data-tooltip="editState.description">
                     {{ editState.label }}
@@ -136,7 +140,7 @@
               </p>
               <div class="panel-block panel-image">
                 <div :class="['image-viewer-overlay', `image-loaded-${isImageLoaded}`]">{{ imageLoadingMessage }}</div>
-                <div id="image-viewer" style="width: 100%; height: 300px;"></div>
+                <div id="image-viewer" :class="{'hide-boxes': this.selection.hideBoxes}" style="width: 100%; height: 300px;" ></div>
               </div>
               <p class="panel-heading">
                 Transcription 

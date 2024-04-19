@@ -66,8 +66,8 @@ const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
-// const DEBUG_DONT_SAVE = true;
-const DEBUG_DONT_SAVE = false;
+const DEBUG_DONT_SAVE = true;
+// const DEBUG_DONT_SAVE = false;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -133,7 +133,8 @@ function loadOpenSeaDragon(vueApp) {
     // TODO: js error after select + click outside rect
     // fragmentUnit: 'percent', 
     formatters: vueApp.annotoriousFormatter,
-    readOnly: !vueApp.canEdit
+    readOnly: !vueApp.canEdit,
+    // disableSelect: false,
   };
   var anno = OpenSeadragon.Annotorious(viewer, config);
   vueApp.anno = anno;
@@ -155,6 +156,10 @@ function loadOpenSeaDragon(vueApp) {
   // So we wait until it's ready to do things based on getAnnotations().
   viewer.addHandler('open', () => {
     vueApp.onImageLoaded()
+  });
+
+  viewer.addHandler('canvas-click', () => {
+    vueApp.onClickViewer()
   });
 
 };
@@ -250,6 +255,7 @@ createApp({
       selection: {
         tab: 'annotator',
         showSuppliedText: false,
+        hideBoxes: false,
         gtoken: window.localStorage.getItem('gtoken') || '',
         // TODO: remove partial duplication with /annotation
         annotationId: '',
@@ -333,6 +339,9 @@ createApp({
     },
     'selection.showSuppliedText'() {
       this.setAddressBarFromSelection()
+    },
+    'selection.hideBoxes'() {
+      this.onToggleBoxesVisibility()
     },
   },
   computed: {
@@ -1560,6 +1569,16 @@ createApp({
     },
     clearMessages() {
       this.messages.length = 0
+    },
+    onToggleBoxesVisibility() {
+      this.anno.disableSelect = this.selection.hideBoxes
+    },
+    onClickViewer() {
+      this.logEvent('onClickViewer')
+      if (this.selection.hideBoxes) {
+        this.anno.cancelSelected()
+        this.onCancelSelected()
+      }
     },
   },
 }).use(vuetify).mount('#annotator');

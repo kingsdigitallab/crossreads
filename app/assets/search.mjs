@@ -12,6 +12,8 @@ import { createApp, nextTick } from "vue";
 // const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
 const ITEMS_PER_PAGE = 24
+const OPTIONS_PER_FACET = 30
+const HIDE_OPTIONS_WITH_ZERO_COUNT = true
 const IS_LOCAL = window.location.hostname == 'localhost'
 
 class AvailableTags {
@@ -175,32 +177,31 @@ createApp({
       window.addEventListener('scroll', this.loadVisibleThumbs);
     },
     getFacetDefinitions() {
-      return {
+      let ret = {
         scr: {
           title: 'Script',
-          size: 30
         },
         chr: {
           title: 'Character',
-          size: 30
         },
         tag: {
           title: 'Tags',
-          size: 30,
         },
         com: {
           title: 'Components',
-          size: 30,
         },
         fea: {
           title: 'Features',
-          size: 30,
         },
         cxf: {
           title: 'Component x Features',
-          size: 30,
         },
       }
+      for (let facet of Object.values(ret)) {
+        facet.size = OPTIONS_PER_FACET
+        facet.hide_zero_doc_count = HIDE_OPTIONS_WITH_ZERO_COUNT
+      }
+      return ret
     },
     search(keepPage=false) {
       // .pagination

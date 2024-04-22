@@ -195,6 +195,8 @@ createApp({
         },
         cxf: {
           title: 'Component x Features',
+          // gh-56
+          sort: 'key'
         },
       }
       for (let facet of Object.values(ret)) {
@@ -270,6 +272,12 @@ createApp({
       let ret = ''
       let annotatorImageId = item.img.replace('_tiled.tif', `.jpg`).replace(/^.*\//, '')
       ret = `./annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
+      return ret
+    },
+    getOptionsFromFace(facet) {
+      let ret = facet.buckets.filter(o => {
+        return o.key != 'null'
+      })
       return ret
     },
     onClickFacetOption(facetKey, optionKey) {

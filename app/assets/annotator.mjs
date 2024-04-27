@@ -1031,7 +1031,12 @@ createApp({
       if (this.image?.uri) {
         if (this.isUnsaved == 0) {
           this.isUnsaved = 1
-        } 
+        }
+
+        // TODO: find a better system to clear 'saved' message
+        // TODO: also, once cleared the annotator jumps 
+        // because the message bar has different height
+        // this.clearMessages()
 
         this.modifiedBy = this.userId
         this.modified = new Date().toISOString()

@@ -66,8 +66,8 @@ const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
-const DEBUG_DONT_SAVE = true;
-// const DEBUG_DONT_SAVE = false;
+// const DEBUG_DONT_SAVE = true;
+const DEBUG_DONT_SAVE = false;
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -1082,6 +1082,7 @@ createApp({
         if (DEBUG_DONT_SAVE) {
           console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
           console.log(annotations)
+          this.logWarning(`WARNING: DEBUGGING MODE ON. Your changes were NOT saved to github.`)
         } else {
           // this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
           let res = await this.afs.writeJson(filePath, annotations, this.annotationsSha)

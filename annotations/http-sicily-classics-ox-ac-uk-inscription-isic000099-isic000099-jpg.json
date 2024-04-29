@@ -3030,6 +3030,51 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "allograph": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000099/ISic000099_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3321.230712890625,2419.6474609375,44.025146484375,56.407470703125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AJοIy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/51646ca2-ace3-4af3-9b69-920ea546c747",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-29T13:49:42.088Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-04-29T13:49:43.389Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
           "components": {
             "downstroke": {
               "features": [
@@ -6523,7 +6568,15 @@
             "downstroke": {
               "features": [
                 "on-baseline",
-                "serif"
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "foot": {
+              "features": [
+                "curved",
+                "long"
               ]
             }
           },
@@ -6559,7 +6612,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-29T13:49:26.942Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-29T13:49:33.798Z"
+    "modified": "2024-04-29T13:49:37.483Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -3035,7 +3035,13 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "oval"
+              ]
+            }
+          },
           "tags": null,
           "character": "O"
         }
@@ -3068,7 +3074,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-29T11:05:37.681Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-29T11:05:38.898Z"
+    "modified": "2024-04-29T11:05:39.989Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -3283,6 +3289,38 @@
     "created": "2024-04-29T09:58:10.299Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-04-29T09:59:02.756Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000093/ISic000093_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2002.2197265625,2477.79638671875,236.94140625,491.080078125"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/9b5420a0-1235-4bd8-87b6-8db9605ec9f7",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-29T11:05:48.593Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -3610,6 +3610,38 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000093/ISic000093_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:964.3162841796875,3654.42626953125,78.6221923828125,144.306396484375"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/679fa412-2349-4063-bfed-c1d6d052e661",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-04-29T12:26:39.034Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
           "components": {
             "top-bar": {
               "features": [
@@ -4751,7 +4783,16 @@
               "features": [
                 "diagonal",
                 "on-baseline",
-                "sans-serif"
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight"
               ]
             }
           },
@@ -4787,7 +4828,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-29T12:26:11.814Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-04-29T12:26:29.106Z"
+    "modified": "2024-04-29T12:26:33.832Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

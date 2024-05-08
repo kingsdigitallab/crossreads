@@ -1142,6 +1142,11 @@
               "features": [
                 "serif"
               ]
+            },
+            "hook": {
+              "features": [
+                "narrow"
+              ]
             }
           },
           "tags": null,
@@ -1176,7 +1181,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-05-08T15:19:57.186Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-05-08T15:20:08.530Z"
+    "modified": "2024-05-08T15:20:09.562Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -3147,5 +3152,50 @@
     "created": "2024-04-29T14:51:05.221Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-04-29T14:51:33.803Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "character": "A"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000100/ISic000100_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2479.216552734375,2139.93896484375,231.792724609375,349.47216796875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AKADy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/fe1b1646-e66f-4380-9416-4de2ec0373ae",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-05-08T15:20:16.193Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-05-08T15:20:21.206Z"
   }
 ]

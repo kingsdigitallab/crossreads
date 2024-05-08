@@ -90,10 +90,9 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "E"
         }
       }
     ],
@@ -105,6 +104,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:1999.2794189453125,2140.201416015625,178.3021240234375,324.510009765625"
         }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AKADy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 3,
+            "end": 4
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/02331f56-88bf-4499-bef8-1516b888c2f1",
@@ -112,7 +123,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-05-08T14:15:51.704Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-05-08T14:15:54.211Z"
+    "modified": "2024-05-08T14:15:59.164Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

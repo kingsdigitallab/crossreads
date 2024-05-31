@@ -130,7 +130,7 @@
                   <input v-model="newItems.feature" type="text" class="input" @keyup.enter="onAddItem('feature')">
                   <button @click="onAddItem('feature')" class="button is-small">Add</button>
                 </th>
-                <th v-for="(feature, featureSlug) in filteredFeatures">
+                <th v-for="(feature, featureSlug) in filteredFeatures" :class="{'unused': getUsageFromElement('f', featureSlug) < 1}" :title="(getUsageFromElement('f', featureSlug) < 1) ? 'Unused' : ''">
                   <span @keydown.enter="$event.target.blur()" @blur="onRenameFeature($event, featureSlug)" role="textbox" contenteditable class="input-on-hover">{{ feature }}</span>
                   <button @click="onRemoveFeature(featureSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
@@ -145,7 +145,7 @@
                 <td :colspan="Object.keys(filteredFeatures).length + 1" class="add-cell"></td>
               </tr>
               <tr v-for="(component, componentSlug) in filteredComponents">
-                <th>
+                <th :class="{'unused': getUsageFromElement('c', componentSlug) < 1}" :title="(getUsageFromElement('c', componentSlug) < 1) ? 'Unused' : ''">
                   <!-- <span class="item-name">{{ component.name }}</span> -->
                   <!-- <input @blur="onRenameComponent($event, component)" :value="component.name" type="text" class="input-rename input"> -->
                   <span @keydown.enter="$event.target.blur()" @blur="onRenameComponent($event, component)" role="textbox" contenteditable class="input-on-hover">{{ component.name }}</span>

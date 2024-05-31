@@ -82,6 +82,10 @@ createApp({
       this.afs = new AnyFileSystem()
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
+    getUsageFromElement(typeCode, elementSlug) {
+      // returns how many times the component, feature has been annotated
+      return this.stats[typeCode][elementSlug] || 0
+    },
     getFilteredDefinitions(collectionName, getNameFromItem) {
       let ret = {}
       let items = this.definitions[collectionName]
@@ -244,6 +248,7 @@ createApp({
       let res = await this.afs.readJson(statsUri)
       if (res.ok) {
         this.stats = res.data
+        this.stats['f']['closed'] = 0
       } else {
         this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
       }

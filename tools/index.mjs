@@ -16,6 +16,7 @@ import { utils } from "../app/utils.mjs";
 import * as path from 'path';
 
 const INDEX_PATH = '../app/index.json'
+const STATS_PATH = '../app/stats.json'
 const ANNOTATIONS_PATH = '../annotations'
 const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
 
@@ -59,6 +60,9 @@ class AnnotationIndex {
             ...bodyValue?.components[componentKey]?.features.map(f => `${componentKey} is ${f}`)
           ]
         }
+
+        this.updateStatsWithAnnotation(description, bodyValue.character, bodyValue.script, bodyValue.tags, bodyValue?.components)
+
         // only keep distinct features
         description['fea'] = [...new Set(description['fea'])]
         this.annotations.push({
@@ -86,9 +90,50 @@ class AnnotationIndex {
     this.definitions = utils.readJsonFile(DEFINITIONS_PATH)    
   }
 
+  initStats() {
+    this.stats = {
+      'SC': {}, // script - character. DONE
+      'Sc': {}, // script - component. DONE
+      'SCc': {},// script - character - component. TODO
+      'cf': {}, // component - features. DONE
+      'c': {},  // character. DONE
+      'f': {},  // features. DONE
+      't': {},  // tags. DONE
+    }
+  }
+
+  updateStatsWithAnnotation(description, character, script, tags, components) {
+    this.updateStatsWithFacetOption('SC', `${script}|${character}`)
+
+    for (let k of description['com'] || []) {
+      this.updateStatsWithFacetOption('c', k)
+      this.updateStatsWithFacetOption('Sc', `${script}|${k}`)
+      this.updateStatsWithFacetOption('SCc', `${script}|${character}|${k}`)
+    }
+    for (let k of description['fea'] || []) {
+      this.updateStatsWithFacetOption('f', k)
+    }
+    for (let k of tags || []) {
+      this.updateStatsWithFacetOption('t', k)
+    }
+
+    // combinations
+    for (let k of Object.keys(components || {})) {
+      for (let f of components[k].features) {
+        this.updateStatsWithFacetOption('cf', `${k}|${f}`)
+      }
+    }
+  }
+
+  updateStatsWithFacetOption(facet, option) {
+    this.stats[facet][option] = (this.stats[facet][option] || 0) + 1
+  }
+
   build(annotations_path) {
 
     this.loadDefinitions()
+
+    this.initStats()
 
     for (let filename of fs.readdirSync(annotations_path).sort()) {
       let filePath = path.join(annotations_path, filename);
@@ -101,9 +146,14 @@ class AnnotationIndex {
   }
 
   write() {
+    // writen index
     let content = JSON.stringify(this.annotations, null, COMPRESS_OUTPUT ? 0 : 2)
     fs.writeFileSync(this.path, content)
     console.log(`WRITTEN ${this.path}, ${this.annotations.length} annotation(s), ${(content.length / 1024 / 1024).toFixed(2)} MB.`)
+
+    // write stats file
+    content = JSON.stringify(this.stats, null, COMPRESS_OUTPUT ? 0 : 2)
+    fs.writeFileSync(STATS_PATH, content)
   }
 
 }

@@ -90,7 +90,7 @@
                     <!-- <span v-model="newItems.allograph" class="number-input" role="textbox" contenteditable class="input"></span> -->
                     <button @click="onAddItem('allograph')" class="button is-small">Add</button>
                   </th>
-                  <th v-for="(allo, alloSlug) in filteredAllographs">
+                  <th v-for="(allo, alloSlug) in filteredAllographs" :class="{'unused': getUsageFromElement('SC', `${selection.script}|${allo.character}`) < 1}" :title="(getUsageFromElement('SC', `${selection.script}|${allo.character}`) < 1) ? 'Unused' : ''">
                     {{ allo.character }}
                     <button @click="onRemoveAllograph(alloSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                   </th>
@@ -105,7 +105,7 @@
                   <td :colspan="Object.keys(filteredAllographs).length + 1" class="add-cell"></td>
                 </tr>
                 <tr v-for="(component, componentSlug) in filteredComponents">
-                  <th>
+                  <th :class="{'unused': getUsageFromElement('c', componentSlug) < 1}" :title="(getUsageFromElement('c', componentSlug) < 1) ? 'Unused' : ''">
                     {{ component.name }}
                     <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                   </th>

@@ -7,6 +7,7 @@ const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set
 const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component'
 const collectionUri = './data/dts/api/collections-2023-01.json'
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
+const statsUri = './stats.json'
 
 createApp({
   data() {
@@ -68,7 +69,8 @@ createApp({
   },
   async mounted() {
     await this.initAnyFileSystem()
-    this.loadDefinitions()
+    await this.loadDefinitions()
+    await this.loadStats()
   },
   watch: {
     'selection.script'() {
@@ -237,6 +239,14 @@ createApp({
         component.features.push(featureSlug)
       }
       this.isUnsaved = 1
+    },
+    async loadStats() {
+      let res = await this.afs.readJson(statsUri)
+      if (res.ok) {
+        this.stats = res.data
+      } else {
+        this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
+      }
     },
     async loadDefinitions() {
       // // TODO: temporarily locals

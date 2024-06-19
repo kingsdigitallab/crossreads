@@ -182,7 +182,7 @@ createApp({
           title: 'Script',
         },
         chr: {
-          title: 'Character',
+          title: 'Allograph',
         },
         tag: {
           title: 'Tags',

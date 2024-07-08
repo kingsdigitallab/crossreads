@@ -146,8 +146,7 @@
           "script": "latin-1",
           "components": null,
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "character": "R"
         }
       }
     ],
@@ -159,6 +158,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:3332.1357421875,1750.2698974609375,202.240966796875,244.890380859375"
         }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AKeDU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/25c58073-87f9-458d-848b-032142d97784",
@@ -166,7 +177,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-08T19:29:27.719Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-08T19:29:29.694Z"
+    "modified": "2024-07-08T19:29:32.524Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -302,6 +313,40 @@
     "created": "2024-07-08T19:29:00.951Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-07-08T19:29:04.515Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000103/ISic000103_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3629.30615234375,1746.142578125,137.578857421875,253.1451416015625"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/a1b6e57e-ef53-48a9-b085-21bc9395d3a8",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-07-08T19:29:38.649Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-07-08T19:29:40.683Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

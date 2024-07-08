@@ -1129,7 +1129,16 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
+          "components": {
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight"
+              ]
+            }
+          },
           "tags": null,
           "character": "A"
         }
@@ -1162,6 +1171,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-08T19:27:23.535Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-08T19:27:28.314Z"
+    "modified": "2024-07-08T19:50:51.341Z"
   }
 ]

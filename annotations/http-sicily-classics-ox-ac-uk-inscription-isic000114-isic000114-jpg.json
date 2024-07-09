@@ -634,7 +634,20 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
+          "components": {
+            "lower-bowl": {
+              "features": [
+                "open",
+                "round"
+              ]
+            },
+            "upper-bowl": {
+              "features": [
+                "open",
+                "round"
+              ]
+            }
+          },
           "tags": null,
           "character": "B"
         }
@@ -667,7 +680,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-09T16:22:40.841Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-09T16:22:45.923Z"
+    "modified": "2024-07-09T16:22:56.140Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

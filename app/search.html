@@ -57,10 +57,28 @@
               <template v-for="(facet, facetKey) in facets">
                 <p class="panel-heading">
                   {{ facet.title }}
+                  <a class="panel-expand" @click.stop.prevent="onClickFacetExpand(facetKey)" :title="isFacetExpanded(facetKey) ? 'Collapse' : 'Expand'">
+                    <template v-if="isFacetExpanded(facetKey)"><i class="fas fa-minus"></i></template>
+                    <template v-else><i class="fas fa-plus"></i></template>
+                  </a>
                 </p>
+                <div class="panel-block facet-orders">
+                  <p>
+                    <a @click.stop.prevent="onClickFacetColumn(facetKey, 'key')">
+                      <template v-if="isFacetSortedBy(facetKey, 'key', 'desc')"><i class="fas fa-arrow-up"></i></template>
+                      <template v-if="isFacetSortedBy(facetKey, 'key', 'asc')"><i class="fas fa-arrow-down"></i></template>
+                      Name
+                    </a>
+                    <a class="option-count" @click.stop.prevent="onClickFacetColumn(facetKey, 'count')">
+                      <template v-if="isFacetSortedBy(facetKey, 'count', 'desc')"><i class="fas fa-arrow-down"></template>
+                      <template v-if="isFacetSortedBy(facetKey, 'count', 'asc')"><i class="fas fa-arrow-up"></template>
+                      Count
+                    </a>
+                  </p>          
+                </div>
                 <div class="panel-block facet-options">
                   <ul>
-                    <li v-for="option in getOptionsFromFace(facet)" @click="onClickFacetOption(facetKey, option.key)" :class="{'is-selected': option.selected}">
+                    <li v-for="option in getOptionsFromFacet(facet)" @click="onClickFacetOption(facetKey, option.key)" :class="{'is-selected': option.selected}">
                       <span class="option-label">{{ option.key }}</span>
                       <span class="option-count">{{ option.doc_count }}</span>
                     </li>

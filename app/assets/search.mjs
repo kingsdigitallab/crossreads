@@ -12,7 +12,8 @@ import { createApp, nextTick } from "vue";
 // const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
 const ITEMS_PER_PAGE = 24
-const OPTIONS_PER_FACET = 30
+const OPTIONS_PER_FACET = 15
+const OPTIONS_PER_FACET_EXPANDED = 100
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
 const IS_LOCAL = window.location.hostname == 'localhost'
 
@@ -57,7 +58,9 @@ createApp({
         searchPhrase: '',
         facets: {},
         page: 1,
-        perPage: ITEMS_PER_PAGE
+        perPage: ITEMS_PER_PAGE,
+        // facetName: {sort: key|count, order: asc|desc, size: N}
+        facetsSettings: JSON.parse(window.localStorage.getItem('facetsSettings') || '{}'),
       },
       options: {
         perPage: [12, 24, 50, 100]
@@ -161,6 +164,12 @@ createApp({
         item.docId = this.getDocIdFromItem(item)
       }
 
+      this.resetItemsjsconfig()
+
+      window.addEventListener('resize', this.loadVisibleThumbs);
+      window.addEventListener('scroll', this.loadVisibleThumbs);
+    },
+    resetItemsjsconfig() {
       let config = {
         sortings: {
           or1: {
@@ -172,9 +181,44 @@ createApp({
         searchableFields: ['tag', 'docId']
       }
       this.itemsjs = window.itemsjs(this.index, config);
-
-      window.addEventListener('resize', this.loadVisibleThumbs);
-      window.addEventListener('scroll', this.loadVisibleThumbs);
+    },
+    onClickFacetExpand(facetKey) {
+      let settings = this.getFacetSettings(facetKey)
+      settings.size = settings.size == OPTIONS_PER_FACET ? OPTIONS_PER_FACET_EXPANDED : OPTIONS_PER_FACET;
+      this.setFacetSettings(facetKey, settings)
+    },
+    getFacetSettings(facetKey) {
+      let ret = this.selection.facetsSettings[facetKey] || {
+        size: OPTIONS_PER_FACET,
+        sort: 'count',
+        order: 'desc',
+      };
+      return ret
+    },
+    isFacetExpanded(facetKey) {
+      let settings = this.getFacetSettings(facetKey)
+      return settings.size != OPTIONS_PER_FACET 
+    },
+    isFacetSortedBy(facetKey, sort, order) {
+      let settings = this.getFacetSettings(facetKey)
+      return settings.sort == sort && settings.order == order
+      
+    },
+    onClickFacetColumn(facetKey, columnName) {
+      let settings = this.getFacetSettings(facetKey)
+      if (settings.sort == columnName) {
+        settings.order = settings.order == 'asc' ? 'desc' : 'asc'
+      } else {
+        settings.sort = settings.sort == 'count' ? 'key' : 'count'
+        settings.order = settings.sort == 'count' ? 'desc' : 'asc'
+      }
+      this.setFacetSettings(facetKey, settings)
+    },
+    setFacetSettings(facetKey, settings) {
+      this.selection.facetsSettings[facetKey] = settings;
+      window.localStorage.setItem('facetsSettings', JSON.stringify(this.selection.facetsSettings));
+      this.resetItemsjsconfig()
+      this.search()
     },
     getFacetDefinitions() {
       let ret = {
@@ -199,8 +243,12 @@ createApp({
           sort: 'key'
         },
       }
-      for (let facet of Object.values(ret)) {
-        facet.size = OPTIONS_PER_FACET
+      for (let facetKey of Object.keys(ret)) {
+        let facet = ret[facetKey]
+        let settings = this.getFacetSettings(facetKey)
+        facet.size = settings.size
+        facet.sort = settings.sort
+        facet.order = settings.order
         facet.hide_zero_doc_count = HIDE_OPTIONS_WITH_ZERO_COUNT
       }
       return ret
@@ -274,7 +322,7 @@ createApp({
       ret = `./annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
     },
-    getOptionsFromFace(facet) {
+    getOptionsFromFacet(facet) {
       let ret = facet.buckets.filter(o => {
         return o.key != 'null'
       })

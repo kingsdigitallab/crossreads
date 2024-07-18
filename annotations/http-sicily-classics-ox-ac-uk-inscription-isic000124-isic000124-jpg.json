@@ -80,7 +80,15 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
+          "components": {
+            "right-stroke": {
+              "features": [
+                "curved",
+                "diagonal",
+                "on-baseline"
+              ]
+            }
+          },
           "tags": [
             "serif.curved",
             "serif.hairline"
@@ -116,7 +124,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-18T10:39:11.086Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-18T10:39:44.157Z"
+    "modified": "2024-07-18T10:39:54.731Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

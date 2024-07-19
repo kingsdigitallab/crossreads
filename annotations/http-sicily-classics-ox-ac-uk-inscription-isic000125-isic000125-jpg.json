@@ -434,7 +434,10 @@
             "top-bar": {
               "features": [
                 "ascending",
-                "sans-serif"
+                "sans-serif",
+                "long",
+                "straight",
+                "touching"
               ]
             }
           },
@@ -472,7 +475,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-19T14:24:14.848Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-19T14:30:58.236Z"
+    "modified": "2024-07-19T14:31:03.434Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1087,6 +1090,57 @@
     "created": "2024-07-18T10:57:47.392Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-07-18T10:58:38.656Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "components": {
+            "top-bar": {
+              "features": [
+                "ascending"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "E"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000125/ISic000125_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3484.924560546875,2368.238037109375,185.43408203125,335.2080078125"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AMyEo']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 3,
+            "end": 4
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/8b0d217a-05f0-4289-b215-fd0241aef32f",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-07-19T14:31:07.591Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-07-19T14:31:16.697Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

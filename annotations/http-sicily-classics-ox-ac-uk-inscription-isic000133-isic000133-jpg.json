@@ -9,7 +9,25 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
-          "components": null,
+          "components": {
+            "lower-bowl": {
+              "features": [
+                "closed",
+                "round"
+              ]
+            },
+            "upper-bowl": {
+              "features": [
+                "closed",
+                "round"
+              ]
+            },
+            "downstroke": {
+              "features": [
+                "on-baseline"
+              ]
+            }
+          },
           "tags": null,
           "character": "B"
         }
@@ -42,6 +60,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-19T13:49:27.752Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-19T13:49:33.690Z"
+    "modified": "2024-07-19T13:49:43.335Z"
   }
 ]

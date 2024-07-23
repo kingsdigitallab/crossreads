@@ -9,6 +9,51 @@
         "format": "application/json",
         "value": {
           "script": "latin-1",
+          "components": null,
+          "tags": null,
+          "character": "A"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000185/ISic000185_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2992.28515625,1095.2098388671875,423.17041015625,373.2459716796875"
+        }
+      },
+      {
+        "source": "https://crossreads.web.ox.ac.uknull",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ASyAe']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/a0384ca2-a2a7-40da-b2a4-56c9161ce003",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-07-23T16:21:19.743Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-07-23T16:21:23.641Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
           "components": {
             "right-stroke": {
               "features": [
@@ -34,6 +79,11 @@
                 "straight",
                 "not-touching",
                 "touching"
+              ]
+            },
+            "apex": {
+              "features": [
+                "angular"
               ]
             }
           },
@@ -71,6 +121,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-23T16:18:33.772Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-23T16:21:01.934Z"
+    "modified": "2024-07-23T16:21:05.050Z"
   }
 ]

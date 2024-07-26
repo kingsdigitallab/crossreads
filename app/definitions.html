@@ -67,16 +67,16 @@
               </div>
             </p>
             <p class="control">
-              <input v-model="selection.scriptName" class="input" type="text">
+              <input v-model="selection.scriptName" class="input" type="text" :disabled="!canEdit">
             </p>
             <p class="control">
-              <button @click="onCreateScript()" class="button">Create</button>
+              <button @click="onCreateScript()" class="button" :disabled="!canEdit">Create</button>
             </p>
             <p class="control">
-              <button @click="onRenameScript()" class="button">Rename</button>
+              <button @click="onRenameScript()" class="button" :disabled="!canEdit">Rename</button>
             </p>
             <p class="control">
-              <button @click="onDeleteScript()" class="button">Delete</button>
+              <button @click="onDeleteScript()" class="button" :disabled="!canEdit">Delete</button>
             </p>
           </div>  
 
@@ -86,28 +86,28 @@
                 <tr>
                   <th></th>
                   <th>
-                    <input v-model="newItems.allograph" type="text" class="input" @keyup.enter="onAddItem('allograph')">
+                    <input v-model="newItems.allograph" type="text" class="input" @keyup.enter="onAddItem('allograph')" :disabled="!canEdit">
                     <!-- <span v-model="newItems.allograph" class="number-input" role="textbox" contenteditable class="input"></span> -->
-                    <button @click="onAddItem('allograph')" class="button is-small">Add</button>
+                    <button @click="onAddItem('allograph')" class="button is-small" :disabled="!canEdit">Add</button>
                   </th>
                   <th v-for="(allo, alloSlug) in filteredAllographs" :class="{'unused': getUsageFromElement('SC', `${selection.script}|${allo.character}`) < 1}" :title="(getUsageFromElement('SC', `${selection.script}|${allo.character}`) < 1) ? 'Unused' : ''">
                     {{ allo.character }}
-                    <button @click="onRemoveAllograph(alloSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                    <button v-if="canEdit" @click="onRemoveAllograph(alloSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th>
-                    <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
-                    <button @click="onAddItem('component')" class="button is-small">Add</button>
+                    <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')" :disabled="!canEdit">
+                    <button @click="onAddItem('component')" class="button is-small" :disabled="!canEdit">Add</button>
                   </th>
                   <td :colspan="Object.keys(filteredAllographs).length + 1" class="add-cell"></td>
                 </tr>
                 <tr v-for="(component, componentSlug) in filteredComponents">
                   <th :class="{'unused': getUsageFromElement('c', componentSlug) < 1}" :title="(getUsageFromElement('c', componentSlug) < 1) ? 'Unused' : ''">
                     {{ component.name }}
-                    <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                    <button v-if="canEdit" @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                   </th>
                   <td class="add-cell"></td>
                   <template v-for="allo in filteredAllographs">
@@ -127,20 +127,20 @@
               <tr>
                 <th></th>
                 <th>
-                  <input v-model="newItems.feature" type="text" class="input" @keyup.enter="onAddItem('feature')">
-                  <button @click="onAddItem('feature')" class="button is-small">Add</button>
+                  <input v-model="newItems.feature" type="text" class="input" @keyup.enter="onAddItem('feature')" :disabled="!canEdit">
+                  <button @click="onAddItem('feature')" class="button is-small" :disabled="!canEdit">Add</button>
                 </th>
                 <th v-for="(feature, featureSlug) in filteredFeatures" :class="{'unused': getUsageFromElement('f', featureSlug) < 1}" :title="(getUsageFromElement('f', featureSlug) < 1) ? 'Unused' : ''">
-                  <span @keydown.enter="$event.target.blur()" @blur="onRenameFeature($event, featureSlug)" role="textbox" contenteditable class="input-on-hover">{{ feature }}</span>
-                  <button @click="onRemoveFeature(featureSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                  <span @keydown.enter="$event.target.blur()" @blur="onRenameFeature($event, featureSlug)" role="textbox" :contenteditable="canEdit" :class="{'input-on-hover': canEdit}">{{ feature }}</span>
+                  <button v-if="canEdit" @click="onRemoveFeature(featureSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th>
-                  <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')">
-                  <button @click="onAddItem('component')" class="button is-small">Add</button>
+                  <input v-model="newItems.component" type="text" class="input" @keyup.enter="onAddItem('component')" :disabled="!canEdit">
+                  <button @click="onAddItem('component')" class="button is-small" :disabled="!canEdit">Add</button>
                 </th>
                 <td :colspan="Object.keys(filteredFeatures).length + 1" class="add-cell"></td>
               </tr>
@@ -148,8 +148,8 @@
                 <th :class="{'unused': getUsageFromElement('c', componentSlug) < 1}" :title="(getUsageFromElement('c', componentSlug) < 1) ? 'Unused' : ''">
                   <!-- <span class="item-name">{{ component.name }}</span> -->
                   <!-- <input @blur="onRenameComponent($event, component)" :value="component.name" type="text" class="input-rename input"> -->
-                  <span @keydown.enter="$event.target.blur()" @blur="onRenameComponent($event, component)" role="textbox" contenteditable class="input-on-hover">{{ component.name }}</span>
-                  <button @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
+                  <span @keydown.enter="$event.target.blur()" @blur="onRenameComponent($event, component)" role="textbox"  :contenteditable="canEdit" :class="{'input-on-hover': canEdit}">{{ component.name }}</span>
+                  <button v-if="canEdit" @click="onRemoveComponent(componentSlug)" class="button is-small btn-remove is-warning" title="remove"><i class="fas fa-trash"></i></button>
                 </th>
                 <td class="add-cell"></td>
                 <td v-for="(feature, featureSlug) in filteredFeatures" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">

@@ -230,6 +230,7 @@ createApp({
       this.selection.scriptName = this.definitions.scripts[this.selection.script]
     },
     onClickAllographComponent(allo, componentSlug) {
+      if (!this.canEdit) return;
       if (allo.components.includes(componentSlug)) {
         allo.components = allo.components.filter((c) => c != componentSlug)
       } else {
@@ -238,6 +239,7 @@ createApp({
       this.isUnsaved = 1
     },
     onClickComponentFeature(component, featureSlug) {
+      if (!this.canEdit) return;
       if (component.features.includes(featureSlug)) {
         component.features = component.features.filter((f) => f != featureSlug)
       } else {

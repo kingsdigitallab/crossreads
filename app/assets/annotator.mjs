@@ -67,7 +67,7 @@ const LOG_EVENTS = false;
 
 // const collectionPath = './data/dts/api/collections.json'
 // const DEBUG_DONT_SAVE = true;
-const DEBUG_DONT_SAVE = false;
+const DEBUG_DONT_SAVE = true;
 
 let isButtonPressed = false
 function logButtons(e) {

@@ -17,6 +17,7 @@ import * as path from 'path';
 
 const INDEX_PATH = '../app/index.json'
 const STATS_PATH = '../app/stats.json'
+const TESTS_PATH = '../app/data/index/tests.json'
 const ANNOTATIONS_PATH = '../annotations'
 const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
 
@@ -30,6 +31,29 @@ class AnnotationIndex {
 
   constructor(path) {
     this.path = path
+    this.messages = []
+  }
+
+  log(message, level='WARNING', annotionsFile=null, annotationId=null) {
+    this.messages.push({
+      message: message,
+      level: level,
+      file: annotionsFile,
+      id: annotationId
+    })
+  }
+
+  testAnnotationsFile(filePath) {
+    let content = utils.readJsonFile(filePath)
+
+    for (let ann of content) {
+      for (let target of ann.target) {
+        if (target?.source.includes('null')) {
+          this.log("target[i].source contains 'null'", 'WARNING', filePath, ann.id)
+        }
+      }
+    }
+
   }
 
   addAnnotationsFromFile(filePath) {
@@ -138,6 +162,7 @@ class AnnotationIndex {
     for (let filename of fs.readdirSync(annotations_path).sort()) {
       let filePath = path.join(annotations_path, filename);
       if (filePath.endsWith('.json') && !fs.lstatSync(filePath).isDirectory()) {
+        this.testAnnotationsFile(filePath)
         this.addAnnotationsFromFile(filePath)
       }
     }
@@ -154,6 +179,9 @@ class AnnotationIndex {
     // write stats file
     content = JSON.stringify(this.stats, null, COMPRESS_OUTPUT ? 0 : 2)
     fs.writeFileSync(STATS_PATH, content)
+
+    content = JSON.stringify(this.messages, null, COMPRESS_OUTPUT ? 0 : 2)
+    fs.writeFileSync(TESTS_PATH, content)
   }
 
 }

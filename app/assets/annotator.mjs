@@ -1337,7 +1337,11 @@ createApp({
           // let textId = textTarget.textId || this.objectId
           let startIndex = parseInt(textTarget.signId)
           let target = {
-            "source": `${DTS_ROOT}${this.objectDtsPassage}`,
+            // see gh-19: ideally we want DTS request URL for the document
+            // But that doesn't exist. 
+            // So we just use the download link.
+            // "source": `${DTS_ROOT}${this.objectDtsPassage}`,
+            "source": `${this.object["dts:download"]}`,
             "selector": {
               "type": "XPathSelector",
               "value": `//*[@xml:id='${textTarget.wordId}']`,

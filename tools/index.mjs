@@ -45,15 +45,43 @@ class AnnotationIndex {
 
   testAnnotationsFile(filePath) {
     let content = utils.readJsonFile(filePath)
+    let isFixed = false
 
     for (let ann of content) {
       for (let target of ann.target) {
         if (target?.source.includes('null')) {
-          this.log("target[i].source contains 'null'", 'WARNING', filePath, ann.id)
+          let level = 'WARNING'
+          if (ann.target[0]) {
+            let inscriptionId = this.getInscriptionIdFromAnnotation(ann)
+            isFixed = true
+            target.source = `http://sicily.classics.ox.ac.uk/inscription/${inscriptionId}.xml`
+            level = 'FIX'
+          }
+          this.log("target[i].source contained 'null'", level, filePath, ann.id)
         }
       }
     }
 
+    if (isFixed) {
+      content = JSON.stringify(content, null, 2)
+      fs.writeFileSync(filePath, content)
+    }
+  }
+
+  getInscriptionIdFromAnnotation(annotation) {
+    let ret = null;
+    let source = annotation.target
+    if (annotation.target && annotation.target.length > 0) {
+      // https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000107/ISic000107_tiled.tif
+      let source = annotation.target[0]?.source || '';
+      // => ISic000107
+      let match = source.match(/\/inscription_images\/(ISic[^/]+)\//)
+      if (match) {
+        ret = match[1]
+      }
+    }
+
+    return ret
   }
 
   addAnnotationsFromFile(filePath) {

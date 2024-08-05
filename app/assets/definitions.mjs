@@ -8,6 +8,8 @@ const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_com
 const collectionUri = './data/dts/api/collections-2023-01.json'
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
 const statsUri = 'app/stats.json'
+// const DEBUG_DONT_SAVE = true;
+const DEBUG_DONT_SAVE = false;
 
 createApp({
   data() {
@@ -107,26 +109,52 @@ createApp({
       return ret
     },
     onRenameFeature(event, featureSlug) {
-      // TODO: error management: value already taken
-      console.log('renamed')
-      // let value = event.target.value.trim()
-      let value = event.target.textContent.trim()
-      if (value.length) {
-        this.definitions.features[featureSlug] = value
+      let name = event.target.textContent.trim()
+
+      // duplicate name?
+      if (this._itemExist('feature', name)) name = '';
+
+      //
+      if (name) {
+        this.definitions.features[featureSlug] = name
+        this.isUnsaved = 1
       } else {
+        // undo change
         event.target.textContent = this.definitions.features[featureSlug]
       }
-      this.isUnsaved = 1
     },
     onRenameComponent(event, component) {
-      // TODO: error management: value already taken
-      let value = event.target.textContent.trim()
-      if (value.length) {
-        component.name = value
+      let name = event.target.textContent.trim()
+
+      // duplicate name?
+      if (this._itemExist('component', name)) name = '';
+
+      //
+      if (name) {
+        component.name = name
+        this.isUnsaved = 1
       } else {
+        // undo change
         event.target.textContent = component.name
       }
-      this.isUnsaved = 1
+    },
+    _itemExist(itemType, name) {
+      if (!['script', 'component', 'feature'].includes(itemType)) {
+        throw new Error(`_itemExist: wrong itemType ${itemType}`)
+      }
+      let ret = false
+      let items = this.definitions[itemType+'s']
+
+      name = name.trim()
+      let slug = utils.slugify(name)
+      ret = !!(items[slug]);
+      if (!ret) {
+        ret = Object.values(items).filter(
+          i => (i.name || i).toLowerCase() == name.toLowerCase()
+        ).length > 0
+      }
+
+      return ret
     },
     onRemoveAllograph(allographSlug) {
       delete this.definitions.allographs[allographSlug]
@@ -166,7 +194,7 @@ createApp({
     onAddItem(itemType) {
       let name = this.newItems[itemType]
       name = name.trim()
-      if (name.length < 1) return;
+      if (!name) return;
 
       let slug = name
       if (itemType != 'allograph') {
@@ -174,47 +202,60 @@ createApp({
       } else {
         slug = `${slug}-${this.selection.script}`
       }
+      if (!slug) return;
 
-      let item = this.definitions[itemType+'s'][slug]
+      let items = this.definitions[itemType+'s'] 
+      let item = null
 
       if (itemType == 'allograph') {
+        item = items[slug]
         if (!(item && item.script == this.selection.script)) {
-          this.definitions.allographs[slug] = {
+          item = {
             script: this.selection.script,
             character: name,
             components: []
           }
+        } else {
+          item = null
         }
       } else {
-        if (!item) {
+        if (!this._itemExist(itemType, name)) {
           if (itemType == 'component') {
-            this.definitions.components[slug] = {
+            item = {
               name: name,
               features: []
             }
           }
           if (itemType == 'feature') {
-            this.definitions.features[slug] = name
-          }
+            item = name
+          }    
         }
       }
 
-      this.newItems[itemType] = ''
-      this.isUnsaved = 1
+      if (item) {
+        items[slug] = item
+        this.newItems[itemType] = ''
+        this.isUnsaved = 1
+      }
     },
     onCreateScript() {
-      // TODO: error management
-      let name = this.selection.scriptName
+      let name = this.selection.scriptName.trim()
       let slug = utils.slugify(name)
+      if (!slug) return;
+
+      if (this._itemExist('script', name)) return;
+
       this.definitions.scripts[slug] = name
       this.selection.script = slug
       this.isUnsaved = 1
     },
     onRenameScript() {
-      // TODO: error management
-      this.definitions.scripts[this.selection.script] = this.selection.scriptName
-      // TODO: change slug???
-      this.isUnsaved = 1
+      let name = this.selection.scriptName.trim()
+      if (!name) return;
+
+      if (this._itemExist('script', name)) return;
+      this.definitions.scripts[this.selection.script] = name
+      this.isUnsaved = 1  
     },
     onDeleteScript() {
       // TODO: error management
@@ -274,7 +315,15 @@ createApp({
     async saveDefinitions() {
       this.definitions.updated = new Date().toISOString()
       // let res = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
-      let res = await this.afs.writeJson(definitionsPath, this.definitions, this.definitionsSha)
+      let res = null
+      if (DEBUG_DONT_SAVE) {
+        res = {
+          ok: false,
+          description: 'Not saving in DEBUG mode. DEBUG_DONT_SAVE = true.',
+        }
+      } else {
+        let res = await this.afs.writeJson(definitionsPath, this.definitions, this.definitionsSha)
+      }
       if (res.ok) {
         this.definitionsSha = res.sha
         this.isUnsaved = 0
@@ -355,7 +404,7 @@ createApp({
     },
     slugify(text, preserveCase=false) {
       // stolen from https://gist.github.com/codeguy/6684588?permalink_comment_id=4176055#gistcomment-4176055
-      ret = text
+      let ret = text
         .toString()                           // Cast to string (optional)
         .normalize('NFKD')            // The normalize() using NFKD method returns the Unicode Normalization Form of a given string.
 
@@ -366,7 +415,7 @@ createApp({
       ret = ret
         .trim()                                  // Remove whitespace from both sides of a string (optional)
         .replace(/\s+/g, '-')            // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')     // Remove all non-word chars
+        .replace(/[^.\w\-]+/g, '')     // Remove all non-word chars
         .replace(/\-\-+/g, '-');        // Replace multiple - with single -
       
       return ret
@@ -393,3 +442,4 @@ createApp({
     },
   }
 }).mount('#definitions')
+

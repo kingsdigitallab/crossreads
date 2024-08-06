@@ -145,6 +145,11 @@ createApp({
       window.addEventListener('resize', this.loadVisibleThumbs);
       window.addEventListener('scroll', this.loadVisibleThumbs);
     },
+    resetSearch() {
+      this.selection.searchPhrase = ''
+      this.selection.facets = {}
+      this.search()
+    },
     resetItemsjsconfig() {
       let config = {
         sortings: {
@@ -374,6 +379,9 @@ createApp({
       // this.description.script = searchParams.get('scr') || ''
 
       this.selection.searchPhrase = searchParams.get('q') || ''
+      if (!this.selection.searchPhrase && this.selection.image) {
+        this.selection.searchPhrase = this.selection.image.replace(/\.[^.]+$/, '')
+      }
       this.selection.page = parseInt(searchParams.get('pag') || '1')
       this.selection.perPage = parseInt(searchParams.get('ppg') || ITEMS_PER_PAGE)
 

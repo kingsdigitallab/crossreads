@@ -45,13 +45,15 @@
 
         <div class="columns search">
           <div class="column is-3 filters">
-            <h2 class="title is-3">Filters</h2>
+            <h2 class="title is-3">Filters 
+              <a href="#" @click="resetSearch()" class="side-links">(clear)</a>
+            </h2>
             <div class="panel">
               <p class="panel-heading">
                 Keywords (tag, inscription ID)
               </p>
               <div class="panel-block search-phrase">
-                <input type="text" v-model="selection.searchPhrase" class="input">
+                <input type="search" v-model="selection.searchPhrase" class="input">
               </div>
 
               <template v-for="(facet, facetKey) in facets">
@@ -155,7 +157,7 @@
           </div>
 
           <div class="column is-3 selection">
-            <p>Selection ({{ selection.items.size }})</p>
+            <h2 class="title is-3">Selection ({{ selection.items.size }})</h2>
             <p>Tags:</p>
             <ul>
               <li v-for="tagkey, tag in definitions.tags">

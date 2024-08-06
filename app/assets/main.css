@@ -32,6 +32,17 @@ label.selectable {
   background-color: var(--selected-color);
   font-weight: bold;
 }
+.results .card.item {
+  border: 3px solid white;
+}
+.results .card.item.selected {
+  background-color: inherit;
+  border-color: var(--selected-color);
+}
+.results .card.item:hover {
+  background-color: var(--hover-color);
+  cursor: pointer;
+}
 .component-name {
   font-weight: bold;
 }

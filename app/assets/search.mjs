@@ -5,9 +5,10 @@ TODO:
 . remove all hard-coded values
 */
 
-import { utils } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "../utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
+import { AvailableTags } from "../tags.mjs";
 
 // const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
@@ -15,34 +16,6 @@ const ITEMS_PER_PAGE = 24
 const OPTIONS_PER_FACET = 15
 const OPTIONS_PER_FACET_EXPANDED = 100
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
-const IS_LOCAL = window.location.hostname == 'localhost'
-
-class AvailableTags {
-
-  constructor() {
-    this.tags = []
-  }
-
-  addTag(tag) {
-    if (this.tags.includes(tag)) return;
-    this.tags.push(tag)
-    this.saveToSession()
-  }
-
-  load() {
-    // TODO: load from github
-    // if copy in session is more recent, use that instead
-  }
-
-  loadFromSession() {
-    this.tags = JSON.parse(window.localStorage.getItem('AvailableTags.tags') || '[]')
-  }
-
-  saveToSession() {
-    window.localStorage.setItem('AvailableTags.tags', JSON.stringify(this.tags))
-  }
-
-}
 
 createApp({
   data() {
@@ -89,16 +62,12 @@ createApp({
   },
   async mounted() {
     this.availableTags = new AvailableTags()
-    this.availableTags.loadFromSession()
+    await this.availableTags.load()
     this.tags = this.availableTags.tags
 
     await this.loadIndex()
     this.setSelectionFromAddressBar()
     this.search(true)
-
-    // await this.initOctokit()
-
-    // loadOpenSeaDragon(this)
   },
   watch: {
     'selection.searchPhrase'() {
@@ -155,7 +124,7 @@ createApp({
       // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
 
-      if (IS_LOCAL) {
+      if (IS_BROWSER_LOCAL) {
         this.index = await utils.fetchJsonFile('index.json')
       } else {
         let afs = new AnyFileSystem()

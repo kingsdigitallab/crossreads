@@ -1,4 +1,4 @@
-import { utils } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE } from "../utils.mjs";
 import { createApp, nextTick } from "vue";
 import { AnyFileSystem } from "../any-file-system.mjs";
 
@@ -7,9 +7,7 @@ const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set
 const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component'
 const collectionUri = './data/dts/api/collections-2023-01.json'
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
-const statsUri = 'app/stats.json'
-const DEBUG_DONT_SAVE = false;
-// const DEBUG_DONT_SAVE = false;
+const STATS_PATH = 'app/stats.json'
 
 createApp({
   data() {
@@ -289,7 +287,7 @@ createApp({
       this.isUnsaved = 1
     },
     async loadStats() {
-      let res = await this.afs.readJson(statsUri)
+      let res = await this.afs.readJson(STATS_PATH)
       if (res.ok) {
         this.stats = res.data
       } else {

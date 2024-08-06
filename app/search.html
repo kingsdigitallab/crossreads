@@ -87,7 +87,7 @@
               </template>
             </div>
           </div>
-          <div class="column is-9 results">
+          <div class="column is-6 results">
             <h2 class="title is-3">Annotations ({{ pagination.total }})</h2>
             <div class="results-controls">
 
@@ -117,7 +117,7 @@
               <a href="#" @click.stop.prevent="onClickPagination(1)" class="button">Next</a> -->
             </div>
             <div class="items">
-              <span v-for="item in items" class="card item">
+              <span v-for="item in items" :class="{card: 1, item: 1, selected: this.selection.items.has(item)}" @click="onClickItem(item)">
 
                 <div class="card-content">
 
@@ -152,6 +152,16 @@
                 </p>
               </nav>
             </div>
+          </div>
+
+          <div class="column is-3 selection">
+            <p>Selection ({{ selection.items.size }})</p>
+            <p>Tags:</p>
+            <ul>
+              <li v-for="tagkey, tag in definitions.tags">
+                <label><input type="checkbox" v-model="tag.selected"> {{ tag }}</label>
+              </li>
+            </ul>
           </div>
         </div>
 

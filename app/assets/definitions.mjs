@@ -8,8 +8,8 @@ const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_com
 const collectionUri = './data/dts/api/collections-2023-01.json'
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
 const statsUri = 'app/stats.json'
-// const DEBUG_DONT_SAVE = true;
 const DEBUG_DONT_SAVE = false;
+// const DEBUG_DONT_SAVE = false;
 
 createApp({
   data() {

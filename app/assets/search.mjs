@@ -53,14 +53,15 @@ createApp({
         gtoken: window.localStorage.getItem('gtoken') || '',
         // TODO: remove partial duplication with /annotation
         annotationId: '',
-        object: null,
-        image: null,
+        object: null, // ?
+        image: null, // ?
         searchPhrase: '',
         facets: {},
         page: 1,
         perPage: ITEMS_PER_PAGE,
         // facetName: {sort: key|count, order: asc|desc, size: N}
         facetsSettings: JSON.parse(window.localStorage.getItem('facetsSettings') || '{}'),
+        items: new Set(),
       },
       options: {
         perPage: [12, 24, 50, 100]
@@ -77,7 +78,13 @@ createApp({
       ],
       cache: {
       },
-      user: null
+      user: null,
+      definitions: {
+        tags: {
+          'test1': {selected: false},
+          'test2': {selected: false},
+        }
+      }
     }
   },
   async mounted() {
@@ -360,6 +367,13 @@ createApp({
     },
     getQueryString() {
       return utils.getQueryString()
+    },
+    onClickItem(item) {
+      if (this.selection.items.has(item)) {
+        this.selection.items.delete(item)
+      } else {
+        this.selection.items.add(item)
+      }
     },
     setAddressBarFromSelection() {
       // ?object

@@ -44,6 +44,10 @@ export class AnyFileSystem {
     }
   }
 
+  getUserId() {
+    return this.user?.url || ''
+  }
+
   isAuthenticated() {
     return this.authStatus.ok
   }

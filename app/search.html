@@ -46,7 +46,7 @@
         <div class="columns search">
           <div class="column is-3 filters">
             <h2 class="title is-3">Filters 
-              <a href="#" @click="resetSearch()" class="side-links">(clear)</a>
+              <a href="#" @click.stop.prevent="resetSearch()" class="side-links">(clear)</a>
             </h2>
             <div class="panel">
               <p class="panel-heading">
@@ -157,11 +157,13 @@
           </div>
 
           <div class="column is-3 selection">
-            <h2 class="title is-3">Selection ({{ selection.items.size }})</h2>
-            <p>Tags:</p>
+            <h2 class="title is-3">Selection ({{ selection.items.size }})
+              <button @click.prevent.stop="saveChangeQueue()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
+            </h2>
+            <h3 class="title is-4">Tags:</h3>
             <ul>
-              <li v-for="tagkey, tag in definitions.tags">
-                <label><input type="checkbox" v-model="tag.selected"> {{ tag }}</label>
+              <li v-for="state, tag in definitions.tags">
+                <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`"><input type="checkbox" :checked="state === true" :disabled="state === null"> {{ tag }}</label>
               </li>
             </ul>
           </div>

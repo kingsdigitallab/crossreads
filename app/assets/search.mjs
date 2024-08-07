@@ -16,6 +16,7 @@ const ITEMS_PER_PAGE = 24
 const OPTIONS_PER_FACET = 15
 const OPTIONS_PER_FACET_EXPANDED = 100
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
+const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
 
 createApp({
   data() {
@@ -36,6 +37,15 @@ createApp({
         facetsSettings: JSON.parse(window.localStorage.getItem('facetsSettings') || '{}'),
         items: new Set(),
       },
+      // instance of AnyFileSystem, to access github resources
+      afs: null,
+      changeQueue: {
+        changes: [],
+      },
+      // the github sha of the annotations file.
+      // needed for writing it and detecting conflicts.
+      changeQueueSha: null,
+      // ---
       options: {
         perPage: [12, 24, 50, 100]
       },
@@ -54,8 +64,6 @@ createApp({
       user: null,
       definitions: {
         tags: {
-          'test1': {selected: false},
-          'test2': {selected: false},
         }
       }
     }
@@ -63,9 +71,15 @@ createApp({
   async mounted() {
     this.availableTags = new AvailableTags()
     await this.availableTags.load()
-    this.tags = this.availableTags.tags
+    for (let tag of this.availableTags.tags) {
+      this.definitions.tags[tag] = null
+    }
 
+    await this.initAnyFileSystem()
+    
+    await this.loadChangeQueue()
     await this.loadIndex()
+
     this.setSelectionFromAddressBar()
     this.search(true)
   },
@@ -117,9 +131,22 @@ createApp({
         ret = Math.ceil(pagination.total / pagination.per_page)
       }
       return ret
+    },
+    canEdit() {
+      return this.isLoggedIn
+    },
+    isLoggedIn() {
+      return this.afs?.isAuthenticated()
+    },
+    isUnsaved() {
+      return this.selection.items.size && Object.values(this.definitions.tags).filter(t => t !== null).length
     }
   },
   methods: {
+    async initAnyFileSystem() {
+      this.afs = new AnyFileSystem()
+      await this.afs.authenticateToGithub(this.selection.gtoken)
+    },
     async loadIndex() {
       // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
@@ -127,8 +154,8 @@ createApp({
       if (IS_BROWSER_LOCAL) {
         this.index = await utils.fetchJsonFile('index.json')
       } else {
-        let afs = new AnyFileSystem()
-        let res = await afs.readJson(INDEX_PATH)
+        // TODO: error management
+        let res = await this.afs.readJson(INDEX_PATH)
         // let res = await utils.readGithubJsonFile(INDEX_PATH)
         this.index = res.data
       }
@@ -144,6 +171,68 @@ createApp({
 
       window.addEventListener('resize', this.loadVisibleThumbs);
       window.addEventListener('scroll', this.loadVisibleThumbs);
+    },
+    onClickTag(tag) {
+      let stateTransitions = {true: false, false: null, null: true}
+      this.definitions.tags[tag] = stateTransitions[this.definitions.tags[tag]]
+    },
+    async loadChangeQueue() {
+      let res = await this.afs.readJson(CHANGE_QUEUE_PATH)
+      if (res && res.ok) {
+        this.changeQueue = res.data
+        this.changeQueueSha = res.sha
+      } else {
+        this.logMessage(`Failed to load change queue from github (${res.description})`, 'error')
+      }
+    },
+    getAnnotationFileNameFromItem(item) {
+      // TODO: filename should be in the search index 
+      // instead of hardcoding the reconstruction here.
+      // But that would inflate its size.
+      //
+      // returns:
+      // 'http-sicily-classics-ox-ac-uk-inscription-isic020930-isic020930-jpg.json'
+      // from: 
+      // item.doc = 'http://sicily.classics.ox.ac.uk/inscription/ISic000085.xml'
+      // item.img = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000085/ISic000085_tiled.tif'
+
+      let ret = ''
+
+      ret = item.doc.replace('.xml', '')
+      ret += item.img.replace(/^.*(\/[^/]+)_tiled\.tif$/, '$1.jpg')
+      ret = utils.slugify(ret)
+      ret += '.json'
+
+      return ret
+    },
+    async saveChangeQueue() {
+      let ret = false
+      if (DEBUG_DONT_SAVE) {
+        console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
+        ret = true
+      } else {
+        if (this.isUnsaved) {
+          let change = {
+            // annotationIds: [...this.selection.items].map(item => item.id),
+            annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
+            // e.g. tags: ['tag1', -tag3', 'tag10']
+            tags: Object.entries(this.definitions.tags).filter(kv => kv[1] !== null).map(kv => (kv[1] === false ? '-' : '') + kv[0]),
+            creator: this.afs.getUserId(),
+            created: new Date().toISOString(),
+          }
+          this.changeQueue.changes.push(change)
+          let res = await this.afs.writeJson(CHANGE_QUEUE_PATH, this.changeQueue, this.changeQueueSha)
+          if (res && res.ok) {
+            ret = true
+            this.changeQueueSha = res.sha;
+          }
+          // TODO: error management
+        }
+      }
+      if (ret) {
+        this.selection.items.clear()
+      }
+      return ret
     },
     resetSearch() {
       this.selection.searchPhrase = ''
@@ -348,6 +437,14 @@ createApp({
       } else {
         this.selection.items.add(item)
       }
+    },
+    logMessage(content, level = 'info') {
+      // level: info|primary|success|warning|danger
+      this.messages.push({
+        content: content,
+        level: level,
+        created: new Date()
+      })
     },
     setAddressBarFromSelection() {
       // ?object

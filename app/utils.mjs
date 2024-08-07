@@ -3,8 +3,8 @@
 
 export const IS_BROWSER = (typeof window !== "undefined")
 export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname == 'localhost')
-// const DEBUG_DONT_SAVE = false;
-export const DEBUG_DONT_SAVE = IS_BROWSER;
+export const DEBUG_DONT_SAVE = false;
+// export const DEBUG_DONT_SAVE = IS_BROWSER;
 
 async function mod(exports) {
 
@@ -89,6 +89,11 @@ async function mod(exports) {
       ret = JSON.parse(content)
     }
     return ret
+  }
+
+  exports.writeJsonFile = function(path, content) {
+    content = JSON.stringify(content, null, 2)
+    fs.writeFileSync(path, content)
   }
 
   // --------------------------------------------

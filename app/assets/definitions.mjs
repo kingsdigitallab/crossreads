@@ -320,7 +320,7 @@ createApp({
           description: 'Not saving in DEBUG mode. DEBUG_DONT_SAVE = true.',
         }
       } else {
-        let res = await this.afs.writeJson(definitionsPath, this.definitions, this.definitionsSha)
+        res = await this.afs.writeJson(definitionsPath, this.definitions, this.definitionsSha)
       }
       if (res.ok) {
         this.definitionsSha = res.sha

@@ -36,6 +36,7 @@ createApp({
         // facetName: {sort: key|count, order: asc|desc, size: N}
         facetsSettings: JSON.parse(window.localStorage.getItem('facetsSettings') || '{}'),
         items: new Set(),
+        newTagName: ''
       },
       // instance of AnyFileSystem, to access github resources
       afs: null,
@@ -65,11 +66,11 @@ createApp({
       definitions: {
         tags: {
         }
-      }
+      },
+      availableTags: new AvailableTags(),
     }
   },
   async mounted() {
-    this.availableTags = new AvailableTags()
     await this.availableTags.load()
     for (let tag of this.availableTags.tags) {
       this.definitions.tags[tag] = null
@@ -140,6 +141,9 @@ createApp({
     },
     isUnsaved() {
       return this.selection.items.size && Object.values(this.definitions.tags).filter(t => t !== null).length
+    },
+    tagFormatError() {
+      return this.availableTags.getTagFormatError(this.selection.newTagName, this.availableTags.tags)
     }
   },
   methods: {
@@ -172,6 +176,13 @@ createApp({
       window.addEventListener('resize', this.loadVisibleThumbs);
       window.addEventListener('scroll', this.loadVisibleThumbs);
     },
+    onAddTag() {
+      if (this.tagFormatError) return;
+      let tag = this.availableTags.addTag(this.selection.newTagName);
+      if (!tag) return;
+      this.definitions.tags[this.selection.newTagName] = null
+      this.selection.newTagName = ''
+    },
     onClickTag(tag) {
       let stateTransitions = {true: false, false: null, null: true}
       this.definitions.tags[tag] = stateTransitions[this.definitions.tags[tag]]
@@ -181,6 +192,7 @@ createApp({
       if (res && res.ok) {
         this.changeQueue = res.data
         this.changeQueueSha = res.sha
+        this.changeQueue.changes = this.changeQueue?.changes || []
       } else {
         this.logMessage(`Failed to load change queue from github (${res.description})`, 'error')
       }

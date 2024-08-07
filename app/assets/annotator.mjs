@@ -500,27 +500,7 @@ createApp({
       return this?.afs?.user?.url || ''
     },
     tagFormatError() {
-      let ret = ''
-      let tag = (this?.tag || '').trim()
-      if (tag) {
-        if (!tag.match(/^[a-z0-9.-]+$/)) {
-          ret = 'Please only use digits, lowercase alphabet, - and .'
-        } else {
-          if (!tag.match(/[a-z0-9]$/)) {
-            ret = 'Please end with a digit or letter.'
-          }
-          if (!ret && !tag.match(/^[a-z0-9]/)) {
-            ret = 'Please start with a digit or letter.'
-          }
-          if (!ret && tag.match(/[^a-z0-9]{2}/)) {
-            ret = 'Please surround each . or - with letters or digits.'
-          }
-          if (!ret && (this?.description?.tags || []).includes(tag)) {
-            ret = 'This tag is already applied.'
-          }
-        }
-      }
-      return ret
+      return this.availableTags.getTagFormatError(this?.tag, this?.description?.tags)
     },
     getLastModifiedMessage() {
       let ret = 'No info about last changes'

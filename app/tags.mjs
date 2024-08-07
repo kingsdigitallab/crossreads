@@ -22,9 +22,35 @@ export class AvailableTags {
   }
 
   addTag(tag) {
-    if (this.tags.includes(tag)) return;
+    tag = (tag || '').trim()
+    if (!tag || this.tags.includes(tag)) return;
     this.tags.push(tag)
     this.saveToSession()
+    return tag
+  }
+
+  getTagFormatError(tag, appliedTags=null) {
+    let ret = '';
+    tag = (tag || '').trim()
+    if (tag) {
+      if (!tag.match(/^[a-z0-9.-]+$/)) {
+        ret = 'Please only use digits, lowercase alphabet, - and .'
+      } else {
+        if (!tag.match(/[a-z0-9]$/)) {
+          ret = 'Please end with a digit or letter.'
+        }
+        if (!ret && !tag.match(/^[a-z0-9]/)) {
+          ret = 'Please start with a digit or letter.'
+        }
+        if (!ret && tag.match(/[^a-z0-9]{2}/)) {
+          ret = 'Please surround each . or - with letters or digits.'
+        }
+        if (!ret && (appliedTags || []).includes(tag)) {
+          ret = 'This tag is already applied.'
+        }
+      }
+    }
+    return ret
   }
 
   async load() {

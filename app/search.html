@@ -157,7 +157,7 @@
           </div>
 
           <div class="column is-3 selection">
-            <h2 class="title is-3">Selection ({{ selection.items.size }})
+            <h2 class="title is-3">Bulk edit ({{ selection.items.size }})
               <button @click.prevent.stop="saveChangeQueue()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </h2>
             <h3 class="title is-4">Tags:</h3>
@@ -165,7 +165,22 @@
               <li v-for="state, tag in definitions.tags">
                 <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`"><input type="checkbox" :checked="state === true" :disabled="state === null"> {{ tag }}</label>
               </li>
+              <li>
+                <div class="field has-addons">
+                  <div class="control">
+                    <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="selection.newTagName" @keyup.enter="onAddTag()">
+                  </div>
+                  <div class="control">
+                    <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !(selection.newTagName || '').trim()">Add</button>
+                  </div>
+                </div>
+                <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
+              </li>
             </ul>
+            <p>
+              <br>
+              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">{{ changeQueue?.changes?.length || 'no' }} change(s)</a> pending.
+            </p>
           </div>
         </div>
 

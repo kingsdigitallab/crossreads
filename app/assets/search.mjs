@@ -256,7 +256,7 @@ createApp({
         sortings: {
           or1: {
             field: 'or1',
-            order: 'desc'
+            order: 'asc'
           }
         },
         aggregations: this.getFacetDefinitions(),

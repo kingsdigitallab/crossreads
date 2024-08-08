@@ -22,7 +22,7 @@ class ChangeQueueRunner {
   }
 
   empty() {
-    // utils.writeJsonFile(CHANGE_QUEUE_PATH, {})
+    utils.writeJsonFile(CHANGE_QUEUE_PATH, {})
   }
 
   applyChangeToAnnotationFiles(change) {

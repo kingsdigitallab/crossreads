@@ -3,7 +3,7 @@ name: Build Search Index
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 8,13,18 * * *"
+    - cron: "5 8,13,18 * * *"
 
 jobs:
   index:

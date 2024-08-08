@@ -434,3 +434,9 @@ br[data-tei-n="1"] {
     font-size: 0.8em;
   }
 }
+.annotation-preview .tags span:not(:first-child):before {
+  content: ', ';
+}
+.annotation-preview .tags span {
+  margin-left: 0.1em;
+}

@@ -166,33 +166,21 @@ createApp({
       }
 
       // order field
+      this.annotationIdsToItem = {}
       for (let item of this.index) {
+        // TODO: reduce id in the key
+        this.annotationIdsToItem[item.id] = item
         // reduce item.img
         item.or1 = `${item.img}-${item.scr}-${item.chr}`
         item.docId = this.getDocIdFromItem(item)
       }
 
+      this.applyChangeQueueToIndex()
+
       this.resetItemsjsconfig()
 
       window.addEventListener('resize', this.loadVisibleThumbs);
       window.addEventListener('scroll', this.loadVisibleThumbs);
-    },
-    onMouseEnter(item) {
-      this.hoveredItem = item
-    },
-    onMouseLeave(item) {
-      this.hoveredItem = null
-    },
-    onAddTag() {
-      if (this.tagFormatError) return;
-      let tag = this.availableTags.addTag(this.selection.newTagName);
-      if (!tag) return;
-      this.definitions.tags[this.selection.newTagName] = null
-      this.selection.newTagName = ''
-    },
-    onClickTag(tag) {
-      let stateTransitions = {true: false, false: null, null: true}
-      this.definitions.tags[tag] = stateTransitions[this.definitions.tags[tag]]
     },
     async loadChangeQueue() {
       let res = await this.afs.readJson(CHANGE_QUEUE_PATH)
@@ -202,6 +190,30 @@ createApp({
         this.changeQueue.changes = this.changeQueue?.changes || []
       } else {
         this.logMessage(`Failed to load change queue from github (${res.description})`, 'error')
+      }
+    },
+    applyChangeQueueToIndex() {
+      for (let change of this.changeQueue?.changes) {
+        this.applyChangeToIndex(change)
+      }
+    },
+    applyChangeToIndex(change) {
+      for (let ann of change.annotations) {
+        let item = this.annotationIdsToItem[ann.id]
+        console.log(item)
+        if (item) {
+          // remove code duplication with reun-change-queue.mjs
+          let tagsSet = new Set(item.tag || [])
+          for (let tag of change.tags) {
+            if (tag.startsWith('-')) {
+              tagsSet.delete(tag.substring(1))
+            } else {
+              tagsSet.add(tag)
+              this.availableTags.addTag(tag)
+            }
+          }    
+          item.tag = [...tagsSet]
+        }
       }
     },
     getAnnotationFileNameFromItem(item) {
@@ -245,6 +257,7 @@ createApp({
             ret = true
             this.changeQueueSha = res.sha;
           }
+          this.applyChangeToIndex(change)
           // TODO: error management
         }
       }
@@ -447,9 +460,15 @@ createApp({
         this.search(true)
       }
     },
-    getQueryString() {
-      return utils.getQueryString()
+    // preview
+    onMouseEnterItem(item) {
+      this.hoveredItem = item
     },
+    onMouseLeaveItem(item) {
+      this.hoveredItem = null
+    },
+    // ----------------------
+    // bulk-edit
     onClickItem(item) {
       if (this.selection.items.has(item)) {
         this.selection.items.delete(item)
@@ -457,6 +476,18 @@ createApp({
         this.selection.items.add(item)
       }
     },
+    onAddTag() {
+      if (this.tagFormatError) return;
+      let tag = this.availableTags.addTag(this.selection.newTagName);
+      if (!tag) return;
+      this.definitions.tags[this.selection.newTagName] = null
+      this.selection.newTagName = ''
+    },
+    onClickTag(tag) {
+      let stateTransitions = {true: false, false: null, null: true}
+      this.definitions.tags[tag] = stateTransitions[this.definitions.tags[tag]]
+    },
+    // -----------------------
     logMessage(content, level = 'info') {
       // level: info|primary|success|warning|danger
       this.messages.push({
@@ -464,6 +495,9 @@ createApp({
         level: level,
         created: new Date()
       })
+    },
+    getQueryString() {
+      return utils.getQueryString()
     },
     setAddressBarFromSelection() {
       // ?object

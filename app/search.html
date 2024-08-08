@@ -27,11 +27,11 @@
     <section class="section full-width" id="search">
       <div class="annotation-preview" v-if="hoveredItem">
         <img :src="getThumbUrlFromItem(hoveredItem, 150)" alt="Placeholder image" class="graph-thumb">
-        <p>
+        <h4 class="title is-4">
           {{ hoveredItem.chr }} ({{ hoveredItem.scr }})
-        </p>
-        <p v-if="hoveredItem?.tag">
-          Tags: <span v-for="tag in (hoveredItem?.tag || []).sort()">{{ tag }} </span>
+        </h4>
+        <p v-if="hoveredItem?.tag" class="tags">
+          Tags: <span v-for="tag in (hoveredItem?.tag || []).sort()">{{ tag }}</span>
         </p>
         <ul>
           <li v-for="cxf in (hoveredItem?.cxf || []).sort()">{{ cxf }}</li>
@@ -139,7 +139,7 @@
                     <div class="media-left">
                       <figure class="image">
                         <a :href="getAnnotatorLinkFromItem(item)">
-                          <img :data-src="getThumbUrlFromItem(item)" :src="placeholderThumb(item)" alt="Placeholder image" class="graph-thumb thumb-loading" @mouseenter="onMouseEnter(item)" @mouseleave="onMouseLeave(item)">
+                          <img :data-src="getThumbUrlFromItem(item)" :src="placeholderThumb(item)" alt="Placeholder image" class="graph-thumb thumb-loading" @mouseenter="onMouseEnterItem(item)" @mouseleave="onMouseLeaveItem(item)">
                         </a>
                       </figure>
                     </div>

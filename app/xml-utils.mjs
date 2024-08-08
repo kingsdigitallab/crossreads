@@ -1,10 +1,8 @@
-import { utils } from './utils.mjs';
+import { utils, IS_BROWSER } from './utils.mjs';
 import { SaxonJS } from './saxon-js.mjs';
 
-// true if this code is running in the browser
-const isBrowser = (typeof window !== "undefined");
 let fs = null
-if (!isBrowser) {
+if (!IS_BROWSER) {
   fs = (await import('fs'));
 }
 
@@ -33,7 +31,7 @@ async function mod(exports) {
       }
     }
 
-    if (isBrowser) {
+    if (IS_BROWSER) {
       options.stylesheetLocation = transformJsonPath
     } else {
       options.stylesheetFileName = transformJsonPath
@@ -60,7 +58,7 @@ async function mod(exports) {
 
   async function writeTransformJson(xsltPath, isOuputHtml=false) {
     let ret = xsltPath.replace(/\.xslt?$/, '.sef.json')
-    if (!isBrowser) {
+    if (!IS_BROWSER) {
       if (!fs.existsSync(xsltPath)) {
         throw new Error(`Transform file not found: ${xsltPath}`)
       }
@@ -140,7 +138,7 @@ async function mod(exports) {
     if (xmlString.includes('<')) {
       options.text = xmlString
     } else {
-      if (isBrowser) {
+      if (IS_BROWSER) {
         options.location = xmlString
       } else {
         options.file = xmlString

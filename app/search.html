@@ -45,13 +45,15 @@
 
         <div class="columns search">
           <div class="column is-3 filters">
-            <h2 class="title is-3">Filters</h2>
+            <h2 class="title is-3">Filters 
+              <a href="#" @click.stop.prevent="resetSearch()" class="side-links">(clear)</a>
+            </h2>
             <div class="panel">
               <p class="panel-heading">
                 Keywords (tag, inscription ID)
               </p>
               <div class="panel-block search-phrase">
-                <input type="text" v-model="selection.searchPhrase" class="input">
+                <input type="search" v-model="selection.searchPhrase" class="input">
               </div>
 
               <template v-for="(facet, facetKey) in facets">
@@ -87,7 +89,7 @@
               </template>
             </div>
           </div>
-          <div class="column is-9 results">
+          <div class="column is-6 results">
             <h2 class="title is-3">Annotations ({{ pagination.total }})</h2>
             <div class="results-controls">
 
@@ -117,7 +119,7 @@
               <a href="#" @click.stop.prevent="onClickPagination(1)" class="button">Next</a> -->
             </div>
             <div class="items">
-              <span v-for="item in items" class="card item">
+              <span v-for="item in items" :class="{card: 1, item: 1, selected: this.selection.items.has(item)}" @click="onClickItem(item)">
 
                 <div class="card-content">
 
@@ -152,6 +154,33 @@
                 </p>
               </nav>
             </div>
+          </div>
+
+          <div class="column is-3 selection">
+            <h2 class="title is-3">Bulk edit ({{ selection.items.size }})
+              <button @click.prevent.stop="saveChangeQueue()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
+            </h2>
+            <h3 class="title is-4">Tags:</h3>
+            <ul>
+              <li v-for="state, tag in definitions.tags">
+                <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`"><input type="checkbox" :checked="state === true" :disabled="state === null"> {{ tag }}</label>
+              </li>
+              <li>
+                <div class="field has-addons">
+                  <div class="control">
+                    <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="selection.newTagName" @keyup.enter="onAddTag()">
+                  </div>
+                  <div class="control">
+                    <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !(selection.newTagName || '').trim()">Add</button>
+                  </div>
+                </div>
+                <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
+              </li>
+            </ul>
+            <p>
+              <br>
+              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">{{ changeQueue?.changes?.length || 'no' }} change(s)</a> pending.
+            </p>
           </div>
         </div>
 

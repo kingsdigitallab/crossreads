@@ -1,16 +1,11 @@
+import { IS_BROWSER } from './utils.mjs'
 import { xmlUtils } from './xml-utils.mjs'
 
 async function mod(exports) {
 
-  // true if this code is running in the browser
-  const isBrowser = (typeof window !== "undefined");
-  // const SaxonJS = isBrowser ? window.SaxonJS : require('saxon-js');
-  // const fs = isBrowser ? null : require('fs');
-  // const xmlUtils = isBrowser ? window.xmlUtils : require("./xml-utils");
-
   let TEI2HTML_XSLT = 'data/tei2html.xslt'
   let HTML2HTML_XSLT = 'data/html2html.xslt'
-  if (!isBrowser) {
+  if (!IS_BROWSER) {
     TEI2HTML_XSLT = `../app/${TEI2HTML_XSLT}`
     HTML2HTML_XSLT = `../app/${HTML2HTML_XSLT}`
   }

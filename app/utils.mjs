@@ -1,13 +1,15 @@
 // This module can be imported from the browser or nodejs
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
+export const IS_BROWSER = (typeof window !== "undefined")
+export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname == 'localhost')
+export const DEBUG_DONT_SAVE = false;
+// export const DEBUG_DONT_SAVE = IS_BROWSER;
+
 async function mod(exports) {
 
-  // true if this code is running in the browser
-  const isBrowser = (typeof window !== "undefined")
-
   let fs = null
-  if (!isBrowser) {
+  if (!IS_BROWSER) {
     fs = (await import('fs'));
   }
 
@@ -89,9 +91,14 @@ async function mod(exports) {
     return ret
   }
 
+  exports.writeJsonFile = function(path, content) {
+    content = JSON.stringify(content, null, 2)
+    fs.writeFileSync(path, content)
+  }
+
   // --------------------------------------------
 
-  if (isBrowser) {
+  if (IS_BROWSER) {
     window.addEventListener("resize", initFillHeightElements);
     document.addEventListener("scroll", initFillHeightElements);
     window.addEventListener("load", (event) => {
@@ -102,5 +109,3 @@ async function mod(exports) {
 
 export let utils = {}
 await mod(utils)
-
-//})(typeof exports === "undefined" ? (this["utils"] = {}) : exports);

@@ -2,7 +2,7 @@
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
 import { Octokit } from 'octokit';
-import { utils } from './utils.mjs';
+import { utils } from "./utils.mjs";
 
 const isBrowser = (typeof window !== "undefined")
 
@@ -18,7 +18,7 @@ export class AnyFileSystem {
   Advantages:
   * similar protocol across medium (e.g. return values, error codes)
   * allows to move data from one system to another with minimal code change (e.g. archival, testing)
-  * same data can be accessed from dame code running in nodejs or browser
+  * same data can be accessed from same code running in nodejs or browser
 
   author: geoffroy-noel-ddh
   */
@@ -42,6 +42,10 @@ export class AnyFileSystem {
       label: 'missing',
       description: 'Token missing'
     }
+  }
+
+  getUserId() {
+    return this.user?.url || ''
   }
 
   isAuthenticated() {

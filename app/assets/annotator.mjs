@@ -27,15 +27,14 @@ TODO:
 
 */
 
-import { utils } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE } from "../utils.mjs";
 import { xmlUtils } from "../xml-utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { crossreadsXML } from "../crossreads-xml.mjs";
 
 import { createApp, nextTick } from "vue";
 import { createVuetify } from "../node_modules/vuetify/dist/vuetify.esm.js";
-// TODO: remove direct access to octokit from this module
-// import { Octokit } from "octokit";
+import { AvailableTags } from "../tags.mjs";
 
 let vuetify = createVuetify()
 
@@ -65,10 +64,6 @@ const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
 
-// const collectionPath = './data/dts/api/collections.json'
-// const DEBUG_DONT_SAVE = true;
-const DEBUG_DONT_SAVE = false;
-
 let isButtonPressed = false
 function logButtons(e) {
   isButtonPressed = e.buttons == 1
@@ -84,33 +79,6 @@ function deepCopy(v) {
   return JSON.parse(JSON.stringify(v))
   // => Uncaught DOMException: Proxy object could not be cloned.
   // return structuredClone(v)
-}
-
-class AvailableTags {
-
-  constructor() {
-    this.tags = []
-  }
-
-  addTag(tag) {
-    if (this.tags.includes(tag)) return;
-    this.tags.push(tag)
-    this.saveToSession()
-  }
-
-  load() {
-    // TODO: load from github
-    // if copy in session is more recent, use that instead
-  }
-
-  loadFromSession() {
-    this.tags = JSON.parse(window.localStorage.getItem('AvailableTags.tags') || '[]')
-  }
-
-  saveToSession() {
-    window.localStorage.setItem('AvailableTags.tags', JSON.stringify(this.tags))
-  }
-
 }
 
 // TODO: move this into Vue?
@@ -282,7 +250,7 @@ createApp({
   },
   async mounted() {
     this.availableTags = new AvailableTags()
-    this.availableTags.loadFromSession()
+    await this.availableTags.load()
     this.tags = this.availableTags.tags
 
     // TODO: chain load (from objects, to image, ...) 
@@ -532,27 +500,7 @@ createApp({
       return this?.afs?.user?.url || ''
     },
     tagFormatError() {
-      let ret = ''
-      let tag = (this?.tag || '').trim()
-      if (tag) {
-        if (!tag.match(/^[a-z0-9.-]+$/)) {
-          ret = 'Please only use digits, lowercase alphabet, - and .'
-        } else {
-          if (!tag.match(/[a-z0-9]$/)) {
-            ret = 'Please end with a digit or letter.'
-          }
-          if (!ret && !tag.match(/^[a-z0-9]/)) {
-            ret = 'Please start with a digit or letter.'
-          }
-          if (!ret && tag.match(/[^a-z0-9]{2}/)) {
-            ret = 'Please surround each . or - with letters or digits.'
-          }
-          if (!ret && (this?.description?.tags || []).includes(tag)) {
-            ret = 'This tag is already applied.'
-          }
-        }
-      }
-      return ret
+      return this.availableTags.getTagFormatError(this?.tag, this?.description?.tags)
     },
     getLastModifiedMessage() {
       let ret = 'No info about last changes'

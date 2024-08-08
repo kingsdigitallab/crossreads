@@ -5,9 +5,10 @@ TODO:
 . remove all hard-coded values
 */
 
-import { utils } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "../utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
+import { AvailableTags } from "../tags.mjs";
 
 // const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
@@ -15,34 +16,7 @@ const ITEMS_PER_PAGE = 24
 const OPTIONS_PER_FACET = 15
 const OPTIONS_PER_FACET_EXPANDED = 100
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
-const IS_LOCAL = window.location.hostname == 'localhost'
-
-class AvailableTags {
-
-  constructor() {
-    this.tags = []
-  }
-
-  addTag(tag) {
-    if (this.tags.includes(tag)) return;
-    this.tags.push(tag)
-    this.saveToSession()
-  }
-
-  load() {
-    // TODO: load from github
-    // if copy in session is more recent, use that instead
-  }
-
-  loadFromSession() {
-    this.tags = JSON.parse(window.localStorage.getItem('AvailableTags.tags') || '[]')
-  }
-
-  saveToSession() {
-    window.localStorage.setItem('AvailableTags.tags', JSON.stringify(this.tags))
-  }
-
-}
+const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
 
 createApp({
   data() {
@@ -53,15 +27,26 @@ createApp({
         gtoken: window.localStorage.getItem('gtoken') || '',
         // TODO: remove partial duplication with /annotation
         annotationId: '',
-        object: null,
-        image: null,
+        object: null, // ?
+        image: null, // ?
         searchPhrase: '',
         facets: {},
         page: 1,
         perPage: ITEMS_PER_PAGE,
         // facetName: {sort: key|count, order: asc|desc, size: N}
         facetsSettings: JSON.parse(window.localStorage.getItem('facetsSettings') || '{}'),
+        items: new Set(),
+        newTagName: ''
       },
+      // instance of AnyFileSystem, to access github resources
+      afs: null,
+      changeQueue: {
+        changes: [],
+      },
+      // the github sha of the annotations file.
+      // needed for writing it and detecting conflicts.
+      changeQueueSha: null,
+      // ---
       options: {
         perPage: [12, 24, 50, 100]
       },
@@ -77,21 +62,27 @@ createApp({
       ],
       cache: {
       },
-      user: null
+      user: null,
+      definitions: {
+        tags: {
+        }
+      },
+      availableTags: new AvailableTags(),
     }
   },
   async mounted() {
-    this.availableTags = new AvailableTags()
-    this.availableTags.loadFromSession()
-    this.tags = this.availableTags.tags
+    await this.availableTags.load()
+    for (let tag of this.availableTags.tags) {
+      this.definitions.tags[tag] = null
+    }
 
+    await this.initAnyFileSystem()
+    
+    await this.loadChangeQueue()
     await this.loadIndex()
+
     this.setSelectionFromAddressBar()
     this.search(true)
-
-    // await this.initOctokit()
-
-    // loadOpenSeaDragon(this)
   },
   watch: {
     'selection.searchPhrase'() {
@@ -141,18 +132,34 @@ createApp({
         ret = Math.ceil(pagination.total / pagination.per_page)
       }
       return ret
+    },
+    canEdit() {
+      return this.isLoggedIn
+    },
+    isLoggedIn() {
+      return this.afs?.isAuthenticated()
+    },
+    isUnsaved() {
+      return this.selection.items.size && Object.values(this.definitions.tags).filter(t => t !== null).length
+    },
+    tagFormatError() {
+      return this.availableTags.getTagFormatError(this.selection.newTagName, this.availableTags.tags)
     }
   },
   methods: {
+    async initAnyFileSystem() {
+      this.afs = new AnyFileSystem()
+      await this.afs.authenticateToGithub(this.selection.gtoken)
+    },
     async loadIndex() {
       // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
 
-      if (IS_LOCAL) {
+      if (IS_BROWSER_LOCAL) {
         this.index = await utils.fetchJsonFile('index.json')
       } else {
-        let afs = new AnyFileSystem()
-        let res = await afs.readJson(INDEX_PATH)
+        // TODO: error management
+        let res = await this.afs.readJson(INDEX_PATH)
         // let res = await utils.readGithubJsonFile(INDEX_PATH)
         this.index = res.data
       }
@@ -169,12 +176,87 @@ createApp({
       window.addEventListener('resize', this.loadVisibleThumbs);
       window.addEventListener('scroll', this.loadVisibleThumbs);
     },
+    onAddTag() {
+      if (this.tagFormatError) return;
+      let tag = this.availableTags.addTag(this.selection.newTagName);
+      if (!tag) return;
+      this.definitions.tags[this.selection.newTagName] = null
+      this.selection.newTagName = ''
+    },
+    onClickTag(tag) {
+      let stateTransitions = {true: false, false: null, null: true}
+      this.definitions.tags[tag] = stateTransitions[this.definitions.tags[tag]]
+    },
+    async loadChangeQueue() {
+      let res = await this.afs.readJson(CHANGE_QUEUE_PATH)
+      if (res && res.ok) {
+        this.changeQueue = res.data
+        this.changeQueueSha = res.sha
+        this.changeQueue.changes = this.changeQueue?.changes || []
+      } else {
+        this.logMessage(`Failed to load change queue from github (${res.description})`, 'error')
+      }
+    },
+    getAnnotationFileNameFromItem(item) {
+      // TODO: filename should be in the search index 
+      // instead of hardcoding the reconstruction here.
+      // But that would inflate its size.
+      //
+      // returns:
+      // 'http-sicily-classics-ox-ac-uk-inscription-isic020930-isic020930-jpg.json'
+      // from: 
+      // item.doc = 'http://sicily.classics.ox.ac.uk/inscription/ISic000085.xml'
+      // item.img = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000085/ISic000085_tiled.tif'
+
+      let ret = ''
+
+      ret = item.doc.replace('.xml', '')
+      ret += item.img.replace(/^.*(\/[^/]+)_tiled\.tif$/, '$1.jpg')
+      ret = utils.slugify(ret)
+      ret += '.json'
+
+      return ret
+    },
+    async saveChangeQueue() {
+      let ret = false
+      if (DEBUG_DONT_SAVE) {
+        console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
+        ret = true
+      } else {
+        if (this.isUnsaved) {
+          let change = {
+            // annotationIds: [...this.selection.items].map(item => item.id),
+            annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
+            // e.g. tags: ['tag1', -tag3', 'tag10']
+            tags: Object.entries(this.definitions.tags).filter(kv => kv[1] !== null).map(kv => (kv[1] === false ? '-' : '') + kv[0]),
+            creator: this.afs.getUserId(),
+            created: new Date().toISOString(),
+          }
+          this.changeQueue.changes.push(change)
+          let res = await this.afs.writeJson(CHANGE_QUEUE_PATH, this.changeQueue, this.changeQueueSha)
+          if (res && res.ok) {
+            ret = true
+            this.changeQueueSha = res.sha;
+          }
+          // TODO: error management
+        }
+      }
+      if (ret) {
+        this.selection.items.clear()
+      }
+      return ret
+    },
+    resetSearch() {
+      this.selection.searchPhrase = ''
+      this.selection.facets = {}
+      this.search()
+    },
     resetItemsjsconfig() {
       let config = {
         sortings: {
           or1: {
             field: 'or1',
-            order: 'desc'
+            order: 'asc'
           }
         },
         aggregations: this.getFacetDefinitions(),
@@ -361,6 +443,21 @@ createApp({
     getQueryString() {
       return utils.getQueryString()
     },
+    onClickItem(item) {
+      if (this.selection.items.has(item)) {
+        this.selection.items.delete(item)
+      } else {
+        this.selection.items.add(item)
+      }
+    },
+    logMessage(content, level = 'info') {
+      // level: info|primary|success|warning|danger
+      this.messages.push({
+        content: content,
+        level: level,
+        created: new Date()
+      })
+    },
     setAddressBarFromSelection() {
       // ?object
       // let searchParams = new URLSearchParams(window.location.search)
@@ -391,6 +488,9 @@ createApp({
       // this.description.script = searchParams.get('scr') || ''
 
       this.selection.searchPhrase = searchParams.get('q') || ''
+      if (!this.selection.searchPhrase && this.selection.image) {
+        this.selection.searchPhrase = this.selection.image.replace(/\.[^.]+$/, '')
+      }
       this.selection.page = parseInt(searchParams.get('pag') || '1')
       this.selection.perPage = parseInt(searchParams.get('ppg') || ITEMS_PER_PAGE)
 

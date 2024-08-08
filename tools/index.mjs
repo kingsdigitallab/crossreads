@@ -185,6 +185,7 @@ class AnnotationIndex {
     this.initStats()
 
     for (let filename of fs.readdirSync(annotations_path).sort()) {
+      if (filename === 'change-queue.json') continue;
       let filePath = path.join(annotations_path, filename);
       if (filePath.endsWith('.json') && !fs.lstatSync(filePath).isDirectory()) {
         this.testAnnotationsFile(filePath)

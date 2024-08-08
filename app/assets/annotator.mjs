@@ -204,8 +204,6 @@ createApp({
       },
       // tag the user is typing
       tag: '',
-      // all available tags (for auto-complete)
-      tags: ['tag-1', 'tag-2', 'type-1', 'type-3'],
       annotation: null,
       // annotationsSha: null,
       cache: {
@@ -246,12 +244,12 @@ createApp({
       // last time the annotations were loaded.
       modified: null,
       modifiedBy: null,
+      //
+      availableTags: new AvailableTags(),
     }
   },
   async mounted() {
-    this.availableTags = new AvailableTags()
     await this.availableTags.load()
-    this.tags = this.availableTags.tags
 
     // TODO: chain load (from objects, to image, ...) 
     // instead of loading all here.in parallel

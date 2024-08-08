@@ -68,6 +68,7 @@ createApp({
         }
       },
       availableTags: new AvailableTags(),
+      hoveredItem: null,
     }
   },
   async mounted() {
@@ -175,6 +176,12 @@ createApp({
 
       window.addEventListener('resize', this.loadVisibleThumbs);
       window.addEventListener('scroll', this.loadVisibleThumbs);
+    },
+    onMouseEnter(item) {
+      this.hoveredItem = item
+    },
+    onMouseLeave(item) {
+      this.hoveredItem = null
     },
     onAddTag() {
       if (this.tagFormatError) return;
@@ -376,10 +383,10 @@ createApp({
         }
       }
     },
-    getThumbUrlFromItem(item) {
+    getThumbUrlFromItem(item, height=48) {
       let ret = null
       let crop = item.box.substring(11)
-      ret = `${item.img}/${crop}/,48/0/default.jpg`
+      ret = `${item.img}/${crop}/,${height}/0/default.jpg`
 
       return ret
     },

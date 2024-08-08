@@ -419,3 +419,18 @@ br[data-tei-n="1"] {
   font-weight: bold;
   text-decoration: line-through;
 }
+
+.annotation-preview {
+  position: fixed;
+  z-index: 100;
+  background-color: white;
+  border: 1px solid grey;
+  padding: 0.5em;
+  margin: 0.5em;
+  box-shadow: 4px 4px 10px;
+}
+.annotation-preview {
+  li {
+    font-size: 0.8em;
+  }
+}

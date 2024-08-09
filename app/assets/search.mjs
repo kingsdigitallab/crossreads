@@ -73,14 +73,16 @@ createApp({
   },
   async mounted() {
     await this.availableTags.load()
-    for (let tag of this.availableTags.tags) {
-      this.definitions.tags[tag] = null
-    }
 
     await this.initAnyFileSystem()
     
     await this.loadChangeQueue()
     await this.loadIndex()
+
+    // not before
+    for (let tag of this.availableTags.tags) {
+      this.definitions.tags[tag] = null
+    }
 
     this.setSelectionFromAddressBar()
     this.search(true)
@@ -200,7 +202,6 @@ createApp({
     applyChangeToIndex(change) {
       for (let ann of change.annotations) {
         let item = this.annotationIdsToItem[ann.id]
-        console.log(item)
         if (item) {
           // remove code duplication with reun-change-queue.mjs
           let tagsSet = new Set(item.tag || [])

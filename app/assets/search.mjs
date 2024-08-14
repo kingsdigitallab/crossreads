@@ -158,13 +158,17 @@ createApp({
       // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
 
-      if (IS_BROWSER_LOCAL) {
+      if (0 && IS_BROWSER_LOCAL) {
         this.index = await utils.fetchJsonFile('index.json')
       } else {
-        // TODO: error management
         let res = await this.afs.readJson(INDEX_PATH)
+        if (res.ok) {
+          this.index = res.data
+        } else {
+          this.index = []
+          this.logMessage(`Failed to load search index from github (${res.description})`, 'error')
+        }
         // let res = await utils.readGithubJsonFile(INDEX_PATH)
-        this.index = res.data
       }
 
       // order field
@@ -397,10 +401,17 @@ createApp({
         }
       }
     },
+    getThumbUrlFromTag(tag, height=40) {
+      let item = null
+
+      return this.getThumbUrlFromItem(item, height=height)
+    },
     getThumbUrlFromItem(item, height=48) {
-      let ret = null
-      let crop = item.box.substring(11)
-      ret = `${item.img}/${crop}/,${height}/0/default.jpg`
+      let ret = ''
+      if (item) {
+        let crop = item.box.substring(11)
+        ret = `${item.img}/${crop}/,${height}/0/default.jpg`
+      }
 
       return ret
     },

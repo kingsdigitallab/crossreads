@@ -173,9 +173,10 @@
               <button @click.prevent.stop="saveChangeQueue()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </h2>
             <h3 class="title is-4">Tags:</h3>
-            <ul>
+            <ul class="tags-selector">
               <li v-for="state, tag in definitions.tags">
                 <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`"><input type="checkbox" :checked="state === true" :disabled="state === null"> {{ tag }}</label>
+                <img :src="getThumbUrlFromTag(tag, 40)" alt="annotation thumbnail" class="graph-thumb" v-if="getThumbUrlFromTag(tag, 40)">
               </li>
               <li>
                 <div class="field has-addons">

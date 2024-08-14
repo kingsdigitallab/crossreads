@@ -193,7 +193,11 @@ async function readGithubJsonFile(filePath, octokit) {
     label: 'Error',
     description: 'Unknown error',
   };
+  
   let res = null;
+
+  let download = true;
+
   if (octokit) {
     let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
     try {
@@ -203,15 +207,21 @@ async function readGithubJsonFile(filePath, octokit) {
         },
       });
       ret.sha = res.data.sha;
-      ret.data = JSON.parse(base64Decode(res.data.content))
+      if (res.data.encoding === 'base64') {
+        ret.data = JSON.parse(base64Decode(res.data.content))
+        download = false
+      }
     } catch (err) {
+      download = false;
       ret.description = err?.message
       // TODO: populate label
       // if (err?.message != 'Not Found') {
       //   console.log(err);
       // }
     }
-  } else {
+  } 
+  
+  if (download) {
     const USE_RAW_FOR_GIT_ANONYMOUS = true
     let getUrl = null
     if (USE_RAW_FOR_GIT_ANONYMOUS) {

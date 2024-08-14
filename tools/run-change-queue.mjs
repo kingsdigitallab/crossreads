@@ -41,7 +41,8 @@ class ChangeQueueRunner {
 
   applyChangeToAnnotation(change, annotation) {
     if (change.tags) {
-      let tagsSet = new Set(annotation.tags || [])
+      let annotationValue = annotation.body[0].value
+      let tagsSet = new Set(annotationValue.tags || [])
       for (let tag of change.tags) {
         if (tag.startsWith('-')) {
           tagsSet.delete(tag.substring(1))
@@ -50,9 +51,9 @@ class ChangeQueueRunner {
         }
       }
       if (tagsSet.size) {
-        annotation.tags = [...tagsSet]
+        annotationValue.tags = [...tagsSet]
       } else {
-        delete annotation.tags
+        delete annotationValue.tags
       }
     }
     annotation.modifiedBy = change.creator

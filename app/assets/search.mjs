@@ -158,7 +158,7 @@ createApp({
       // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
 
-      if (0 && IS_BROWSER_LOCAL) {
+      if (IS_BROWSER_LOCAL) {  
         this.index = await utils.fetchJsonFile('index.json')
       } else {
         let res = await this.afs.readJson(INDEX_PATH)

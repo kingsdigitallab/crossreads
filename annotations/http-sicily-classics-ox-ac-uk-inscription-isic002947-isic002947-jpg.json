@@ -1363,8 +1363,7 @@
           "script": "greek-1",
           "components": null,
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "character": "Τ"
         }
       }
     ],
@@ -1376,12 +1375,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:877.0520629882812,2951.88330078125,66.3636474609375,83.636474609375"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic002947.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CτΤMU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/27a8a9d5-0584-427a-b245-7f2d0771f4b7",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-09-11T20:41:22.589Z"
+    "created": "2024-09-11T20:41:22.589Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-09-11T20:41:24.428Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

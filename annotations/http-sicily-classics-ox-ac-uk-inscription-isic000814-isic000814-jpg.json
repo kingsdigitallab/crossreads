@@ -354,7 +354,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ω"
         }
@@ -387,6 +393,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-11T11:46:02.023Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-11T11:46:04.436Z"
+    "modified": "2024-09-11T11:46:10.612Z"
   }
 ]

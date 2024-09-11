@@ -857,8 +857,16 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
-          "tags": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline"
+              ]
+            }
+          },
+          "tags": [
+            "serif.hairline"
+          ],
           "character": "Τ"
         }
       }
@@ -890,7 +898,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-11T21:49:20.089Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-11T21:49:22.490Z"
+    "modified": "2024-09-11T21:56:07.344Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1854,7 +1862,10 @@
             },
             "top-bar": {
               "features": [
-                "horizontal"
+                "horizontal",
+                "serif",
+                "straight",
+                "touching"
               ]
             }
           },
@@ -1892,7 +1903,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-11T21:49:12.268Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-11T21:55:56.026Z"
+    "modified": "2024-09-11T21:55:58.625Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

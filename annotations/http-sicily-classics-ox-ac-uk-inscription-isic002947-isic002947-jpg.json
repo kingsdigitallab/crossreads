@@ -549,10 +549,9 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "Θ"
         }
       }
     ],
@@ -564,6 +563,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:596.644775390625,900.7516479492188,62.72723388671875,60.90911865234375"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic002947.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CτΤCε']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/6fe867c0-5ed2-40e6-852a-a620f38f4b4b",
@@ -571,7 +582,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-11T20:05:59.278Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-11T20:06:00.341Z"
+    "modified": "2024-09-11T20:06:03.074Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

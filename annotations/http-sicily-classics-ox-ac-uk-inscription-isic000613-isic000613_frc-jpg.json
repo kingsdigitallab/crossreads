@@ -399,10 +399,16 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular",
+                "rhomboid"
+              ]
+            }
+          },
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "character": "Ο"
         }
       }
     ],
@@ -414,12 +420,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:225.65951538085938,577.6732788085938,75.60379028320312,75.603759765625"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000613.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AΚeFe']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 8,
+            "end": 9
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/cdfce8be-d776-4ea3-ad53-486cdd9347de",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-09-16T12:12:22.576Z"
+    "created": "2024-09-16T12:12:22.576Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-09-16T12:12:25.261Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -452,9 +472,9 @@
               "features": [
                 "descending",
                 "diagonal",
-                "on-baseline",
                 "straight",
-                "touching"
+                "touching",
+                "above-baseline"
               ]
             }
           },
@@ -490,6 +510,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-16T12:11:46.328Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-16T12:12:16.491Z"
+    "modified": "2024-09-16T12:12:30.504Z"
   }
 ]

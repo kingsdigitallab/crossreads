@@ -1217,7 +1217,14 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            }
+          },
           "tags": null,
           "character": "Α"
         }
@@ -1229,7 +1236,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:991.56396484375,1252.2347412109375,139.9229736328125,123.7779541015625"
+          "value": "xywh=pixel:991.56396484375,1252.2347412109375,143.351806640625,126.9239501953125"
         }
       },
       {
@@ -1250,7 +1257,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-17T13:36:47.679Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-17T13:36:58.229Z"
+    "modified": "2024-09-17T13:37:27.569Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

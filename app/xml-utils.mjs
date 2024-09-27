@@ -12,12 +12,12 @@ async function mod(exports) {
     return xmlString.replace(/\s*xmlns(:\w+)?="[^"]*"/g, "")
   }
 
-  exports.xslt = async function(xml, xsltPath, isOuputHtml=false) {
+  exports.xslt = async function(xml, xsltPath) {
     let ret = null
 
     if (!xml) return ret;
 
-    let transformJsonPath = await writeTransformJson(xsltPath, isOuputHtml)
+    let transformJsonPath = await writeTransformJson(xsltPath)
 
     // https://www.saxonica.com/saxon-js/documentation2/index.html#!api/transform
 
@@ -26,7 +26,8 @@ async function mod(exports) {
       // destination: "serialized",
       destination: "document",
       outputProperties: {
-        method: isOuputHtml ? 'html' : 'xml',
+        // method: isOuputHtml ? 'html' : 'xml',
+        method: 'xml',
         indent: true,
       }
     }
@@ -48,15 +49,10 @@ async function mod(exports) {
 
     ret = output.principalResult;
 
-    // if (isOuputHtml) {
-    //   // remove all namespaces
-    //   ret = ret.replace(/\s*xmlns(:\w+)?="[^"]*"/g, "");
-    // }
-
     return ret
   }
 
-  async function writeTransformJson(xsltPath, isOuputHtml=false) {
+  async function writeTransformJson(xsltPath) {
     let ret = xsltPath.replace(/\.xslt?$/, '.sef.json')
     if (!IS_BROWSER) {
       if (!fs.existsSync(xsltPath)) {
@@ -117,7 +113,7 @@ async function mod(exports) {
 
   exports.toString = function(xml, keepNamespaces=false) {
     let ret = SaxonJS.serialize(xml, {
-      method: 'xml',
+      method: 'html',
       indent: true,
       "omit-xml-declaration": true
     })

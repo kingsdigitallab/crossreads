@@ -44,6 +44,7 @@ class TestWords {
 
       let filePath = path.join(TEI_FOLDER, filename);
       if (filePath.endsWith('.xml') && !fs.lstatSync(filePath).isDirectory()) {
+        // if (!filePath.includes('ISic000827')) continue;
         total += 1
         errors += await this.testTEI(filePath) ? 0 : 1
         // let res = await this.getPlainText(filePath)
@@ -75,86 +76,89 @@ class TestWords {
 
     let res = await this.getHtmlFromTei(content)
 
-    if (!res) {
-      this.fail(filePath, 'Edition not found')
-    } else {
-      // 1. data-idx can only increase by 1 or reset to 0
+    if (1) {
 
-      let message = ''
+      if (!res) {
+        this.fail(filePath, 'Edition not found')
+      } else {
+        // 1. data-idx can only increase by 1 or reset to 0
 
-      message = '@data-idx should increase by 1'
-      let nodes = xmlUtils.xpath(res, '//*[@data-idx]')
-      let idxLast = 0
-      for (let node of nodes) {
-        let idx = parseInt(node.getAttribute('data-idx'))
-        if (idx !== 0 && idx != idxLast + 1) {
-          ret = this.fail(filePath, message, `${idxLast+1}`, `${idx}`, xmlUtils.toString(node))
-        }
-        idxLast = idx
-      }
+        let message = ''
 
-      if (filePath.includes('-1408') || filePath.includes('-00001.')) {
-        // xmlUtils.xpath(res, "//*[(contains(@class, 'is-word') or (@data-tei='g')) and normalize-space(string-join(.//text(), '')) = '']")
-        console.log(xmlUtils.toString(res))
-      }
-
-      if (1) {
-        message = 'empty word / <g>'
-        // some are normal: <g ref="#cross_latin"/>
-        // others aren't, they are removed with diacritics in JS (see crossreads-xml.js)
-        // <g ref="#interpunct">·</g> 
-        for (let node of xmlUtils.xpath(res, "//*[(contains(@class, 'is-word') or (@data-tei='g')) and normalize-space(string-join(.//text(), '')) = '']")) {
-          ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
-        }        
-      }
-
-      if (1) {
-        message = 'space within a word'
-        // nodes = xmlUtils.xpath(res, "//*[contains(@class, 'tei-w') and //text() = ' ']")
-        for (let word of xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]")) {
-          nodes = xmlUtils.xpath(word, ".//text()")
-          let text = nodes.reduce((ac, v) => ac + (xmlUtils.toString(v) || ' '), '')
-          text = text.trim()
-          if (text.match(/^.*\s.*$/)) {
-            ret = this.fail(filePath, message, '', '', `"${text}"`)
-          }  
-        }
-      }
-
-      if (1) {
-        message = 'word without id'
-        nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word') and not(@data-tei-id)]")
+        message = '@data-idx should increase by 1'
+        let nodes = xmlUtils.xpath(res, '//*[@data-idx]')
+        let idxLast = 0
         for (let node of nodes) {
-          ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
-        }    
-      }
-
-      if (1) {
-        message = 'nested word'
-        nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]//*[contains(@class, 'is-word')]")
-        for (let node of nodes) {
-          ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+          let idx = parseInt(node.getAttribute('data-idx'))
+          if (idx !== 0 && idx != idxLast + 1) {
+            ret = this.fail(filePath, message, `${idxLast+1}`, `${idx}`, xmlUtils.toString(node))
+          }
+          idxLast = idx
         }
-      }
 
-      if (1) {
-        message = 'characters outside .is-word'
-        nodes = xmlUtils.xpath(res, "//text()")
-        for (let node of nodes) {
-          // console.log(xmlUtils.toString(node)+']')
-          if (xmlUtils.toString(node).trim() 
-            && !xmlUtils.xpath(node, "ancestor::*[contains(@class, 'is-word')]").length 
-            && !xmlUtils.xpath(node, "ancestor::*[contains(@class, 'line-number')]").length) {
+        if (filePath.includes('-1408') || filePath.includes('-00001.')) {
+          // xmlUtils.xpath(res, "//*[(contains(@class, 'is-word') or (@data-tei='g')) and normalize-space(string-join(.//text(), '')) = '']")
+          console.log(xmlUtils.toString(res))
+        }
+
+        if (1) {
+          message = 'empty word / <g>'
+          // some are normal: <g ref="#cross_latin"/>
+          // others aren't, they are removed with diacritics in JS (see crossreads-xml.js)
+          // <g ref="#interpunct">·</g> 
+          for (let node of xmlUtils.xpath(res, "//*[(contains(@class, 'is-word') or (@data-tei='g')) and normalize-space(string-join(.//text(), '')) = '']")) {
+            ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+          }        
+        }
+
+        if (1) {
+          message = 'space within a word'
+          // nodes = xmlUtils.xpath(res, "//*[contains(@class, 'tei-w') and //text() = ' ']")
+          for (let word of xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]")) {
+            nodes = xmlUtils.xpath(word, ".//text()")
+            let text = nodes.reduce((ac, v) => ac + (xmlUtils.toString(v) || ' '), '')
+            text = text.trim()
+            if (text.match(/^.*\s.*$/)) {
+              ret = this.fail(filePath, message, '', '', `"${text}"`)
+            }  
+          }
+        }
+
+        if (1) {
+          message = 'word without id'
+          nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word') and not(@data-tei-id)]")
+          for (let node of nodes) {
+            ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+          }    
+        }
+
+        if (1) {
+          message = 'nested word'
+          nodes = xmlUtils.xpath(res, "//*[contains(@class, 'is-word')]//*[contains(@class, 'is-word')]")
+          for (let node of nodes) {
             ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
           }
         }
-      }
-    }
 
-    if (!ret) {
-      console.log(xmlUtils.toString(res))
-      console.log(filePath)
-      console.log('========================================')
+        if (1) {
+          message = 'characters outside .is-word'
+          nodes = xmlUtils.xpath(res, "//text()")
+          for (let node of nodes) {
+            // console.log(xmlUtils.toString(node)+']')
+            if (xmlUtils.toString(node).trim() 
+              && !xmlUtils.xpath(node, "ancestor::*[contains(@class, 'is-word')]").length 
+              && !xmlUtils.xpath(node, "ancestor::*[contains(@class, 'line-number')]").length) {
+              ret = this.fail(filePath, message, '', '', xmlUtils.toString(node))
+            }
+          }
+        }
+      }
+
+      if (!ret) {
+        console.log(xmlUtils.toString(res))
+        console.log(filePath)
+        console.log('========================================')
+      }
     }
 
     return ret

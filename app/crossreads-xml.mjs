@@ -31,10 +31,11 @@ async function mod(exports) {
     // TODO: try to do it with XSLT? (too fiddly)
     xmlString = xmlString.replace(/\s*(<lb[^>]+break="no"[^>]*>)\s*/g, '$1')
 
-    let ret = await xmlUtils.xslt(xmlString, TEI2HTML_XSLT, true)
+    let ret = await xmlUtils.xslt(xmlString, TEI2HTML_XSLT)
 
     // assign the @data-idx sequentially relative to each .is-word
-    ret = await xmlUtils.xslt(ret, HTML2HTML_XSLT, true)
+    ret = await xmlUtils.xslt(ret, HTML2HTML_XSLT)
+    // console.log(xmlUtils.toString(ret))
 
     return ret
   }

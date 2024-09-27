@@ -715,6 +715,7 @@ createApp({
           sign.classList.add('bound')
           if (this?.annotation?.id == annotation.id) {
             sign.classList.add('selected')
+            sign.scrollIntoView()
           }
         }
       }

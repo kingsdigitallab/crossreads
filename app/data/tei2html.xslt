@@ -39,6 +39,14 @@
     <span class="column-number"><xsl:value-of select="@n"/></span>
   </xsl:template>
 
+  <xsl:template match="tei:div[@type='textpart']">
+    <div>
+      <xsl:call-template name="lossless-attributes"/>
+      <p class="textpart-number"><xsl:value-of select="@n"/></p>
+      <xsl:apply-templates />
+    </div>
+  </xsl:template>
+
   <!-- <xsl:template match="tei:ex">
   </xsl:template> -->
 

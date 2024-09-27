@@ -258,14 +258,24 @@ The name of the element is inserted into the class attribute:
   text-align: center;
 }
 
+.textpart-number:before {
+  content: 'Part ';
+}
+div[data-tei-subtype='fragment-physical'] .textpart-number:before {
+  content: 'Fragment ';
+}
+.textpart-number, .column-number {
+  font-size: 1.5em;
+  border-top: 1px solid gray;
+  width: 90%;
+}
 .column-number:before {
   content: 'Column ';
 }
 .column-number {
-  font-size: 1.5em;
-  border-top: 1px solid gray;
+  font-size: 1.3em;
+  border-top-style: dashed;
   display: inline-block;
-  width: 90%;
 }
 
 .tei-ab > br:first-child {

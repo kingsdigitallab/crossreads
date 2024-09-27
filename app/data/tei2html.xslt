@@ -29,7 +29,14 @@
     <br>
       <xsl:call-template name="lossless-attributes"/>
     </br>
-    <span class="line-number"><xsl:number level="any" count="tei:lb"/></span>
+    <span class="line-number"><xsl:value-of select="@n"/></span>
+  </xsl:template>
+
+  <xsl:template match="tei:cb">
+    <br>
+      <xsl:call-template name="lossless-attributes"/>
+    </br>
+    <span class="column-number"><xsl:value-of select="@n"/></span>
   </xsl:template>
 
   <!-- <xsl:template match="tei:ex">

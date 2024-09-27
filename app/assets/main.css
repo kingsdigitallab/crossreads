@@ -226,6 +226,7 @@ The name of the element is inserted into the class attribute:
 }
 .transcription .sign.bound {
   border-color: var(--bound-color);
+  cursor: pointer;
 }
 .transcription .sign.selected {
   background-color: var(--selected-color);
@@ -257,7 +258,17 @@ The name of the element is inserted into the class attribute:
   text-align: center;
 }
 
-br[data-tei-n="1"] {
+.column-number:before {
+  content: 'Column ';
+}
+.column-number {
+  font-size: 1.5em;
+  border-top: 1px solid gray;
+  display: inline-block;
+  width: 90%;
+}
+
+.tei-ab > br:first-child {
   display: none;
 }
 

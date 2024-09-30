@@ -9,7 +9,19 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            },
+            "crossbar": {
+              "features": [
+                "curved",
+                "horizontal"
+              ]
+            }
+          },
           "tags": null,
           "character": "Θ"
         }
@@ -42,6 +54,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-30T07:52:21.377Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-30T07:52:23.714Z"
+    "modified": "2024-09-30T07:52:37.205Z"
   }
 ]

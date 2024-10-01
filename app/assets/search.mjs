@@ -505,6 +505,7 @@ createApp({
     // preview annotation
     onMouseEnterItem(item) {
       this.hoveredItem = item
+      this.showModalOnTheRight = false
     },
     onMouseLeaveItem(item) {
       this.hoveredItem = null

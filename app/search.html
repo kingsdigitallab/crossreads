@@ -25,7 +25,8 @@
   </head>
   <body>
     <section class="section full-width" id="search">
-      <div class="annotation-preview" v-if="hoveredItem">
+      
+      <div :class="{'annotation-preview': 1, 'pull-right': showModalOnTheRight}" v-if="hoveredItem">
         <img :src="getThumbUrlFromItem(hoveredItem, 150)" alt="Placeholder image" class="graph-thumb">
         <h4 class="title is-4">
           {{ hoveredItem.chr }} ({{ hoveredItem.scr }})
@@ -37,6 +38,7 @@
           <li v-for="cxf in (hoveredItem?.cxf || []).sort()">{{ cxf }}</li>
         </ul>
       </div>
+      
       <div class="container is-fluid">
         <div :class="['notification', 'is-'+lastMessage.level, 'is-light']">
           {{ lastMessage.content }}
@@ -93,8 +95,14 @@
                 <div class="panel-block facet-options">
                   <ul>
                     <li v-for="option in getOptionsFromFacet(facet)" @click="onClickFacetOption(facetKey, option.key)" :class="{'is-selected': option.selected}">
-                      <span class="option-label">{{ option.key }}</span>
-                      <span class="option-count">{{ option.doc_count }}</span>
+                      <div v-if="facetKey == 'tag'" @mouseenter="onMouseEnterTag(option.key, true)" @mouseleave="onMouseLeaveTag(option.key)">
+                        <span class="option-label">{{ option.key }}</span>
+                        <span class="option-count">{{ option.doc_count }}</span>
+                      </div>
+                      <div v-else>
+                        <span class="option-label">{{ option.key }}</span>
+                        <span class="option-count">{{ option.doc_count }}</span>
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -117,18 +125,6 @@
                   </select>
                 </p>
               </nav>
-                <!-- <ul class="pagination-list">
-                  <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                  <li><span class="pagination-ellipsis">&hellip;</span></li>
-                  <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-                  <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-                  <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-                  <li><span class="pagination-ellipsis">&hellip;</span></li>
-                  <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
-                </ul>
-              </nav>              
-              <a href="#" @click.stop.prevent="onClickPagination(-1)" class="button">Prev</a> 
-              <a href="#" @click.stop.prevent="onClickPagination(1)" class="button">Next</a> -->
             </div>
             <div class="items">
               <span v-for="item in items" :class="{card: 1, item: 1, selected: this.selection.items.has(item)}" @click="onClickItem(item)">
@@ -166,6 +162,10 @@
                 </p>
               </nav>
             </div>
+            <p class="index-date" v-if="indexDate">
+              Indexed on
+              {{ indexDate.toLocaleDateString() }} {{ indexDate.toLocaleTimeString() }}
+            </p>
           </div>
 
           <div class="column is-3 selection">
@@ -175,7 +175,10 @@
             <h3 class="title is-4">Tags {{ tagSelection }}:</h3>
             <ul class="tags-selector">
               <li v-for="state, tag in definitions.tags">
-                <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`"><input type="checkbox" :checked="state === true" :disabled="state === null"> {{ tag }}</label>
+                <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`" @mouseenter="onMouseEnterTag(tag)" @mouseleave="onMouseLeaveTag(tag)">
+                  <input type="checkbox" :checked="state === true" :disabled="state === null">
+                  {{ tag }}
+                </label>
                 <img :src="getThumbUrlFromTag(tag, 40)" alt="annotation thumbnail" class="graph-thumb" v-if="getThumbUrlFromTag(tag, 40)">
               </li>
             </ul>

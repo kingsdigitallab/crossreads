@@ -16,6 +16,7 @@ const OPTIONS_PER_FACET = 15
 const OPTIONS_PER_FACET_EXPANDED = 100
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
 const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
+const TAG_EXEMPLAR = 'm.exemplar'
 
 createApp({
   data() {
@@ -68,6 +69,8 @@ createApp({
       },
       availableTags: new AvailableTags(),
       hoveredItem: null,
+      showModalOnTheRight: false,
+      indexDate: null,
     }
   },
   async mounted() {
@@ -92,7 +95,7 @@ createApp({
       this.search()
     },
     'selection.perPage'() {
-      console.log('selection.perPage')
+      // console.log('selection.perPage')
       this.search()
     }
   },
@@ -196,6 +199,7 @@ createApp({
           data: []
         }
       }
+      this.indexDate = new Date(this.index.meta['dc:modified'])
 
       // order field
       this.annotationIdsToItem = {}
@@ -498,11 +502,44 @@ createApp({
         this.search(true)
       }
     },
-    // preview
+    // preview annotation
     onMouseEnterItem(item) {
       this.hoveredItem = item
     },
     onMouseLeaveItem(item) {
+      this.hoveredItem = null
+    },
+    // preview tag examplar
+    onMouseEnterTag(tag, showModalOnTheRight=false) {
+      // TODO: cache the results for each tag
+      let ret = null
+      let selectedAllographs = this.selection.facets?.chr || []
+      if (selectedAllographs.length == 1) {
+        ret = this._searchByTag(tag, selectedAllographs[0], true) || this._searchByTag(tag, selectedAllographs[0])
+      }
+      ret = ret || this._searchByTag(tag, null, true) || this._searchByTag(tag)
+      this.hoveredItem = ret
+      this.showModalOnTheRight = showModalOnTheRight
+    },
+    _searchByTag(tag, allograph=null, exemplar=false) {
+      let filters = {
+        'tag': [tag]
+      }
+      if (exemplar) filters.tag.push(TAG_EXEMPLAR);
+      if (allograph) filters.chr = [allograph]
+      let res = this.itemsjs.search({
+        per_page: 1,
+        page: 1,
+        sort: 'or1',
+        query: '',
+        filters: filters
+      })
+      let items = res?.data?.items
+      let ret = items ? items[0] : null
+      // console.log(tags, items.length)
+      return ret
+    },
+    onMouseLeaveTag(tag) {
       this.hoveredItem = null
     },
     // ----------------------

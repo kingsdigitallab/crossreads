@@ -467,6 +467,25 @@ div[data-tei-subtype='section'] .textpart-number:before {
 .annotation-preview .tags span {
   margin-left: 0.1em;
 }
+
 .selection .tags-selector img {
   margin-left: 0.5em;
+}
+.selection .tags-selector {
+  max-height: 39%;
+  overflow: auto;
+}
+.selection .tags-selector label {
+  display: block;
+}
+.selection .tags-selector label:hover {
+  background-color: var(--hover-color);
+}
+.selection {
+  position: sticky;
+  display: inline-block;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  max-height: 90vh;
 }

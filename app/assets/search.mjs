@@ -108,6 +108,29 @@ createApp({
         total: 0
       }
     },
+    tagSelection() {
+      let ret = ''
+      let stats = [0, 0]
+
+      for (let state of Object.values(this.definitions.tags)) {
+        if (state === false) stats[1]++;
+        if (state === true) stats[0]++;
+      }
+
+      if (stats[0]) {
+        ret += `+${stats[0]}`
+      }
+      if (stats[1]) {
+        if (ret) ret += ', ';
+        ret += `-${stats[1]}`
+      }
+
+      if (ret) {
+        ret = `(${ret})`
+      }
+
+      return ret
+    },
     lastMessage() {
       let ret = {
         content: '',

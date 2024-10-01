@@ -172,24 +172,22 @@
             <h2 class="title is-3">Bulk edit ({{ selection.items.size }})
               <button @click.prevent.stop="saveChangeQueue()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </h2>
-            <h3 class="title is-4">Tags:</h3>
+            <h3 class="title is-4">Tags {{ tagSelection }}:</h3>
             <ul class="tags-selector">
               <li v-for="state, tag in definitions.tags">
                 <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`"><input type="checkbox" :checked="state === true" :disabled="state === null"> {{ tag }}</label>
                 <img :src="getThumbUrlFromTag(tag, 40)" alt="annotation thumbnail" class="graph-thumb" v-if="getThumbUrlFromTag(tag, 40)">
               </li>
-              <li>
-                <div class="field has-addons">
-                  <div class="control">
-                    <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="selection.newTagName" @keyup.enter="onAddTag()">
-                  </div>
-                  <div class="control">
-                    <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !(selection.newTagName || '').trim()">Add</button>
-                  </div>
-                </div>
-                <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
-              </li>
             </ul>
+            <div class="field has-addons">
+              <div class="control">
+                <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="selection.newTagName" @keyup.enter="onAddTag()">
+              </div>
+              <div class="control">
+                <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !(selection.newTagName || '').trim()">Add</button>
+              </div>
+            </div>
+            <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
             <p>
               <br>
               <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">{{ changeQueue?.changes?.length || 'no' }} change(s)</a> pending.

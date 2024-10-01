@@ -1,4 +1,4 @@
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "./utils.mjs";
 import { AnyFileSystem } from "./any-file-system.mjs";
 
 const STATS_PATH = 'app/stats.json'

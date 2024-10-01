@@ -10,7 +10,6 @@ import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
 import { AvailableTags } from "../tags.mjs";
 
-// const INDEX_PATH = 'index.json'
 const INDEX_PATH = 'app/index.json'
 const ITEMS_PER_PAGE = 24
 const OPTIONS_PER_FACET = 15
@@ -155,25 +154,29 @@ createApp({
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
     async loadIndex() {
-      // this.index = await utils.fetchJsonFile(INDEX_PATH)
       // fetch with API so we don't need to republish site each time the index is rebuilt.
-
+      this.index = null
       if (IS_BROWSER_LOCAL) {  
         this.index = await utils.fetchJsonFile('index.json')
       } else {
         let res = await this.afs.readJson(INDEX_PATH)
         if (res.ok) {
           this.index = res.data
-        } else {
-          this.index = []
-          this.logMessage(`Failed to load search index from github (${res.description})`, 'error')
         }
-        // let res = await utils.readGithubJsonFile(INDEX_PATH)
+      }
+      if (!this.index?.data) {
+        this.logMessage(`Failed to load search index from github (${res.description})`, 'error')
+        this.index = {
+          meta: {
+            "dc:modified": "2000-01-01T01:01:01.042Z",
+          },
+          data: []
+        }
       }
 
       // order field
       this.annotationIdsToItem = {}
-      for (let item of this.index) {
+      for (let item of this.index.data) {
         // TODO: reduce id in the key
         this.annotationIdsToItem[item.id] = item
         // reduce item.img
@@ -287,7 +290,7 @@ createApp({
         aggregations: this.getFacetDefinitions(),
         searchableFields: ['tag', 'docId']
       }
-      this.itemsjs = window.itemsjs(this.index, config);
+      this.itemsjs = window.itemsjs(this.index.data, config);
     },
     onClickFacetExpand(facetKey) {
       let settings = this.getFacetSettings(facetKey)

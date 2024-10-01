@@ -193,21 +193,32 @@ class AnnotationIndex {
       }
     }
 
-    this.write()
+    this.writeIndexFiles()
+
+    console.log('DONE ')
   }
 
-  write() {
-    // writen index
-    let content = JSON.stringify(this.annotations, null, COMPRESS_OUTPUT ? 0 : 2)
-    fs.writeFileSync(this.path, content)
-    console.log(`WRITTEN ${this.path}, ${this.annotations.length} annotation(s), ${(content.length / 1024 / 1024).toFixed(2)} MB.`)
+  writeIndexFiles() {
+    this.writeJsonFile(this.annotations, this.path, `${this.annotations.length} annotation(s)`)
 
-    // write stats file
-    content = JSON.stringify(this.stats, null, COMPRESS_OUTPUT ? 0 : 2)
-    fs.writeFileSync(STATS_PATH, content)
+    this.writeJsonFile(this.stats, STATS_PATH, 'definition stats.')
 
-    content = JSON.stringify(this.messages, null, COMPRESS_OUTPUT ? 0 : 2)
-    fs.writeFileSync(TESTS_PATH, content)
+    this.writeJsonFile(this.messages, TESTS_PATH, `${this.messages.length} messages`)
+  }
+
+  writeJsonFile(obj, path, description='') {
+    obj = {
+      'meta': {
+        "@context": "http://schema.org",
+        'dc:modified': new Date().toISOString(),
+        'dc:creator': 'https://github.com/kingsdigitallab/crossreads/blob/main/tools/index.mjs',
+        'dc:source': 'https://github.com/kingsdigitallab/crossreads/tree/main/annotations',
+      },
+      'data': obj
+    }
+    let content = JSON.stringify(obj, null, COMPRESS_OUTPUT ? 0 : 2)
+    fs.writeFileSync(path, content)
+    console.log(`WRITTEN ${path}, ${description}, ${(content.length / 1024 / 1024).toFixed(2)} MB.`)
   }
 
 }

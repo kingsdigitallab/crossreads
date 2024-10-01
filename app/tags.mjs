@@ -1,8 +1,8 @@
-const STATS_PATH = 'app/stats.json'
-const SESSION_KEY = 'AvailableTags.tags'
-
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "../utils.mjs";
 import { AnyFileSystem } from "./any-file-system.mjs";
 
+const STATS_PATH = 'app/stats.json'
+const SESSION_KEY = 'AvailableTags.tags'
 
 export class AvailableTags {
   /*
@@ -18,15 +18,19 @@ export class AvailableTags {
   */
 
   constructor() {
-    this.tags = []
+    this._tags = []
   }
 
   addTag(tag) {
     tag = (tag || '').trim()
-    if (!tag || this.tags.includes(tag)) return;
-    this.tags.push(tag)
+    if (!tag || this._tags[tag]) return;
+    this._tags[tag] = new Date().toISOString()
     this.saveToSession()
     return tag
+  }
+
+  get tags() {
+    return Object.keys(this._tags).sort()
   }
 
   getTagFormatError(tag, appliedTags=null) {
@@ -54,23 +58,52 @@ export class AvailableTags {
   }
 
   async load() {
-    // union b/w tyags from session & file
-    this.tags = [...new Set(this._loadFromSession().concat(await this._loadFromFile()))]; 
-    this.tags = this.tags.sort()
+    // union b/w tags from session & file
+    this._tags = this._loadFromSession()
+    let stats = await this._loadStats()
+    const statsDate = stats.meta['dc:modified']
+
+    // console.log(JSON.stringify(this._tags))
+    // remove all unused session tags 
+    for (const [t, d] of Object.entries(this._tags)) {
+      if (!stats.data['t'][t] && d < statsDate) {
+        console.log(`DELETE ${t}`)
+        delete this._tags[t]
+      }
+    }
+    // add all tags from the index
+    for (let t of Object.keys(stats.data['t'])) {
+      this._tags[t] = statsDate
+    }
   }
 
-  async _loadFromFile() {
-    let afs = new AnyFileSystem()
-    let res = await afs.readJson(STATS_PATH)
-    return res.ok ? Object.keys(res.data.t) : []
+  async _loadStats() {
+    let res = null
+    if (IS_BROWSER_LOCAL) {  
+      res = await utils.fetchJsonFile('stats.json')
+    } else {
+      let afs = new AnyFileSystem()
+      res = await afs.readJson(STATS_PATH)
+      res = res?.ok ? res.data : null
+    }
+    return res
   }
 
   _loadFromSession() {
-    return JSON.parse(window.localStorage.getItem(SESSION_KEY) || '[]')
+    const defaultDate = "2000-01-01T01:01:01.070Z"
+    let ret = JSON.parse(window.localStorage.getItem(SESSION_KEY) || '{}')
+    if (ret.constructor === Array) {
+      let tags = ret
+      ret = {}
+      for (let t of tags) {
+        ret[t] = defaultDate
+      }
+    }
+    return ret
   }
 
   saveToSession() {
-    window.localStorage.setItem(SESSION_KEY, JSON.stringify(this.tags))
+    window.localStorage.setItem(SESSION_KEY, JSON.stringify(this._tags))
   }
 
 }

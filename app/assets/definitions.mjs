@@ -1,4 +1,4 @@
-import { utils, DEBUG_DONT_SAVE } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL } from "../utils.mjs";
 import { createApp, nextTick } from "vue";
 import { AnyFileSystem } from "../any-file-system.mjs";
 
@@ -85,7 +85,11 @@ createApp({
     },
     getUsageFromElement(typeCode, elementSlug) {
       // returns how many times the component, feature has been annotated
-      return this.stats[typeCode] ? this.stats[typeCode][elementSlug] || 0 : 0
+      let ret = 1
+      if (this?.stats?.data) {
+        ret = this.stats.data[typeCode] ? this.stats.data[typeCode][elementSlug] || 0 : 0
+      }
+      return ret
     },
     getFilteredDefinitions(collectionName, getNameFromItem) {
       let ret = {}
@@ -287,11 +291,16 @@ createApp({
       this.isUnsaved = 1
     },
     async loadStats() {
-      let res = await this.afs.readJson(STATS_PATH)
-      if (res.ok) {
-        this.stats = res.data
+      this.stats = null
+      if (IS_BROWSER_LOCAL) {  
+        this.stats = await utils.fetchJsonFile('stats.json')
       } else {
-        this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
+        let res = await this.afs.readJson(STATS_PATH)
+        if (res.ok) {
+          this.stats = res.data
+        } else {
+          this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
+        }
       }
     },
     async loadDefinitions() {

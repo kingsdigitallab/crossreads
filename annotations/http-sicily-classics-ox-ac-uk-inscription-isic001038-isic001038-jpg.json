@@ -1795,6 +1795,40 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001038/ISic001038_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1934.1846923828125,4004.479736328125,91.8182373046875,68.181884765625"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/426d8511-cb28-4a68-a180-0109a84ac7f5",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-09T16:22:44.787Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-09T16:22:45.945Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": {
             "left-stroke": {
               "features": [
@@ -6735,7 +6769,9 @@
               "features": [
                 "above-baseline",
                 "converging",
-                "diagonal"
+                "diagonal",
+                "sans-serif",
+                "straight"
               ]
             }
           },
@@ -6773,7 +6809,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-09T16:22:09.411Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-09T16:22:30.885Z"
+    "modified": "2024-10-09T16:22:37.533Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -834,7 +834,9 @@
             "feet": {
               "features": [
                 "long",
-                "sans-serif"
+                "sans-serif",
+                "straight",
+                "touching"
               ]
             }
           },
@@ -870,7 +872,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-09T14:26:47.176Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-09T14:27:04.216Z"
+    "modified": "2024-10-09T14:27:06.004Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1276,6 +1278,38 @@
     "created": "2024-09-30T08:15:04.416Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-09-30T08:15:11.523Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001038/ISic001038_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1905.9300537109375,1331.2755126953125,61.818115234375,72.727294921875"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/a3873f96-58c5-48f9-8831-686dda2b47b3",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-09T14:27:14.048Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

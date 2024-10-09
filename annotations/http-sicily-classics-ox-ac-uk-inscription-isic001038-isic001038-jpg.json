@@ -2000,7 +2000,8 @@
                 "horizontal",
                 "long",
                 "sans-serif",
-                "straight"
+                "straight",
+                "touching"
               ]
             }
           },
@@ -2036,7 +2037,52 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-09T15:50:39.649Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-09T15:53:30.862Z"
+    "modified": "2024-10-09T15:53:32.199Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ο"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001038/ISic001038_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1754.874755859375,2362.522216796875,70.9090576171875,64.54541015625"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001038.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BDεOA']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/79c1acf6-48e5-450e-8b41-c2634f7665b8",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-09T15:53:40.364Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-09T15:53:41.371Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

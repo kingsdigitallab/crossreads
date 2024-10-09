@@ -145,7 +145,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "bottom-bar": {
+              "features": [
+                "on-baseline"
+              ]
+            }
+          },
           "tags": [
             "terminal"
           ],

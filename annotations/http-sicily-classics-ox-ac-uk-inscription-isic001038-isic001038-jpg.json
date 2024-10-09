@@ -67,68 +67,6 @@
         "purpose": "describing",
         "format": "application/json",
         "value": {
-          "script": "latin-1",
-          "components": {
-            "spine": {
-              "features": [
-                "long",
-                "on-baseline"
-              ]
-            },
-            "finial": {
-              "features": [
-                "serif"
-              ]
-            },
-            "hook": {
-              "features": [
-                "wide"
-              ]
-            }
-          },
-          "tags": null,
-          "character": "S"
-        }
-      }
-    ],
-    "target": [
-      {
-        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000092/ISic000092_tiled.tif",
-        "selector": {
-          "type": "FragmentSelector",
-          "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:4417.2724609375,1029.8968505859375,254.24560546875,450.708251953125"
-        }
-      },
-      {
-        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001038.xml",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//*[@xml:id='AJUDo']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 3,
-            "end": 4
-          }
-        }
-      }
-    ],
-    "id": "https://crossreads.web.ox.ac.uk/annotations/20ce2dca-6686-483d-822d-d402a150d1f0",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
-    "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-04-09T16:51:08.171Z",
-    "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-07T11:46:46.399Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
-      {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": {
           "script": "greek-1",
           "components": null,
           "tags": null,

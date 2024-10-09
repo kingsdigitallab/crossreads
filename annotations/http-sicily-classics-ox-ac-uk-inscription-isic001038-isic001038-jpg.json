@@ -1252,8 +1252,7 @@
           "script": "greek-1",
           "components": null,
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "character": "Ι"
         }
       }
     ],
@@ -1265,12 +1264,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2135.78369140625,2357.067626953125,40.9091796875,70"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001038.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BDεOK']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 5,
+            "end": 6
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/4ee39876-8106-4897-916d-888520252af1",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-10-09T15:54:48.196Z"
+    "created": "2024-10-09T15:54:48.196Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-09T15:54:59.435Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -3352,8 +3365,8 @@
           "value": "//*[@xml:id='BDεOK']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 5,
-            "end": 6
+            "start": 7,
+            "end": 8
           }
         }
       }
@@ -3363,7 +3376,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-09T15:54:38.740Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-09T15:54:43.773Z"
+    "modified": "2024-10-09T15:54:54.137Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

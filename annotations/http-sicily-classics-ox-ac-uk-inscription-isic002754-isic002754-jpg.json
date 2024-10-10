@@ -451,6 +451,59 @@
         "value": {
           "script": "greek-1",
           "components": {
+            "downstroke": {
+              "features": [
+                "below-baseline"
+              ]
+            }
+          },
+          "tags": [
+            "terminal"
+          ],
+          "character": "Ρ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic002754/ISic002754_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2494.726318359375,3837.12841796875,158.6630859375,235.350341796875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic002754.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CΩoPΙ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/1965d4cb-ccea-47bd-b59e-267d21e9bfbf",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-10T13:11:49.181Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-10T13:11:59.708Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
             "bottom-bar": {
               "features": [
                 "curved",
@@ -3042,6 +3095,12 @@
                 "open",
                 "round"
               ]
+            },
+            "upper-bowl": {
+              "features": [
+                "open",
+                "round"
+              ]
             }
           },
           "tags": null,
@@ -3076,7 +3135,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-10T13:11:29.315Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-10T13:11:39.255Z"
+    "modified": "2024-10-10T13:11:43.361Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

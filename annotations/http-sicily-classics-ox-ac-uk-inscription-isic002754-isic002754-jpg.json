@@ -2944,7 +2944,8 @@
             "right-stroke": {
               "features": [
                 "diagonal",
-                "sans-serif"
+                "sans-serif",
+                "straight"
               ]
             }
           },
@@ -2982,7 +2983,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-10T08:37:56.063Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-10T08:38:12.408Z"
+    "modified": "2024-10-10T08:38:13.318Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -4061,6 +4062,51 @@
     "created": "2024-10-09T20:15:30.076Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-10-09T20:15:53.417Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ε"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic002754/ISic002754_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3702.326904296875,1688.203125,167.314453125,185.67822265625"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic002754.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='CΩoFο']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 4,
+            "end": 5
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/b8b46f5b-84cc-4488-ab26-e87ae942ba2e",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-10T08:38:18.053Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-10T08:38:19.192Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

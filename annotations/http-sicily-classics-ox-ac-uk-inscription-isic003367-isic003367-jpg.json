@@ -149,7 +149,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "below-baseline"
+              ]
+            }
+          },
           "tags": [
             "terminal"
           ],
@@ -184,7 +190,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-10T13:51:37.760Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-10T13:52:41.221Z"
+    "modified": "2024-10-10T13:52:49.593Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

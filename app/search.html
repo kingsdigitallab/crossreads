@@ -107,6 +107,22 @@
                   </ul>
                 </div>
               </template>
+              <p class="panel-heading">
+                New variant type
+              </p>
+              <div class="panel-block type">
+                <div>
+                  <div class="field has-addons">
+                    <div class="control">
+                      <input :class="{input: 1, 'is-danger': typeFormatError}" type="text" v-model="selection.newTypeName" @keyup.enter="onAddType()">
+                    </div>
+                    <div class="control">
+                      <button class="button" @click="onAddType()" :disabled="!canEdit || Boolean(typeFormatError) || !(selection.newTypeName || '').trim()">Add</button>
+                    </div>
+                  </div>
+                  <p class="tag-error" v-if="typeFormatError">{{typeFormatError}}</p>
+                </div>
+              </div>
             </div>
           </div>
           <div class="column is-6 results">
@@ -197,7 +213,6 @@
             </p>
           </div>
         </div>
-
       </div>
     </section>
   </body>

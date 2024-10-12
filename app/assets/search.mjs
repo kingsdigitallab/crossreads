@@ -17,6 +17,8 @@ const OPTIONS_PER_FACET_EXPANDED = 100
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
 const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
 const TAG_EXEMPLAR = 'm.exemplar'
+const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
+const SHA_UNREAD = 'SHA_UNREAD'
 
 createApp({
   data() {
@@ -36,7 +38,8 @@ createApp({
         // facetName: {sort: key|count, order: asc|desc, size: N}
         facetsSettings: JSON.parse(window.localStorage.getItem('facetsSettings') || '{}'),
         items: new Set(),
-        newTagName: ''
+        newTagName: '',
+        newTypeName: '',
       },
       // instance of AnyFileSystem, to access github resources
       afs: null,
@@ -45,7 +48,9 @@ createApp({
       },
       // the github sha of the annotations file.
       // needed for writing it and detecting conflicts.
-      changeQueueSha: null,
+      changeQueueSha: SHA_UNREAD,
+      variantRules: [],
+      variantRulesSha: SHA_UNREAD,
       // ---
       options: {
         perPage: [12, 24, 50, 100]
@@ -78,6 +83,7 @@ createApp({
 
     await this.initAnyFileSystem()
     
+    await this.loadVariantRules()
     await this.loadChangeQueue()
     await this.loadIndex()
 
@@ -172,6 +178,18 @@ createApp({
     },
     tagFormatError() {
       return this.availableTags.getTagFormatError(this.selection.newTagName, this.availableTags.tags)
+    },
+    typeFormatError() {
+      // TODO: check for rule duplication
+      let ret = this.availableTags.getTagFormatError(this.selection.newTypeName, [])
+      if (!ret && this.selection.newTypeName) {
+        let selectedAllographs = this.selection.facets?.chr || []
+        let selectedComponentFeatures = this.selection.facets?.cxf || []
+        if (selectedAllographs.length !== 1 || selectedComponentFeatures.length < 1) {
+          ret = 'Please select one Allograph and at least a Component x Feature in the above filters.'
+        }
+      }
+      return ret
     }
   },
   methods: {
@@ -226,6 +244,16 @@ createApp({
         this.changeQueue.changes = this.changeQueue?.changes || []
       } else {
         this.logMessage(`Failed to load change queue from github (${res.description})`, 'error')
+      }
+    },
+    async loadVariantRules() {
+      let res = await this.afs.readJson(VARIANT_RULES_PATH)
+      if (res && res.ok) {
+        this.variantRules = res.data
+        this.variantRulesSha = res.sha
+      } else {
+        this.variantRules = []
+        this.logMessage(`Failed to load variant rules from github (${res.description})`, 'error')
       }
     },
     applyChangeQueueToIndex() {
@@ -562,6 +590,37 @@ createApp({
     onClickTag(tag) {
       let stateTransitions = {true: false, false: null, null: true}
       this.definitions.tags[tag] = stateTransitions[this.definitions.tags[tag]]
+    },
+    // -----------------------
+    async onAddType() {
+      if (this.typeFormatError) return;
+      let variantRule = {
+        'variant-name': this.selection.newTypeName,
+        allograph: this.selection.facets.chr[0],
+        // ["crossbar is ascending", "crossbar is straight" ] 
+        // -> [{component: 'crossbar', feature: 'ascending'}, ...]
+        'component-features': this.selection.facets.cxf.map((cxf) => {
+          let parts = cxf.split(' is ')
+          return {
+            component: parts[0],
+            feature: parts[1],
+          }
+        }),
+      }
+      // TODO: is the allograph enough? We might need the script to disambiguate
+      this.variantRules.push(variantRule)
+      let res = await this.afs.writeJson(VARIANT_RULES_PATH, this.variantRules, this.variantRulesSha)
+      if (res && res.ok) {
+        this.variantRulesSha = res.sha
+        this.selection.newTypeName = ''
+      } else {
+        this.logMessage(`Failed to save new variant rule. You might have to reload the page and try again.`, 'error')
+      }
+      // this.afs.writeJson()
+      // let tag = this.availableTags.addTag(this.selection.newTagName);
+      // if (!tag) return;
+      // this.definitions.tags[this.selection.newTagName] = null
+      // this.selection.newTagName = ''
     },
     // -----------------------
     logMessage(content, level = 'info') {

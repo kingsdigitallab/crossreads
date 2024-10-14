@@ -107,6 +107,13 @@ async function mod(exports) {
     });
   }
 
+  exports.getScriptFromAllograph = function(allograph, definitions) {
+    // TODO
+    let ret = null
+    
+    return ret ? ret.script : '?'
+  }
+
   // --------------------------------------------
 
   if (IS_BROWSER) {

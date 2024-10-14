@@ -161,6 +161,16 @@
         </div>
 
         <div v-if="selection.innerTab == 'vt'" class="scrollable-table-wrapper">
+          <div class="field is-grouped is-horizontal definitions-controls">
+            <p class="control">
+              <label class="label">Script</label>
+              <div class="select">
+                <select v-model="selection.script">
+                  <option v-for="(scriptName, scriptSlug) in definitions.scripts" :value="scriptSlug">{{ scriptName }}</option>
+                </select>
+              </div>
+            </p>
+          </div>
           <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth-no is-bordered">
             <thead>
               <tr>
@@ -172,7 +182,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="rule in variantRules">
+              <tr v-for="rule in filteredVariantRules">
                 <td>{{ rule.allograph }}</td>
                 <td>{{ rule['component-features'][0]['component'] }}</td>
                 <td>{{ rule['component-features'][0]['feature'] }}</td>

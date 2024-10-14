@@ -63,6 +63,9 @@ createApp({
     filteredFeatures() {
       return this.getFilteredDefinitions('features', (a) => a)
     },
+    filteredVariantRules() {
+      return this.variantRules.filter(r => this.definitions.allographs[`${r.allograph}-${this.selection.script}`])
+    },
     lastMessage() {
       let ret = {
         content: '',

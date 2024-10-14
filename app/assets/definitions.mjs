@@ -21,8 +21,7 @@ createApp({
         script: '',
         scriptName: '',
         tab: 'definitions',
-        // innerTab: 'ac',
-        innerTab: 'vt',
+        innerTab: 'ac',
         gtoken: window.localStorage.getItem('gtoken') || '',
       },
       newItems: {
@@ -83,6 +82,7 @@ createApp({
     await this.loadDefinitions()
     await this.loadStats()
     await this.loadVariantRules()
+    this.setSelectionFromAddressBar()
   },
   watch: {
     'selection.script'() {
@@ -457,10 +457,16 @@ createApp({
       return utils.getQueryString()
     },
     setAddressBarFromSelection() {
+      // TODO: this is doing nothing?
       let searchParams = new URLSearchParams(window.location.search);
 
       let qs = `?${searchParams.toString()}`
       decodeURIComponent(qs)
+    },
+    setSelectionFromAddressBar() {
+      let searchParams = new URLSearchParams(window.location.search);
+
+      this.selection.innerTab = searchParams.get('itb') || 'ac'
     },
     logMessage(content, level = 'info') {
       // level: info|primary|success|warning|danger

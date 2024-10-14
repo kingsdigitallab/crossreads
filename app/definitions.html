@@ -160,6 +160,34 @@
           </table>
         </div>
 
+        <div v-if="selection.innerTab == 'vt'" class="scrollable-table-wrapper">
+          <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth-no is-bordered">
+            <thead>
+              <tr>
+                <th>Character</th>
+                <th>Component</th>
+                <th>Feature main</th>
+                <th>Feature secondary</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="rule in variantRules">
+                <td>{{ rule.allograph }}</td>
+                <td>{{ rule['component-features'][0]['component'] }}</td>
+                <td>{{ rule['component-features'][0]['feature'] }}</td>
+                <td>
+                  <template v-if="rule['component-features'][1]">
+                    <template v-if="rule['component-features'][1]['component'] != rule['component-features'][0]['component']">{{ rule['component-features'][1]['component'] }} = <br></template>
+                    {{ rule['component-features'][1]['feature'] }}
+                  </template>
+                </td>
+                <td>{{ rule['variant-name'] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <template v-if="false">
           <hr>
 

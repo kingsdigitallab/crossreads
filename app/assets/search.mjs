@@ -49,6 +49,7 @@ createApp({
       // the github sha of the annotations file.
       // needed for writing it and detecting conflicts.
       changeQueueSha: SHA_UNREAD,
+      // ---
       variantRules: [],
       variantRulesSha: SHA_UNREAD,
       // ---

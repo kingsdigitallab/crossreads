@@ -96,6 +96,17 @@ async function mod(exports) {
     fs.writeFileSync(path, content)
   }
 
+  exports.sortMulti = function(arr, fields) {
+    return arr.sort((a, b) => {
+      for (let i = 0; i < fields.length; i++) {
+        const field = fields[i];
+        if (a[field] < b[field]) return -1;
+        if (a[field] > b[field]) return 1;
+      }
+      return 0; // equal
+    });
+  }
+
   // --------------------------------------------
 
   if (IS_BROWSER) {

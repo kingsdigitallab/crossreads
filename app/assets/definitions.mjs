@@ -8,6 +8,8 @@ const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_com
 const collectionUri = './data/dts/api/collections-2023-01.json'
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
 const STATS_PATH = 'app/stats.json'
+const SHA_UNREAD = 'SHA_UNREAD'
+const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 
 createApp({
   data() {
@@ -19,7 +21,8 @@ createApp({
         script: '',
         scriptName: '',
         tab: 'definitions',
-        innerTab: 'ac',
+        // innerTab: 'ac',
+        innerTab: 'vt',
         gtoken: window.localStorage.getItem('gtoken') || '',
       },
       newItems: {
@@ -31,6 +34,9 @@ createApp({
       messages: [],
       afs: null,
       stats: {},
+      //
+      variantRules: [],
+      variantRulesSha: SHA_UNREAD,
     }
   },
   computed: {
@@ -39,6 +45,7 @@ createApp({
       return [
         {title: 'Allographs x Components', key: 'ac'},
         {title: 'Components x Features', key: 'cf'},
+        {title: 'Variant types', key: 'vt'},
       ]
     },
     isLoggedIn() {
@@ -72,6 +79,7 @@ createApp({
     await this.initAnyFileSystem()
     await this.loadDefinitions()
     await this.loadStats()
+    await this.loadVariantRules()
   },
   watch: {
     'selection.script'() {
@@ -318,6 +326,21 @@ createApp({
       }
       this.setAddressBarFromSelection()
       this.isUnsaved = 0
+    },
+    async loadVariantRules() {
+      let res = await this.afs.readJson(VARIANT_RULES_PATH)
+      if (res && res.ok) {
+        this.variantRules = res.data
+        this.variantRulesSha = res.sha
+        // sort the rules
+        this.variantRules = utils.sortMulti(this.variantRules, [
+          'allograph', 
+          'variant-name'
+        ])
+      } else {
+        this.variantRules = []
+        this.logMessage(`Failed to load variant rules from github (${res.description})`, 'error')
+      }
     },
     async saveDefinitions() {
       this.definitions.updated = new Date().toISOString()

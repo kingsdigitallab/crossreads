@@ -34,7 +34,7 @@
               <template v-if="!isLoggedIn && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;
-              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveDefinitions()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
+              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveAll()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </a>            
           </li>
         </ul>
@@ -179,6 +179,7 @@
                 <th>Feature main</th>
                 <th>Feature secondary</th>
                 <th>Type</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -193,6 +194,12 @@
                   </template>
                 </td>
                 <td>{{ rule['variant-name'] }}</td>
+                <td>
+                  &nbsp;
+                  <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>

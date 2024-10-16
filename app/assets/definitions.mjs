@@ -8,13 +8,23 @@ const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_com
 const collectionUri = './data/dts/api/collections-2023-01.json'
 const definitionsPath = 'app/data/pal/definitions-digipal.json'
 const STATS_PATH = 'app/stats.json'
+const SHA_UNREAD = 'SHA_UNREAD'
+const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 
 createApp({
   data() {
     return {
       archetypeUri: '//digipal.eu',
+      
       definitions: {'k1': 'v1'},
-      definitionsSha: null,
+      definitionsSha: SHA_UNREAD,
+      areDefinitionsUnsaved: 0,
+
+      //
+      variantRules: [],
+      variantRulesSha: SHA_UNREAD,
+      areVariantRulesUnsaved: 0,
+
       selection: {
         script: '',
         scriptName: '',
@@ -27,7 +37,6 @@ createApp({
         component: '',
         feature: '',
       },
-      isUnsaved: 0,
       messages: [],
       afs: null,
       stats: {},
@@ -35,10 +44,14 @@ createApp({
   },
   computed: {
     tabs: () => utils.tabs(),
+    isUnsaved() { 
+      return this.areDefinitionsUnsaved || this.areVariantRulesUnsaved
+    },
     innerTabs() {
       return [
         {title: 'Allographs x Components', key: 'ac'},
         {title: 'Components x Features', key: 'cf'},
+        {title: 'Variant types', key: 'vt'},
       ]
     },
     isLoggedIn() {
@@ -56,6 +69,9 @@ createApp({
     filteredFeatures() {
       return this.getFilteredDefinitions('features', (a) => a)
     },
+    filteredVariantRules() {
+      return this.variantRules.filter(r => this.definitions.allographs[`${r.allograph}-${this.selection.script}`])
+    },
     lastMessage() {
       let ret = {
         content: '',
@@ -72,6 +88,8 @@ createApp({
     await this.initAnyFileSystem()
     await this.loadDefinitions()
     await this.loadStats()
+    await this.loadVariantRules()
+    this.setSelectionFromAddressBar()
   },
   watch: {
     'selection.script'() {
@@ -119,7 +137,7 @@ createApp({
       //
       if (name) {
         this.definitions.features[featureSlug] = name
-        this.isUnsaved = 1
+        this.areDefinitionsUnsaved = 1
       } else {
         // undo change
         event.target.textContent = this.definitions.features[featureSlug]
@@ -134,7 +152,7 @@ createApp({
       //
       if (name) {
         component.name = name
-        this.isUnsaved = 1
+        this.areDefinitionsUnsaved = 1
       } else {
         // undo change
         event.target.textContent = component.name
@@ -160,21 +178,21 @@ createApp({
     },
     onRemoveAllograph(allographSlug) {
       delete this.definitions.allographs[allographSlug]
-      this.isUnsaved = 1
+      this.areDefinitionsUnsaved = 1
     },
     onRemoveComponent(componentSlug) {
       delete this.definitions.components[componentSlug]
       for (let allograph of Object.values(this.definitions.allographs)) {
         allograph.components = allograph.components.filter(slug => slug != componentSlug)
       }
-      this.isUnsaved = 1
+      this.areDefinitionsUnsaved = 1
     },
     onRemoveFeature(featureSlug) {
       delete this.definitions.features[featureSlug]
       for (let component of Object.values(this.definitions.components)) {
         component.features = component.features.filter(slug => slug != featureSlug)
       }
-      this.isUnsaved = 1
+      this.areDefinitionsUnsaved = 1
     },
     removeUndefinedComponentsAndFeatures() {
       for (let allograph of Object.values(this.definitions.allographs)) {
@@ -237,7 +255,7 @@ createApp({
       if (item) {
         items[slug] = item
         this.newItems[itemType] = ''
-        this.isUnsaved = 1
+        this.areDefinitionsUnsaved = 1
       }
     },
     onCreateScript() {
@@ -249,7 +267,7 @@ createApp({
 
       this.definitions.scripts[slug] = name
       this.selection.script = slug
-      this.isUnsaved = 1
+      this.areDefinitionsUnsaved = 1
     },
     onRenameScript() {
       let name = this.selection.scriptName.trim()
@@ -257,14 +275,14 @@ createApp({
 
       if (this._itemExist('script', name)) return;
       this.definitions.scripts[this.selection.script] = name
-      this.isUnsaved = 1  
+      this.areDefinitionsUnsaved = 1  
     },
     onDeleteScript() {
       // TODO: error management
       delete this.definitions.scripts[this.selection.script]
       this.selectFirstScript()
       // TODO: delete allographs?
-      this.isUnsaved = 1
+      this.areDefinitionsUnsaved = 1
     },
     selectFirstScript() {
       this.selection.script = Object.keys(this.definitions.scripts)[0]
@@ -279,7 +297,7 @@ createApp({
       } else {
         allo.components.push(componentSlug)
       }
-      this.isUnsaved = 1
+      this.areDefinitionsUnsaved = 1
     },
     onClickComponentFeature(component, featureSlug) {
       if (!this.canEdit) return;
@@ -288,7 +306,7 @@ createApp({
       } else {
         component.features.push(featureSlug)
       }
-      this.isUnsaved = 1
+      this.areDefinitionsUnsaved = 1
     },
     async loadStats() {
       this.stats = null
@@ -317,10 +335,50 @@ createApp({
         this.logMessage(`Could not load definitions (${res.description})`, 'danger')
       }
       this.setAddressBarFromSelection()
-      this.isUnsaved = 0
+      this.areDefinitionsUnsaved = 0
+    },
+    async loadVariantRules() {
+      let res = await this.afs.readJson(VARIANT_RULES_PATH)
+      if (res && res.ok) {
+        this.variantRules = res.data
+        this.variantRulesSha = res.sha
+        // sort the rules
+        this.variantRules = utils.sortMulti(this.variantRules, [
+          'allograph', 
+          'variant-name'
+        ])
+      } else {
+        this.variantRules = []
+        this.logMessage(`Failed to load variant rules from github (${res.description})`, 'error')
+      }
+    },
+    onRemoveRule(rule) {
+      this.variantRules = this.variantRules.filter(r => r !== rule)
+      this.areVariantRulesUnsaved = 1
+    },
+    async saveAll() {
+      // TODO: if definition fails & rules succeed user won't see error.
+      await this.saveDefinitions()
+      await this.saveVariantRules()
     },
     async saveDefinitions() {
+      if (!this.areDefinitionsUnsaved) return;
       this.definitions.updated = new Date().toISOString()
+      let res = await this.saveToJson(definitionsPath, this.definitions, this.definitionsSha)
+      if (res?.ok) {
+        this.definitionsSha = res.sha
+        this.areDefinitionsUnsaved = 0
+      }
+    },
+    async saveVariantRules() {
+      if (!this.areVariantRulesUnsaved) return;
+      let res = await this.saveToJson(VARIANT_RULES_PATH, this.variantRules, this.variantRulesSha)
+      if (res?.ok) {
+        this.variantRulesSha = res.sha
+        this.areVariantRulesUnsaved = 0
+      }
+    },
+    async saveToJson(targetPath, objectToSave, githubSha) {
       // let res = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
       let res = null
       if (DEBUG_DONT_SAVE) {
@@ -329,16 +387,17 @@ createApp({
           description: 'Not saving in DEBUG mode. DEBUG_DONT_SAVE = true.',
         }
       } else {
-        res = await this.afs.writeJson(definitionsPath, this.definitions, this.definitionsSha)
+        res = await this.afs.writeJson(targetPath, objectToSave, githubSha)
       }
       if (res.ok) {
-        this.definitionsSha = res.sha
-        this.isUnsaved = 0
+        // this.definitionsSha = res.sha
+        // this.isUnsaved = 0
         this.clearMessages()
         this.logMessage('Definitions saved.', 'info')
       } else {
         this.logMessage(`Could not save definitions (${res.description})`, 'danger')
       }
+      return res
     },
     onShortenCollection(e) {
       const self = this;
@@ -431,10 +490,16 @@ createApp({
       return utils.getQueryString()
     },
     setAddressBarFromSelection() {
+      // TODO: this is doing nothing?
       let searchParams = new URLSearchParams(window.location.search);
 
       let qs = `?${searchParams.toString()}`
       decodeURIComponent(qs)
+    },
+    setSelectionFromAddressBar() {
+      let searchParams = new URLSearchParams(window.location.search);
+
+      this.selection.innerTab = searchParams.get('itb') || 'ac'
     },
     logMessage(content, level = 'info') {
       // level: info|primary|success|warning|danger

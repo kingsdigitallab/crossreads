@@ -34,7 +34,7 @@
               <template v-if="!isLoggedIn && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;
-              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveDefinitions()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
+              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveAll()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </a>            
           </li>
         </ul>
@@ -154,6 +154,51 @@
                 <td class="add-cell"></td>
                 <td v-for="(feature, featureSlug) in filteredFeatures" @click.stop.prevent="onClickComponentFeature(component, featureSlug)">
                   <span v-if="component.features.includes(featureSlug)" class="checked">✔</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div v-if="selection.innerTab == 'vt'" class="scrollable-table-wrapper">
+          <div class="field is-grouped is-horizontal definitions-controls">
+            <p class="control">
+              <label class="label">Script</label>
+              <div class="select">
+                <select v-model="selection.script">
+                  <option v-for="(scriptName, scriptSlug) in definitions.scripts" :value="scriptSlug">{{ scriptName }}</option>
+                </select>
+              </div>
+            </p>
+          </div>
+          <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth-no is-bordered">
+            <thead>
+              <tr>
+                <th>Character</th>
+                <th>Component</th>
+                <th>Feature main</th>
+                <th>Feature secondary</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="rule in filteredVariantRules">
+                <td>{{ rule.allograph }}</td>
+                <td>{{ rule['component-features'][0]['component'] }}</td>
+                <td>{{ rule['component-features'][0]['feature'] }}</td>
+                <td>
+                  <template v-if="rule['component-features'][1]">
+                    <template v-if="rule['component-features'][1]['component'] != rule['component-features'][0]['component']">{{ rule['component-features'][1]['component'] }} = <br></template>
+                    {{ rule['component-features'][1]['feature'] }}
+                  </template>
+                </td>
+                <td>{{ rule['variant-name'] }}</td>
+                <td>
+                  &nbsp;
+                  <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>

@@ -251,7 +251,8 @@
             },
             "bowl": {
               "features": [
-                "closed"
+                "closed",
+                "round"
               ]
             }
           },
@@ -289,7 +290,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-16T15:30:59.789Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-16T15:31:15.907Z"
+    "modified": "2024-10-16T15:31:16.875Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -456,6 +457,51 @@
     "created": "2024-10-16T15:24:23.433Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-10-16T15:30:55.431Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ω"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000668/ISic000668_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3907.485107421875,663.4249877929688,191.127197265625,178.03631591796875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000668.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AΟεAε']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/9ce76cfe-3cc4-4be3-acd0-10fab284c401",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-16T15:31:22.521Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-16T15:31:25.627Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

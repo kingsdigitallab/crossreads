@@ -201,5 +201,67 @@
     "created": "2024-10-17T23:39:42.829Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-10-17T23:39:59.912Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
+            "right-stroke": {
+              "features": [
+                "above-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Ν"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001132/ISic001132_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3039.99560546875,1216.8028564453125,250.593017578125,312.2142333984375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001132.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BNUAΤ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/f5f886fe-a158-4a1f-9b61-ab4b90d81a7d",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-17T23:40:09.208Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-17T23:40:17.677Z"
   }
 ]

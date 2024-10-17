@@ -145,7 +145,9 @@
               "features": [
                 "below-baseline",
                 "descending",
-                "diagonal"
+                "diagonal",
+                "straight",
+                "touching"
               ]
             }
           },
@@ -183,6 +185,40 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-17T21:48:27.290Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-17T21:48:51.183Z"
+    "modified": "2024-10-17T21:48:55.052Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000636/ISic000636_a_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:445.4400634765625,1098.2401123046875,568.3200073242188,652.800048828125"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/f182e900-2018-4958-88be-9bd1cc1315b4",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-17T21:49:01.188Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-17T21:49:02.952Z"
   }
 ]

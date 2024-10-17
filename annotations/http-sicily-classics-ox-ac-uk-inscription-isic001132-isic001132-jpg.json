@@ -517,7 +517,11 @@
             },
             "top-bar": {
               "features": [
-                "horizontal"
+                "horizontal",
+                "parallel",
+                "sans-serif",
+                "straight",
+                "touching"
               ]
             }
           },
@@ -553,7 +557,52 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-17T23:43:19.925Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-17T23:43:38.090Z"
+    "modified": "2024-10-17T23:43:41.352Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ω"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001132/ISic001132_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2300.541015625,2839.4951171875,303.998046875,238.268798828125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001132.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BNUCy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 7,
+            "end": 8
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/d1415209-8a1f-4c2f-9ee6-1ce17a416b7c",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-17T23:43:46.420Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-17T23:43:47.766Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

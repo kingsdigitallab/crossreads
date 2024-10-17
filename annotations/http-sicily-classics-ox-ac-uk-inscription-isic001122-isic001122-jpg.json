@@ -12,6 +12,57 @@
           "components": {
             "body": {
               "features": [
+                "circular"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Ο"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001122/ISic001122_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1116.853271484375,903.2532958984375,414.506591796875,315.52001953125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001122.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BMUAU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/1f827cde-eff3-4b52-8a31-1075be530414",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-17T23:19:48.782Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-17T23:19:50.745Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
+            "body": {
+              "features": [
                 "circular",
                 "small"
               ]
@@ -90,6 +141,13 @@
               "features": [
                 "above-baseline",
                 "diagonal",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "apex": {
+              "features": [
+                "angular",
                 "sans-serif"
               ]
             }
@@ -126,6 +184,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-17T23:18:48.152Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-17T23:19:41.038Z"
+    "modified": "2024-10-17T23:19:43.929Z"
   }
 ]

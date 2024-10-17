@@ -94,8 +94,17 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
-          "tags": null,
+          "components": {
+            "crossbar": {
+              "features": [
+                "curved",
+                "horizontal"
+              ]
+            }
+          },
+          "tags": [
+            "incomplete"
+          ],
           "character": "Α"
         }
       }
@@ -127,6 +136,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-17T15:17:55.960Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-17T15:17:57.035Z"
+    "modified": "2024-10-17T15:18:08.129Z"
   }
 ]

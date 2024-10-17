@@ -79,7 +79,17 @@
             "middle-bar": {
               "features": [
                 "diagonal",
-                "sans-serif"
+                "sans-serif",
+                "straight",
+                "touching"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "horizontal",
+                "serif",
+                "straight",
+                "touching"
               ]
             }
           },
@@ -117,7 +127,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-17T22:11:44.484Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-17T22:11:57.664Z"
+    "modified": "2024-10-17T22:12:02.738Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -254,6 +264,38 @@
     "created": "2024-10-17T22:11:15.484Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-10-17T22:11:30.999Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000770/ISic000770_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1081.4951171875,1559.5408935546875,484.028076171875,364.2685546875"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/b39b48d2-2760-4860-987d-d577914a8496",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-17T22:12:07.611Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

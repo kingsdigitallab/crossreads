@@ -156,6 +156,51 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ξ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001258/ISic001258_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1380.546142578125,2956.080810546875,140.727294921875,139.636474609375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001258.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BZεCK']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/103a427a-ca67-4b5f-ae69-d5b86e103bb1",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-18T11:16:47.492Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-18T11:16:49.285Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": {
             "downstroke": {
               "features": [
@@ -289,7 +334,8 @@
           "components": {
             "body": {
               "features": [
-                "oval"
+                "oval",
+                "small"
               ]
             }
           },
@@ -325,7 +371,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-18T11:16:36.957Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-18T11:16:40.512Z"
+    "modified": "2024-10-18T11:16:41.332Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

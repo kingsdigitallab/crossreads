@@ -443,7 +443,16 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "right-stroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ν"
         }
@@ -476,6 +485,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-18T08:52:23.412Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-18T08:52:24.658Z"
+    "modified": "2024-10-18T08:52:37.708Z"
   }
 ]

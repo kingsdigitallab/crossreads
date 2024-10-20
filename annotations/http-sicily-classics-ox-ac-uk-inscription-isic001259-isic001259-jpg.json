@@ -149,7 +149,9 @@
                 "horizontal",
                 "sans-serif",
                 "long",
-                "extending"
+                "extending",
+                "straight",
+                "touching"
               ]
             }
           },
@@ -187,7 +189,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-10-20T16:55:58.111Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-10-20T16:56:18.060Z"
+    "modified": "2024-10-20T16:56:20.817Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -265,5 +267,50 @@
     "created": "2024-10-20T16:55:04.670Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-10-20T16:55:28.740Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Κ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001259/ISic001259_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2122.63525390625,960.4779052734375,159.465087890625,162.0369873046875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001259.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BZοBο']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/eca01607-e812-4b3c-8a6d-165a3c6374c1",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-10-20T16:56:24.904Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-10-20T16:56:25.957Z"
   }
 ]

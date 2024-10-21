@@ -17,6 +17,7 @@ const STATS_PATH = '../app/stats.json'
 const TESTS_PATH = '../app/data/index/tests.json'
 const ANNOTATIONS_PATH = '../annotations'
 const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
+const PATH_INDEX_COLLECTION = 'index-collection.json'
 
 // Set to true to minify the index.json output.
 // false to make it more readable for debugging purpose.
@@ -112,6 +113,17 @@ class AnnotationIndex {
 
         this.updateStatsWithAnnotation(description, bodyValue.character, bodyValue.script, bodyValue.tags, bodyValue?.components)
 
+        let img = annotation.target[0].source
+        let inscriptionNumber = img.replace(/^.*\/(ISic\d+)\/.*$/g, '$1')
+        let inscriptionMeta = this.inscriptionsMeta[inscriptionNumber]
+        if (inscriptionMeta) {
+          description['pla'] = inscriptionMeta.origin_place
+          description['mat'] = inscriptionMeta.support_material
+          description['wme'] = inscriptionMeta.writting_method
+          description['daf'] = inscriptionMeta.origin_date_from
+          description['dat'] = inscriptionMeta.origin_date_to
+        }
+
         // only keep distinct features
         description['fea'] = [...new Set(description['fea'])]
         this.annotations.push({
@@ -181,6 +193,9 @@ class AnnotationIndex {
   build(annotations_path) {
 
     this.loadDefinitions()
+
+    this.indexCollection = utils.readJsonFile(PATH_INDEX_COLLECTION)
+    this.inscriptionsMeta = this.indexCollection.data
 
     this.initStats()
 

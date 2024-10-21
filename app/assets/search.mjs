@@ -408,6 +408,9 @@ createApp({
           // gh-56
           sort: 'key'
         },
+        pla: {
+          title: 'Place',
+        },
       }
       for (let facetKey of Object.keys(ret)) {
         let facet = ret[facetKey]

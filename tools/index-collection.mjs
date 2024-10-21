@@ -64,18 +64,18 @@ async function indexCollection() {
       let val = ''
 
       val = xmlUtils.xpath(xml, "//tei:layoutDesc//tei:rs//text()")
-      metadata['writting_method'] = xmlUtils.toString(val)
+      metadata['writting_method'] = xmlUtils.toString(val) || 'unspecified'
       // ret = ret.replace(/\s+/g, ' ')
       val = xmlUtils.xpath(xml, "//tei:history/tei:origin/tei:origPlace/tei:placeName[@type='ancient']//text()")
-      metadata['origin_place'] = xmlUtils.toString(val)
+      metadata['origin_place'] = xmlUtils.toString(val) || 'unspecified'
       val = xmlUtils.xpath(xml, "string((//tei:history/tei:origin/tei:origDate/@notBefore-custom)[1])")[0]
       metadata['origin_date_from'] = val ? parseInt(val) : 0
       val = xmlUtils.xpath(xml, "string((//tei:history/tei:origin/tei:origDate/@notAfter-custom)[1])")[0]
       metadata['origin_date_to'] = val ? parseInt(val) : 1000
       val = xmlUtils.xpath(xml, "//tei:material//text()")
-      metadata['support_material'] = xmlUtils.toString(val).trim()
+      metadata['support_material'] = xmlUtils.toString(val).trim() || 'unspecified'
       val = xmlUtils.xpath(xml, "//tei:objectType//text()")
-      metadata['object_type'] = xmlUtils.toString(val).trim()
+      metadata['object_type'] = xmlUtils.toString(val).trim() || 'unspecified'
   
       data[iSicCode] = metadata
     }

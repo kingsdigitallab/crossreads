@@ -19,6 +19,8 @@ const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
 const TAG_EXEMPLAR = 'm.exemplar'
 const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 const SHA_UNREAD = 'SHA_UNREAD'
+const DATE_MIN = -1000
+const DATE_MAX = 2000
 
 createApp({
   data() {
@@ -32,6 +34,8 @@ createApp({
         object: null, // ?
         image: null, // ?
         searchPhrase: '',
+        dateFrom: DATE_MIN,
+        dateTo: DATE_MAX,
         facets: {},
         page: 1,
         perPage: ITEMS_PER_PAGE,
@@ -103,6 +107,12 @@ createApp({
     },
     'selection.perPage'() {
       // console.log('selection.perPage')
+      this.search()
+    },
+    'selection.dateFrom'() {
+      this.search()
+    },
+    'selection.dateTo'() {
       this.search()
     }
   },
@@ -408,6 +418,12 @@ createApp({
           // gh-56
           sort: 'key'
         },
+        mat: {
+          title: 'Material',
+        },
+        wme: {
+          title: 'Execution type',
+        },
         pla: {
           title: 'Place',
         },
@@ -429,13 +445,25 @@ createApp({
       if (!keepPage) {
         this.selection.page = 1
       }
-      this.results = this.itemsjs.search({
+      let options = {
         per_page: this.selection.perPage,
         page: this.selection.page,
         sort: 'or1',
         query: this.selection.searchPhrase,
         filters: this.selection.facets
-      })
+      }
+      if (this.selection.dateFrom > DATE_MIN || this.selection.dateTo < DATE_MAX) {
+        options.filter = (item) => {
+          if (this.selection.dateFrom > DATE_MIN) {
+            if (item.dat < this.selection.dateFrom) return false;
+          }
+          if (this.selection.dateTo < DATE_MAX) {
+            if (item.daf > this.selection.dateTo) return false;            
+          }
+          return true
+        }
+      }
+      this.results = this.itemsjs.search(options)
       // img.addEventListener('load', loaded)
       this.$nextTick(() => {
         this.loadVisibleThumbs()
@@ -651,6 +679,8 @@ createApp({
         q: this.selection.searchPhrase,
         pag: this.selection.page,
         ppg: this.selection.perPage,
+        daf: this.selection.dateFrom,
+        dat: this.selection.dateTo,
       };
 
       for (let facet of Object.keys(this.selection.facets)) {
@@ -665,7 +695,9 @@ createApp({
       this.selection.image = searchParams.get('img') || ''
       this.selection.showSuppliedText = searchParams.get('sup') === '1'
       this.selection.annotationId = searchParams.get('ann') || ''
-      // this.description.script = searchParams.get('scr') || ''
+      this.selection.dateFrom = searchParams.get('daf') || DATE_MIN
+      this.selection.dateTo = searchParams.get('dat') || DATE_MAX
+    // this.description.script = searchParams.get('scr') || ''
 
       this.selection.searchPhrase = searchParams.get('q') || ''
       if (!this.selection.searchPhrase && this.selection.image) {

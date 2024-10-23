@@ -107,6 +107,19 @@
                   </ul>
                 </div>
               </template>
+
+              <p class="panel-heading">
+                Date Range
+              </p>
+              <div class="panel-block search-phrase">
+                <label>After:
+                  <input type="number" v-model="selection.dateFrom" class="input">
+                </label>
+                <label>Before:
+                  <input type="number" v-model="selection.dateTo" class="input">
+                </label>
+              </div>
+
               <p class="panel-heading">
                 New <a href="../definitions.html?itb=vt">variant type</a>
               </p>
@@ -125,6 +138,7 @@
               </div>
             </div>
           </div>
+          
           <div class="column is-6 results">
             <h2 class="title is-3">Annotations ({{ pagination.total }})</h2>
             <div class="results-controls">

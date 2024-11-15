@@ -651,7 +651,6 @@
             }
           },
           "tags": null,
-          "textTarget": null,
           "character": "Σ"
         }
       }
@@ -664,6 +663,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:745.1315307617188,1516.705322265625,758.0247192382812,1421.29638671875"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic003363.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='DkeAe']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/e0cc03a4-cc22-4a0b-b011-25100ba51c3d",
@@ -671,7 +682,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:02:58.966Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-06-05T14:53:39.222Z"
+    "modified": "2024-11-15T16:11:05.222Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -3506,9 +3506,10 @@
         "value": {
           "script": "greek-1",
           "components": null,
-          "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "tags": [
+            "terminal"
+          ],
+          "character": "Ν"
         }
       }
     ],
@@ -3520,12 +3521,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2498.58447265625,2426.798583984375,135.509521484375,137.886962890625"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000668.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AΟεMο']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 10,
+            "end": 11
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/ba896ee9-b616-4442-8007-b9226c03fcd2",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-11-26T14:40:44.870Z"
+    "created": "2024-11-26T14:40:44.870Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-11-26T14:41:00.920Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

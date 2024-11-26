@@ -9,6 +9,40 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001089/ISic001089_adjusted_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3773.01171875,1855.4114990234375,199.6982421875,271.0191650390625"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/2c9d3613-fd8d-44f3-bc0b-81f8d9eea7b6",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-11-26T15:53:49.798Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-11-26T15:53:51.539Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": {
             "right-stroke": {
               "features": [
@@ -387,6 +421,15 @@
                 "straight",
                 "touching"
               ]
+            },
+            "top-bar": {
+              "features": [
+                "horizontal",
+                "parallel",
+                "sans-serif",
+                "straight",
+                "touching"
+              ]
             }
           },
           "tags": null,
@@ -421,7 +464,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:53:19.432Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:53:39.048Z"
+    "modified": "2024-11-26T15:53:45.146Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

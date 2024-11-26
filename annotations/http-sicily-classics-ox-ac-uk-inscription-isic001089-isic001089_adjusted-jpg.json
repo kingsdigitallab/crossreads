@@ -308,7 +308,9 @@
             },
             "right-stroke": {
               "features": [
-                "diagonal"
+                "diagonal",
+                "straight",
+                "sans-serif"
               ]
             }
           },
@@ -346,7 +348,52 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:52:34.959Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:53:11.102Z"
+    "modified": "2024-11-26T15:53:14.117Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ε"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001089/ISic001089_adjusted_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3547.637451171875,1861.1171875,182.58154296875,268.1663818359375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001089.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BIοBU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/bd84f8a5-b947-4f16-b5de-fc905157165f",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-11-26T15:53:19.432Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-11-26T15:53:21.837Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

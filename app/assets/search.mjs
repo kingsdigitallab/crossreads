@@ -349,6 +349,10 @@ createApp({
     resetSearch() {
       this.selection.searchPhrase = ''
       this.selection.facets = {}
+      this.selection.items.clear()
+      this.selection.dateFrom = DATE_MIN
+      this.selection.dateTo = DATE_MAX
+      this.unselectAllTags()
       this.search()
     },
     resetItemsjsconfig() {

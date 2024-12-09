@@ -417,16 +417,16 @@ createApp({
         tag: {
           title: 'Tags',
         },
+        cxf: {
+          title: 'Component x Features',
+          // gh-56
+          sort: 'key'
+        },
         com: {
           title: 'Components',
         },
         fea: {
           title: 'Features',
-        },
-        cxf: {
-          title: 'Component x Features',
-          // gh-56
-          sort: 'key'
         },
         mat: {
           title: 'Material',

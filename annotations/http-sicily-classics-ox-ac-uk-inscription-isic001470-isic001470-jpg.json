@@ -9,10 +9,9 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "Ε"
         }
       }
     ],
@@ -22,14 +21,28 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:3465.461181640625,2474.351318359375,483.1455078125,562.1943359375"
+          "value": "xywh=pixel:3499.96923828125,2469.421630859375,483.1455078125,562.1943359375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001470.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BvABU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
         }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/3f4eaf7e-4b32-4a68-85e6-81281ebbc507",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-12-09T17:38:22.077Z"
+    "created": "2024-12-09T17:38:22.077Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-12-09T17:38:24.959Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -41,10 +54,9 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "Λ"
         }
       }
     ],
@@ -54,14 +66,28 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:3465.461181640625,2474.351318359375,483.1455078125,562.1943359375"
+          "value": "xywh=pixel:3805.6103515625,2316.809814453125,581.70458984375,537.337158203125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001470.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BvABU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
         }
       }
     ],
-    "id": "https://crossreads.web.ox.ac.uk/annotations/3f4eaf7e-4b32-4a68-85e6-81281ebbc507",
+    "id": "https://crossreads.web.ox.ac.uk/annotations/56b48266-1c54-4a55-b9dc-d9294ec5682a",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-12-09T17:38:22.077Z"
+    "created": "2024-12-09T17:38:28.756Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-12-09T17:38:30.147Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

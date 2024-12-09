@@ -337,8 +337,14 @@ createApp({
       }
       if (ret) {
         this.selection.items.clear()
+        this.unselectAllTags()
       }
       return ret
+    },
+    unselectAllTags() {
+      Object.keys(this.definitions.tags).forEach(k => {
+        this.definitions.tags[k] = null
+      })
     },
     resetSearch() {
       this.selection.searchPhrase = ''

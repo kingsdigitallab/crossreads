@@ -85,15 +85,16 @@ createApp({
     },
   },
   async mounted() {
+    this.setSelectionFromAddressBar()
     await this.initAnyFileSystem()
     await this.loadDefinitions()
     await this.loadStats()
     await this.loadVariantRules()
-    this.setSelectionFromAddressBar()
   },
   watch: {
     'selection.script'() {
       this.setScriptName()
+      this.setAddressBarFromSelection()
     }
   },
   methods: {
@@ -285,10 +286,21 @@ createApp({
       this.areDefinitionsUnsaved = 1
     },
     selectFirstScript() {
-      this.selection.script = Object.keys(this.definitions.scripts)[0]
+      // do nothing if a valid script is already selected
+      if (!(this.definitions?.scripts && this.definitions?.scripts[this.selection.script])) {
+        this.selection.script = Object.keys(this.definitions.scripts)[0]
+      } else {
+        this.setScriptName()
+      }
     },
     setScriptName() {
-      this.selection.scriptName = this.definitions.scripts[this.selection.script]
+      if (this.definitions.scripts) {
+        this.selection.scriptName = this.definitions.scripts[this.selection.script]
+      }
+    },
+    onClickInnerTab(tabKey) {
+      this.selection.innerTab = tabKey
+      this.setAddressBarFromSelection()
     },
     onClickAllographComponent(allo, componentSlug) {
       if (!this.canEdit) return;
@@ -490,16 +502,19 @@ createApp({
       return utils.getQueryString()
     },
     setAddressBarFromSelection() {
-      // TODO: this is doing nothing?
       let searchParams = new URLSearchParams(window.location.search);
 
+      searchParams.set('itb', this.selection.innerTab)
+      searchParams.set('scr', this.selection.script)
+
       let qs = `?${searchParams.toString()}`
-      decodeURIComponent(qs)
+      history.replaceState(null, "", qs);
     },
     setSelectionFromAddressBar() {
       let searchParams = new URLSearchParams(window.location.search);
 
       this.selection.innerTab = searchParams.get('itb') || 'ac'
+      this.selection.script = searchParams.get('scr') || ''
     },
     logMessage(content, level = 'info') {
       // level: info|primary|success|warning|danger

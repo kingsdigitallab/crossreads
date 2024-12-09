@@ -19,6 +19,7 @@ async function mod(exports) {
   }
 
   exports.setQueryString = function(parameters, defaults={}) {
+    // TODO: try URLSearchParams.toString() instead.
     let newRelativePathQuery = window.location.pathname
     let qsKeys = Object.keys(parameters)
     let qs = ''

@@ -48,7 +48,7 @@
         <div class="tabs is-boxed">
           <ul>
             <li v-for="tab in innerTabs" :class="{'is-active': selection.innerTab == tab.key}">
-              <a @click.prevent.stop="selection.innerTab = tab.key">
+              <a @click.prevent.stop="onClickInnerTab(tab.key)">
                 {{ tab.title }}
               </a>
             </li>

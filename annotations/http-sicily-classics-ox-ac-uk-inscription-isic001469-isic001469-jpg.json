@@ -114,10 +114,40 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
-          "components": null,
+          "components": {
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "left-bar": {
+              "features": [
+                "diagonal",
+                "long",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "right-bar": {
+              "features": [
+                "diagonal"
+              ]
+            }
+          },
           "tags": null,
-          "textTarget": null
+          "character": "Μ"
         }
       }
     ],
@@ -129,6 +159,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:1437.601806640625,1167.0361328125,253.501708984375,290.4442138671875"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001469.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BuοAo']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/d5a8f5a5-d892-4942-85e7-019e8c670f50",
@@ -136,7 +178,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-09T17:30:47.135Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-09T17:30:50.330Z"
+    "modified": "2024-12-09T17:31:11.388Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

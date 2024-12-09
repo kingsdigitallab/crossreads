@@ -18,15 +18,17 @@ async function mod(exports) {
     return str.replace(/\W+/g, '-').toLowerCase()
   }
 
-  exports.setQueryString = function(parameters) {
+  exports.setQueryString = function(parameters, defaults={}) {
     let newRelativePathQuery = window.location.pathname
     let qsKeys = Object.keys(parameters)
     let qs = ''
     if (qsKeys.length) {
       for (let k of qsKeys) {
-        if (parameters[k]) {
+        let defaultValue = defaults[k] ?? ''
+        let valueStr = `${parameters[k]}`.trim()
+        if (valueStr != defaultValue) {
           if (qs) qs += '&';
-          qs += `${k}=${parameters[k]}`
+          qs += `${k}=${encodeURIComponent(valueStr)}`
         }
       }
       if (qs) {

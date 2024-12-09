@@ -33,7 +33,9 @@ createApp({
         annotationId: '',
         object: null, // ?
         image: null, // ?
-        searchPhrase: '',
+        // if null, &img in query string will be the phrase.
+        // if '' the phrase will be empty.
+        searchPhrase: null,
         dateFrom: DATE_MIN,
         dateTo: DATE_MAX,
         facets: {},
@@ -98,7 +100,7 @@ createApp({
     }
 
     this.setSelectionFromAddressBar()
-    this.search(true)
+    this.search()
   },
   watch: {
     'selection.searchPhrase'() {
@@ -337,12 +339,22 @@ createApp({
       }
       if (ret) {
         this.selection.items.clear()
+        this.unselectAllTags()
       }
       return ret
+    },
+    unselectAllTags() {
+      Object.keys(this.definitions.tags).forEach(k => {
+        this.definitions.tags[k] = null
+      })
     },
     resetSearch() {
       this.selection.searchPhrase = ''
       this.selection.facets = {}
+      this.selection.items.clear()
+      this.selection.dateFrom = DATE_MIN
+      this.selection.dateTo = DATE_MAX
+      this.unselectAllTags()
       this.search()
     },
     resetItemsjsconfig() {
@@ -407,16 +419,16 @@ createApp({
         tag: {
           title: 'Tags',
         },
+        cxf: {
+          title: 'Component x Features',
+          // gh-56
+          sort: 'key'
+        },
         com: {
           title: 'Components',
         },
         fea: {
           title: 'Features',
-        },
-        cxf: {
-          title: 'Component x Features',
-          // gh-56
-          sort: 'key'
         },
         mat: {
           title: 'Material',
@@ -449,7 +461,7 @@ createApp({
         per_page: this.selection.perPage,
         page: this.selection.page,
         sort: 'or1',
-        query: this.selection.searchPhrase,
+        query: (this.selection.searchPhrase || '').trim(),
         filters: this.selection.facets
       }
       if (this.selection.dateFrom > DATE_MIN || this.selection.dateTo < DATE_MAX) {
@@ -686,7 +698,18 @@ createApp({
       for (let facet of Object.keys(this.selection.facets)) {
         searchParams[`f.${facet}`] = this.selection.facets[facet].join('|')
       }
-      utils.setQueryString(searchParams)
+      
+      let defaults = {
+        // make sure q is always in the query string, even if ''
+        q: 'DEFAULT',
+        pag: 1,
+        ppg: ITEMS_PER_PAGE,
+        daf: DATE_MIN,
+        dat: DATE_MAX,
+        sup: 0,
+      }
+      
+      utils.setQueryString(searchParams, defaults)
     },
     setSelectionFromAddressBar() {
       let searchParams = new URLSearchParams(window.location.search);
@@ -695,16 +718,19 @@ createApp({
       this.selection.image = searchParams.get('img') || ''
       this.selection.showSuppliedText = searchParams.get('sup') === '1'
       this.selection.annotationId = searchParams.get('ann') || ''
-      this.selection.dateFrom = searchParams.get('daf') || DATE_MIN
-      this.selection.dateTo = searchParams.get('dat') || DATE_MAX
-    // this.description.script = searchParams.get('scr') || ''
+      this.selection.dateFrom = this._getNumberFromString(searchParams.get('daf'), DATE_MIN)
+      this.selection.dateTo = this._getNumberFromString(searchParams.get('dat'), DATE_MAX)
+      // this.description.script = searchParams.get('scr') || ''
 
-      this.selection.searchPhrase = searchParams.get('q') || ''
-      if (!this.selection.searchPhrase && this.selection.image) {
+      this.selection.searchPhrase = searchParams.get('q')
+      if (this.selection.searchPhrase === null && this.selection.image) {
         this.selection.searchPhrase = this.selection.image.replace(/\.[^.]+$/, '')
+      } else {
+        this.selection.searchPhrase = (this.selection.searchPhrase || '').trim()
       }
-      this.selection.page = parseInt(searchParams.get('pag') || '1')
-      this.selection.perPage = parseInt(searchParams.get('ppg') || ITEMS_PER_PAGE)
+
+      this.selection.page = this._getNumberFromString(searchParams.get('pag'), 1)
+      this.selection.perPage = this._getNumberFromString(searchParams.get('ppg'), ITEMS_PER_PAGE)
 
       for (let facet of Object.keys(this.getFacetDefinitions())) {
         let options = searchParams.get(`f.${facet}`)
@@ -713,5 +739,11 @@ createApp({
         }
       }
     },
+    _getNumberFromString(stringValue, defaultValue=0) {
+      let res = parseInt(stringValue)
+      let ret = isNaN(res) ? defaultValue : res
+      console.log(stringValue, res, defaultValue, ret)
+      return ret
+    }
   }
 }).mount('#search');

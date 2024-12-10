@@ -43,7 +43,7 @@ async function indexCollection() {
 
   let data = {}
 
-  let shortList = ['ISic001132']
+  let shortList = ['ISic020600', 'ISic001132']
   shortList = null
 
   let total = 0
@@ -63,19 +63,14 @@ async function indexCollection() {
       let xml = await xmlUtils.fromString(filePath)
       let val = ''
 
-      // writing_method: multivalued
-      let res = []
-      let vals = xmlUtils.xpath(xml, "//tei:layoutDesc//tei:rs//text()")
-      if (vals && vals.length) {
-        vals.forEach(v => res.push(xmlUtils.toString(v).toLowerCase()))
-      } else {
-        res.push('unspecified')
-      }
-      metadata['writting_method'] = res
+      metadata['writting_method'] = getMultipleValuesFromXML(xml, "//tei:layoutDesc//tei:rs//text()")
       
       // ret = ret.replace(/\s+/g, ' ')
-      val = xmlUtils.xpath(xml, "//tei:history/tei:origin/tei:origPlace/tei:placeName[@type='ancient']//text()")
-      metadata['origin_place'] = xmlUtils.toString(val) || 'unspecified'
+      // val = xmlUtils.xpath(xml, "//tei:history/tei:origin/tei:origPlace/tei:placeName[@type='ancient']//text()")
+      // metadata['origin_place'] = xmlUtils.toString(val) || 'unspecified'
+
+      metadata['origin_place'] = getMultipleValuesFromXML(xml, "//tei:history/tei:origin/tei:origPlace/tei:placeName[@type='ancient']//text()")
+
       val = xmlUtils.xpath(xml, "string((//tei:history/tei:origin/tei:origDate/@notBefore-custom)[1])")[0]
       metadata['origin_date_from'] = val ? parseInt(val) : 0
       val = xmlUtils.xpath(xml, "string((//tei:history/tei:origin/tei:origDate/@notAfter-custom)[1])")[0]
@@ -87,6 +82,17 @@ async function indexCollection() {
   
       data[iSicCode] = metadata
     }
+  }
+
+  function getMultipleValuesFromXML(xml, xpath) {
+    let ret = []
+    let vals = xmlUtils.xpath(xml, xpath)
+    if (vals && vals.length) {
+      vals.forEach(v => ret.push(xmlUtils.toString(v).toLowerCase()))
+    } else {
+      ret.push('unspecified')
+    }
+    return ret
   }
 
   let index = {

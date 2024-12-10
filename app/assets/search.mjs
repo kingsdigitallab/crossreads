@@ -763,12 +763,15 @@ createApp({
       this.selection.dateTo = this._getNumberFromString(searchParams.get('dat'), DATE_MAX)
       // this.description.script = searchParams.get('scr') || ''
 
-      this.selection.searchPhrase = searchParams.get('q')
-      if (this.selection.searchPhrase === null && this.selection.image) {
-        this.selection.searchPhrase = this.selection.image.replace(/\.[^.]+$/, '')
-      } else {
-        this.selection.searchPhrase = (this.selection.searchPhrase || '').trim()
-      }
+      // // no longer wanted
+      // this.selection.searchPhrase = searchParams.get('q')
+      // if (this.selection.searchPhrase === null && this.selection.image) {
+      //   this.selection.searchPhrase = this.selection.image.replace(/\.[^.]+$/, '')
+      // } else {
+      //   this.selection.searchPhrase = (this.selection.searchPhrase || '').trim()
+      // }
+
+      this.selection.searchPhrase = (searchParams.get('q') || '').trim()
 
       this.selection.page = this._getNumberFromString(searchParams.get('pag'), 1)
       this.selection.perPage = this._getNumberFromString(searchParams.get('ppg'), ITEMS_PER_PAGE)

@@ -742,7 +742,21 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "below-baseline",
+                "diagonal",
+                "sans-serif"
+              ]
+            }
+          },
           "tags": null,
           "character": "Σ"
         }
@@ -775,7 +789,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T17:49:53.935Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T17:49:56.342Z"
+    "modified": "2024-12-10T17:43:12.064Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

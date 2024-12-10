@@ -412,7 +412,6 @@ createApp({
     isFacetSortedBy(facetKey, sort, order) {
       let settings = this.getFacetSettings(facetKey)
       return settings.sort == sort && settings.order == order
-      
     },
     getSelectedOptionsCount(facetKey) {
       return this.getSelectedOptions(facetKey).length

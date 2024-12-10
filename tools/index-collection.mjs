@@ -43,7 +43,7 @@ async function indexCollection() {
 
   let data = {}
 
-  let shortList = ['ISic000016']
+  let shortList = ['ISic001132']
   shortList = null
 
   let total = 0
@@ -63,8 +63,16 @@ async function indexCollection() {
       let xml = await xmlUtils.fromString(filePath)
       let val = ''
 
-      val = xmlUtils.xpath(xml, "//tei:layoutDesc//tei:rs//text()")
-      metadata['writting_method'] = xmlUtils.toString(val) || 'unspecified'
+      // writing_method: multivalued
+      let res = []
+      let vals = xmlUtils.xpath(xml, "//tei:layoutDesc//tei:rs//text()")
+      if (vals && vals.length) {
+        vals.forEach(v => res.push(xmlUtils.toString(v).toLowerCase()))
+      } else {
+        res.push('unspecified')
+      }
+      metadata['writting_method'] = res
+      
       // ret = ret.replace(/\s+/g, ' ')
       val = xmlUtils.xpath(xml, "//tei:history/tei:origin/tei:origPlace/tei:placeName[@type='ancient']//text()")
       metadata['origin_place'] = xmlUtils.toString(val) || 'unspecified'

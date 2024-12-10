@@ -396,7 +396,9 @@ div[data-tei-subtype='section'] .textpart-number:before {
 }
 
 .panel-expand {
-  float: right;
+  /* float: right; */
+  display: inline-block;
+  width: 90%;
 }
 
 .facet-options ul {
@@ -497,4 +499,16 @@ div[data-tei-subtype='section'] .textpart-number:before {
   font-style: italic;
   margin: 0.5em;
   margin-top: 1.5em;
+}
+
+#search .panel-heading {
+  font-size: 1.2em;
+  line-height: 1em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+}
+
+.facet-options ul {
+  overflow-y: auto;
+  max-height: 30em;
 }

@@ -13,7 +13,7 @@ import { AvailableTags } from "../tags.mjs";
 const INDEX_PATH = 'app/index.json'
 const ITEMS_PER_PAGE = 24
 const OPTIONS_PER_FACET = 15
-const OPTIONS_PER_FACET_EXPANDED = 100
+const OPTIONS_PER_FACET_EXPANDED = 1000
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
 const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
 const TAG_EXEMPLAR = 'm.exemplar'
@@ -21,6 +21,25 @@ const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 const SHA_UNREAD = 'SHA_UNREAD'
 const DATE_MIN = -1000
 const DATE_MAX = 2000
+
+function loadFacetsSettings() {
+  /* 
+  {
+    "chr": {"size":100,"sort":"count","order":"desc"},
+    "com": {"size":15,"sort":"count","order":"desc"}
+  }
+  */
+  let ret = JSON.parse(window.localStorage.getItem('facetsSettings') || '{}')
+
+  // remove all references to .size
+  Object.values(ret).forEach(facetSettings => {
+    delete facetSettings.size
+  })
+
+  // console.log(ret)
+
+  return ret
+}
 
 createApp({
   data() {
@@ -42,7 +61,7 @@ createApp({
         page: 1,
         perPage: ITEMS_PER_PAGE,
         // facetName: {sort: key|count, order: asc|desc, size: N}
-        facetsSettings: JSON.parse(window.localStorage.getItem('facetsSettings') || '{}'),
+        facetsSettings: loadFacetsSettings(),
         items: new Set(),
         newTagName: '',
         newTypeName: '',
@@ -371,8 +390,11 @@ createApp({
       this.itemsjs = window.itemsjs(this.index.data, config);
     },
     onClickFacetExpand(facetKey) {
+      if (this.getSelectedOptionsCount(facetKey)) return;
+
       let settings = this.getFacetSettings(facetKey)
-      settings.size = settings.size == OPTIONS_PER_FACET ? OPTIONS_PER_FACET_EXPANDED : OPTIONS_PER_FACET;
+      // settings.size = settings.size == OPTIONS_PER_FACET ? OPTIONS_PER_FACET_EXPANDED : OPTIONS_PER_FACET;
+      settings.expanded = !(settings?.expanded)
       this.setFacetSettings(facetKey, settings)
     },
     getFacetSettings(facetKey) {
@@ -385,12 +407,18 @@ createApp({
     },
     isFacetExpanded(facetKey) {
       let settings = this.getFacetSettings(facetKey)
-      return settings.size != OPTIONS_PER_FACET 
+      return !!settings.expanded
     },
     isFacetSortedBy(facetKey, sort, order) {
       let settings = this.getFacetSettings(facetKey)
       return settings.sort == sort && settings.order == order
       
+    },
+    getSelectedOptionsCount(facetKey) {
+      return this.getSelectedOptions(facetKey).length
+    },
+    getSelectedOptions(facetKey) {
+      return this.selection?.facets[facetKey] || []
     },
     onClickFacetColumn(facetKey, columnName) {
       let settings = this.getFacetSettings(facetKey)
@@ -443,11 +471,15 @@ createApp({
       for (let facetKey of Object.keys(ret)) {
         let facet = ret[facetKey]
         let settings = this.getFacetSettings(facetKey)
-        facet.size = settings.size
+        // TODO: more efficient if we don't include it when not expanded
+        // note that size = 0 is treated like infinite by itemsjs
+        facet.size = settings.expanded ? OPTIONS_PER_FACET_EXPANDED : 1
         facet.sort = settings.sort
         facet.order = settings.order
         facet.hide_zero_doc_count = HIDE_OPTIONS_WITH_ZERO_COUNT
       }
+      // console.log('Facet Defs')
+      // console.log(ret)
       return ret
     },
     search(keepPage=false) {
@@ -464,6 +496,7 @@ createApp({
         query: (this.selection.searchPhrase || '').trim(),
         filters: this.selection.facets
       }
+      // console.log(options)
       if (this.selection.dateFrom > DATE_MIN || this.selection.dateTo < DATE_MAX) {
         options.filter = (item) => {
           if (this.selection.dateFrom > DATE_MIN) {
@@ -735,14 +768,17 @@ createApp({
       for (let facet of Object.keys(this.getFacetDefinitions())) {
         let options = searchParams.get(`f.${facet}`)
         if (options) {
+          // console.log(facet, options)
           this.selection.facets[facet] = options.split('|')
+          // console.log(this.selection.facets)
         }
       }
+      // console.log(this.selection.facets)
     },
     _getNumberFromString(stringValue, defaultValue=0) {
       let res = parseInt(stringValue)
       let ret = isNaN(res) ? defaultValue : res
-      console.log(stringValue, res, defaultValue, ret)
+      // console.log(stringValue, res, defaultValue, ret)
       return ret
     }
   }

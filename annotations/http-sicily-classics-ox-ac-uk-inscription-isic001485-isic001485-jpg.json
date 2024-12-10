@@ -3088,7 +3088,23 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "right-stroke": {
+              "features": [
+                "above-baseline",
+                "diagonal",
+                "sans-serif",
+                "short",
+                "straight"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "below-baseline",
+                "diagonal"
+              ]
+            }
+          },
           "tags": null,
           "character": "Μ"
         }
@@ -3121,7 +3137,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T17:47:38.012Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T17:47:46.096Z"
+    "modified": "2024-12-10T17:35:39.881Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -407,7 +407,7 @@ createApp({
     },
     isFacetExpanded(facetKey) {
       let settings = this.getFacetSettings(facetKey)
-      return !!settings.expanded
+      return !!settings.expanded || this.getSelectedOptionsCount(facetKey)
     },
     isFacetSortedBy(facetKey, sort, order) {
       let settings = this.getFacetSettings(facetKey)
@@ -418,7 +418,16 @@ createApp({
       return this.getSelectedOptions(facetKey).length
     },
     getSelectedOptions(facetKey) {
-      return this.selection?.facets[facetKey] || []
+      let ret = this.selection?.facets[facetKey] || []
+      if (facetKey == 'dat') {
+        if (this.selection.dateFrom > DATE_MIN) {
+          ret.push(this.selection.dateFrom)
+        }
+        if (this.selection.dateTo < DATE_MAX) {
+          ret.push(this.selection.dateTo)
+        }
+      }
+      return ret
     },
     onClickFacetColumn(facetKey, columnName) {
       let settings = this.getFacetSettings(facetKey)

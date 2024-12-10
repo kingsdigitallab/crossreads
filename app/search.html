@@ -110,9 +110,14 @@
               </template>
 
               <p class="panel-heading">
-                Date Range
+                <a class="panel-expand" @click.stop.prevent="onClickFacetExpand('dat')" :title="isFacetExpanded('dat') ? 'Collapse' : 'Expand'">
+                  <template v-if="isFacetExpanded('dat')"><i class="fas fa-angle-down"></i></template>
+                  <template v-else><i class="fas fa-angle-right"></i></template>
+                  Date Range
+                  <span v-if="getSelectedOptionsCount('dat')">({{getSelectedOptionsCount('dat')}})</span>
+                </a>                
               </p>
-              <div class="panel-block search-phrase">
+              <div class="panel-block search-phrase" v-if="isFacetExpanded('dat')">
                 <label>After:
                   <input type="number" v-model="selection.dateFrom" class="input">
                 </label>

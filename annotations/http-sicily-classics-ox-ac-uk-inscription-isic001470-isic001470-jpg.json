@@ -823,7 +823,9 @@
         "value": {
           "script": "greek-1",
           "components": null,
-          "tags": null,
+          "tags": [
+            "incomplete"
+          ],
           "character": "Σ"
         }
       }
@@ -855,7 +857,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-09T17:40:55.406Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-09T17:40:58.571Z"
+    "modified": "2024-12-10T15:54:44.168Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1214,7 +1216,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ο"
         }
@@ -1247,6 +1255,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-09T17:40:50.913Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-09T17:40:52.004Z"
+    "modified": "2024-12-10T15:54:39.738Z"
   }
 ]

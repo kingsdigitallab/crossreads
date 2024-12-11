@@ -692,6 +692,11 @@ createApp({
 
       return ret
     },
+    getAnnotationsCount() {
+      // unused although handy function for user feedback.
+      // But it's called/drawn too often by Vue since it's not reactive.
+      return (this?.anno?.getAnnotations() || []).length
+    },
     getTextTargetFromSign(sign) {
       // let word = sign.closest('.tei-w')
       let word = sign.closest('[data-tei-id]')

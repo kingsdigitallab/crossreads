@@ -34,7 +34,8 @@
                 "converging",
                 "diagonal",
                 "sans-serif",
-                "straight"
+                "straight",
+                "touching"
               ]
             }
           },
@@ -70,7 +71,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-19T09:01:44.840Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-19T09:08:27.226Z"
+    "modified": "2024-12-19T09:08:28.081Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -282,5 +283,50 @@
     "created": "2024-12-19T09:00:21.428Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2024-12-19T09:00:41.574Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Α"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001674/ISic001674_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2639.4443359375,1511.4150390625,367.9560546875,324.30029296875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001674.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BΠoAe']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/fb8b6414-3205-4aea-9f03-5b6829b455e4",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-12-19T09:08:33.857Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-12-19T09:08:37.375Z"
   }
 ]

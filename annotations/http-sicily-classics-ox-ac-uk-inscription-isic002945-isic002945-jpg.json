@@ -9,6 +9,38 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic002945/ISic002945_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1429.6776123046875,1220.5076904296875,225.3541259765625,242.68896484375"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/046c9e7b-745c-4685-ba16-792d20512def",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-12-19T10:05:08.463Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": {
             "apex": {
               "features": [
@@ -147,7 +179,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ο"
         }
@@ -180,7 +218,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-19T10:04:57.284Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-19T10:04:58.248Z"
+    "modified": "2024-12-19T10:04:59.057Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

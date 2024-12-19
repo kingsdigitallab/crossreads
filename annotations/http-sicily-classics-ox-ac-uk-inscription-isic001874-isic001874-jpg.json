@@ -9,6 +9,38 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001874/ISic001874_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3560.754150390625,804.0260009765625,389.158935546875,555.94140625"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/918b2b66-26fe-4532-8263-cf0525afe806",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-12-19T09:41:31.620Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": {
             "left-bar": {
               "features": [
@@ -86,6 +118,22 @@
                 "sans-serif",
                 "touching"
               ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
             }
           },
           "tags": null,
@@ -120,6 +168,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-19T09:41:06.061Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-19T09:41:19.726Z"
+    "modified": "2024-12-19T09:41:27.162Z"
   }
 ]

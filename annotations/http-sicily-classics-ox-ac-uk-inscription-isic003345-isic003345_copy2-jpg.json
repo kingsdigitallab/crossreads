@@ -507,7 +507,15 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "right-stroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            }
+          },
           "tags": [
             "terminal"
           ],
@@ -521,7 +529,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1110.491455078125,820.1002197265625,137.08203125,98.9073486328125"
+          "value": "xywh=pixel:1105.2857666015625,825.3058471679688,137.08203125,98.9073486328125"
         }
       },
       {
@@ -542,7 +550,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-20T17:21:00.624Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-20T17:21:06.582Z"
+    "modified": "2024-12-20T17:21:19.411Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

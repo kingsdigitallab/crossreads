@@ -591,6 +591,51 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
+          "components": null,
+          "tags": null,
+          "character": "Ν"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic003013/ISic003013_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1634.1060791015625,1427.41650390625,240.6331787109375,216.2994384765625"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic003013.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='DBeDΤ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/4ca1658a-ce14-4b33-8cfd-77c89d2b40b6",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-12-20T14:36:13.194Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-12-20T14:36:14.301Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
           "components": {
             "left-stroke": {
               "features": [
@@ -669,6 +714,15 @@
                 "straight",
                 "vertical"
               ]
+            },
+            "middle-stroke": {
+              "features": [
+                "descending",
+                "diagonal",
+                "on-baseline",
+                "straight",
+                "touching"
+              ]
             }
           },
           "tags": null,
@@ -703,7 +757,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-20T14:35:53.007Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-20T14:36:02.600Z"
+    "modified": "2024-12-20T14:36:09.527Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

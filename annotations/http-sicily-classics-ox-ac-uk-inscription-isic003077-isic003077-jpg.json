@@ -939,7 +939,24 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "bottom-bar": {
+              "features": [
+                "horizontal",
+                "on-baseline",
+                "serif",
+                "straight",
+                "touching",
+                "parallel"
+              ]
+            },
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif"
+              ]
+            }
+          },
           "tags": [
             "serif.slab"
           ],

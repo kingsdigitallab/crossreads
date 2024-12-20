@@ -945,6 +945,67 @@
         "value": {
           "script": "greek-1",
           "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "bowl": {
+              "features": [
+                "closed"
+              ]
+            }
+          },
+          "tags": [
+            "serif.slab"
+          ],
+          "character": "Ρ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic003351/ISic003351_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2567.482421875,2931.002685546875,307.8046875,516.164794921875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic003351.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='DjKCo']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 3,
+            "end": 4
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/9534f0c9-92ce-44c5-9342-4705ee89b482",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-12-20T17:56:30.403Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2024-12-20T17:56:40.582Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
             "left-stroke": {
               "features": [
                 "on-baseline",
@@ -1275,7 +1336,16 @@
             },
             "left-stroke": {
               "features": [
-                "diagonal"
+                "diagonal",
+                "serif",
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "serif",
+                "straight"
               ]
             }
           },
@@ -1313,7 +1383,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-12-20T17:56:03.613Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-12-20T17:56:19.320Z"
+    "modified": "2024-12-20T17:56:26.092Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

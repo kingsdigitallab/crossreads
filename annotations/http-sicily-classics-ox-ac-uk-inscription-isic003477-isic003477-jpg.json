@@ -166,7 +166,22 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "bowl": {
+              "features": [
+                "closed",
+                "round"
+              ]
+            }
+          },
           "tags": [
             "terminal"
           ],
@@ -201,6 +216,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-01-06T14:17:12.465Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-01-06T14:17:23.322Z"
+    "modified": "2025-01-06T14:17:34.821Z"
   }
 ]

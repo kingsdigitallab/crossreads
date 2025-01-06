@@ -9,10 +9,9 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "Ε"
         }
       }
     ],
@@ -22,14 +21,28 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:749.1802978515625,733.9248657226562,168.84283447265625,141.8997802734375"
+          "value": "xywh=pixel:756.3650512695312,733.9248657226562,161.6580810546875,140.10357666015625"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic003423.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='DqeBU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
         }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/756be3ea-3179-4c5a-b12a-86168fc85f0b",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2025-01-06T10:12:14.621Z"
+    "created": "2025-01-06T10:12:14.621Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-01-06T10:12:18.617Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -212,7 +225,8 @@
                 "on-baseline",
                 "sans-serif",
                 "straight",
-                "vertical"
+                "vertical",
+                "curved"
               ]
             },
             "middle-stroke": {
@@ -259,6 +273,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-01-06T10:10:13.479Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-01-06T10:12:10.663Z"
+    "modified": "2025-01-06T10:12:25.277Z"
   }
 ]

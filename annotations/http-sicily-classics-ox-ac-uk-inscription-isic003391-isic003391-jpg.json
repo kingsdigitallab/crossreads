@@ -83,6 +83,66 @@
           "components": {
             "downstroke": {
               "features": [
+                "below-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Υ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic003391/ISic003391_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1607.1884765625,1243.8013916015625,389.0263671875,510.5540771484375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic003391.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='DnKAU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 5,
+            "end": 6
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/06e3b991-0286-4144-a3ef-44c4ed4927d3",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-01-06T08:32:54.285Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-01-06T08:33:01.482Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
+            "downstroke": {
+              "features": [
                 "on-baseline",
                 "sans-serif",
                 "straight",

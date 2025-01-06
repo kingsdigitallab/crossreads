@@ -389,5 +389,67 @@
     "created": "2025-01-06T14:29:32.986Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2025-01-06T14:30:03.773Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "bowl": {
+              "features": [
+                "closed",
+                "round"
+              ]
+            }
+          },
+          "tags": [
+            "terminal"
+          ],
+          "character": "Ρ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic003686/ISic003686_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1689.288330078125,821.765380859375,177.984130859375,246.9984130859375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic003686.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='DΡΙAο']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 5,
+            "end": 6
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/cbc2918c-13a0-492b-bcc4-3966fa27930e",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-01-06T14:32:10.320Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-01-06T14:32:20.395Z"
   }
 ]

@@ -412,7 +412,18 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "bottom-bar": {
+              "features": [
+                "below-baseline",
+                "diagonal",
+                "parallel",
+                "sans-serif",
+                "straight",
+                "touching"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ε"
         }
@@ -424,7 +435,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:670.4293212890625,1525.6051025390625,93.92303466796875,165.175048828125"
+          "value": "xywh=pixel:670.4293212890625,1519.381103515625,100.96844482421875,171.3990478515625"
         }
       },
       {
@@ -445,7 +456,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:20:20.236Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T21:20:21.729Z"
+    "modified": "2025-01-06T14:06:12.395Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1291,11 +1302,10 @@
             },
             "downstroke": {
               "features": [
-                "below-baseline",
-                "long",
                 "sans-serif",
                 "straight",
-                "vertical"
+                "vertical",
+                "on-baseline"
               ]
             },
             "middle-bar": {
@@ -1351,7 +1361,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:19:47.830Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-01-06T14:05:01.336Z"
+    "modified": "2025-01-06T14:06:07.218Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

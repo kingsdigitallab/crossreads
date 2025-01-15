@@ -165,7 +165,16 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "below-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
           "tags": [],
           "character": "Β"
         }
@@ -198,7 +207,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-02-29T11:03:27.268Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-07-08T18:48:59.834Z"
+    "modified": "2025-01-15T14:56:39.439Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

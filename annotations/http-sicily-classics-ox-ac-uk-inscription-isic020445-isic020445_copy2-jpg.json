@@ -535,7 +535,20 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "below-baseline",
+                "diagonal"
+              ]
+            }
+          },
           "tags": null,
           "character": "Σ"
         }
@@ -568,6 +581,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:53:17.586Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T21:53:21.972Z"
+    "modified": "2025-01-15T12:12:42.313Z"
   }
 ]

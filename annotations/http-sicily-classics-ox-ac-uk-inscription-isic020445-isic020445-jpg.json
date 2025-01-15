@@ -888,7 +888,24 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "below-baseline",
+                "long",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "upper-bar": {
+              "features": [
+                "diagonal",
+                "not-converging",
+                "sans-serif"
+              ]
+            }
+          },
           "tags": null,
           "character": "Κ"
         }
@@ -919,7 +936,9 @@
     "id": "https://crossreads.web.ox.ac.uk/annotations/d7784d0c-f984-4fdc-9428-edd754c47a7e",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T21:51:10.160Z"
+    "created": "2023-11-24T21:51:10.160Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-01-15T12:05:19.042Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

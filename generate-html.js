@@ -17,11 +17,21 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
   // Iterate over each item in the list
   variantRules.forEach(item => {
     // Create the HTML content
-    let htmlContent = '<ul>\n';
+    let htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${item['allograph']} - ${item['variant-name']}</title>
+</head>
+<body>
+  <ul>\n`;
     for (const [key, value] of Object.entries(item)) {
-      htmlContent += `  <li>${key}: ${value}</li>\n`;
+      htmlContent += `    <li>${key}: ${value}</li>\n`;
     }
-    htmlContent += '</ul>';
+    htmlContent += `  </ul>
+</body>
+</html>`;
 
     // Create the file name using allograph and variant-name
     const fileName = `${item['allograph']}-${item['variant-name']}.html`;

@@ -26,8 +26,16 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
     // Create the file name using allograph and variant-name
     const fileName = `${item['allograph']}-${item['variant-name']}.html`;
 
+    // Define the output directory
+    const outputDir = path.join(__dirname, 'output');
+
+    // Ensure the output directory exists
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir);
+    }
+
     // Write the HTML content to a file
-    const outputPath = path.join(__dirname, 'output', fileName);
+    const outputPath = path.join(outputDir, fileName);
     fs.writeFile(outputPath, htmlContent, 'utf8', err => {
       if (err) {
         console.error('Error writing HTML file:', err);

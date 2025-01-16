@@ -1,8 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
+// Constants for easy editing
+const JSON_FILE_PATH = 'app/data/variant-rules.json';
+const OUTPUT_DIR = 'output';
+
 // Path to the JSON file
-const jsonFilePath = path.join(__dirname, 'app', 'data', 'variant-rules.json');
+const jsonFilePath = path.join(__dirname, JSON_FILE_PATH);
 
 // Read the JSON file
 fs.readFile(jsonFilePath, 'utf8', (err, data) => {
@@ -37,7 +41,7 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
     const fileName = `${item['allograph']}-${item['variant-name']}.html`;
 
     // Define the output directory
-    const outputDir = path.join(__dirname, 'output');
+    const outputDir = path.join(__dirname, OUTPUT_DIR);
 
     // Ensure the output directory exists
     if (!fs.existsSync(outputDir)) {

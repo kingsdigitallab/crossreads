@@ -25,11 +25,8 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
   <title>${item['allograph']} - ${item['variant-name']}</title>
 </head>
 <body>
-  <ul>\n`;
-    for (const [key, value] of Object.entries(item)) {
-      htmlContent += `    <li>${key}: ${value}</li>\n`;
-    }
-    htmlContent += `  </ul>
+  <h1>${item['allograph']}</h1>
+  <h2>${item['variant-name']}</h2>
 </body>
 </html>`;
 

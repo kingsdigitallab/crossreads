@@ -28,11 +28,18 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
 
     // Iterate over each item in the list
     variantRules.forEach(item => {
+      // Create a dictionary of variables and their values
+      const variables = {
+        '{{allograph}}': item['allograph'],
+        '{{variant-name}}': item['variant-name'],
+        '{{component-features}}': item['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
+      };
+
       // Replace variables in the template
-      let htmlContent = templateData
-        .replace(new RegExp('{{allograph}}', 'g'), item['allograph'])
-        .replace(new RegExp('{{variant-name}}', 'g'), item['variant-name'])
-        .replace(new RegExp('{{component-features}}', 'g'), item['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n'));
+      let htmlContent = templateData;
+      for (const [key, value] of Object.entries(variables)) {
+        htmlContent = htmlContent.replace(new RegExp(key, 'g'), value);
+      }
 
       // Create the file name using allograph and variant-name
       const fileName = `${item['allograph']}-${item['variant-name']}.html`;

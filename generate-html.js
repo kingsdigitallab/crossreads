@@ -28,7 +28,7 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
   <h1>${item['allograph']}</h1>
   <h2>${item['variant-name']}</h2>
   <ul>
-    ${item['component-features'].map(feature => `<li>${feature.component} is ${feature.feature}</li>`).join('')}
+    ${item['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')}
   </ul>
 </body>
 </html>`;

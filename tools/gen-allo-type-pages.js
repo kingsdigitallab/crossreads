@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 
 // Constants for easy editing
-const JSON_FILE_PATH = '../data/variant-rules.json';
+const JSON_FILE_PATH = '../app/data/variant-rules.json';
 const OUTPUT_DIR = 'allographs/types/';
-const HTML_TEMPLATE_PATH = '../templates/html-template.html';
+const HTML_TEMPLATE_PATH = 'templates/allo-type.html';
 
 // Path to the JSON file
 const jsonFilePath = path.join(__dirname, JSON_FILE_PATH);
@@ -49,7 +49,7 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
 
       // Ensure the output directory exists
       if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir);
+        fs.mkdirSync(outputDir, { recursive: true });
       }
 
       // Write the HTML content to a file

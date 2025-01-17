@@ -3,7 +3,7 @@ const path = require('path');
 
 // Constants for easy editing
 const JSON_FILE_PATH = '../app/data/variant-rules.json';
-const OUTPUT_DIR = 'allographs/types/';
+const OUTPUT_DIR = '../app/data/allographs/types/';
 const HTML_TEMPLATE_PATH = 'templates/allo-type.html';
 
 // Path to the JSON file

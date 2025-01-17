@@ -33,7 +33,7 @@
         }
       },
       {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020300",
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
         "selector": {
           "type": "XPathSelector",
           "value": "//*[@xml:id='UeAAe']",
@@ -51,6 +51,90 @@
     "created": "2023-11-24T21:25:01.957Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2023-11-27T17:08:59.641Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
+            "right-stroke": {
+              "features": [
+                "sans-serif",
+                "straight",
+                "on-baseline",
+                "diagonal"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "diagonal"
+              ]
+            },
+            "left-bar": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "straight",
+                "sans-serif"
+              ]
+            },
+            "right-bar": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Μ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic020298/ISic020298_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2176.390869140625,3283.631103515625,419.0244140625,412.862060546875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='UdεAy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/3badc87f-34a4-488f-bb9c-5c5880bc3966",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2023-11-24T21:24:26.238Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-01-13T16:52:40.935Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -105,7 +189,7 @@
         }
       },
       {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020300",
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
         "selector": {
           "type": "XPathSelector",
           "value": "//*[@xml:id='UeAAe']",
@@ -149,8 +233,12 @@
                 "touching"
               ]
             },
-            "middle-bar": {
+            "bottom-bar": {
               "features": [
+                "horizontal",
+                "on-baseline",
+                "sans-serif",
+                "short",
                 "straight",
                 "touching"
               ]
@@ -173,7 +261,7 @@
         }
       },
       {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020300",
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
         "selector": {
           "type": "XPathSelector",
           "value": "//*[@xml:id='UeAAe']",
@@ -190,7 +278,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:24:43.786Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-27T17:07:44.547Z"
+    "modified": "2025-01-13T17:09:49.307Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -234,7 +322,7 @@
         }
       },
       {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020300",
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
         "selector": {
           "type": "XPathSelector",
           "value": "//*[@xml:id='UeAAe']",
@@ -285,7 +373,7 @@
         }
       },
       {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020300",
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
         "selector": {
           "type": "XPathSelector",
           "value": "//*[@xml:id='UeAAe']",
@@ -330,6 +418,12 @@
                 "on-baseline",
                 "diagonal"
               ]
+            },
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
             }
           },
           "tags": null,
@@ -347,7 +441,7 @@
         }
       },
       {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020300",
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
         "selector": {
           "type": "XPathSelector",
           "value": "//*[@xml:id='UeAAe']",
@@ -364,7 +458,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:24:53.804Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-27T17:08:31.607Z"
+    "modified": "2025-01-13T16:52:55.559Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -379,7 +473,8 @@
           "components": {
             "apex": {
               "features": [
-                "angular"
+                "angular",
+                "sans-serif"
               ]
             },
             "crossbar": {
@@ -424,7 +519,7 @@
         }
       },
       {
-        "source": "https://crossreads.web.ox.ac.uk/api/dts/documents?id=ISic020300",
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic020300.xml",
         "selector": {
           "type": "XPathSelector",
           "value": "//*[@xml:id='UeAAe']",
@@ -441,6 +536,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:25:11.130Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-24T10:37:05.720Z"
+    "modified": "2025-01-13T16:52:59.428Z"
   }
 ]

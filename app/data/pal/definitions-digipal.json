@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2024-12-10T16:13:57.797Z",
+  "updated": "2025-01-15T15:36:37.244Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -105,7 +105,8 @@
         "closed",
         "rounded",
         "converging",
-        "not-converging"
+        "not-converging",
+        "small"
       ]
     },
     "top-bar": {
@@ -146,7 +147,9 @@
         "touching",
         "traversing",
         "above-baseline",
-        "below-baseline"
+        "below-baseline",
+        "not-touching",
+        "extending"
       ]
     },
     "apex": {
@@ -223,7 +226,8 @@
         "open",
         "rounded",
         "converging",
-        "not-converging"
+        "not-converging",
+        "small"
       ]
     },
     "middle-bar": {
@@ -349,7 +353,13 @@
         "short",
         "straight",
         "touching",
-        "vertical"
+        "vertical",
+        "curved",
+        "horizontal",
+        "serif",
+        "sans-serif",
+        "traversing",
+        "long"
       ]
     },
     "spine": {
@@ -802,7 +812,8 @@
         "downstroke",
         "bottom-bar",
         "left-stroke",
-        "right-stroke"
+        "right-stroke",
+        "apex"
       ]
     },
     "Μ-greek-1": {
@@ -908,7 +919,8 @@
       "components": [
         "downstroke",
         "left-bar",
-        "right-bar"
+        "right-bar",
+        "middle-stroke"
       ]
     },
     "Ψ-greek-1": {

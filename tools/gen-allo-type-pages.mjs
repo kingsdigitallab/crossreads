@@ -13,10 +13,10 @@ const OUTPUT_DIR = '../app/data/allographs/types/';
 const HTML_TEMPLATE_PATH = 'templates/allo-type.html';
 
 // Path to the JSON file
-const jsonFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
+const variantRulesFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
 
 // Read the JSON file
-fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+fs.readFile(variantRulesFilePath, 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading JSON file:', err);
     return;
@@ -38,14 +38,14 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
       fs.mkdirSync(outputDir, { recursive: true });
     }
 
-    // Iterate over each item in the list
-    variantRules.forEach(item => {
+    // Iterate over each variant rule in the list
+    variantRules.forEach(variantRule => {
       // Create a dictionary of variables and their values
       const variables = {
-        'script': utils.getScriptFromUnicode(item['allograph']),
-        'allograph': item['allograph'],
-        'variant-name': item['variant-name'],
-        'component-features': item['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
+        'script': utils.getScriptFromUnicode(variantRule['allograph']),
+        'allograph': variantRule['allograph'],
+        'variant-name': variantRule['variant-name'],
+        'component-features': variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
       };
 
       // Replace variables in the template
@@ -55,7 +55,7 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
       }
 
       // Create the file name using allograph and variant-name
-      const fileName = `${variables.script}-${item['allograph']}-${item['variant-name']}.html`;
+      const fileName = `${variables.script}-${variantRule['allograph']}-${variantRule['variant-name']}.html`;
 
       // Write the HTML content to a file
       const outputPath = path.join(outputDir, fileName);

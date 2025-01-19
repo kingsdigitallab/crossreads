@@ -8,12 +8,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Constants for easy editing
-const JSON_FILE_PATH = '../app/data/variant-rules.json';
+const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
 const OUTPUT_DIR = '../app/data/allographs/types/';
 const HTML_TEMPLATE_PATH = 'templates/allo-type.html';
 
 // Path to the JSON file
-const jsonFilePath = path.join(__dirname, JSON_FILE_PATH);
+const jsonFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
 
 // Read the JSON file
 fs.readFile(jsonFilePath, 'utf8', (err, data) => {

@@ -1,10 +1,16 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+
+import { fileURLToPath } from 'url';
+import { utils } from '../app/utils.mjs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Constants for easy editing
-const JSON_FILE_PATH = 'app/data/variant-rules.json';
-const OUTPUT_DIR = 'output';
-const HTML_TEMPLATE_PATH = 'templates/html-template.html';
+const JSON_FILE_PATH = '../app/data/variant-rules.json';
+const OUTPUT_DIR = '../app/data/allographs/types/';
+const HTML_TEMPLATE_PATH = 'templates/allo-type.html';
 
 // Path to the JSON file
 const jsonFilePath = path.join(__dirname, JSON_FILE_PATH);
@@ -30,26 +36,27 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
     variantRules.forEach(item => {
       // Create a dictionary of variables and their values
       const variables = {
-        '{{allograph}}': item['allograph'],
-        '{{variant-name}}': item['variant-name'],
-        '{{component-features}}': item['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
+        'script': utils.getScriptFromUnicode(item['allograph']),
+        'allograph': item['allograph'],
+        'variant-name': item['variant-name'],
+        'component-features': item['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
       };
 
       // Replace variables in the template
       let htmlContent = templateData;
       for (const [key, value] of Object.entries(variables)) {
-        htmlContent = htmlContent.replace(new RegExp(key, 'g'), value);
+        htmlContent = htmlContent.replace(new RegExp(`{{${key}}}`, 'g'), value);
       }
 
       // Create the file name using allograph and variant-name
-      const fileName = `${item['allograph']}-${item['variant-name']}.html`;
+      const fileName = `${variables.script}-${item['allograph']}-${item['variant-name']}.html`;
 
       // Define the output directory
       const outputDir = path.join(__dirname, OUTPUT_DIR);
 
       // Ensure the output directory exists
       if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir);
+        fs.mkdirSync(outputDir, { recursive: true });
       }
 
       // Write the HTML content to a file

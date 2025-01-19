@@ -32,6 +32,12 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
       return;
     }
 
+    // Ensure the output directory exists
+    const outputDir = path.join(__dirname, OUTPUT_DIR);
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
     // Iterate over each item in the list
     variantRules.forEach(item => {
       // Create a dictionary of variables and their values
@@ -50,14 +56,6 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
 
       // Create the file name using allograph and variant-name
       const fileName = `${variables.script}-${item['allograph']}-${item['variant-name']}.html`;
-
-      // Define the output directory
-      const outputDir = path.join(__dirname, OUTPUT_DIR);
-
-      // Ensure the output directory exists
-      if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-      }
 
       // Write the HTML content to a file
       const outputPath = path.join(outputDir, fileName);

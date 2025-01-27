@@ -142,6 +142,57 @@
         "value": {
           "script": "greek-1",
           "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Ο"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic004369/ISic004369_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:760.8348388671875,536.4190673828125,199.331298828125,204.64678955078125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic004369.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='EkοAΤ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/38788025-36f6-445a-9b6d-f18c9aef21b0",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-01-27T15:14:27.470Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-01-27T15:14:29.208Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
             "downstroke": {
               "features": [
                 "on-baseline",
@@ -152,7 +203,8 @@
             },
             "bowl": {
               "features": [
-                "closed"
+                "closed",
+                "round"
               ]
             }
           },
@@ -188,7 +240,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-01-27T15:14:12.775Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-01-27T15:14:18.441Z"
+    "modified": "2025-01-27T15:14:24.356Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

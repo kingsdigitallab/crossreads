@@ -268,7 +268,13 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "ovoid"
+              ]
+            }
+          },
           "tags": [
             "terminal"
           ],
@@ -303,7 +309,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-01-27T15:10:52.150Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-01-27T15:10:56.678Z"
+    "modified": "2025-01-27T15:13:12.481Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

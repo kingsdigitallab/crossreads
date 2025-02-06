@@ -76,7 +76,6 @@
               ]
             }
           },
-          "textTarget": null,
           "tags": null,
           "character": "Κ"
         }
@@ -88,7 +87,19 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:123.88983154296875,72.230712890625,129.67413330078125,133.83975219726562"
+          "value": "xywh=pixel:123.88983154296875,36.13695526123047,159.08587646484375,169.93350982666016"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000822.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AηUAU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
         }
       }
     ],
@@ -97,7 +108,7 @@
     "creator": "https://api.github.com/users/valentinamignosa",
     "created": "2024-03-26T21:15:53.722Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-16T10:45:24.365Z"
+    "modified": "2025-02-06T10:53:27.162Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

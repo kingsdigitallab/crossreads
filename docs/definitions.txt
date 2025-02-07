@@ -1,0 +1,35 @@
+@startuml
+class Ontograph {
+   name
+   type: abbreviation|accent|letter|ligature|punctuation
+}
+note left: Linguistic sign; abstract from visual representation.
+
+class Character {
+   name
+   unicode_point
+   form: majuscule|minuscule
+}
+note right: may be a grapheme, or punctuation, decorative element,...
+
+class Allograph {
+   name: Caroline|Insular|Long|Rustic|Square
+}
+note right: A recognised variant form of the same character
+
+class Script {
+   name: Caroline minuscule|Square minuscule|Insular Cursive minuscule
+}
+
+class Idiograph
+note left: The way in which an individual writes a given allograph
+
+Symbol <|-- Ontograph
+Ontograph <|-- Character
+Character <|-- Allograph
+Allograph o-- Component
+Allograph o-- Idiograph
+Script o-- Allograph
+Scribe *-- Idiograph
+Component o-- Feature
+@enduml

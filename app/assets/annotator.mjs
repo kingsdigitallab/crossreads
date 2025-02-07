@@ -246,6 +246,8 @@ createApp({
       modifiedBy: null,
       //
       availableTags: new AvailableTags(),
+      // the number of annotations on the image
+      annotationsCount: 0,
     }
   },
   async mounted() {
@@ -692,10 +694,10 @@ createApp({
 
       return ret
     },
-    getAnnotationsCount() {
+    setAnnotationsCount() {
       // unused although handy function for user feedback.
       // But it's called/drawn too often by Vue since it's not reactive.
-      return (this?.anno?.getAnnotations() || []).length
+      this.annotationsCount = (this?.anno?.getAnnotations() || []).length
     },
     getTextTargetFromSign(sign) {
       // let word = sign.closest('.tei-w')
@@ -861,6 +863,8 @@ createApp({
       this.setUnsaved(annotation)
 
       this.selectAnnotation(annotation)
+
+      this.setAnnotationsCount()
     },
     onMouseEnterAnnotation(annotation, element) {
       // console.log('EVENT onMouseEnterAnnotation')
@@ -949,6 +953,8 @@ createApp({
 
       this.setUnsaved()
       this.onCancelSelected()
+
+      this.setAnnotationsCount()
     },
     onClickAnnotation() {
       this.logEvent('onClickAnnotation')
@@ -1064,42 +1070,6 @@ createApp({
       this.afs = new AnyFileSystem()
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
-    // async initOctokit() {
-    //   this.octokit = null
-    //   this.user = null
-
-    //   if (this.selection.gtoken) {
-    //     this.octokit = new Octokit({
-    //       auth: this.selection.gtoken
-    //     })
-
-    //     if (this.octokit) {
-    //       let res = null
-    //       res = await this.octokit.rest.users.getAuthenticated()
-    //         .catch(
-    //           err => {
-    //             res = null
-    //             this.octokit = null
-    //             if (err.message.includes('Bad credentials')) {
-    //               this.logError('Bad github token. Is your token expired?')
-    //             } else {
-    //               this.logError('Github authentication: Unknown error.')
-    //             }
-    //           }
-    //         );
-    //       if (res) {
-    //         this.user = res.data
-    //       }
-    //     }
-    //   }
-
-    //   return this.octokit
-    // },
-    // getOctokit() {
-    //   // TODO: create wrapper class around Octokit
-    //   // TODO: cache this
-    //   return this.octokit
-    // },
     setImageLoadedStatus(isLoaded) {
       this.isImageLoaded = isLoaded
       this.anno.readOnly = !this.canEdit
@@ -1150,6 +1120,7 @@ createApp({
           this.annotationsSha = null
         }
       }
+      this.setAnnotationsCount()
       this.isUnsaved = 0
     },
     getAnnotationFormatVersion(annotation) {

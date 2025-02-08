@@ -9,7 +9,15 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular",
+                "closed",
+                "open"
+              ]
+            }
+          },
           "tags": null,
           "character": "Θ"
         }
@@ -42,7 +50,7 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2025-02-08T23:05:43.485Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2025-02-08T23:16:14.985Z"
+    "modified": "2025-02-08T23:16:30.162Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

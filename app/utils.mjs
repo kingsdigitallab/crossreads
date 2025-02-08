@@ -156,6 +156,22 @@ async function mod(exports) {
     return ret
   }
 
+  exports.getDocIdFromString = function(str) {
+    // Returns the first occurrence of 'isic123456' found in str.
+    // '' if none found.
+    // Examples:
+    // 'http://sicily.classics.ox.ac.uk/inscription/ISic020317.xml' => 'ISic020317'
+    // 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic020313/ISic020313_tiled.tif' => 'ISic020313'
+    let ret = ''
+
+    let matches = str.match(/\bisic\d{6,}\b/i);
+    if (matches) {
+      ret = matches[0].toLowerCase()
+    }
+
+    return ret
+  }
+
   // --------------------------------------------
 
   if (IS_BROWSER) {

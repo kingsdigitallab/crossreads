@@ -39,6 +39,7 @@ class AnnotationIndex {
       file: annotionsFile,
       id: annotationId
     })
+    console.log(`${level}: ${message} (File: ${annotionsFile}. Annotation: ${annotationId})`)
   }
 
   testAnnotationsFile(filePath) {
@@ -97,6 +98,8 @@ class AnnotationIndex {
     if (!content) return;
 
     for (let annotation of content) {
+      if (!this.isAnnotationValid(annotation, filePath)) continue;
+
       let bodyValue = annotation?.body[0]?.value
 
       if (bodyValue?.character) {
@@ -145,6 +148,27 @@ class AnnotationIndex {
       //   }
       // }
     }
+  }
+
+  isAnnotationValid(annotation, annotionsFile) {
+    // gh-52
+    // not valid if document referenced for image doesn't match the doc id from the annotation file
+    let message = ''
+
+    let docIdFromFile = utils.getDocIdFromString(annotionsFile)
+
+    for (let target of annotation.target) {
+      let targetDocId = utils.getDocIdFromString(target.source)
+      if (targetDocId !== docIdFromFile) {
+        message = `Target references different document (${targetDocId}) than annotation file (${docIdFromFile})`
+      }
+    }
+
+    if (message) {
+      this.log(message, 'WARNING', annotionsFile, annotation.id)
+    }
+
+    return !message
   }
 
   loadDefinitions() {

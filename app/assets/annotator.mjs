@@ -1345,12 +1345,10 @@ createApp({
           }
         }
 
-        // gh-51. help user discover ghost annotations
-        
+        // gh-51. help user discover ghost annotations        
         // 1. if the annotation lies outside the image bounds, move it back to (0,0) coordinates
         relocatedCount = this.relocateOffCanvasAnnotation(annotation, relocatedCount)
-        // 2. if the annotation links to a word which id that doesn't exist in the text, highlight it in red
-        // 3. if annotation target/source points to a different XML than the currently selected inscription, highlight it in red
+        // TODO, MAYBE: 3. if annotation target/source points to a different XML than the currently selected inscription, highlight it in red
       }
       
       return ret

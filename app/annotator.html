@@ -127,7 +127,7 @@
               <p class="panel-heading">
                 Image
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                <a :href="`search.html${getQueryString()}&q=${object['title']}`" v-if="!!object"> & annotations</a>
+                <a :href="`search.html${getQueryString()}&q=${object['title']}`" v-if="!!object"> & {{ annotationsCount }} annotations</a>
                 <span class="side-links">
                   <label>
                     <input type="checkbox" v-model="selection.hideBoxes">

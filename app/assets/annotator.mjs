@@ -246,6 +246,8 @@ createApp({
       modifiedBy: null,
       //
       availableTags: new AvailableTags(),
+      // the number of annotations on the image
+      annotationsCount: 0,
     }
   },
   async mounted() {
@@ -692,10 +694,10 @@ createApp({
 
       return ret
     },
-    getAnnotationsCount() {
+    setAnnotationsCount() {
       // unused although handy function for user feedback.
       // But it's called/drawn too often by Vue since it's not reactive.
-      return (this?.anno?.getAnnotations() || []).length
+      this.annotationsCount = (this?.anno?.getAnnotations() || []).length
     },
     getTextTargetFromSign(sign) {
       // let word = sign.closest('.tei-w')
@@ -807,6 +809,7 @@ createApp({
       if (annotation) {
         // annotation.body[0].value = JSON.stringify(this.description)
         annotation.body[0].value = deepCopy(this.description)
+        // TODO: this should be AWAIT! But needs to propagate everywhere.
         this.anno.updateSelected(annotation)
         this.setUnsaved()
       }
@@ -861,6 +864,8 @@ createApp({
       this.setUnsaved(annotation)
 
       this.selectAnnotation(annotation)
+
+      this.setAnnotationsCount()
     },
     onMouseEnterAnnotation(annotation, element) {
       // console.log('EVENT onMouseEnterAnnotation')
@@ -949,6 +954,8 @@ createApp({
 
       this.setUnsaved()
       this.onCancelSelected()
+
+      this.setAnnotationsCount()
     },
     onClickAnnotation() {
       this.logEvent('onClickAnnotation')
@@ -1064,42 +1071,6 @@ createApp({
       this.afs = new AnyFileSystem()
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
-    // async initOctokit() {
-    //   this.octokit = null
-    //   this.user = null
-
-    //   if (this.selection.gtoken) {
-    //     this.octokit = new Octokit({
-    //       auth: this.selection.gtoken
-    //     })
-
-    //     if (this.octokit) {
-    //       let res = null
-    //       res = await this.octokit.rest.users.getAuthenticated()
-    //         .catch(
-    //           err => {
-    //             res = null
-    //             this.octokit = null
-    //             if (err.message.includes('Bad credentials')) {
-    //               this.logError('Bad github token. Is your token expired?')
-    //             } else {
-    //               this.logError('Github authentication: Unknown error.')
-    //             }
-    //           }
-    //         );
-    //       if (res) {
-    //         this.user = res.data
-    //       }
-    //     }
-    //   }
-
-    //   return this.octokit
-    // },
-    // getOctokit() {
-    //   // TODO: create wrapper class around Octokit
-    //   // TODO: cache this
-    //   return this.octokit
-    // },
     setImageLoadedStatus(isLoaded) {
       this.isImageLoaded = isLoaded
       this.anno.readOnly = !this.canEdit
@@ -1138,7 +1109,7 @@ createApp({
           let annotations = this.upgradeAnnotations(res.data)
           annotations = this.dedupeAnnotations(annotations)
           annotations = this.convertAnnotationsToAnnotorious(annotations)
-          this.anno.setAnnotations(annotations)
+          this.anno.setAnnotations(annotations)          
           if (this.selection.annotationId) {
             this.selectAnnotation(`${this.selection.annotationId}`)
           } else {
@@ -1150,6 +1121,7 @@ createApp({
           this.annotationsSha = null
         }
       }
+      this.setAnnotationsCount()
       this.isUnsaved = 0
     },
     getAnnotationFormatVersion(annotation) {
@@ -1339,6 +1311,7 @@ createApp({
     convertAnnotationsToAnnotorious(annotations) {
       // annotorious doesn't support the full W3C standard
       let ret = annotations
+      let relocatedCount = 0
 
       for (let annotation of ret) {
         if (annotation.target instanceof Array && annotation.target.length > 0) {
@@ -1372,9 +1345,34 @@ createApp({
           }
         }
 
+        // gh-51. help user discover ghost annotations        
+        // 1. if the annotation lies outside the image bounds, move it back to (0,0) coordinates
+        relocatedCount = this.relocateOffCanvasAnnotation(annotation, relocatedCount)
+        // TODO, MAYBE: 3. if annotation target/source points to a different XML than the currently selected inscription, highlight it in red
       }
       
       return ret
+    },
+    relocateOffCanvasAnnotation(annotation, relocatedCount) {
+      // if an annotation is off canvas we move it back to 0, 0 so the user can see it
+      // => "xywh=pixel:0,0,153.6064453125,414.73779296875"
+      // relocatedCount is used to keep track of how many annotations have been relocated
+      // so we can place them next to each other
+      let box = annotation?.target?.selector?.value
+      // Rsize box to 5% of the width/height
+      let newRelativeSize = 0.05
+      const prefix = 'xywh=pixel:'
+      const viewerDims = [this.viewer.source.width, this.viewer.source.height]
+      if (box.startsWith(prefix)) {
+        box = box.replace(prefix, '')
+        let boxParts = box.split(',').map(v => parseFloat(v))
+        if (boxParts[0] > viewerDims[0] || boxParts[1] > viewerDims[1] || boxParts[0] < 0 || boxParts[1] < 0) {
+          console.log('annotation is off canvas, moving it back to 0,0')
+          annotation.target.selector.value = `${prefix}${relocatedCount*viewerDims[0]*newRelativeSize},0,${viewerDims[0]*newRelativeSize},${viewerDims[1]*newRelativeSize}}`
+          relocatedCount += 1
+        }
+      }
+      return relocatedCount
     },
     getAnnotationFilePath() {
       let ret = null

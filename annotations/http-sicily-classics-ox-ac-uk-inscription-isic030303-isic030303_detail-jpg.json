@@ -64,9 +64,17 @@
         "format": "application/json",
         "value": {
           "script": "greek-1",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "diagonal",
+                "curved",
+                "above-baseline"
+              ]
+            }
+          },
           "tags": null,
-          "character": "Ζ"
+          "character": "Ι"
         }
       }
     ],
@@ -97,6 +105,6 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2025-02-08T23:06:04.669Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2025-02-08T23:19:46.549Z"
+    "modified": "2025-02-08T23:22:17.401Z"
   }
 ]

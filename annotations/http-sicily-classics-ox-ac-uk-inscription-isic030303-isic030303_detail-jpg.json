@@ -66,7 +66,6 @@
           "script": "greek-1",
           "components": null,
           "tags": null,
-          "textTarget": null,
           "character": "Ζ"
         }
       }
@@ -79,6 +78,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:3577.599853515625,564.1600341796875,866.880126953125,1004.47998046875"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic030303.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='eeeAο']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 7,
+            "end": 8
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/e67f978d-35ac-43ac-9cdf-f300e62c6952",
@@ -86,6 +97,6 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2025-02-08T23:06:04.669Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2025-02-08T23:10:32.804Z"
+    "modified": "2025-02-08T23:19:46.549Z"
   }
 ]

@@ -13,8 +13,6 @@
             "body": {
               "features": [
                 "circular",
-                "closed",
-                "open",
                 "oval",
                 "ovoid"
               ]
@@ -38,11 +36,11 @@
         "source": "http://sicily.classics.ox.ac.uk/inscription/ISic030303.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='eeeAe']",
+          "value": "//*[@xml:id='eeeAΤ']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 0,
-            "end": 1
+            "start": 1,
+            "end": 2
           }
         }
       }
@@ -52,7 +50,7 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2025-02-08T23:05:43.485Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2025-02-08T23:16:41.775Z"
+    "modified": "2025-02-08T23:42:09.897Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -67,15 +65,15 @@
           "components": {
             "bottom-bar": {
               "features": [
-                "above-baseline",
                 "diagonal",
-                "curved"
+                "below-baseline",
+                "above-baseline"
               ]
             }
           },
           "tags": null,
           "textTarget": null,
-          "character": "Ι"
+          "character": "Η"
         }
       }
     ],
@@ -94,6 +92,6 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2025-02-08T23:06:04.669Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2025-02-08T23:41:21.561Z"
+    "modified": "2025-02-08T23:41:29.849Z"
   }
 ]

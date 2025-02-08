@@ -809,6 +809,7 @@ createApp({
       if (annotation) {
         // annotation.body[0].value = JSON.stringify(this.description)
         annotation.body[0].value = deepCopy(this.description)
+        // TODO: this should be AWAIT! But needs to propagate everywhere.
         this.anno.updateSelected(annotation)
         this.setUnsaved()
       }
@@ -1108,7 +1109,7 @@ createApp({
           let annotations = this.upgradeAnnotations(res.data)
           annotations = this.dedupeAnnotations(annotations)
           annotations = this.convertAnnotationsToAnnotorious(annotations)
-          this.anno.setAnnotations(annotations)
+          this.anno.setAnnotations(annotations)          
           if (this.selection.annotationId) {
             this.selectAnnotation(`${this.selection.annotationId}`)
           } else {
@@ -1310,6 +1311,7 @@ createApp({
     convertAnnotationsToAnnotorious(annotations) {
       // annotorious doesn't support the full W3C standard
       let ret = annotations
+      let relocatedCount = 0
 
       for (let annotation of ret) {
         if (annotation.target instanceof Array && annotation.target.length > 0) {
@@ -1343,9 +1345,36 @@ createApp({
           }
         }
 
+        // gh-51. help user discover ghost annotations
+        
+        // 1. if the annotation lies outside the image bounds, move it back to (0,0) coordinates
+        relocatedCount = this.relocateOffCanvasAnnotation(annotation, relocatedCount)
+        // 2. if the annotation links to a word which id that doesn't exist in the text, highlight it in red
+        // 3. if annotation target/source points to a different XML than the currently selected inscription, highlight it in red
       }
       
       return ret
+    },
+    relocateOffCanvasAnnotation(annotation, relocatedCount) {
+      // if an annotation is off canvas we move it back to 0, 0 so the user can see it
+      // => "xywh=pixel:0,0,153.6064453125,414.73779296875"
+      // relocatedCount is used to keep track of how many annotations have been relocated
+      // so we can place them next to each other
+      let box = annotation?.target?.selector?.value
+      // Rsize box to 5% of the width/height
+      let newRelativeSize = 0.05
+      const prefix = 'xywh=pixel:'
+      const viewerDims = [this.viewer.source.width, this.viewer.source.height]
+      if (box.startsWith(prefix)) {
+        box = box.replace(prefix, '')
+        let boxParts = box.split(',').map(v => parseFloat(v))
+        if (boxParts[0] > viewerDims[0] || boxParts[1] > viewerDims[1] || boxParts[0] < 0 || boxParts[1] < 0) {
+          console.log('annotation is off canvas, moving it back to 0,0')
+          annotation.target.selector.value = `${prefix}${relocatedCount*viewerDims[0]*newRelativeSize},0,${viewerDims[0]*newRelativeSize},${viewerDims[1]*newRelativeSize}}`
+          relocatedCount += 1
+        }
+      }
+      return relocatedCount
     },
     getAnnotationFilePath() {
       let ret = null

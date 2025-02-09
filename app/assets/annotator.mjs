@@ -39,8 +39,9 @@ import { AvailableTags } from "../tags.mjs";
 let vuetify = createVuetify()
 
 let IMG_PATH_STATIC_ROOT = './data/images/'
-let NO_MATCHING_SIGN = 'NO_MATCHING_SIGN'
-let NO_MATCHING_WORD = 'NO_MATCHING_WORD'
+const NO_MATCHING_SIGN = 'NO_MATCHING_SIGN'
+const NO_MATCHING_WORD = 'NO_MATCHING_WORD'
+const NO_MATCHING_DOC = 'NO_MATCHING_DOC'
 const EDIT_LOCK_IN_MINUTES = 10
 
 // if IMG_PATH_IIIF_ROOT defined, the viewer will fetch full image files instead of IIIF tiles
@@ -745,6 +746,10 @@ createApp({
       // If parent word element not found, return NO_MATCHING_WORD.
       let ret = null
       annotation = annotation || this.annotation
+      if (annotation && this.selection.object && utils.getDocIdFromString(annotation?.target?.source) != utils.getDocIdFromString(this.selection.object)) {
+        console.log('NO_MATCHING_DOC')
+        return NO_MATCHING_DOC
+      }
       if (annotation?.body?.length) {
         let description = annotation.body[0].value
         if (description?.textTarget?.signId) {
@@ -815,25 +820,8 @@ createApp({
       }
     },
     updateDescriptionFromAllograph() {
+      // TODO: remove calls to this function
     },
-    // updateDescriptionFromAllographOld() {
-    //   // when user change the allograph 
-    //   // => update the list of available C-F in Vue description
-    //   let description = this.description
-    //   if (1 || description.allograph != this.cache.allographLast) {
-    //     this.description.components = []
-    //     if (this.definitions.allographs[description.allograph]) {
-    //       for (let componentKey of this.definitions.allographs[description.allograph].components) {
-    //         let features = {}
-    //         for (let featureKey of this.definitions.components[componentKey]?.features || []) {
-    //           features[featureKey] = false
-    //         }
-    //         this.description.components.push([componentKey, features])
-    //       }
-    //       this.cache.allographLast = description.allograph
-    //     }
-    //   }
-    // },
     // Events - Annotorious
     async onCreateSelection(selection) {
       // Called before onCreateAnnotation
@@ -1075,13 +1063,13 @@ createApp({
       this.isImageLoaded = isLoaded
       this.anno.readOnly = !this.canEdit
     },
-    onImageLoaded() {
+    async onImageLoaded() {
       // called by OSD on successful image loading
       this.setImageLoadedStatus(1)
-      this.loadAnnotations()
+      await this.loadAnnotations()
     },
-    loadAnnotations() {
-      return this.loadAnnotationsFromGithub()
+    async loadAnnotations() {
+      return await this.loadAnnotationsFromGithub()
     },
     setLastModified(annotations) {
       this.modified = null;
@@ -1110,6 +1098,7 @@ createApp({
           annotations = this.dedupeAnnotations(annotations)
           annotations = this.convertAnnotationsToAnnotorious(annotations)
           this.anno.setAnnotations(annotations)          
+          this.annotation = null
           if (this.selection.annotationId) {
             this.selectAnnotation(`${this.selection.annotationId}`)
           } else {

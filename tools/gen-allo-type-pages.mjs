@@ -11,15 +11,50 @@ const __dirname = path.dirname(__filename);
 const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
 const OUTPUT_DIR = '../app/data/allographs/types/';
 const HTML_TEMPLATE_PATH = 'templates/allo-type.html';
+const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
 
 // Path to the JSON file
 const variantRulesFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
+
+let definitions = utils.readJsonFile(DEFINITIONS_PATH)
+
+// Read the variant rules file
+fs.readFile(variantRulesFilePath, 'utf8', async (err, data) => {
+  if (err) {
+    console.error('Error reading JSON file:', err);
+    return;
+  }
+
+  emptyOutputFolder(OUTPUT_DIR)
+
+  // Parse the JSON data
+  const variantRules = JSON.parse(data);
+
+  // Read the HTML template
+  fs.readFile(path.join(__dirname, HTML_TEMPLATE_PATH), 'utf8', (templateErr, templateData) => {
+    if (templateErr) {
+      console.error('Error reading HTML template:', templateErr);
+      return;
+    }
+
+    // Ensure the output directory exists
+    const outputDir = path.join(__dirname, OUTPUT_DIR);
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    // Iterate over each variant rule in the list
+    variantRules.forEach(variantRule => {
+      processVariantRule(variantRule, templateData);
+    });
+  });
+});
 
 // Function to process each variant rule
 function processVariantRule(variantRule, templateData) {
   // Create a dictionary of variables and their values
   const variables = {
-    'script': utils.getScriptFromUnicode(variantRule['allograph']),
+    'script': getScriptFromCharacter(variantRule['allograph']),
     'allograph': variantRule['allograph'],
     'variant-name': variantRule['variant-name'],
     'component-features': variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
@@ -45,32 +80,31 @@ function processVariantRule(variantRule, templateData) {
   });
 }
 
-// Read the JSON file
-fs.readFile(variantRulesFilePath, 'utf8', (err, data) => {
-  if (err) {
-    console.error('Error reading JSON file:', err);
-    return;
+function getScriptFromCharacter(character) {
+  // that method is flawed, as a unicode point can be reused for different allographs
+  // and we could have dotted notation for variants (or descriptions for 'ligature').
+  // return utils.getScriptFromUnicode(variantRule['allograph'])
+  let ret = null
+  
+  for (const [key, allograph] of Object.entries(definitions['allographs'])) {
+    if (allograph.character == character) {
+      ret = allograph.script
+      break
+    }
   }
+  
+  return ret
+}
 
-  // Parse the JSON data
-  const variantRules = JSON.parse(data);
+function emptyOutputFolder(folderPath) {
+    const files = fs.readdirSync(folderPath);
 
-  // Read the HTML template
-  fs.readFile(path.join(__dirname, HTML_TEMPLATE_PATH), 'utf8', (templateErr, templateData) => {
-    if (templateErr) {
-      console.error('Error reading HTML template:', templateErr);
-      return;
+    for (const file of files) {
+      const filePath = path.join(folderPath, file);
+      const fileExtension = path.extname(filePath);
+
+      if (fileExtension === '.html') {
+        fs.unlinkSync(filePath);
+      }
     }
-
-    // Ensure the output directory exists
-    const outputDir = path.join(__dirname, OUTPUT_DIR);
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    // Iterate over each variant rule in the list
-    variantRules.forEach(variantRule => {
-      processVariantRule(variantRule, templateData);
-    });
-  });
-});
+}

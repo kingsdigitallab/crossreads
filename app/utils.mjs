@@ -172,6 +172,73 @@ async function mod(exports) {
     return ret
   }
 
+  exports.getAlloTypesFromAnnotations = function(annotations, variantRules) {
+    // Return the number of annotations matching each rule.
+    // Don't return rules without matches.
+    // The output should be a list of rules.
+    // Each rule should have a 'inscriptions' key, 
+    // which value is a map between inscription code and the number of matches.
+    let ret = []
+
+    for (let atype of variantRules) {
+      for (let annotation of annotations) {
+        let body = annotation?.body
+        if (!body) continue;
+        let value = body[0]?.value
+        if (!value) continue;
+        let components = value.components
+        if (!components) continue;
+      
+        // TODO: check script once it has been added to variant-rules
+        if (atype.allograph == value?.character) {
+          let match = true
+          for (let cf of atype['component-features']) {
+            if (!components[cf.component]?.features?.includes(cf.feature)) {
+              match = false;
+              break;
+            }
+          }
+          if (match) {
+            ret.push(atype)
+            break
+          }
+        }
+      }
+    }
+
+    ret.sort((a,b) => {
+      // todo; natural sort as vairant-name can contain numbers 
+      let k1 = `${a.allograph}-${a['variant-name']}`
+      let k2 = `${a.allograph}-${a['variant-name']}`
+      
+      return k1.localeCompare(k2)
+    })
+
+    return ret
+  }
+
+  exports.getTEIfromAlloTypes = function(types) {
+    let typesTEI = ''
+
+    for (let atype of types) {
+      typesTEI += `\n  <ref target="${exports.getURLFromAlloType(atype)}">${atype.allograph} ${atype['variant-name']}</ref>`
+    }
+
+    let ret = ''
+    
+    if (typesTEI) {
+      ret = `<p>\n  Types list:${typesTEI}\n</p>`
+    }
+
+    return ret
+  }
+
+  exports.getURLFromAlloType = function(atype, prefix=null) {
+    prefix = prefix || 'https://kingsdigitallab.github.io/crossreads/'
+    let script = exports.getScriptFromUnicode(atype['allograph']) + '-1'
+    return `${prefix}data/allographs/types/${script}-${atype['allograph']}-${atype['variant-name']}.html`
+  }
+
   // --------------------------------------------
 
   if (IS_BROWSER) {

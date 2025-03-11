@@ -8,6 +8,9 @@ on:
 jobs:
   index:
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: tools
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,9 +19,13 @@ jobs:
         with: 
           node-version: 19.x
       - name: Install dependencies
-        run: cd tools && npm ci
+        run: npm ci
       - name: Indexing
-        run: cd tools && npm run index
+        run: npm run index
+      - name: Log allograph types in each inscription
+        run: npm run inscriptions-allograph-types
+      - name: Generate allograph type pages
+        run: node gen-allo-types-pages.js
       - name: Commit and push
         uses: stefanzweifel/git-auto-commit-action@v4
         with:

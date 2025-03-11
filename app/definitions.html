@@ -193,7 +193,7 @@
                     {{ rule['component-features'][1]['feature'] }}
                   </template>
                 </td>
-                <td><a :href="`data/allographs/types/${selection.script}-${rule['allograph']}-${rule['variant-name']}.html`">{{ rule['variant-name'] }}</a></td>
+                <td><a :href="getURLFromAlloType(rule, '../')">{{ rule['variant-name'] }}</a></td>
                 <td>
                   &nbsp;
                   <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">

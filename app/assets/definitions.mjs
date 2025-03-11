@@ -527,6 +527,9 @@ createApp({
     clearMessages() {
       this.messages.length = 0
     },
+    getURLFromAlloType(rule) {
+      return utils.getURLFromAlloType(rule, '../')
+    }
   }
 }).mount('#definitions')
 

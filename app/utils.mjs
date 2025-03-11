@@ -200,10 +200,19 @@ async function mod(exports) {
           }
           if (match) {
             ret.push(atype)
+            break
           }
         }
       }
     }
+
+    ret.sort((a,b) => {
+      // todo; natural sort as vairant-name can contain numbers 
+      let k1 = `${a.allograph}-${a['variant-name']}`
+      let k2 = `${a.allograph}-${a['variant-name']}`
+      
+      return k1.localeCompare(k2)
+    })
 
     return ret
   }

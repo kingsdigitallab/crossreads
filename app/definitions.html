@@ -175,11 +175,11 @@
             <thead>
               <tr>
                 <th>Search</th>
+                <th>Type</th>
                 <th>Character</th>
                 <th>Component</th>
                 <th>Feature main</th>
                 <th>Feature secondary</th>
-                <th>Type</th>
                 <th>Remove</th>
               </tr>
             </thead>
@@ -190,6 +190,7 @@
                     <i class="fas fa-search"></i>
                   </a>
                 </td>
+                <td><a :href="getURLFromAlloType(rule, '../')">{{ rule['variant-name'] }}</a></td>
                 <td>{{ rule.allograph }}</td>
                 <td>{{ rule['component-features'][0]['component'] }}</td>
                 <td>{{ rule['component-features'][0]['feature'] }}</td>
@@ -199,7 +200,6 @@
                     {{ rule['component-features'][1]['feature'] }}
                   </template>
                 </td>
-                <td><a :href="getURLFromAlloType(rule, '../')">{{ rule['variant-name'] }}</a></td>
                 <td>
                   <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">
                     <i class="fas fa-trash"></i>

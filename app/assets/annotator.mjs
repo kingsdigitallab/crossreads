@@ -1532,7 +1532,7 @@ createApp({
     },
     async getAlloTypes() {
       let res = await this.afs.readJson(VARIANT_RULES_PATH)
-      if (ret && res.ok) {
+      if (res && res.ok) {
         let annotations = deepCopy(this.anno.getAnnotations())
         annotations = this.convertAnnotationsToW3C(annotations)
         let types = utils.getAlloTypesFromAnnotations(annotations, res.data)

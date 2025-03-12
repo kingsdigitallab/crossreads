@@ -52,9 +52,10 @@ createApp({
         annotationId: '',
         object: null, // ?
         image: null, // ?
-        // if null, &img in query string will be the phrase.
+        // ?? if null, &img in query string will be the phrase.
         // if '' the phrase will be empty.
-        searchPhrase: null,
+        // searchPhrase: null,
+        searchPhrase: '',
         dateFrom: DATE_MIN,
         dateTo: DATE_MAX,
         facets: {},

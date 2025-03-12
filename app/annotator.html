@@ -129,7 +129,7 @@
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="smaller" v-if="!!object">
                   - <a :href="`search.html${getQueryString()}&q=${object['title']}`">{{ annotationsCount }} annotations</a>
-                  <!-- - <a href="#">Types</a> -->
+                  - <a href="#" @click="getAlloTypes()" data-tooltip="copy TEI snippet with allograph types into the clipboard">Types</a>
                 </span>
                 <span class="side-links">
                   <label>

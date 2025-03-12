@@ -64,6 +64,7 @@ const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
+const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -1529,5 +1530,14 @@ createApp({
         this.onCancelSelected()
       }
     },
+    async getAlloTypes() {
+      let res = await this.afs.readJson(VARIANT_RULES_PATH)
+      if (ret && res.ok) {
+        let annotations = deepCopy(this.anno.getAnnotations())
+        annotations = this.convertAnnotationsToW3C(annotations)
+        let types = utils.getAlloTypesFromAnnotations(annotations, res.data)
+        navigator.clipboard.writeText(utils.getTEIfromAlloTypes(types))
+      }
+    }
   },
 }).use(vuetify).mount('#annotator');

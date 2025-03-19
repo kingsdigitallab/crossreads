@@ -29,7 +29,9 @@ function loadFacetsSettings() {
     "com": {"size":15,"sort":"count","order":"desc"}
   }
   */
-  let ret = JSON.parse(window.localStorage.getItem('facetsSettings') || '{}')
+  
+  // biome-ignore lint/style/useConst: <explanation>
+  let  ret = JSON.parse(window.localStorage.getItem('facetsSettings') || '{}')
 
   // remove all references to .size
   Object.values(ret).forEach(facetSettings => {
@@ -271,7 +273,7 @@ createApp({
     },
     async loadChangeQueue() {
       let res = await this.afs.readJson(CHANGE_QUEUE_PATH)
-      if (res && res.ok) {
+      if (res?.ok) {
         this.changeQueue = res.data
         this.changeQueueSha = res.sha
         this.changeQueue.changes = this.changeQueue?.changes || []
@@ -281,7 +283,7 @@ createApp({
     },
     async loadVariantRules() {
       let res = await this.afs.readJson(VARIANT_RULES_PATH)
-      if (res && res.ok) {
+      if (res?.ok) {
         this.variantRules = res.data
         this.variantRulesSha = res.sha
       } else {
@@ -349,7 +351,7 @@ createApp({
           }
           this.changeQueue.changes.push(change)
           let res = await this.afs.writeJson(CHANGE_QUEUE_PATH, this.changeQueue, this.changeQueueSha)
-          if (res && res.ok) {
+          if (res?.ok) {
             ret = true
             this.changeQueueSha = res.sha;
           }
@@ -419,7 +421,7 @@ createApp({
     },
     getSelectedOptions(facetKey) {
       let ret = this.selection?.facets[facetKey] || []
-      if (facetKey == 'dat') {
+      if (facetKey === 'dat') {
         if (this.selection.dateFrom > DATE_MIN) {
           ret.push(this.selection.dateFrom)
         }
@@ -431,11 +433,11 @@ createApp({
     },
     onClickFacetColumn(facetKey, columnName) {
       let settings = this.getFacetSettings(facetKey)
-      if (settings.sort == columnName) {
-        settings.order = settings.order == 'asc' ? 'desc' : 'asc'
+      if (settings.sort === columnName) {
+        settings.order = settings.order === 'asc' ? 'desc' : 'asc'
       } else {
-        settings.sort = settings.sort == 'count' ? 'key' : 'count'
-        settings.order = settings.sort == 'count' ? 'desc' : 'asc'
+        settings.sort = settings.sort === 'count' ? 'key' : 'count'
+        settings.order = settings.sort === 'count' ? 'desc' : 'asc'
       }
       this.setFacetSettings(facetKey, settings)
     },
@@ -548,7 +550,7 @@ createApp({
     getThumbUrlFromTag(tag, height=40) {
       let item = null
 
-      return this.getThumbUrlFromItem(item, height=height)
+      return this.getThumbUrlFromItem(item, height)
     },
     getThumbUrlFromItem(item, height=48) {
       let ret = ''
@@ -576,13 +578,13 @@ createApp({
       // TODO: remove hard-coded assumptions.
       // the transforms (obj, img) should be more dynamic than that.
       let ret = ''
-      let annotatorImageId = item.img.replace('_tiled.tif', `.jpg`).replace(/^.*\//, '')
+      let annotatorImageId = item.img.replace('_tiled.tif', ".jpg").replace(/^.*\//, '')
       ret = `./annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
     },
     getOptionsFromFacet(facet) {
       let ret = facet.buckets.filter(o => {
-        return o.key != 'null'
+        return o.key !== 'null'
       })
       return ret
     },
@@ -592,11 +594,11 @@ createApp({
         facet = this.selection.facets[facetKey] = []
       } else {
         if (facet.includes(optionKey)) {
-          if (facet.length == 1) {
+          if (facet.length === 1) {
             delete this.selection.facets[facetKey]
           } else {
             this.selection.facets[facetKey] = facet.filter(
-              o => o != optionKey
+              o => o !== optionKey
             )
           }
           facet = null
@@ -611,7 +613,7 @@ createApp({
       let page = this.selection.page + step
       if (page < 1) page = 1;
       if (page > this.pageMax) page = this.pageMax;
-      if (this.selection.page != page) {
+      if (this.selection.page !== page) {
         this.selection.page = page
         this.search(true)
       }
@@ -629,7 +631,7 @@ createApp({
       // TODO: cache the results for each tag
       let ret = null
       let selectedAllographs = this.selection.facets?.chr || []
-      if (selectedAllographs.length == 1) {
+      if (selectedAllographs.length === 1) {
         ret = this._searchByTag(tag, selectedAllographs[0], true) || this._searchByTag(tag, selectedAllographs[0])
       }
       ret = ret || this._searchByTag(tag, null, true) || this._searchByTag(tag)
@@ -696,11 +698,11 @@ createApp({
       // TODO: is the allograph enough? We might need the script to disambiguate
       this.variantRules.push(variantRule)
       let res = await this.afs.writeJson(VARIANT_RULES_PATH, this.variantRules, this.variantRulesSha)
-      if (res && res.ok) {
+      if (res?.ok) {
         this.variantRulesSha = res.sha
         this.selection.newTypeName = ''
       } else {
-        this.logMessage(`Failed to save new variant rule. You might have to reload the page and try again.`, 'error')
+        this.logMessage("Failed to save new variant rule. You might have to reload the page and try again.", 'error')
       }
       // this.afs.writeJson()
       // let tag = this.availableTags.addTag(this.selection.newTagName);
@@ -788,8 +790,8 @@ createApp({
       // console.log(this.selection.facets)
     },
     _getNumberFromString(stringValue, defaultValue=0) {
-      let res = parseInt(stringValue)
-      let ret = isNaN(res) ? defaultValue : res
+      let res = Number.parseInt(stringValue)
+      let ret = Number.isNaN(res) ? defaultValue : res
       // console.log(stringValue, res, defaultValue, ret)
       return ret
     }

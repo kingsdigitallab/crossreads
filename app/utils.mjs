@@ -2,7 +2,7 @@
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
 export const IS_BROWSER = (typeof window !== "undefined")
-export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname == 'localhost')
+export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname === 'localhost')
 export const DEBUG_DONT_SAVE = false;
 // export const DEBUG_DONT_SAVE = true;
 // export const DEBUG_DONT_SAVE = IS_BROWSER;
@@ -14,11 +14,9 @@ async function mod(exports) {
     fs = (await import('fs'));
   }
 
-  exports.slugify = function(str) {
-    return str.replace(/\W+/g, '-').toLowerCase()
-  }
+  exports.slugify = (str) => str.replace(/\W+/g, '-').toLowerCase()
 
-  exports.setQueryString = function(parameters, defaults={}) {
+  exports.setQueryString = (parameters, defaults={}) => {
     // TODO: try URLSearchParams.toString() instead.
     let newRelativePathQuery = window.location.pathname
     let qsKeys = Object.keys(parameters)
@@ -41,19 +39,17 @@ async function mod(exports) {
     return qs
   }
 
-  exports.getQueryString = function() {
+  exports.getQueryString = () => {
     // returns query string, starting with ?
     return window.location.search
   }
 
-  exports.tabs = function() {
-    return [
+  exports.tabs = () => [
       {title: 'Annotator', key: 'annotator'},
       {title: 'Definitions', key: 'definitions'},
       {title: 'Search', key: 'search'},
       {title: 'Settings', key: 'settings'},
     ]
-  }
 
   function initFillHeightElements() {
     for (let element of document.querySelectorAll('.responsive-height')) {
@@ -66,7 +62,7 @@ async function mod(exports) {
     }
   }
 
-  exports.exec = async function(command) {
+  exports.exec = async (command) => {
     // TODO: test
     // const {execSync} = require('child_process')
     let child_process = (await import('child_process'));
@@ -77,16 +73,16 @@ async function mod(exports) {
   // FILE SYSTEM
   // --------------------------------------------
 
-  exports.fetchJsonFile = async function(path) {
+  exports.fetchJsonFile = async (path) => {
     let ret = null
     let res = await fetch(path);
-    if (res && res.status == 200) {
+    if (res && res.status === 200) {
       ret = await res.json();
     }
     return ret
   }
 
-  exports.readJsonFile = function(path) {
+  exports.readJsonFile = (path) => {
     let ret = null
     if (fs.existsSync(path)) {
       let content = fs.readFileSync(path, {encoding:'utf8', flag:'r'})
@@ -95,23 +91,21 @@ async function mod(exports) {
     return ret
   }
 
-  exports.writeJsonFile = function(path, content) {
+  exports.writeJsonFile = (path, content) => {
     content = JSON.stringify(content, null, 2)
     fs.writeFileSync(path, content)
   }
 
-  exports.sortMulti = function(arr, fields) {
-    return arr.sort((a, b) => {
+  exports.sortMulti = (arr, fields) => arr.sort((a, b) => {
       for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
         if (a[field] < b[field]) return -1;
         if (a[field] > b[field]) return 1;
       }
       return 0; // equal
-    });
-  }
+    })
 
-  exports.getScriptFromAllograph = function(allograph, definitions) {
+  exports.getScriptFromAllograph = (allograph, definitions) => {
     // TODO
     let ret = null
     
@@ -124,7 +118,7 @@ async function mod(exports) {
    * @param {string} char - The Unicode character to get the script for.
    * @returns {string} The script of the character, either "latin", "greek", or an empty string if the character is not in a known script.
    */
-  exports.getScriptFromUnicode = function(char) {
+  exports.getScriptFromUnicode = (char) => {
     let ret = ''
 
     if (char.length !== 1) {
@@ -156,7 +150,7 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getDocIdFromString = function(str) {
+  exports.getDocIdFromString = (str) => {
     // Returns the first occurrence of 'isic123456' found in str.
     // '' if none found.
     // Examples:
@@ -172,7 +166,7 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getAlloTypesFromAnnotations = function(annotations, variantRules) {
+  exports.getAlloTypesFromAnnotations = (annotations, variantRules) => {
     // Return the number of annotations matching each rule.
     // Don't return rules without matches.
     // The output should be a list of rules.
@@ -190,7 +184,7 @@ async function mod(exports) {
         if (!components) continue;
       
         // TODO: check script once it has been added to variant-rules
-        if (atype.allograph == value?.character) {
+        if (atype.allograph === value?.character) {
           let match = true
           for (let cf of atype['component-features']) {
             if (!components[cf.component]?.features?.includes(cf.feature)) {
@@ -217,7 +211,7 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getTEIfromAlloTypes = function(types) {
+  exports.getTEIfromAlloTypes = (types) => {
     let typesTEI = ''
 
     for (let atype of types) {
@@ -233,10 +227,10 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getURLFromAlloType = function(atype, prefix=null) {
+  exports.getURLFromAlloType = (atype, prefix=null) => {
     prefix = prefix || 'https://kingsdigitallab.github.io/crossreads/'
-    let script = exports.getScriptFromUnicode(atype['allograph']) + '-1'
-    return `${prefix}data/allographs/types/${script}-${atype['allograph']}-${atype['variant-name']}.html`
+    let script = exports.getScriptFromUnicode(atype.allograph) + '-1'
+    return `${prefix}data/allographs/types/${script}-${atype.allograph}-${atype['variant-name']}.html`
   }
 
   // --------------------------------------------

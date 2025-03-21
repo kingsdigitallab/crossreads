@@ -210,7 +210,7 @@
             </h2>
             <h3 class="title is-4">Tags {{ tagSelection }}:</h3>
             <ul class="tags-selector">
-              <li v-for="state, tag in definitions.tags">
+              <li v-for="state, tag in descriptions.tags">
                 <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`" @mouseenter="onMouseEnterTag(tag)" @mouseleave="onMouseLeaveTag(tag)">
                   <input type="checkbox" :checked="state === true" :disabled="state === null">
                   {{ tag }}

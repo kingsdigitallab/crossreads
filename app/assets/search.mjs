@@ -1,26 +1,27 @@
 /* 
 TODO:
-. sort results
 . show the correct label for the script
 . remove all hard-coded values
 */
 
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "../utils.mjs";
+import { utils, FILE_PATHS, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "../utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
 import { AvailableTags } from "../tags.mjs";
 
-const INDEX_PATH = 'app/index.json'
+// const INDEX_PATH = 'app/index.json'
+// const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
+// const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
+// const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 const ITEMS_PER_PAGE = 24
 const OPTIONS_PER_FACET = 15
 const OPTIONS_PER_FACET_EXPANDED = 1000
 const HIDE_OPTIONS_WITH_ZERO_COUNT = true
-const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
 const TAG_EXEMPLAR = 'm.exemplar'
-const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 const SHA_UNREAD = 'SHA_UNREAD'
 const DATE_MIN = -1000
 const DATE_MAX = 2000
+
 
 function loadFacetsSettings() {
   /* 
@@ -28,8 +29,8 @@ function loadFacetsSettings() {
     "chr": {"size":100,"sort":"count","order":"desc"},
     "com": {"size":15,"sort":"count","order":"desc"}
   }
-  */
-  let ret = JSON.parse(window.localStorage.getItem('facetsSettings') || '{}')
+  */ 
+  let  ret = JSON.parse(window.localStorage.getItem('facetsSettings') || '{}')
 
   // remove all references to .size
   Object.values(ret).forEach(facetSettings => {
@@ -94,7 +95,7 @@ createApp({
       cache: {
       },
       user: null,
-      definitions: {
+      descriptions: {
         tags: {
         }
       },
@@ -102,6 +103,7 @@ createApp({
       hoveredItem: null,
       showModalOnTheRight: false,
       indexDate: null,
+      definitions: {},
     }
   },
   async mounted() {
@@ -112,10 +114,12 @@ createApp({
     await this.loadVariantRules()
     await this.loadChangeQueue()
     await this.loadIndex()
+    // TODO: don't need to wait for this
+    await this.loadDefinitions()
 
     // not before
     for (let tag of this.availableTags.tags) {
-      this.definitions.tags[tag] = null
+      this.descriptions.tags[tag] = null
     }
 
     this.setSelectionFromAddressBar()
@@ -153,7 +157,7 @@ createApp({
       let ret = ''
       let stats = [0, 0]
 
-      for (let state of Object.values(this.definitions.tags)) {
+      for (let state of Object.values(this.descriptions.tags)) {
         if (state === false) stats[1]++;
         if (state === true) stats[0]++;
       }
@@ -206,7 +210,7 @@ createApp({
       return this.afs?.isAuthenticated()
     },
     isUnsaved() {
-      return this.selection.items.size && Object.values(this.definitions.tags).filter(t => t !== null).length
+      return this.selection.items.size && Object.values(this.descriptions.tags).filter(t => t !== null).length
     },
     tagFormatError() {
       return this.availableTags.getTagFormatError(this.selection.newTagName, this.availableTags.tags)
@@ -229,13 +233,22 @@ createApp({
       this.afs = new AnyFileSystem()
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
+    async loadDefinitions() {
+      // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
+      let res = await this.afs.readJson(FILE_PATHS.DEFINITIONS)
+      if (res.ok) {
+        this.definitions = res.data
+      } else {
+        this.logError('Failed to load definitions from github.')
+      }
+    },
     async loadIndex() {
       // fetch with API so we don't need to republish site each time the index is rebuilt.
       this.index = null
       if (IS_BROWSER_LOCAL) {  
         this.index = await utils.fetchJsonFile('index.json')
       } else {
-        let res = await this.afs.readJson(INDEX_PATH)
+        let res = await this.afs.readJson(FILE_PATHS.INDEX)
         if (res.ok) {
           this.index = res.data
         }
@@ -269,8 +282,8 @@ createApp({
       window.addEventListener('scroll', this.loadVisibleThumbs);
     },
     async loadChangeQueue() {
-      let res = await this.afs.readJson(CHANGE_QUEUE_PATH)
-      if (res && res.ok) {
+      let res = await this.afs.readJson(FILE_PATHS.CHANGE_QUEUE)
+      if (res?.ok) {
         this.changeQueue = res.data
         this.changeQueueSha = res.sha
         this.changeQueue.changes = this.changeQueue?.changes || []
@@ -279,8 +292,8 @@ createApp({
       }
     },
     async loadVariantRules() {
-      let res = await this.afs.readJson(VARIANT_RULES_PATH)
-      if (res && res.ok) {
+      let res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
+      if (res?.ok) {
         this.variantRules = res.data
         this.variantRulesSha = res.sha
       } else {
@@ -342,13 +355,13 @@ createApp({
             // annotationIds: [...this.selection.items].map(item => item.id),
             annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
             // e.g. tags: ['tag1', -tag3', 'tag10']
-            tags: Object.entries(this.definitions.tags).filter(kv => kv[1] !== null).map(kv => (kv[1] === false ? '-' : '') + kv[0]),
+            tags: Object.entries(this.descriptions.tags).filter(kv => kv[1] !== null).map(kv => (kv[1] === false ? '-' : '') + kv[0]),
             creator: this.afs.getUserId(),
             created: new Date().toISOString(),
           }
           this.changeQueue.changes.push(change)
-          let res = await this.afs.writeJson(CHANGE_QUEUE_PATH, this.changeQueue, this.changeQueueSha)
-          if (res && res.ok) {
+          let res = await this.afs.writeJson(FILE_PATHS.CHANGE_QUEUE, this.changeQueue, this.changeQueueSha)
+          if (res?.ok) {
             ret = true
             this.changeQueueSha = res.sha;
           }
@@ -363,8 +376,8 @@ createApp({
       return ret
     },
     unselectAllTags() {
-      Object.keys(this.definitions.tags).forEach(k => {
-        this.definitions.tags[k] = null
+      Object.keys(this.descriptions.tags).forEach(k => {
+        this.descriptions.tags[k] = null
       })
     },
     resetSearch() {
@@ -669,18 +682,28 @@ createApp({
       if (this.tagFormatError) return;
       let tag = this.availableTags.addTag(this.selection.newTagName);
       if (!tag) return;
-      this.definitions.tags[this.selection.newTagName] = null
+      this.descriptions.tags[this.selection.newTagName] = null
       this.selection.newTagName = ''
     },
     onClickTag(tag) {
       let stateTransitions = {true: false, false: null, null: true}
-      this.definitions.tags[tag] = stateTransitions[this.definitions.tags[tag]]
+      this.descriptions.tags[tag] = stateTransitions[this.descriptions.tags[tag]]
     },
     // -----------------------
     async onAddType() {
       if (this.typeFormatError) return;
+
+      // TODO: convert from label to key
+      let scripts = this.selection.facets?.scr
+      console.log(scripts)
+      if (scripts?.length !== 1) {
+        scripts = [utils.getScriptFromCharacter(this.selection.facets.chr[0], this.definitions)]
+      }
+      console.log(scripts)
+
       let variantRule = {
         'variant-name': this.selection.newTypeName,
+        script: scripts[0],
         allograph: this.selection.facets.chr[0],
         // ["crossbar is ascending", "crossbar is straight" ] 
         // -> [{component: 'crossbar', feature: 'ascending'}, ...]
@@ -694,18 +717,27 @@ createApp({
       }
       // TODO: is the allograph enough? We might need the script to disambiguate
       this.variantRules.push(variantRule)
-      let res = await this.afs.writeJson(VARIANT_RULES_PATH, this.variantRules, this.variantRulesSha)
-      if (res && res.ok) {
-        this.variantRulesSha = res.sha
-        this.selection.newTypeName = ''
-      } else {
-        this.logMessage(`Failed to save new variant rule. You might have to reload the page and try again.`, 'error')
+
+      // ensure all the rules have a script
+      if (1) {
+        for (let rule of this.variantRules) {
+          if (!rule?.script) {
+            rule.script = utils.getScriptFromCharacter(rule.allograph, this.definitions)
+          }
+        }
       }
-      // this.afs.writeJson()
-      // let tag = this.availableTags.addTag(this.selection.newTagName);
-      // if (!tag) return;
-      // this.definitions.tags[this.selection.newTagName] = null
-      // this.selection.newTagName = ''
+
+      console.log(this.variantRules)
+
+      if (0) {
+        let res = await this.afs.writeJson(FILE_PATHS.VARIANT_RULES, this.variantRules, this.variantRulesSha)
+        if (res?.ok) {
+          this.variantRulesSha = res.sha
+          this.selection.newTypeName = ''
+        } else {
+          this.logMessage("Failed to save new variant rule. You might have to reload the page and try again.", 'error')
+        }
+      }
     },
     // -----------------------
     logMessage(content, level = 'info') {

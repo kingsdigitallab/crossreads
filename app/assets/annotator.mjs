@@ -1529,5 +1529,14 @@ createApp({
         this.onCancelSelected()
       }
     },
+    async getAlloTypes() {
+      let res = await this.afs.readJson(VARIANT_RULES_PATH)
+      if (res?.ok) {
+        let annotations = deepCopy(this.anno.getAnnotations())
+        annotations = this.convertAnnotationsToW3C(annotations)
+        let types = utils.getAlloTypesFromAnnotations(annotations, res.data)
+        navigator.clipboard.writeText(utils.getTEIfromAlloTypes(types))
+      }
+    }
   },
 }).use(vuetify).mount('#annotator');

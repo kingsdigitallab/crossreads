@@ -16,7 +16,7 @@ Output: a TEI snippet following this template
 
 async function start() {
   // read the json from the variant rules file
-  const variantRules = JSON.parse(fs.readFileSync('../app/data/variant-rules.json', 'utf-8'));
+  const variantRules = JSON.parse(fs.readFileSync(`../${FILE_PATHS.VARIANT_RULES}`, 'utf-8'));
 
   for (let file of fs.readdirSync('../annotations')) {
     if (!file.includes('.json')) continue;

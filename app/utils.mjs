@@ -7,6 +7,14 @@ export const DEBUG_DONT_SAVE = false;
 // export const DEBUG_DONT_SAVE = true;
 // export const DEBUG_DONT_SAVE = IS_BROWSER;
 
+export const FILE_PATHS = {
+  DTS_COLLECTION: 'app/data/2023-08/collection.json',
+  DEFINITIONS: 'app/data/pal/definitions-digipal.json',
+  VARIANT_RULES: 'app/data/variant-rules.json',
+  CHANGE_QUEUE: 'annotations/change-queue.json',
+  INDEX: 'app/index.json',
+}
+
 async function mod(exports) {
 
   let fs = null
@@ -111,11 +119,22 @@ async function mod(exports) {
     });
   }
 
-  exports.getScriptFromAllograph = function(allograph, definitions) {
-    // TODO
+  exports.getScriptFromCharacter = (character, definitions) => {
     let ret = null
+
+    for (const [key, allo] of Object.entries(definitions.allographs)) {
+      if (allo.character === character) {
+        ret = allo.script
+        break;
+      }
+    }
+
+    if (!ret) {
+      console.log(`WARNING: used unicode to find script from character (${character}). Not found in the definitions.`)
+      ret = exports.getScriptFromUnicode(character) + '-1'
+    }
     
-    return ret ? ret.script : '?'
+    return ret
   }
 
   /**
@@ -209,7 +228,7 @@ async function mod(exports) {
     ret.sort((a,b) => {
       // todo; natural sort as vairant-name can contain numbers 
       let k1 = `${a.allograph}-${a['variant-name']}`
-      let k2 = `${a.allograph}-${a['variant-name']}`
+      let k2 = `${b.allograph}-${b['variant-name']}`
       
       return k1.localeCompare(k2)
     })
@@ -233,10 +252,9 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getURLFromAlloType = function(atype, prefix=null) {
-    prefix = prefix || 'https://kingsdigitallab.github.io/crossreads/'
-    let script = exports.getScriptFromUnicode(atype['allograph']) + '-1'
-    return `${prefix}data/allographs/types/${script}-${atype['allograph']}-${atype['variant-name']}.html`
+  exports.getURLFromAlloType = (atype, prefix=null) => {
+    let baseUrl = prefix || 'https://kingsdigitallab.github.io/crossreads/'
+    return `${baseUrl}data/allographs/types/${atype.script}-${atype.allograph}-${atype['variant-name']}.html`
   }
 
   // --------------------------------------------

@@ -184,6 +184,12 @@
             </thead>
             <tbody>
               <tr v-for="rule in filteredVariantRules">
+                <td>
+                  <a class="button is-small" title="search" :href="getSearchLinkFromAlloType(rule)">
+                    <i class="fas fa-search"></i>
+                  </a>
+                </td>
+                <td><a :href="getURLFromAlloType(rule)">{{ rule['variant-name'] }}</a></td>
                 <td>{{ rule.allograph }}</td>
                 <td>{{ rule['component-features'][0]['component'] }}</td>
                 <td>{{ rule['component-features'][0]['feature'] }}</td>

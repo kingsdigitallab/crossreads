@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "VARIANT_RULES Set",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "variant-name": {
+        "type": "string"
+      },
+      "allograph": {
+        "type": "string"
+      },
+      "component-features": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "component": {
+              "type": "string"
+            },
+            "feature": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "component",
+            "feature"
+          ]
+        }
+      }
+    },
+    "required": [
+      "allograph",
+      "component-features",
+      "variant-name"
+    ],
+    "title": "VARIANT_RULES"
+  }
+}

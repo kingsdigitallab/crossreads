@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "INDEX",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string"
+        },
+        "dc:modified": {
+          "type": "string"
+        },
+        "dc:creator": {
+          "type": "string"
+        },
+        "dc:source": {
+          "type": "string"
+        }
+      }
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "chr": {
+            "type": "string"
+          },
+          "scr": {
+            "type": "string"
+          },
+          "tag": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "doc": {
+            "type": "string"
+          },
+          "img": {
+            "type": "string"
+          },
+          "box": {
+            "type": "string"
+          },
+          "com": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fea": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cxf": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pla": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mat": {
+            "type": "string"
+          },
+          "wme": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "daf": {
+            "type": "number"
+          },
+          "dat": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "chr",
+          "scr",
+          "tag",
+          "doc",
+          "img",
+          "box",
+          "com",
+          "fea",
+          "cxf",
+          "pla",
+          "mat",
+          "wme",
+          "daf",
+          "dat"
+        ]
+      }
+    }
+  }
+}

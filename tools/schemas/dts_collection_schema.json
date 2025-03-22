@@ -1,0 +1,252 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "DTS_COLLECTION",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "type": "object",
+      "properties": {
+        "@vocab": {
+          "type": "string"
+        },
+        "dc": {
+          "type": "string"
+        },
+        "dts": {
+          "type": "string"
+        }
+      }
+    },
+    "@id": {
+      "type": "string"
+    },
+    "@type": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "dts:dublincore": {
+      "type": "object",
+      "properties": {
+        "dc:type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dc:creator": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@language": {
+                "type": "string"
+              },
+              "@value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "dc:language": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dc:title": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@language": {
+                "type": "string"
+              },
+              "@value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "dc:description": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@language": {
+                "type": "string"
+              },
+              "@value": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "totalItems": {
+      "type": "number"
+    },
+    "dts:totalParents": {
+      "type": "number"
+    },
+    "dts:totalChildren": {
+      "type": "number"
+    },
+    "member": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "totalItems": {
+            "type": "number"
+          },
+          "dts:totalParents": {
+            "type": "number"
+          },
+          "dts:totalChildren": {
+            "type": "number"
+          },
+          "dts:dublincore": {
+            "type": "object",
+            "properties": {
+              "dc:title": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "@language": {
+                      "type": "string"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@language",
+                    "@value"
+                  ]
+                }
+              },
+              "dc:description": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "@language": {
+                      "type": "string"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@language",
+                    "@value"
+                  ]
+                }
+              },
+              "dc:type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dc:creator": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "@language": {
+                      "type": "string"
+                    },
+                    "@value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@language",
+                    "@value"
+                  ]
+                }
+              },
+              "dc:contributor": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dc:language": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "dts:download": {
+            "type": "string"
+          },
+          "dts:citeDepth": {
+            "type": "number"
+          },
+          "dts:citeStructure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "dts:citeType": {
+                  "type": "string"
+                },
+                "dts:citeStructure": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "dts:citeType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "dts:citeType"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "dts:citeType",
+                "dts:citeStructure"
+              ]
+            }
+          }
+        },
+        "required": [
+          "@id",
+          "@type",
+          "title",
+          "description",
+          "totalItems",
+          "dts:totalParents",
+          "dts:totalChildren",
+          "dts:dublincore",
+          "dts:download",
+          "dts:citeDepth",
+          "dts:citeStructure"
+        ]
+      }
+    }
+  }
+}

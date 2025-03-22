@@ -36,9 +36,9 @@ import { createApp, nextTick } from "vue";
 import { createVuetify } from "../node_modules/vuetify/dist/vuetify.esm.js";
 import { AvailableTags } from "../tags.mjs";
 
-let vuetify = createVuetify()
+const vuetify = createVuetify()
 
-let IMG_PATH_STATIC_ROOT = './data/images/'
+const IMG_PATH_STATIC_ROOT = './data/images/'
 const NO_MATCHING_SIGN = 'NO_MATCHING_SIGN'
 const NO_MATCHING_WORD = 'NO_MATCHING_WORD'
 const NO_MATCHING_DOC = 'NO_MATCHING_DOC'
@@ -49,7 +49,7 @@ const EDIT_LOCK_IN_MINUTES = 10
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
 // Crossreads live IIIF server
 // https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json
-let IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
+const IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 // IIIF server via local proxy to avoid CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
@@ -84,7 +84,7 @@ function deepCopy(v) {
 
 // TODO: move this into Vue?
 function loadOpenSeaDragon(vueApp) {
-  var viewer = OpenSeadragon({
+  const viewer = OpenSeadragon({
     id: "image-viewer",
     prefixUrl: OPENSEADRAGON_IMAGE_URL_PREFIX,
     tileSources: {
@@ -105,19 +105,19 @@ function loadOpenSeaDragon(vueApp) {
     readOnly: !vueApp.canEdit,
     // disableSelect: false,
   };
-  var anno = OpenSeadragon.Annotorious(viewer, config);
+  const anno = OpenSeadragon.Annotorious(viewer, config);
   vueApp.anno = anno;
   window.anno = anno;
   vueApp.viewer = viewer;
   window.osd = viewer;
 
-  let eventNames = [
+  const eventNames = [
     'createSelection', 'createAnnotation', 'updateAnnotation',
     'selectAnnotation', 'cancelSelected', 'clickAnnotation',
     'deleteAnnotation', 'changeSelectionTarget',
     // 'mouseLeaveAnnotation', 'mouseLeaveAnnotation'
   ]
-  for (let eventName of eventNames) {
+  for (const eventName of eventNames) {
     anno.on(eventName, vueApp[`on${eventName[0].toUpperCase()}${eventName.substring(1)}`]);
   }
   viewer.addHandler('open-failed', vueApp.onImageOpenFailed);
@@ -298,10 +298,10 @@ createApp({
       this.searchPhrase = val.title
     },
     async searchPhrase(val, valOld) {
-      if (valOld == val) return;
+      if (valOld === val) return;
 
-      for (let obj of Object.values(this.objects)) {
-        if (obj.title == val) {
+      for (const obj of Object.values(this.objects)) {
+        if (obj.title === val) {
           this.object = obj
         }
       }
@@ -321,10 +321,10 @@ createApp({
       return Object.values(this.filteredObjects).map(obj => obj.title)
     },
     filteredImages() {
-      let ret = []
-      for (let k of Object.keys(this.images)) {
-        let o = this.images[k]
-        if (o.type == 'print') {
+      const ret = []
+      for (const k of Object.keys(this.images)) {
+        const o = this.images[k]
+        if (o.type === 'print') {
           ret.push(o)
         }
       }
@@ -332,15 +332,15 @@ createApp({
       // return this.images.filter(i => i.type == 'print')
     },
     filteredScripts() {
-      let ret = {}
+      const ret = {}
       let scriptKeys = Object.keys(this.definitions.scripts)
       scriptKeys = scriptKeys.sort((a, b) => {
         a = this.definitions.scripts[a]
         b = this.definitions.scripts[b]
         return a === b ? 0 : (a > b ? 1 : -1);
       })
-      for (let scriptKey of scriptKeys) {
-        if (scriptKey != 'base') {
+      for (const scriptKey of scriptKeys) {
+        if (scriptKey !== 'base') {
           ret[scriptKey] = this.definitions.scripts[scriptKey]
         }
       }
@@ -1389,7 +1389,7 @@ createApp({
       // sets 'bound' class to annotation svg 
       // if bound to a sign in the text.
       let ret = ''
-      let signOrCode = this.getSignOrErrorCodeFromAnnotation(annotation)
+      const signOrCode = this.getSignOrErrorCodeFromAnnotation(annotation)
       if (signOrCode) {
         ret = (signOrCode?.tagName) ? 'bound' : 'broken'
       }
@@ -1399,34 +1399,34 @@ createApp({
       return !this.selection.gtoken
     },
     getAgoFormat(adate) {
-      let timeStamp = adate.getTime()
-      var now = new Date(),
-        secondsPast = (now.getTime() - timeStamp) / 1000;
+      const timeStamp = adate.getTime()
+      const now = new Date();
+      const secondsPast = (now.getTime() - timeStamp) / 1000;
       if (secondsPast < 60) {
-        return parseInt(secondsPast) + 's';
+        return Number.parseInt(secondsPast) + 's';
       }
       if (secondsPast < 3600) {
-        return parseInt(secondsPast / 60) + 'm';
+        return Number.parseInt(secondsPast / 60) + 'm';
       }
       if (secondsPast <= 86400) {
-        return parseInt(secondsPast / 3600) + 'h';
+        return Number.parseInt(secondsPast / 3600) + 'h';
       }
       if (secondsPast > 86400) {
         day = timeStamp.getDate();
         month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
-        year = timeStamp.getFullYear() == now.getFullYear() ? "" : " " + timeStamp.getFullYear();
-        return day + " " + month + year;
+        year = timeStamp.getFullYear() === now.getFullYear() ? "" : " " + timeStamp.getFullYear();
+        return `${day} ${month}${year}`;
       }
     },
     logEvent(eventName) {
       if (LOG_EVENTS) console.log(`EVENT ${eventName}`)
     },
     dlg(annotations=null) {
-      let ids = {}
+      const ids = {}
       if (!annotations) {
         annotations = this.anno.getAnnotations()
       }
-      for (let annotation of annotations) {
+      for (const annotation of annotations) {
         if (ids[annotation.id]) {
           console.log('duplicate ' + annotation.id)
         }
@@ -1456,7 +1456,7 @@ createApp({
     setAddressBarFromSelection() {
       // ?object
       // let searchParams = new URLSearchParams(window.location.search)
-      let searchParams = {
+      const searchParams = {
         obj: this.selection.object,
         img: this.selection.image,
         sup: this.selection.showSuppliedText ? 1 : 0,
@@ -1467,7 +1467,7 @@ createApp({
       utils.setQueryString(searchParams)
     },
     async setSelectionFromAddressBar() {
-      let searchParams = new URLSearchParams(window.location.search);
+      const searchParams = new URLSearchParams(window.location.search);
 
       this.selection.object = searchParams.get('obj') || ''
       this.selection.image = searchParams.get('img') || ''
@@ -1530,11 +1530,11 @@ createApp({
       }
     },
     async getAlloTypes() {
-      let res = await this.afs.readJson(VARIANT_RULES_PATH)
+      const res = await this.afs.readJson(VARIANT_RULES_PATH)
       if (res?.ok) {
         let annotations = deepCopy(this.anno.getAnnotations())
         annotations = this.convertAnnotationsToW3C(annotations)
-        let types = utils.getAlloTypesFromAnnotations(annotations, res.data)
+        const types = utils.getAlloTypesFromAnnotations(annotations, res.data)
         navigator.clipboard.writeText(utils.getTEIfromAlloTypes(types))
       }
     }

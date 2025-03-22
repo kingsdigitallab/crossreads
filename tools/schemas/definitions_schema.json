@@ -1,0 +1,1591 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "DEFINITIONS",
+  "type": "object",
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "updated": {
+      "type": "string"
+    },
+    "scripts": {
+      "type": "object",
+      "properties": {
+        "latin-1": {
+          "type": "string"
+        },
+        "base": {
+          "type": "string"
+        },
+        "greek-1": {
+          "type": "string"
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "above-baseline": {
+          "type": "string"
+        },
+        "below-baseline": {
+          "type": "string"
+        },
+        "curved": {
+          "type": "string"
+        },
+        "long": {
+          "type": "string"
+        },
+        "on-baseline": {
+          "type": "string"
+        },
+        "short": {
+          "type": "string"
+        },
+        "straight": {
+          "type": "string"
+        },
+        "vertical": {
+          "type": "string"
+        },
+        "rounded": {
+          "type": "string"
+        },
+        "round": {
+          "type": "string"
+        },
+        "narrow": {
+          "type": "string"
+        },
+        "open": {
+          "type": "string"
+        },
+        "square": {
+          "type": "string"
+        },
+        "high": {
+          "type": "string"
+        },
+        "horizontal": {
+          "type": "string"
+        },
+        "angular": {
+          "type": "string"
+        },
+        "closed": {
+          "type": "string"
+        },
+        "oval": {
+          "type": "string"
+        },
+        "wide": {
+          "type": "string"
+        },
+        "small": {
+          "type": "string"
+        },
+        "large": {
+          "type": "string"
+        },
+        "thick": {
+          "type": "string"
+        },
+        "thin": {
+          "type": "string"
+        },
+        "traversing": {
+          "type": "string"
+        },
+        "not-touching": {
+          "type": "string"
+        },
+        "touching": {
+          "type": "string"
+        },
+        "serif": {
+          "type": "string"
+        },
+        "sans-serif": {
+          "type": "string"
+        },
+        "broken": {
+          "type": "string"
+        },
+        "diagonal": {
+          "type": "string"
+        },
+        "parallel": {
+          "type": "string"
+        },
+        "ascending": {
+          "type": "string"
+        },
+        "descending": {
+          "type": "string"
+        },
+        "point": {
+          "type": "string"
+        },
+        "circular": {
+          "type": "string"
+        },
+        "rhomboid": {
+          "type": "string"
+        },
+        "converging": {
+          "type": "string"
+        },
+        "not-converging": {
+          "type": "string"
+        },
+        "ovoid": {
+          "type": "string"
+        },
+        "extending": {
+          "type": "string"
+        }
+      }
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "ascender": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "bowl": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "descender": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "downstroke": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "lower-branch-k": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "top-stroke": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "upper-bowl": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "top-bar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "bottom-bar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "apex": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "crossbar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "left-stroke": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "right-stroke": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "lower-bowl": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "middle-bar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "tail": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "upper-bar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "lower-bar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "left-bar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "right-bar": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "middle-stroke": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "spine": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "foot": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "finial": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "hook": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "feet": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "left-bowl": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "right-bowl": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "allographs": {
+      "type": "object",
+      "properties": {
+        "ligature-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "A-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "B-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "C-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "D-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "E-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "F-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "G-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "H-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "I-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "L-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "M-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "O-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "P-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Q-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "R-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "S-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "T-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "U-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "X-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Y-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Z-script-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "K-script-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "a-test-script": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "B-test-script": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "N-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Z-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "punctuation-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "A-script-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "A-base": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "c-test-script": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "d-test-script": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "e-test-script": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "f-test-script": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "B-base": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "digraph-latin-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "Α-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Β-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Γ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Δ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ε-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ζ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Η-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Θ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ι-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Κ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Λ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Μ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ν-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ξ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ο-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Π-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ρ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Σ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Τ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Υ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Φ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Χ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ψ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Ω-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "ϝ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "ϙ-greek-1": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string"
+            },
+            "character": {
+              "type": "string"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

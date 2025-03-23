@@ -30,12 +30,13 @@ function loadFacetsSettings() {
     "com": {"size":15,"sort":"count","order":"desc"}
   }
   */ 
-  let  ret = JSON.parse(window.localStorage.getItem('facetsSettings') || '{}')
+  const ret = JSON.parse(window.localStorage.getItem('facetsSettings') || '{}')
 
   // remove all references to .size
-  Object.values(ret).forEach(facetSettings => {
+  for (const facetSettings of Object.values(ret)) {
+    // biome-ignore lint/performance/noDelete: tiny array
     delete facetSettings.size
-  })
+  }
 
   // console.log(ret)
 
@@ -118,7 +119,7 @@ createApp({
     await this.loadDefinitions()
 
     // not before
-    for (let tag of this.availableTags.tags) {
+    for (const tag of this.availableTags.tags) {
       this.descriptions.tags[tag] = null
     }
 
@@ -155,9 +156,9 @@ createApp({
     },
     tagSelection() {
       let ret = ''
-      let stats = [0, 0]
+      const stats = [0, 0]
 
-      for (let state of Object.values(this.descriptions.tags)) {
+      for (const state of Object.values(this.descriptions.tags)) {
         if (state === false) stats[1]++;
         if (state === true) stats[0]++;
       }
@@ -197,7 +198,7 @@ createApp({
     },
     pageMax() {
       let ret = 1
-      let pagination = this?.results?.pagination
+      const pagination = this?.results?.pagination
       if (pagination) {
         ret = Math.ceil(pagination.total / pagination.per_page)
       }
@@ -219,8 +220,8 @@ createApp({
       // TODO: check for rule duplication
       let ret = this.availableTags.getTagFormatError(this.selection.newTypeName, [])
       if (!ret && this.selection.newTypeName) {
-        let selectedAllographs = this.selection.facets?.chr || []
-        let selectedComponentFeatures = this.selection.facets?.cxf || []
+        const selectedAllographs = this.selection.facets?.chr || []
+        const selectedComponentFeatures = this.selection.facets?.cxf || []
         if (selectedAllographs.length !== 1 || selectedComponentFeatures.length < 1) {
           ret = 'Please select one Allograph and at least a Component x Feature in the above filters.'
         }
@@ -235,7 +236,7 @@ createApp({
     },
     async loadDefinitions() {
       // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
-      let res = await this.afs.readJson(FILE_PATHS.DEFINITIONS)
+      const res = await this.afs.readJson(FILE_PATHS.DEFINITIONS)
       if (res.ok) {
         this.definitions = res.data
       } else {
@@ -248,7 +249,7 @@ createApp({
       if (IS_BROWSER_LOCAL) {  
         this.index = await utils.fetchJsonFile('index.json')
       } else {
-        let res = await this.afs.readJson(FILE_PATHS.INDEX)
+        const res = await this.afs.readJson(FILE_PATHS.INDEX)
         if (res.ok) {
           this.index = res.data
         }
@@ -266,7 +267,7 @@ createApp({
 
       // order field
       this.annotationIdsToItem = {}
-      for (let item of this.index.data) {
+      for (const item of this.index.data) {
         // TODO: reduce id in the key
         this.annotationIdsToItem[item.id] = item
         // reduce item.img
@@ -282,7 +283,7 @@ createApp({
       window.addEventListener('scroll', this.loadVisibleThumbs);
     },
     async loadChangeQueue() {
-      let res = await this.afs.readJson(FILE_PATHS.CHANGE_QUEUE)
+      const res = await this.afs.readJson(FILE_PATHS.CHANGE_QUEUE)
       if (res?.ok) {
         this.changeQueue = res.data
         this.changeQueueSha = res.sha
@@ -292,7 +293,7 @@ createApp({
       }
     },
     async loadVariantRules() {
-      let res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
+      const res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
       if (res?.ok) {
         this.variantRules = res.data
         this.variantRulesSha = res.sha
@@ -302,17 +303,20 @@ createApp({
       }
     },
     applyChangeQueueToIndex() {
-      for (let change of this.changeQueue?.changes) {
-        this.applyChangeToIndex(change)
+      const changes = this.changeQueue?.changes
+      if (changes) {
+        for (const change of changes) {
+          this.applyChangeToIndex(change)
+        }
       }
     },
     applyChangeToIndex(change) {
-      for (let ann of change.annotations) {
-        let item = this.annotationIdsToItem[ann.id]
+      for (const ann of change.annotations) {
+        const item = this.annotationIdsToItem[ann.id]
         if (item) {
           // remove code duplication with reun-change-queue.mjs
-          let tagsSet = new Set(item.tag || [])
-          for (let tag of change.tags) {
+          const tagsSet = new Set(item.tag || [])
+          for (const tag of change.tags) {
             if (tag.startsWith('-')) {
               tagsSet.delete(tag.substring(1))
             } else {
@@ -351,7 +355,7 @@ createApp({
         ret = true
       } else {
         if (this.isUnsaved) {
-          let change = {
+          const change = {
             // annotationIds: [...this.selection.items].map(item => item.id),
             annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
             // e.g. tags: ['tag1', -tag3', 'tag10']
@@ -360,7 +364,7 @@ createApp({
             created: new Date().toISOString(),
           }
           this.changeQueue.changes.push(change)
-          let res = await this.afs.writeJson(FILE_PATHS.CHANGE_QUEUE, this.changeQueue, this.changeQueueSha)
+          const res = await this.afs.writeJson(FILE_PATHS.CHANGE_QUEUE, this.changeQueue, this.changeQueueSha)
           if (res?.ok) {
             ret = true
             this.changeQueueSha = res.sha;
@@ -376,9 +380,9 @@ createApp({
       return ret
     },
     unselectAllTags() {
-      Object.keys(this.descriptions.tags).forEach(k => {
+      for (const k of Object.keys(this.descriptions.tags)) {
         this.descriptions.tags[k] = null
-      })
+      }
     },
     resetSearch() {
       this.selection.searchPhrase = ''
@@ -390,7 +394,7 @@ createApp({
       this.search()
     },
     resetItemsjsconfig() {
-      let config = {
+      const config = {
         sortings: {
           or1: {
             field: 'or1',
@@ -405,13 +409,13 @@ createApp({
     onClickFacetExpand(facetKey) {
       if (this.getSelectedOptionsCount(facetKey)) return;
 
-      let settings = this.getFacetSettings(facetKey)
+      const settings = this.getFacetSettings(facetKey)
       // settings.size = settings.size == OPTIONS_PER_FACET ? OPTIONS_PER_FACET_EXPANDED : OPTIONS_PER_FACET;
       settings.expanded = !(settings?.expanded)
       this.setFacetSettings(facetKey, settings)
     },
     getFacetSettings(facetKey) {
-      let ret = this.selection.facetsSettings[facetKey] || {
+      const ret = this.selection.facetsSettings[facetKey] || {
         size: OPTIONS_PER_FACET,
         sort: 'count',
         order: 'desc',
@@ -419,19 +423,19 @@ createApp({
       return ret
     },
     isFacetExpanded(facetKey) {
-      let settings = this.getFacetSettings(facetKey)
+      const settings = this.getFacetSettings(facetKey)
       return !!settings.expanded || this.getSelectedOptionsCount(facetKey)
     },
     isFacetSortedBy(facetKey, sort, order) {
-      let settings = this.getFacetSettings(facetKey)
-      return settings.sort == sort && settings.order == order
+      const settings = this.getFacetSettings(facetKey)
+      return settings.sort === sort && settings.order === order
     },
     getSelectedOptionsCount(facetKey) {
       return this.getSelectedOptions(facetKey).length
     },
     getSelectedOptions(facetKey) {
-      let ret = this.selection?.facets[facetKey] || []
-      if (facetKey == 'dat') {
+      const ret = this.selection?.facets[facetKey] || []
+      if (facetKey === 'dat') {
         if (this.selection.dateFrom > DATE_MIN) {
           ret.push(this.selection.dateFrom)
         }
@@ -442,12 +446,12 @@ createApp({
       return ret
     },
     onClickFacetColumn(facetKey, columnName) {
-      let settings = this.getFacetSettings(facetKey)
-      if (settings.sort == columnName) {
-        settings.order = settings.order == 'asc' ? 'desc' : 'asc'
+      const settings = this.getFacetSettings(facetKey)
+      if (settings.sort === columnName) {
+        settings.order = settings.order === 'asc' ? 'desc' : 'asc'
       } else {
-        settings.sort = settings.sort == 'count' ? 'key' : 'count'
-        settings.order = settings.sort == 'count' ? 'desc' : 'asc'
+        settings.sort = settings.sort === 'count' ? 'key' : 'count'
+        settings.order = settings.sort === 'count' ? 'desc' : 'asc'
       }
       this.setFacetSettings(facetKey, settings)
     },
@@ -458,7 +462,7 @@ createApp({
       this.search()
     },
     getFacetDefinitions() {
-      let ret = {
+      const ret = {
         scr: {
           title: 'Script',
         },
@@ -489,9 +493,9 @@ createApp({
           title: 'Place',
         },
       }
-      for (let facetKey of Object.keys(ret)) {
-        let facet = ret[facetKey]
-        let settings = this.getFacetSettings(facetKey)
+      for (const facetKey of Object.keys(ret)) {
+        const facet = ret[facetKey]
+        const settings = this.getFacetSettings(facetKey)
         // TODO: more efficient if we don't include it when not expanded
         // note that size = 0 is treated like infinite by itemsjs
         facet.size = settings.expanded ? OPTIONS_PER_FACET_EXPANDED : 1
@@ -510,7 +514,7 @@ createApp({
       if (!keepPage) {
         this.selection.page = 1
       }
-      let options = {
+      const options = {
         per_page: this.selection.perPage,
         page: this.selection.page,
         sort: 'or1',
@@ -538,12 +542,12 @@ createApp({
       this.setAddressBarFromSelection()
     },
     loadVisibleThumbs() {
-      for (let element of document.querySelectorAll('.graph-thumb')) {
-        let dataSrc = element.attributes['data-src']
+      for (const element of document.querySelectorAll('.graph-thumb')) {
+        const dataSrc = element.attributes['data-src']
         if (dataSrc) {
-          let distanceFromBottom = window.innerHeight - element.getBoundingClientRect().top
-          let distanceFromTop = element.getBoundingClientRect().bottom
-          let distanceFromEdge = Math.min(distanceFromBottom, distanceFromTop)
+          const distanceFromBottom = window.innerHeight - element.getBoundingClientRect().top
+          const distanceFromTop = element.getBoundingClientRect().bottom
+          const distanceFromEdge = Math.min(distanceFromBottom, distanceFromTop)
           // console.log(distanceFromBottom)
           // element.setAttribute('data-dist', distanceFromBottom)
           if (distanceFromEdge > -200) {
@@ -558,14 +562,14 @@ createApp({
       }
     },
     getThumbUrlFromTag(tag, height=40) {
-      let item = null
+      const item = null
 
-      return this.getThumbUrlFromItem(item, height=height)
+      return this.getThumbUrlFromItem(item, height)
     },
     getThumbUrlFromItem(item, height=48) {
       let ret = ''
       if (item) {
-        let crop = item.box.substring(11)
+        const crop = item.box.substring(11)
         ret = `${item.img}/${crop}/,${height}/0/default.jpg`
       }
 
@@ -581,20 +585,20 @@ createApp({
     getDocIdFromItem(item) {
       // TODO get from doc when doc will be always populated
       // let ret = (item?.doc || '').replace(/^.*id=/, '')
-      let ret = (item?.img || '').replace(/^.*inscription_images\/([^/]+)\/.*$/, '$1')
+      const ret = (item?.img || '').replace(/^.*inscription_images\/([^/]+)\/.*$/, '$1')
       return ret
     },
     getAnnotatorLinkFromItem(item) {
       // TODO: remove hard-coded assumptions.
       // the transforms (obj, img) should be more dynamic than that.
       let ret = ''
-      let annotatorImageId = item.img.replace('_tiled.tif', `.jpg`).replace(/^.*\//, '')
+      const annotatorImageId = item.img.replace('_tiled.tif', ".jpg").replace(/^.*\//, '')
       ret = `./annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
     },
     getOptionsFromFacet(facet) {
-      let ret = facet.buckets.filter(o => {
-        return o.key != 'null'
+      const ret = facet.buckets.filter(o => {
+        return o.key !== 'null'
       })
       return ret
     },
@@ -604,11 +608,11 @@ createApp({
         facet = this.selection.facets[facetKey] = []
       } else {
         if (facet.includes(optionKey)) {
-          if (facet.length == 1) {
+          if (facet.length === 1) {
             delete this.selection.facets[facetKey]
           } else {
             this.selection.facets[facetKey] = facet.filter(
-              o => o != optionKey
+              o => o !== optionKey
             )
           }
           facet = null
@@ -623,6 +627,7 @@ createApp({
       let page = this.selection.page + step
       if (page < 1) page = 1;
       if (page > this.pageMax) page = this.pageMax;
+      // biome-ignore lint/suspicious/noDoubleEquals: <explanation>
       if (this.selection.page != page) {
         this.selection.page = page
         this.search(true)
@@ -640,8 +645,8 @@ createApp({
     onMouseEnterTag(tag, showModalOnTheRight=false) {
       // TODO: cache the results for each tag
       let ret = null
-      let selectedAllographs = this.selection.facets?.chr || []
-      if (selectedAllographs.length == 1) {
+      const selectedAllographs = this.selection.facets?.chr || []
+      if (selectedAllographs.length === 1) {
         ret = this._searchByTag(tag, selectedAllographs[0], true) || this._searchByTag(tag, selectedAllographs[0])
       }
       ret = ret || this._searchByTag(tag, null, true) || this._searchByTag(tag)
@@ -649,20 +654,20 @@ createApp({
       this.showModalOnTheRight = showModalOnTheRight
     },
     _searchByTag(tag, allograph=null, exemplar=false) {
-      let filters = {
+      const filters = {
         'tag': [tag]
       }
       if (exemplar) filters.tag.push(TAG_EXEMPLAR);
       if (allograph) filters.chr = [allograph]
-      let res = this.itemsjs.search({
+      const res = this.itemsjs.search({
         per_page: 1,
         page: 1,
         sort: 'or1',
         query: '',
         filters: filters
       })
-      let items = res?.data?.items
-      let ret = items ? items[0] : null
+      const items = res?.data?.items
+      const ret = items ? items[0] : null
       // console.log(tags, items.length)
       return ret
     },
@@ -680,13 +685,13 @@ createApp({
     },
     onAddTag() {
       if (this.tagFormatError) return;
-      let tag = this.availableTags.addTag(this.selection.newTagName);
+      const tag = this.availableTags.addTag(this.selection.newTagName);
       if (!tag) return;
       this.descriptions.tags[this.selection.newTagName] = null
       this.selection.newTagName = ''
     },
     onClickTag(tag) {
-      let stateTransitions = {true: false, false: null, null: true}
+      const stateTransitions = {true: false, false: null, null: true}
       this.descriptions.tags[tag] = stateTransitions[this.descriptions.tags[tag]]
     },
     // -----------------------
@@ -701,14 +706,14 @@ createApp({
       }
       console.log(scripts)
 
-      let variantRule = {
+      const variantRule = {
         'variant-name': this.selection.newTypeName,
         script: scripts[0],
         allograph: this.selection.facets.chr[0],
         // ["crossbar is ascending", "crossbar is straight" ] 
         // -> [{component: 'crossbar', feature: 'ascending'}, ...]
         'component-features': this.selection.facets.cxf.map((cxf) => {
-          let parts = cxf.split(' is ')
+          const parts = cxf.split(' is ')
           return {
             component: parts[0],
             feature: parts[1],
@@ -720,7 +725,7 @@ createApp({
 
       // ensure all the rules have a script
       if (1) {
-        for (let rule of this.variantRules) {
+        for (const rule of this.variantRules) {
           if (!rule?.script) {
             rule.script = utils.getScriptFromCharacter(rule.allograph, this.definitions)
           }
@@ -730,7 +735,7 @@ createApp({
       console.log(this.variantRules)
 
       if (0) {
-        let res = await this.afs.writeJson(FILE_PATHS.VARIANT_RULES, this.variantRules, this.variantRulesSha)
+        const res = await this.afs.writeJson(FILE_PATHS.VARIANT_RULES, this.variantRules, this.variantRulesSha)
         if (res?.ok) {
           this.variantRulesSha = res.sha
           this.selection.newTypeName = ''
@@ -754,7 +759,7 @@ createApp({
     setAddressBarFromSelection() {
       // ?object
       // let searchParams = new URLSearchParams(window.location.search)
-      let searchParams = {
+      const searchParams = {
         obj: this.selection.object,
         img: this.selection.image,
         sup: this.selection.showSuppliedText ? 1 : 0,
@@ -768,11 +773,11 @@ createApp({
         dat: this.selection.dateTo,
       };
 
-      for (let facet of Object.keys(this.selection.facets)) {
+      for (const facet of Object.keys(this.selection.facets)) {
         searchParams[`f.${facet}`] = this.selection.facets[facet].join('|')
       }
       
-      let defaults = {
+      const defaults = {
         // make sure q is always in the query string, even if ''
         q: 'DEFAULT',
         pag: 1,
@@ -785,7 +790,7 @@ createApp({
       utils.setQueryString(searchParams, defaults)
     },
     setSelectionFromAddressBar() {
-      let searchParams = new URLSearchParams(window.location.search);
+      const searchParams = new URLSearchParams(window.location.search);
 
       this.selection.object = searchParams.get('obj') || ''
       this.selection.image = searchParams.get('img') || ''
@@ -808,19 +813,19 @@ createApp({
       this.selection.page = this._getNumberFromString(searchParams.get('pag'), 1)
       this.selection.perPage = this._getNumberFromString(searchParams.get('ppg'), ITEMS_PER_PAGE)
 
-      for (let facet of Object.keys(this.getFacetDefinitions())) {
-        let options = searchParams.get(`f.${facet}`)
+      for (const facet of Object.keys(this.getFacetDefinitions())) {
+        const options = searchParams.get(`f.${facet}`)
         if (options) {
           // console.log(facet, options)
           this.selection.facets[facet] = options.split('|')
           // console.log(this.selection.facets)
         }
       }
-      // console.log(this.selection.facets)
+      console.log(this.selection.facets)
     },
     _getNumberFromString(stringValue, defaultValue=0) {
-      let res = parseInt(stringValue)
-      let ret = isNaN(res) ? defaultValue : res
+      const res = Number.parseInt(stringValue)
+      const ret = Number.isNaN(res) ? defaultValue : res
       // console.log(stringValue, res, defaultValue, ret)
       return ret
     }

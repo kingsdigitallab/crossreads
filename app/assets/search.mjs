@@ -700,6 +700,12 @@ createApp({
       let scripts = this.selection.facets?.scr
       if (scripts?.length !== 1) {
         scripts = [utils.getScriptFromCharacter(this.selection.facets.chr[0], this.definitions)]
+      } else {
+        // convert items in 'scripts' array to the key found in this.definitions.scripts for the value matching the item
+        scripts = scripts.map((script) => {
+          const key = Object.keys(this.definitions.scripts).find((key) => this.definitions.scripts[key] === script);
+          return key;
+        })
       }
 
       const variantRule = {
@@ -720,24 +726,18 @@ createApp({
       this.variantRules.push(variantRule)
 
       // ensure all the rules have a script
-      if (1) {
-        for (const rule of this.variantRules) {
-          if (!rule?.script) {
-            rule.script = utils.getScriptFromCharacter(rule.allograph, this.definitions)
-          }
+      for (const rule of this.variantRules) {
+        if (!rule?.script) {
+          rule.script = utils.getScriptFromCharacter(rule.allograph, this.definitions)
         }
       }
 
-      console.log(this.variantRules)
-
-      if (0) {
-        const res = await this.afs.writeJson(FILE_PATHS.VARIANT_RULES, this.variantRules, this.variantRulesSha)
-        if (res?.ok) {
-          this.variantRulesSha = res.sha
-          this.selection.newTypeName = ''
-        } else {
-          this.logMessage("Failed to save new variant rule. You might have to reload the page and try again.", 'error')
-        }
+      const res = await this.afs.writeJson(FILE_PATHS.VARIANT_RULES, this.variantRules, this.variantRulesSha)
+      if (res?.ok) {
+        this.variantRulesSha = res.sha
+        this.selection.newTypeName = ''
+      } else {
+        this.logMessage("Failed to save new variant rule. You might have to reload the page and try again.", 'error')
       }
     },
     // -----------------------

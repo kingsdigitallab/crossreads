@@ -54,9 +54,7 @@ createApp({
         annotationId: '',
         object: null, // ?
         image: null, // ?
-        // if null, &img in query string will be the phrase.
-        // if '' the phrase will be empty.
-        searchPhrase: null,
+        searchPhrase: '',
         dateFrom: DATE_MIN,
         dateTo: DATE_MAX,
         facets: {},
@@ -700,11 +698,9 @@ createApp({
 
       // TODO: convert from label to key
       let scripts = this.selection.facets?.scr
-      console.log(scripts)
       if (scripts?.length !== 1) {
         scripts = [utils.getScriptFromCharacter(this.selection.facets.chr[0], this.definitions)]
       }
-      console.log(scripts)
 
       const variantRule = {
         'variant-name': this.selection.newTypeName,
@@ -821,9 +817,10 @@ createApp({
           // console.log(this.selection.facets)
         }
       }
-      console.log(this.selection.facets)
+      // console.log(this.selection.facets)
     },
     _getNumberFromString(stringValue, defaultValue=0) {
+      // TODO: move to utils.
       const res = Number.parseInt(stringValue)
       const ret = Number.isNaN(res) ? defaultValue : res
       // console.log(stringValue, res, defaultValue, ret)

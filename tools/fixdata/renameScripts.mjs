@@ -28,6 +28,12 @@ for (const [key, value] of Object.entries(definitions.scripts)) {
         delete definitions.scripts[key]
     }
 }
+for (const [key, allo] of Object.entries(definitions.allographs)) {
+    const newScript = SCRIPT_REPLACE[allo.script]
+    if (newScript) {
+        allo.script = newScript.key
+    }
+}
 utils.writeJsonFile(`${filePath}`, definitions)
 
 // change the script keys in all the .json files under /annotations/, except change-queue.json

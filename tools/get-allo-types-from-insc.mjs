@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import path from "path";
-import { utils } from "../app/utils.mjs";
+import { FILE_PATHS, utils } from "../app/utils.mjs";
 
 /*
 Input: an inscription code like 'ISic000085'
@@ -16,7 +16,7 @@ Output: a TEI snippet following this template
 
 async function start() {
   // read the json from the variant rules file
-  const variantRules = JSON.parse(fs.readFileSync(`../${FILE_PATHS.VARIANT_RULES}`, 'utf-8'));
+  const variantRules = utils.readJsonFile(`../${FILE_PATHS.VARIANT_RULES}`)
 
   for (let file of fs.readdirSync('../annotations')) {
     if (!file.includes('.json')) continue;

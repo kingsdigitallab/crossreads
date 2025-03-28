@@ -25,7 +25,7 @@ jobs:
       - name: Log allograph types in each inscription
         run: npm run inscriptions-allograph-types
       - name: Generate allograph type pages
-        run: node gen-allo-types-pages.js
+        run: node gen-allo-type-pages.mjs
       - name: Commit and push
         uses: stefanzweifel/git-auto-commit-action@v4
         with:

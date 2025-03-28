@@ -478,6 +478,57 @@
         "value": {
           "script": "latin-1",
           "components": {
+            "body": {
+              "features": [
+                "oval"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "O"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000117/ISic000117_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:992.95556640625,1604.09521484375,558.6990966796875,661.401123046875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000117.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ALΤDU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/e14c6214-8d39-491f-9fa6-f584837f612d",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-03-24T10:38:38.573Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-03-24T10:39:04.499Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin-1",
+          "components": {
             "top-bar": {
               "features": [
                 "horizontal",

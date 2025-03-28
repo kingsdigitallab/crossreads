@@ -64,6 +64,7 @@ const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
+const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 
 let isButtonPressed = false
 function logButtons(e) {

@@ -178,7 +178,9 @@
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type1"
+          ],
           "character": "Φ"
         }
       }
@@ -210,7 +212,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:30:18.358Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:30:28.976Z"
+    "modified": "2025-03-17T11:55:33.941Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -858,7 +860,10 @@
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type2",
+            "type2.5"
+          ],
           "character": "Ρ"
         }
       }
@@ -890,7 +895,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:16:19.068Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:16:57.074Z"
+    "modified": "2025-03-12T13:33:15.231Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -927,7 +932,10 @@
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type2",
+            "type2.5"
+          ],
           "character": "Ρ"
         }
       }
@@ -959,7 +967,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:27:03.730Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:29:21.997Z"
+    "modified": "2025-03-12T13:33:15.231Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1343,7 +1351,10 @@
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type2",
+            "type2.6"
+          ],
           "character": "Ρ"
         }
       }
@@ -1375,7 +1386,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:45:57.097Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:46:23.424Z"
+    "modified": "2025-03-12T13:33:48.248Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1414,11 +1425,16 @@
               "features": [
                 "on-baseline",
                 "sans-serif",
-                "short"
+                "short",
+                "straight",
+                "vertical"
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type2",
+            "type2.1"
+          ],
           "character": "Υ"
         }
       }
@@ -1450,7 +1466,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:21:46.829Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:49:32.611Z"
+    "modified": "2025-03-14T13:42:03.127Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1725,6 +1741,76 @@
     "created": "2024-11-26T15:24:00.190Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2025-02-06T17:04:39.081Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            }
+          },
+          "tags": [
+            "type1"
+          ],
+          "character": "Υ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001087/ISic001087_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3222.8076171875,1930.3076171875,133.7265625,108.96240234375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001087.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BIΤJe']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/7282e32e-a08d-4a32-9138-acbafe06c752",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-03-14T13:44:25.385Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-03-14T13:44:41.693Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -2209,7 +2295,10 @@
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type2",
+            "type2.5"
+          ],
           "character": "Ρ"
         }
       }
@@ -2241,7 +2330,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:22:24.211Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:22:55.128Z"
+    "modified": "2025-03-12T13:33:15.231Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -2272,7 +2361,9 @@
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type2"
+          ],
           "character": "Χ"
         }
       }
@@ -2304,7 +2395,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:44:50.854Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-01-17T14:47:55.797Z"
+    "modified": "2025-03-17T13:55:03.423Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -3072,7 +3163,10 @@
               ]
             }
           },
-          "tags": null,
+          "tags": [
+            "type2",
+            "type2.1"
+          ],
           "character": "Υ"
         }
       }
@@ -3104,7 +3198,77 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-11-26T15:46:29.470Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-11-26T15:49:37.110Z"
+    "modified": "2025-03-14T13:42:13.169Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek-1",
+          "components": {
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            }
+          },
+          "tags": [
+            "type1"
+          ],
+          "character": "Υ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001087/ISic001087_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4568.32861328125,1821.34521484375,125.4716796875,112.2642822265625"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001087.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BIΤIe']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/e252144a-6b81-4c43-84de-28352ea291fe",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-03-14T13:43:56.505Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-03-14T13:44:20.003Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

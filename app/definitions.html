@@ -170,16 +170,19 @@
                 </select>
               </div>
             </p>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="tei-snippets" href="data/inscriptions-allograph-types.txt">(TEI snippets)</a>
           </div>
           <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth-no is-bordered">
             <thead>
               <tr>
+                <th>Search</th>
+                <th>Type</th>
                 <th>Character</th>
                 <th>Component</th>
                 <th>Feature main</th>
                 <th>Feature secondary</th>
-                <th>Type</th>
-                <th>Action</th>
+                <th>Remove</th>
               </tr>
             </thead>
             <tbody>
@@ -199,9 +202,7 @@
                     {{ rule['component-features'][1]['feature'] }}
                   </template>
                 </td>
-                <td><a :href="getURLFromAlloType(rule, '../')">{{ rule['variant-name'] }}</a></td>
                 <td>
-                  &nbsp;
                   <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">
                     <i class="fas fa-trash"></i>
                   </button>

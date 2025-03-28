@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2025-01-15T15:36:37.244Z",
+  "updated": "2025-03-28T17:26:39.921Z",
   "scripts": {
     "latin-1": "Latin 1",
     "base": "Base",
@@ -47,7 +47,13 @@
     "converging": "converging",
     "not-converging": "not converging",
     "ovoid": "ovoid",
-    "extending": "extending"
+    "extending": "extending",
+    "from-baseline": "from baseline",
+    "one": "one",
+    "two": "two",
+    "three": "three",
+    "four": "four",
+    "absent": "absent"
   },
   "components": {
     "ascender": {
@@ -63,7 +69,8 @@
         "rounded",
         "angular",
         "closed",
-        "open"
+        "open",
+        "extending"
       ]
     },
     "descender": {
@@ -180,7 +187,9 @@
         "circular",
         "horizontal",
         "traversing",
-        "long"
+        "long",
+        "from-baseline",
+        "absent"
       ]
     },
     "left-stroke": {
@@ -214,7 +223,8 @@
         "above-baseline",
         "diagonal",
         "traversing",
-        "vertical"
+        "vertical",
+        "extending"
       ]
     },
     "lower-bowl": {
@@ -231,7 +241,7 @@
       ]
     },
     "middle-bar": {
-      "name": "middle bar",
+      "name": "middle bars",
       "features": [
         "ascending",
         "descending",
@@ -246,7 +256,11 @@
         "traversing",
         "parallel",
         "curved",
-        "horizontal"
+        "horizontal",
+        "four",
+        "one",
+        "three",
+        "two"
       ]
     },
     "body": {
@@ -321,7 +335,8 @@
         "long",
         "sans-serif",
         "serif",
-        "traversing"
+        "traversing",
+        "extending"
       ]
     },
     "right-bar": {
@@ -372,15 +387,6 @@
         "short"
       ]
     },
-    "foot": {
-      "name": "foot",
-      "features": [
-        "curved",
-        "long",
-        "short",
-        "straight"
-      ]
-    },
     "finial": {
       "name": "finial",
       "features": [
@@ -413,25 +419,29 @@
       "features": [
         "angular",
         "oval",
-        "circular",
         "sans-serif",
         "serif",
         "square",
         "wide",
-        "narrow"
+        "narrow",
+        "above-baseline",
+        "on-baseline",
+        "round"
       ]
     },
     "right-bowl": {
       "name": "right bowl",
       "features": [
         "angular",
-        "circular",
         "narrow",
         "oval",
         "sans-serif",
         "serif",
         "square",
-        "wide"
+        "wide",
+        "above-baseline",
+        "on-baseline",
+        "round"
       ]
     }
   },
@@ -493,8 +503,7 @@
       "components": [
         "downstroke",
         "middle-bar",
-        "top-bar",
-        "foot"
+        "top-bar"
       ]
     },
     "G-latin-1": {
@@ -519,8 +528,7 @@
       "script": "latin-1",
       "character": "I",
       "components": [
-        "downstroke",
-        "foot"
+        "downstroke"
       ]
     },
     "L-latin-1": {
@@ -554,8 +562,7 @@
       "character": "P",
       "components": [
         "downstroke",
-        "bowl",
-        "foot"
+        "bowl"
       ]
     },
     "Q-latin-1": {
@@ -572,8 +579,7 @@
       "components": [
         "downstroke",
         "bowl",
-        "right-bar",
-        "foot"
+        "right-bar"
       ]
     },
     "S-latin-1": {
@@ -590,8 +596,7 @@
       "character": "T",
       "components": [
         "downstroke",
-        "top-bar",
-        "foot"
+        "top-bar"
       ]
     },
     "U-latin-1": {
@@ -929,9 +934,7 @@
       "components": [
         "downstroke",
         "left-bar",
-        "right-bar",
-        "right-stroke",
-        "left-stroke"
+        "right-bar"
       ]
     },
     "Ω-greek-1": {

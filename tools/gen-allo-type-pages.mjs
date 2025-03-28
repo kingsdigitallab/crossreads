@@ -12,6 +12,7 @@ const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
 const OUTPUT_DIR = '../app/data/allographs/types/';
 const HTML_TEMPLATE_PATH = 'templates/allo-type.html';
 const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
+const SEARCH_PAGE_URL = 'https://kingsdigitallab.github.io/crossreads/search.html'
 
 // Path to the JSON file
 const variantRulesFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
@@ -57,8 +58,10 @@ function processVariantRule(variantRule, templateData) {
     'script': getScriptFromCharacter(variantRule['allograph']),
     'allograph': variantRule['allograph'],
     'variant-name': variantRule['variant-name'],
-    'component-features': variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
+    'component-features': variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n'),
   };
+
+  variables['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${definitions.scripts[variables['script']]}&f.chr=${variantRule['allograph']}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
 
   // Replace variables in the template
   let htmlContent = templateData;

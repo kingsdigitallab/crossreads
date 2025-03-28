@@ -10,6 +10,7 @@ const definitionsPath = 'app/data/pal/definitions-digipal.json'
 const STATS_PATH = 'app/stats.json'
 const SHA_UNREAD = 'SHA_UNREAD'
 const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
+const SEARCH_PAGE_URL = 'search.html'
 
 createApp({
   data() {

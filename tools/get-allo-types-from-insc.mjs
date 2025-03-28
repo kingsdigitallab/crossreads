@@ -24,8 +24,7 @@ async function start() {
     let docId = utils.getDocIdFromString(file)
     if (!docId) continue;
     
-    let jsonData = fs.readFileSync(path.join('../annotations', file), 'utf-8')
-    const annotations = JSON.parse(jsonData);
+    const annotations = utils.readJsonFile(path.join('../annotations', file))
     if (annotations && !Array.isArray(annotations)) continue;
     const types = utils.getAlloTypesFromAnnotations(annotations, variantRules);
     // console.log(types);

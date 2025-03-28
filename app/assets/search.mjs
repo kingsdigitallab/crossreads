@@ -693,10 +693,9 @@ createApp({
       this.descriptions.tags[tag] = stateTransitions[this.descriptions.tags[tag]]
     },
     // -----------------------
-    async onAddType() {
+    async onAddVariantType() {
       if (this.typeFormatError) return;
 
-      // TODO: convert from label to key
       let scripts = this.selection.facets?.scr
       if (scripts?.length !== 1) {
         scripts = [utils.getScriptFromCharacter(this.selection.facets.chr[0], this.definitions)]

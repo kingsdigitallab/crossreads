@@ -133,10 +133,10 @@
                 <div>
                   <div class="field has-addons">
                     <div class="control">
-                      <input :class="{input: 1, 'is-danger': typeFormatError}" type="text" v-model="selection.newTypeName" @keyup.enter="onAddType()">
+                      <input :class="{input: 1, 'is-danger': typeFormatError}" type="text" v-model="selection.newTypeName" @keyup.enter="onAddVariantType()">
                     </div>
                     <div class="control">
-                      <button class="button" @click="onAddType()" :disabled="!canEdit || Boolean(typeFormatError) || !(selection.newTypeName || '').trim()">Add</button>
+                      <button class="button" @click="onAddVariantType()" :disabled="!canEdit || Boolean(typeFormatError) || !(selection.newTypeName || '').trim()">Add</button>
                     </div>
                   </div>
                   <p class="tag-error" v-if="typeFormatError">{{typeFormatError}}</p>

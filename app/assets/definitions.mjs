@@ -71,7 +71,7 @@ createApp({
       return this.getFilteredDefinitions('features', (a) => a)
     },
     filteredVariantRules() {
-      return this.variantRules.filter(r => this.definitions.allographs[`${r.allograph}-${this.selection.script}`])
+      return this.variantRules.filter(r => r.script === this.selection.script)
     },
     lastMessage() {
       let ret = {
@@ -123,7 +123,7 @@ createApp({
         
         for (let k of Object.keys(items).sort(sortFunction)) {
           let item = items[k]
-          if (collectionName != 'allographs' || this.selection.script === item.script) {
+          if (collectionName !== 'allographs' || this.selection.script === item.script) {
             ret[k] = item
           }
         }
@@ -291,6 +291,8 @@ createApp({
       if (!(this.definitions?.scripts && this.definitions?.scripts[this.selection.script])) {
         this.selection.script = Object.keys(this.definitions.scripts)[0]
       } else {
+        // TODO: why is this not always called at the end of this method?
+        // bc there's a watch on this.selection.script calling this anyway?
         this.setScriptName()
       }
     },
@@ -306,7 +308,7 @@ createApp({
     onClickAllographComponent(allo, componentSlug) {
       if (!this.canEdit) return;
       if (allo.components.includes(componentSlug)) {
-        allo.components = allo.components.filter((c) => c != componentSlug)
+        allo.components = allo.components.filter((c) => c !== componentSlug)
       } else {
         allo.components.push(componentSlug)
       }
@@ -315,7 +317,7 @@ createApp({
     onClickComponentFeature(component, featureSlug) {
       if (!this.canEdit) return;
       if (component.features.includes(featureSlug)) {
-        component.features = component.features.filter((f) => f != featureSlug)
+        component.features = component.features.filter((f) => f !== featureSlug)
       } else {
         component.features.push(featureSlug)
       }
@@ -352,7 +354,7 @@ createApp({
     },
     async loadVariantRules() {
       let res = await this.afs.readJson(VARIANT_RULES_PATH)
-      if (res && res.ok) {
+      if (res?.ok) {
         this.variantRules = res.data
         this.variantRulesSha = res.sha
         // sort the rules
@@ -413,7 +415,6 @@ createApp({
       return res
     },
     onShortenCollection(e) {
-      const self = this;
       let uri = collectionUri;
 
       // TODO: remove hard-coded values
@@ -430,7 +431,7 @@ createApp({
         ret.totalItems = ret.member.length
         ret['dts:totalChildren'] = ret.member.length
 
-        self.definitions = ret
+        this.definitions = ret
       })
       
     },
@@ -515,7 +516,7 @@ createApp({
       let searchParams = new URLSearchParams(window.location.search);
 
       this.selection.innerTab = searchParams.get('itb') || 'ac'
-      this.selection.script = searchParams.get('scr') || ''
+      this.selection.script = searchParams.get('scr') || 'latin'
     },
     logMessage(content, level = 'info') {
       // level: info|primary|success|warning|danger

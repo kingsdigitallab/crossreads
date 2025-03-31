@@ -14,17 +14,21 @@ Output: a TEI snippet following this template
 </p>
 */
 
+const ANNOTATIONS_PATH = '../annotations'
+
 async function start() {
   // read the json from the variant rules file
   const variantRules = utils.readJsonFile(`../${FILE_PATHS.VARIANT_RULES}`)
 
-  for (let file of fs.readdirSync('../annotations')) {
+  console.log(variantRules)
+
+  for (let file of fs.readdirSync(ANNOTATIONS_PATH)) {
     if (!file.includes('.json')) continue;
 
     let docId = utils.getDocIdFromString(file)
     if (!docId) continue;
     
-    const annotations = utils.readJsonFile(path.join('../annotations', file))
+    const annotations = utils.readJsonFile(path.join(ANNOTATIONS_PATH, file))
     if (annotations && !Array.isArray(annotations)) continue;
     const types = utils.getAlloTypesFromAnnotations(annotations, variantRules);
     // console.log(types);

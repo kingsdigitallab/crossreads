@@ -20,7 +20,7 @@ async function start() {
   // read the json from the variant rules file
   const variantRules = utils.readJsonFile(`../${FILE_PATHS.VARIANT_RULES}`)
 
-  console.log(variantRules)
+  // console.log(variantRules)
 
   for (let file of fs.readdirSync(ANNOTATIONS_PATH)) {
     if (!file.includes('.json')) continue;

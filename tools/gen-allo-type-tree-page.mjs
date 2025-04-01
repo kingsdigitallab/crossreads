@@ -170,23 +170,23 @@ const template = `
   </style>
 </head>
 <body>
-  <div class="tree">
+  <div class="tree" role="tree">
     {% for script, allographs in tree %}
-      <input type="checkbox" id="{{ script }}" checked />
+      <input type="checkbox" id="{{ script }}" checked aria-expanded="true" />
       <label for="{{ script }}">{{ script }}</label>
-      <ul>
+      <ul role="group">
         {% for allograph, variantList in allographs %}
-          <li>
-            <input type="checkbox" id="{{ script }}-{{ allograph }}" checked />
+          <li role="treeitem">
+            <input type="checkbox" id="{{ script }}-{{ allograph }}" checked aria-expanded="true" />
             <label for="{{ script }}-{{ allograph }}">{{ allograph }}</label>
-            <ul>
+            <ul role="group">
               {% macro renderVariants(variants) %}
                 {% for variant in variants %}
-                  <li>
-                    <input type="checkbox" id="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}" checked />
+                  <li role="treeitem">
+                    <input type="checkbox" id="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}" checked aria-expanded="true" />
                     <label for="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}">{{ variant['variant-name'] }}</label>
                     {% if variant.children %}
-                      <ul>{{ renderVariants(variant.children) | safe }}</ul>
+                      <ul role="group">{{ renderVariants(variant.children) | safe }}</ul>
                     {% endif %}
                     <div class="features">
                       <strong>Component Features:</strong><br />
@@ -204,17 +204,6 @@ const template = `
       </ul>
     {% endfor %}
   </div>
-
-  <script>
-    document.querySelectorAll('.tree input[type="checkbox"]').forEach((checkbox) => {
-      checkbox.addEventListener('change', (event) => {
-        const targetUl = event.target.nextElementSibling.querySelector('ul');
-        if (targetUl) {
-          targetUl.style.display = event.target.checked ? 'block' : 'none';
-        }
-      });
-    });
-  </script>
 </body>
 </html>
 `;

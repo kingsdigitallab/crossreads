@@ -210,7 +210,7 @@ const template = `
 
 const tree = buildTree(variants);
 
-const nunjucks = require('nunjucks');
+import nunjucks from 'nunjucks';
 
 const env = new nunjucks.Environment();
 env.addFilter('safe', function(str) {

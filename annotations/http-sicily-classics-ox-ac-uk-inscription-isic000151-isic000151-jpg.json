@@ -9,10 +9,9 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "T"
         }
       }
     ],
@@ -24,11 +23,70 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:1981.773681640625,1041.6444091796875,579.25927734375,843.3333740234375"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000151.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='APKAy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/77c365ab-b255-4bfe-b24e-aa09a2585ded",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2025-04-03T22:19:59.173Z"
+    "created": "2025-04-03T22:19:59.173Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-03T22:20:00.317Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": null,
+          "tags": null,
+          "character": "C"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000151/ISic000151_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2475.84765625,1050.1629638671875,562.22216796875,826.2962646484375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000151.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='APKAε']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/7ba47a98-c2e7-4522-a153-404bc2053db3",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-04-03T22:20:04.054Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-03T22:20:06.274Z"
   }
 ]

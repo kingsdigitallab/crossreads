@@ -234,10 +234,9 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "I"
         }
       }
     ],
@@ -247,13 +246,27 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:3387.78271484375,860.455078125,226.75341796875,591.563720703125"
+          "value": "xywh=pixel:3392.71240234375,855.525390625,226.75341796875,591.563720703125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000206.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AUΙAe']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 5,
+            "end": 6
+          }
         }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/d5de0339-7422-4619-a1b8-5d5094683a32",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2025-04-03T23:32:13.890Z"
+    "created": "2025-04-03T23:32:13.890Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-03T23:32:20.927Z"
   }
 ]

@@ -47,7 +47,13 @@ So we can have A type1 and B type 1.
 
 */
 
-const variants = [
+import { utils } from '../app/utils.mjs';
+
+// Constants for easy editing
+const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
+const TREE_PAGE_PATH = '../app/data/allographs/types/all.html'
+
+const variantsEXAMPLE = [
   {
     "allograph": "A",
     "component-features": [
@@ -75,6 +81,9 @@ const variants = [
     "script": "latin"
   },
 ];
+
+const variants = utils.readJsonFile(VARIANT_RULES_JSON_PATH)
+
 
 function buildTree(variants) {
   /* Returns a tree of script > allograph > variants > sub-variants.
@@ -153,5 +162,5 @@ let res = engine.renderFileSync('allo-type-tree.liquid', {tree: tree})
 
 import * as fs from 'node:fs';
 // Write the result into a file called 'gen-allo-type-tree.html'
-fs.writeFileSync('allo-type-tree.html', res);
+fs.writeFileSync(TREE_PAGE_PATH, res);
 

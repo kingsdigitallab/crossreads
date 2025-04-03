@@ -36,7 +36,7 @@ jobs:
         with: 
           node-version: 22.x
       - name: Generate type pages
-        run: cd tools && npm ci && npm static
+        run: cd tools && npm ci && npm run static
       - name: Install site dependencies
         run: cd app && npm ci
       - name: Setup Pages

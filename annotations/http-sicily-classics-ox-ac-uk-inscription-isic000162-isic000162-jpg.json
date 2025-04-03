@@ -414,10 +414,9 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "allograph": null,
           "components": null,
           "tags": null,
-          "textTarget": null
+          "character": "M"
         }
       }
     ],
@@ -429,6 +428,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:3364.939208984375,2251.4453125,479.16650390625,437.757080078125"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000162.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AQUDU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/785acbca-4e77-41a2-8d86-eaebc54d82da",
@@ -436,7 +447,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T22:37:38.660Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T22:37:39.873Z"
+    "modified": "2025-04-03T22:37:41.463Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

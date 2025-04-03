@@ -55,13 +55,13 @@ fs.readFile(variantRulesFilePath, 'utf8', async (err, data) => {
 function processVariantRule(variantRule, templateData) {
   // Create a dictionary of variables and their values
   const variables = {
-    'script': getScriptFromCharacter(variantRule['allograph']),
-    'allograph': variantRule['allograph'],
+    'script': getScriptFromCharacter(variantRule.allograph),
+    'allograph': variantRule.allograph,
     'variant-name': variantRule['variant-name'],
     'component-features': variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n'),
   };
 
-  variables['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${definitions.scripts[variables['script']]}&f.chr=${variantRule['allograph']}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
+  variables['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${definitions.scripts[variables.script]}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
 
   // Replace variables in the template
   let htmlContent = templateData;
@@ -70,7 +70,7 @@ function processVariantRule(variantRule, templateData) {
   }
 
   // Create the file name using allograph and variant-name
-  const fileName = `${variables.script}-${variantRule['allograph']}-${variantRule['variant-name']}.html`;
+  const fileName = `${variables.script}-${variantRule.allograph}-${variantRule['variant-name']}.html`;
 
   // Write the HTML content to a file
   const outputPath = path.join(__dirname, OUTPUT_DIR, fileName);
@@ -89,8 +89,8 @@ function getScriptFromCharacter(character) {
   // return utils.getScriptFromUnicode(variantRule['allograph'])
   let ret = null
   
-  for (const [key, allograph] of Object.entries(definitions['allographs'])) {
-    if (allograph.character == character) {
+  for (const [key, allograph] of Object.entries(definitions.allographs)) {
+    if (allograph.character === character) {
       ret = allograph.script
       break
     }

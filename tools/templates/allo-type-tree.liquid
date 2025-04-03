@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- THIS IS A LIQUID TEMPLATE -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variants Tree</title>
+  <style>
+    .tree ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+    .tree li {
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    .tree input[type="checkbox"] {
+      display: none;
+    }
+    .tree label {
+      position: relative;
+      padding-left: 15px;
+      user-select: none;
+    }
+    .tree input[type="checkbox"]:checked + ul {
+      display: block;
+    }
+    .tree input[type="checkbox"] + ul {
+      display: none;
+    }
+    .tree label::before {
+      content: "+";
+      position: absolute;
+      left: 0;
+    }
+    .tree input[type="checkbox"]:checked + ul > li > label::before {
+      content: "-";
+    }
+    .features {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="tree" role="tree">
+    {% for scriptAllograph in tree %}
+      {% assign script = scriptAllograph[0] %}
+      {% assign allographs = scriptAllograph[1] %}
+      <label for="{{ script }}">{{ script }}</label>
+      <input type="checkbox" id="{{ script }}" checked aria-expanded="true" />
+      <ul role="group">
+        {% for allographVariants in allographs %}
+          {% assign allograph = allographVariants[0] %}
+          {% assign variantList = allographVariants[1] %}
+          <li role="treeitem">
+            <label for="{{ script }}-{{ allograph }}">{{ allograph }}</label>
+            <input type="checkbox" id="{{ script }}-{{ allograph }}" checked aria-expanded="true" />
+            <ul role="group">
+              {% render 'allo-type-tree-variants.liquid', variantList: variantList, allograph: allograph, script: script %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  </div>
+</body>
+</html>

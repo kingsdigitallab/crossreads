@@ -9,6 +9,51 @@
         "format": "application/json",
         "value": {
           "script": "latin",
+          "components": null,
+          "tags": null,
+          "character": "D"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000162/ISic000162_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1418.6942138671875,500.41650390625,479.166748046875,514.6605224609375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000162.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AQUAo']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/08293f3f-8cd9-4f85-94c7-90940bd60397",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-04-03T22:35:37.461Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-03T22:35:42.590Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
           "allograph": null,
           "components": null,
           "tags": null,
@@ -22,15 +67,15 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1418.6942138671875,500.41650390625,479.166748046875,514.6605224609375"
+          "value": "xywh=pixel:3157.891845703125,494.5008544921875,751.285888671875,514.6605224609375"
         }
       }
     ],
-    "id": "https://crossreads.web.ox.ac.uk/annotations/08293f3f-8cd9-4f85-94c7-90940bd60397",
+    "id": "https://crossreads.web.ox.ac.uk/annotations/a2dcacf0-0872-4283-b237-2bc83841a930",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2025-04-03T22:35:37.461Z",
+    "created": "2025-04-03T22:35:47.110Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T22:35:39.705Z"
+    "modified": "2025-04-03T22:35:48.909Z"
   }
 ]

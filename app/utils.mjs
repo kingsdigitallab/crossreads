@@ -251,6 +251,15 @@ async function mod(exports) {
     return `${baseUrl}data/allographs/types/${atype.script}-${atype.allograph}-${atype['variant-name']}.html`
   }
 
+  exports.renderTemplate = async (templateName, context) => {
+    // import { Liquid } from 'liquidjs'
+    const { Liquid } = (await import('liquidjs'));
+    const engine = new Liquid({
+      root: './templates/'
+    })
+    return engine.renderFileSync(templateName, context)
+  }
+
   // --------------------------------------------
 
   if (IS_BROWSER) {

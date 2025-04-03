@@ -542,7 +542,7 @@ createApp({
           break;
         }
       }
-      return `${SEARCH_PAGE_URL}?f.scr=${script}&f.chr=${rule['allograph']}&f.cxf=${rule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
+      return `${SEARCH_PAGE_URL}?f.scr=${script}&f.chr=${rule.allograph}&f.cxf=${rule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
     }
   }
 }).mount('#definitions')

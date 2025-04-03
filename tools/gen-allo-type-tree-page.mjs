@@ -153,14 +153,8 @@ const tree = buildTree(variants)
 
 // console.log(JSON.stringify(tree, null, 2))
 
-import { Liquid } from 'liquidjs'
-const engine = new Liquid({
-  root: './templates/'
-})
-const tpl = engine.parse('Welcome to {{v}}!')
-let res = engine.renderFileSync('allo-type-tree.liquid', {tree: tree})
+let res = await utils.renderTemplate('allo-type-tree.liquid', {tree: tree})
 
 import * as fs from 'node:fs';
-// Write the result into a file called 'gen-allo-type-tree.html'
 fs.writeFileSync(TREE_PAGE_PATH, res);
 

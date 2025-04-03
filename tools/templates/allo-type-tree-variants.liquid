@@ -1,0 +1,15 @@
+{% for variant in variantList %}
+  <li role="treeitem">
+    <label for="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}">{{ variant['variant-name'] }}</label>
+    <input type="checkbox" id="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}" checked aria-expanded="true" />
+    {% if variant.children %}
+      <ul role="group">{% render 'allo-type-tree-variant.liquid', variantList: variant.children, allograph: allograph, script: script %}</ul>
+    {% endif %}
+    <div class="features">
+      <strong>Component Features:</strong><br />
+      {% for feature in variant['component-features'] %}
+        {{ feature.component }} - {{ feature.feature }}<br />
+      {% endfor %}
+    </div>
+  </li>
+{% endfor %}

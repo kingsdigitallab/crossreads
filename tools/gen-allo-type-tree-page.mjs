@@ -49,17 +49,6 @@ So we can have A type1 and B type 1.
 
 const variants = [
   {
-    "variant-name": "type1",
-    "allograph": "A",
-    "component-features": [
-      {
-        "component": "crossbar",
-        "feature": "straight"
-      }
-    ],
-    "script": "latin"
-  },
-  {
     "allograph": "A",
     "component-features": [
       {
@@ -74,149 +63,95 @@ const variants = [
     "variant-name": "type1.1",
     "script": "latin"
   },
+  {
+    "variant-name": "type1",
+    "allograph": "A",
+    "component-features": [
+      {
+        "component": "crossbar",
+        "feature": "straight"
+      }
+    ],
+    "script": "latin"
+  },
 ];
 
 function buildTree(variants) {
-  const tree = {};
-
-  variants.forEach((variant) => {
-    if (!tree[variant.script]) {
-      tree[variant.script] = {};
-    }
-
-    if (!tree[variant.script][variant.allograph]) {
-      tree[variant.script][variant.allograph] = [];
-    }
-
-    let parentVariants = tree[variant.script][variant.allograph];
-    const variantParts = variant["variant-name"].split('.');
-    let currentVariant;
-
-    for (let i = 0; i < variantParts.length; i++) {
-      const part = variantParts[i];
-
-      if (!currentVariant) {
-        currentVariant = parentVariants.find(v => v["variant-name"] === part);
-      } else {
-        if (!currentVariant.children) {
-          currentVariant.children = [];
+  /* Returns a tree of script > allograph > variants > sub-variants.
+  Such as this:
+  {
+    "latin": {
+      "A": [
+        {
+          "variant-name": "type1",
+          "allograph": "A",
+          "component-features": [
+            {
+              "component": "crossbar",
+              "feature": "straight"
+            }
+          ],
+          "script": "latin",
+          "children": [
+            {
+              "allograph": "A",
+              "component-features": [
+                {
+                  "component": "crossbar",
+                  "feature": "ascending"
+                },
+                {
+                  "component": "crossbar",
+                  "feature": "straight"
+                }
+              ],
+              "variant-name": "type1.1",
+              "script": "latin",
+              "children": []
+            }
+          ]
         }
-        currentVariant = currentVariant.children.find(v => v["variant-name"] === part);
-      }
-
-      if (!currentVariant) {
-        const newVariant = { ...variant, "variant-name": part };
-        if (i === variantParts.length - 1) {
-          Object.assign(newVariant, variant);
-          delete newVariant.script;
-          delete newVariant.allograph;
-        }
-        if (parentVariants.includes(currentVariant)) {
-          parentVariants[parentVariants.indexOf(currentVariant)] = newVariant;
-        } else {
-          parentVariants.push(newVariant);
-        }
-        currentVariant = newVariant;
-      }
-
-      parentVariants = currentVariant.children || [];
+      ]
     }
-  });
+  }
+  */
+  const ret = {};
 
-  return tree;
+  // 1. sort variants by variant-name
+  variants.sort((a, b) => a["variant-name"].localeCompare(b["variant-name"]));
+
+  // 2. index all variants by script, allograph and variant-name
+  // and nest the variants in the index based on the hierarchy of types in variant-name
+  let index = {}
+  for (const v of variants) {
+    v.children = []
+    let key = `${v.script}-${v.allograph}-${v['variant-name']}` 
+    let parentKey = key.replace(/\.\d+$/, "")
+    if (index[parentKey]) {
+      index[parentKey].children.push(v);
+    } else {
+      if (!ret[v.script]) ret[v.script] = {};
+      if (!ret[v.script][v.allograph]) ret[v.script][v.allograph] = [];
+      ret[v.script][v.allograph].push(v)
+    }
+    index[key] = v;
+  }
+
+  return ret;
 }
 
-const template = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Variants Tree</title>
-  <style>
-    .tree ul {
-      list-style-type: none;
-      padding-left: 20px;
-    }
-    .tree li {
-      margin: 5px 0;
-      cursor: pointer;
-    }
-    .tree input[type="checkbox"] {
-      display: none;
-    }
-    .tree label {
-      position: relative;
-      padding-left: 15px;
-      user-select: none;
-    }
-    .tree input[type="checkbox"]:checked + ul {
-      display: block;
-    }
-    .tree input[type="checkbox"] + ul {
-      display: none;
-    }
-    .tree label::before {
-      content: "+";
-      position: absolute;
-      left: 0;
-    }
-    .tree input[type="checkbox"]:checked + ul > li > label::before {
-      content: "-";
-    }
-    .features {
-      margin-left: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="tree" role="tree">
-    {% for script, allographs in tree %}
-      <input type="checkbox" id="{{ script }}" checked aria-expanded="true" />
-      <label for="{{ script }}">{{ script }}</label>
-      <ul role="group">
-        {% for allograph, variantList in allographs %}
-          <li role="treeitem">
-            <input type="checkbox" id="{{ script }}-{{ allograph }}" checked aria-expanded="true" />
-            <label for="{{ script }}-{{ allograph }}">{{ allograph }}</label>
-            <ul role="group">
-              {% macro renderVariants(variants) %}
-                {% for variant in variants %}
-                  <li role="treeitem">
-                    <input type="checkbox" id="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}" checked aria-expanded="true" />
-                    <label for="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}">{{ variant['variant-name'] }}</label>
-                    {% if variant.children %}
-                      <ul role="group">{{ renderVariants(variant.children) | safe }}</ul>
-                    {% endif %}
-                    <div class="features">
-                      <strong>Component Features:</strong><br />
-                      {% for feature in variant['component-features'] %}
-                        {{ feature.component }} - {{ feature.feature }}<br />
-                      {% endfor %}
-                    </div>
-                  </li>
-                {% endfor %}
-              {% endmacro %}
-              {{ renderVariants(variantList) | safe }}
-            </ul>
-          </li>
-        {% endfor %}
-      </ul>
-    {% endfor %}
-  </div>
-</body>
-</html>
-`;
+const tree = buildTree(variants)
 
-const tree = buildTree(variants);
+// console.log(JSON.stringify(tree, null, 2))
 
-import nunjucks from 'nunjucks';
+import { Liquid } from 'liquidjs'
+const engine = new Liquid({
+  root: './templates/'
+})
+const tpl = engine.parse('Welcome to {{v}}!')
+let res = engine.renderFileSync('allo-type-tree.liquid', {tree: tree})
 
-const env = new nunjucks.Environment();
-env.addFilter('safe', function(str) {
-  return str;
-});
+import * as fs from 'node:fs';
+// Write the result into a file called 'gen-allo-type-tree.html'
+fs.writeFileSync('allo-type-tree.html', res);
 
-const renderedHtml = env.renderString(template, { tree });
-
-console.log(renderedHtml);

@@ -530,7 +530,7 @@ createApp({
       this.messages.length = 0
     },
     getURLFromAlloType(rule) {
-      return utils.getURLFromAlloType(rule, '../')
+      return utils.getURLFromAlloType(rule, './')
     },
     getSearchLinkFromAlloType(rule) {
       // TODO: get this from the rule

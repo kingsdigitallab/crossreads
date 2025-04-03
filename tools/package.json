@@ -14,7 +14,8 @@
     "test:words": "node testWords.js",
     "index": "node index.mjs",
     "index-collection": "node index-collection.mjs",
-    "inscriptions-allograph-types": "node get-allo-types-from-insc.mjs > ../app/data/inscriptions-allograph-types.txt"
+    "inscriptions-allograph-types": "node get-allo-types-from-insc.mjs > ../app/data/inscriptions-allograph-types.txt",
+    "static": "node gen-allo-type-pages.mjs && node gen-allo-type-tree-page.mjs"
   },
   "repository": {
     "type": "git",

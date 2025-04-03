@@ -31,8 +31,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      - run: cd app && npm ci
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: 22.x
+      - name: Generate type pages
+        run: cd tools && npm ci && npm static
+      - name: Install site dependencies
+        run: cd app && npm ci
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

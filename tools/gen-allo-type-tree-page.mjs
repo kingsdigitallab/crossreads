@@ -100,11 +100,11 @@ function buildTree(variants) {
   variants.sort((a, b) => {
     if (a.script !== b.script) {
       return a.script.localeCompare(b.script);
-    } else if (a.allograph !== b.allograph) {
-      return a.allograph.localeCompare(b.allograph);
-    } else {
-      return a["variant-name"].localeCompare(b["variant-name"]);
     }
+    if (a.allograph !== b.allograph) {
+      return a.allograph.localeCompare(b.allograph);
+    }
+    return a["variant-name"].localeCompare(b["variant-name"]);
   });
 
   // 2. index all variants by script, allograph and variant-name

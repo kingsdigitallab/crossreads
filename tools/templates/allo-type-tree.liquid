@@ -5,41 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Variants Tree</title>
-  <style>
-    .tree ul {
-      list-style-type: none;
-      padding-left: 20px;
-    }
-    .tree li {
-      margin: 5px 0;
-      cursor: pointer;
-    }
-    .tree input[type="checkbox"] {
-      display: none;
-    }
-    .tree label {
-      position: relative;
-      padding-left: 15px;
-      user-select: none;
-    }
-    .tree input[type="checkbox"]:checked + ul {
-      display: block;
-    }
-    .tree input[type="checkbox"] + ul {
-      display: none;
-    }
-    .tree label::before {
-      content: "+";
-      position: absolute;
-      left: 0;
-    }
-    .tree input[type="checkbox"]:checked + ul > li > label::before {
-      content: "-";
-    }
-    .features {
-      margin-left: 20px;
-    }
-  </style>
+  {% render 'static-styles.liquid' %}
 </head>
 <body>
   <div class="tree" role="tree">
@@ -63,5 +29,6 @@
       </ul>
     {% endfor %}
   </div>
+  {% render 'footer.liquid' %%}
 </body>
 </html>

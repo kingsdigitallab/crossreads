@@ -4,13 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{allograph}} - {{variant-name}}</title>
-  <style>
-    footer {
-      margin-top: 2em;
-      padding: 1em;
-      border-top: 1px solid grey
-    }
-  </style>
+  {% render 'static-styles.liquid' %}
 </head>
 <body>
   <h1>{{allograph}} - {{variant-name}}</h1>
@@ -29,9 +23,6 @@
   <p>
     <a href="{{examples-url}}">Examples</a>
   </p>
-  <footer>
-    <a href="https://crossreads.web.ox.ac.uk/">CROSSREADS</a>,
-    funded by European Research Council (ERC), Grant agreement No. 885040
-  </footer>
+  {% render 'footer.liquid' %%}
 </body>
 </html>

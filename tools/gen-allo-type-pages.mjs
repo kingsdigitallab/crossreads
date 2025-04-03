@@ -15,13 +15,9 @@ const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
 const SEARCH_PAGE_URL = 'https://kingsdigitallab.github.io/crossreads/search.html'
 
 async function processVariantRule(variantRule, definitions) {
-  const context = {
-    'script': variantRule.script, // getScriptFromCharacter(variantRule.allograph),
-    'allograph': variantRule.allograph,
-    'variant-name': variantRule['variant-name'],
-    'component-features': variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n'),
-  };
-
+  let context = JSON.parse(JSON.stringify(variantRule))
+  
+  context['component-features'] = variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
   context['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${definitions.scripts[context.script]}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
 
   let htmlContent = await utils.renderTemplate(HTML_TEMPLATE_PATH, context)
@@ -31,13 +27,8 @@ async function processVariantRule(variantRule, definitions) {
 
   // Write the HTML content to a file
   const outputPath = path.join(__dirname, OUTPUT_DIR, fileName);
-  fs.writeFileSync(outputPath, htmlContent, 'utf8', err => {
-    if (err) {
-      console.error('Error writing HTML file:', err);
-    } else {
-      console.log(`HTML file created: ${outputPath}`);
-    }
-  });
+  fs.writeFileSync(outputPath, htmlContent)
+  console.log(`HTML file created: ${outputPath}`);
 }
 
 function emptyOutputFolder() {
@@ -59,10 +50,8 @@ function emptyOutputFolder() {
 }
 
 async function main() {
-  // Ensure the output dir exists and is empty
   emptyOutputFolder(OUTPUT_DIR)
 
-  // Path to the JSON file
   const variantRulesFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
 
   const variantRules = utils.readJsonFile(variantRulesFilePath)

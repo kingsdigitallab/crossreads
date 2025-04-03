@@ -5,12 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ν - type2.2</title>
   <style>
-    footer {
-      margin-top: 2em;
-      padding: 1em;
-      border-top: 1px solid grey
-    }
-  </style>
+  .tree ul {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+  .tree li {
+    margin: 5px 0;
+    cursor: pointer;
+  }
+  .tree input[type="checkbox"] {
+    display: none;
+  }
+  .tree label {
+    position: relative;
+    padding-left: 15px;
+    user-select: none;
+  }
+  .tree input[type="checkbox"]:checked + ul {
+    display: block;
+  }
+  .tree input[type="checkbox"] + ul {
+    display: none;
+  }
+  .tree label::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+  }
+  .tree input[type="checkbox"]:checked + ul > li > label::before {
+    content: "-";
+  }
+  .features {
+    margin-left: 20px;
+  }
+
+
+  footer {
+    margin-top: 2em;
+    padding: 1em;
+    border-top: 1px solid grey
+  }
+</style>
+
 </head>
 <body>
   <h1>Ν - type2.2</h1>
@@ -31,8 +67,10 @@
     <a href="https://kingsdigitallab.github.io/crossreads/search.html?f.scr=Greek&f.chr=Ν&f.cxf=right-stroke is on-baseline|left-stroke is vertical">Examples</a>
   </p>
   <footer>
-    <a href="https://crossreads.web.ox.ac.uk/">CROSSREADS</a>,
-    funded by European Research Council (ERC), Grant agreement No. 885040
-  </footer>
+  <p><a href="all.html">Allograph typology</a></p>
+  <p><a href="https://kingsdigitallab.github.io/crossreads/">Crossreads Annotator</a></p>
+  <p><a href="https://crossreads.web.ox.ac.uk/">CROSSREADS</a>, funded by European Research Council (ERC), Grant agreement No. 885040</p>
+</footer>
+
 </body>
 </html>

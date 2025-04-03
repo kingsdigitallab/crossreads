@@ -146,8 +146,7 @@
           "script": "latin",
           "components": null,
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "character": "R"
         }
       }
     ],
@@ -159,6 +158,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2214.324462890625,1603.300537109375,390.393310546875,449.539306640625"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000165.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AQyBK']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 5,
+            "end": 6
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/6f284139-e1cd-4fa0-9c65-68d1d688b46a",
@@ -166,7 +177,52 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T22:43:51.137Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T22:43:53.410Z"
+    "modified": "2025-04-03T22:43:55.069Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": null,
+          "tags": null,
+          "character": "G"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000165/ISic000165_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2456.826416015625,1579.5888671875,384.5166015625,461.4197998046875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000165.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AQyBK']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/76ae2486-d8a7-4ec1-a3a5-7867de869883",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-04-03T22:44:00.892Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-03T22:44:02.045Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

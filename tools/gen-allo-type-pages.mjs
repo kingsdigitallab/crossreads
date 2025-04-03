@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { fileURLToPath } from 'node:url';
 import { utils } from '../app/utils.mjs';
+import * as toolbox from './toolbox.mjs'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,13 +15,13 @@ const HTML_TEMPLATE_PATH = 'allo-type.liquid';
 const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
 const SEARCH_PAGE_URL = 'https://kingsdigitallab.github.io/crossreads/search.html'
 
-async function processVariantRule(variantRule, definitions) {
+function processVariantRule(variantRule, definitions) {
   let context = JSON.parse(JSON.stringify(variantRule))
   
   context['component-features'] = variantRule['component-features'].map(feature => `  <li>${feature.component} is ${feature.feature}</li>`).join('\n')
   context['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${definitions.scripts[context.script]}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
 
-  let htmlContent = await utils.renderTemplate(HTML_TEMPLATE_PATH, context)
+  let htmlContent = toolbox.renderTemplate(HTML_TEMPLATE_PATH, context)
 
   // Create the file name using allograph and variant-name
   const fileName = `${context.script}-${variantRule.allograph}-${variantRule['variant-name']}.html`;
@@ -49,7 +50,7 @@ function emptyOutputFolder() {
   }
 }
 
-async function main() {
+function main() {
   emptyOutputFolder(OUTPUT_DIR)
 
   const variantRulesFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
@@ -59,7 +60,7 @@ async function main() {
   let definitions = utils.readJsonFile(DEFINITIONS_PATH)
 
   for (const variantRule of variantRules) {
-    await processVariantRule(variantRule, definitions);
+    processVariantRule(variantRule, definitions);
   }
 }
 

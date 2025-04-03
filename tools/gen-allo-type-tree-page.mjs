@@ -47,43 +47,13 @@ So we can have A type1 and B type 1.
 
 */
 
-import { utils } from '../app/utils.mjs';
+import * as fs from 'node:fs';
+import { utils } from '../app/utils.mjs'
+import * as toolbox from './toolbox.mjs'
 
 // Constants for easy editing
 const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
 const TREE_PAGE_PATH = '../app/data/allographs/types/all.html'
-
-const variantsEXAMPLE = [
-  {
-    "allograph": "A",
-    "component-features": [
-      {
-        "component": "crossbar",
-        "feature": "ascending"
-      },
-      {
-        "component": "crossbar",
-        "feature": "straight"
-      }
-    ],
-    "variant-name": "type1.1",
-    "script": "latin"
-  },
-  {
-    "variant-name": "type1",
-    "allograph": "A",
-    "component-features": [
-      {
-        "component": "crossbar",
-        "feature": "straight"
-      }
-    ],
-    "script": "latin"
-  },
-];
-
-const variants = utils.readJsonFile(VARIANT_RULES_JSON_PATH)
-
 
 function buildTree(variants) {
   /* Returns a tree of script > allograph > variants > sub-variants.
@@ -149,12 +119,13 @@ function buildTree(variants) {
   return ret;
 }
 
-const tree = buildTree(variants)
+function main() {
+  const variants = utils.readJsonFile(VARIANT_RULES_JSON_PATH)
+  const tree = buildTree(variants)
 
-// console.log(JSON.stringify(tree, null, 2))
+  let res = toolbox.renderTemplate('allo-type-tree.liquid', {tree: tree})
 
-let res = await utils.renderTemplate('allo-type-tree.liquid', {tree: tree})
+  fs.writeFileSync(TREE_PAGE_PATH, res);
+}
 
-import * as fs from 'node:fs';
-fs.writeFileSync(TREE_PAGE_PATH, res);
-
+main()

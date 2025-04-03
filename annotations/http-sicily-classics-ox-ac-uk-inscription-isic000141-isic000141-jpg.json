@@ -56,6 +56,51 @@
           "script": "latin",
           "components": null,
           "tags": null,
+          "allograph": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000141/ISic000141_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1918.0234375,2261.492431640625,360.85400390625,378.600830078125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000141.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AOKBA']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/0cc938f9-d51f-45a8-9e71-788503f88fc8",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-04-03T22:03:44.971Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-03T22:03:46.079Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": null,
+          "tags": null,
           "character": "A"
         }
       }
@@ -313,6 +358,38 @@
     "created": "2025-04-03T22:02:22.543Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2025-04-03T22:02:24.031Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000141/ISic000141_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2278.87744140625,2243.745361328125,425.92578125,390.43212890625"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/b56e27bb-1ea9-4707-9493-623e4ef948c9",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-04-03T22:03:51.631Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

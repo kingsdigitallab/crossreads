@@ -554,7 +554,9 @@
         "value": {
           "script": "latin",
           "components": null,
-          "tags": null,
+          "tags": [
+            "leaf"
+          ],
           "character": "punctuation"
         }
       }
@@ -586,7 +588,52 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T21:57:17.331Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T21:57:21.364Z"
+    "modified": "2025-04-03T21:57:23.906Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": null,
+          "tags": null,
+          "character": "L"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000138/ISic000138_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3162.9453125,2045.182861328125,269.7529296875,397.53076171875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000138.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ANεCο']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/d0ebf123-f73d-4771-a0a7-747d2536b139",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-04-03T21:57:27.848Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-03T21:57:29.073Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

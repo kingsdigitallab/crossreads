@@ -1,9 +1,3 @@
-// returns all the 
-
-import fs from 'fs';
-import path from "path";
-import { FILE_PATHS, utils } from "../app/utils.mjs";
-
 /*
 Input: an inscription code like 'ISic000085'
 Output: a TEI snippet following this template
@@ -14,34 +8,45 @@ Output: a TEI snippet following this template
 </p>
 */
 
+import fs from 'node:fs';
+import path from "node:path";
+import { FILE_PATHS, utils } from "../app/utils.mjs";
+import * as toolbox from './toolbox.mjs'
+
+
 const ANNOTATIONS_PATH = '../annotations'
 
-async function start() {
+async function main() {
   // read the json from the variant rules file
   const variantRules = utils.readJsonFile(`../${FILE_PATHS.VARIANT_RULES}`)
 
   // console.log(variantRules)
 
+  let inscriptions = []
+
   for (let file of fs.readdirSync(ANNOTATIONS_PATH)) {
     if (!file.includes('.json')) continue;
 
-    let docId = utils.getDocIdFromString(file)
-    if (!docId) continue;
+    let inscription = {
+      id: utils.getDocIdFromString(file)
+    }
+    if (!inscription.id) continue;
     
     const annotations = utils.readJsonFile(path.join(ANNOTATIONS_PATH, file))
     if (annotations && !Array.isArray(annotations)) continue;
     const types = utils.getAlloTypesFromAnnotations(annotations, variantRules);
-    // console.log(types);
+    inscription.snippet = utils.getTEIfromAlloTypes(types)
 
-    let res = utils.getTEIfromAlloTypes(types)
-
-    if (res) {
-      console.log(docId)
-      console.log(res)
-      console.log('-------------------------------------')
-      // break;
+    if (inscription.snippet) {
+      inscriptions.push(inscription)
     }
   }
+
+  const outputXml = toolbox.renderTemplate('allo-types-from-insc.liquid', {inscriptions: inscriptions})
+
+  // toolbox.isXMLWellFormed(outputXml)
+  
+  console.log(outputXml)
 }
 
-start()
+main()

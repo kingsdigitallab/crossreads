@@ -221,6 +221,9 @@
             <h2 class="title is-3">Bulk edit ({{ selection.items.size }})
               <button @click.prevent.stop="saveChangeQueue()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </h2>
+            <p>
+              <a @click="selectAllAnnotationsOnPage()">Select whole page</a> | <a @click="clearAnnotationSelection()">clear selection</a>
+            </p>
             <h3 class="title is-4">Tags {{ tagSelection }}:</h3>
             <ul class="tags-selector">
               <li v-for="state, tag in descriptions.tags">

@@ -353,7 +353,7 @@ createApp({
         console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
         ret = true
       } else {
-        if (this.isUnsaved) {
+        if (this.isUnsaved) {          
           const change = {
             // annotationIds: [...this.selection.items].map(item => item.id),
             annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
@@ -694,6 +694,14 @@ createApp({
         this.selection.items.add(item)
       }
     },
+    selectAllAnnotationsOnPage() {
+      for (const item of this.items) {
+        this.selection.items.add(item)
+      }
+    },    
+    clearAnnotationSelection() {
+      this.selection.items.clear()
+    },    
     onAddTag() {
       if (this.tagFormatError) return;
       const tag = this.availableTags.addTag(this.selection.newTagName);

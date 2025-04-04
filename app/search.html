@@ -142,6 +142,19 @@
                   <p class="tag-error" v-if="typeFormatError">{{typeFormatError}}</p>
                 </div>
               </div>
+
+              <p class="panel-heading">Others</p>
+              <div class="panel-block type">
+                <div>
+                  <div class="field has-addons">
+                    <label>
+                      <input type="checkbox" v-model="selection.withoutTypeTag" @change="search()">
+                      Without 'type*'' tag
+                    </label>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
           

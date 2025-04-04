@@ -65,6 +65,7 @@ createApp({
         items: new Set(),
         newTagName: '',
         newTypeName: '',
+        withoutTypeTag: false,
       },
       // instance of AnyFileSystem, to access github resources
       afs: null,
@@ -519,7 +520,7 @@ createApp({
         query: (this.selection.searchPhrase || '').trim(),
         filters: this.selection.facets
       }
-      // console.log(options)
+      // custom filter by date range
       if (this.selection.dateFrom > DATE_MIN || this.selection.dateTo < DATE_MAX) {
         options.filter = (item) => {
           if (this.selection.dateFrom > DATE_MIN) {
@@ -531,6 +532,18 @@ createApp({
           return true
         }
       }
+      // custom filtering by withoutTypeTag
+      if (this.selection.withoutTypeTag) {
+        // TODO: don't overwrite the data filtering
+        options.filter = (item) => {
+          if (!item.tag) return true;
+          let allTags = `£${item.tag.join('£')}`
+          return !(allTags.includes('£type'))
+        }
+        this.selection.dateFrom = DATE_MIN
+        this.selection.dateTo = DATE_MAX
+      }
+
       this.results = this.itemsjs.search(options)
       // img.addEventListener('load', loaded)
       this.$nextTick(() => {

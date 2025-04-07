@@ -1154,8 +1154,22 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
-          "tags": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            },
+            "crossbar": {
+              "features": [
+                "broken"
+              ]
+            }
+          },
+          "tags": [
+            "serif.split"
+          ],
           "character": "Α"
         }
       }
@@ -1187,7 +1201,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T20:08:47.699Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T20:08:49.851Z"
+    "modified": "2025-04-07T13:55:43.552Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

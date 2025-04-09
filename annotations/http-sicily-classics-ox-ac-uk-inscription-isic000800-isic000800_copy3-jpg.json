@@ -591,8 +591,33 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
-          "tags": null,
+          "components": {
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "sans-serif",
+                "straight"
+              ]
+            },
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            }
+          },
+          "tags": [
+            "terminal"
+          ],
           "character": "Λ"
         }
       }
@@ -624,7 +649,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-30T08:02:34.973Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-30T08:02:40.507Z"
+    "modified": "2025-04-09T10:39:41.831Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1201,7 +1226,13 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ο"
         }
@@ -1234,6 +1265,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-30T08:02:45.092Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-30T08:02:48.114Z"
+    "modified": "2025-04-09T10:39:45.980Z"
   }
 ]

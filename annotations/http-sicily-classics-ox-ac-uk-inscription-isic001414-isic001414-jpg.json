@@ -973,7 +973,13 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ο"
         }
@@ -1006,7 +1012,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T20:35:39.422Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T20:35:40.486Z"
+    "modified": "2025-04-09T09:58:48.408Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1018,7 +1024,22 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "bowl": {
+              "features": [
+                "closed",
+                "rounded"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ρ"
         }
@@ -1051,7 +1072,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T20:35:34.630Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T20:35:37.146Z"
+    "modified": "2025-04-09T09:58:45.630Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

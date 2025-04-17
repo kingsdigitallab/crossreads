@@ -73,6 +73,13 @@ createApp({
     filteredVariantRules() {
       return this.variantRules.filter(r => r.script === this.selection.script)
     },
+    maxVariantCFs() {
+      let ret = 0;
+      for (let rule of this.variantRules) {
+        ret = Math.max(ret, rule['component-features'].length)
+      }
+      return ret
+    },
     lastMessage() {
       let ret = {
         content: '',
@@ -116,9 +123,9 @@ createApp({
       let items = this.definitions[collectionName]
       if (items) {
         function sortFunction(a, b) {
-          a = getNameFromItem(items[a])
-          b = getNameFromItem(items[b])
-          return a === b ? 0 : (a > b ? 1 : -1)
+          let an = getNameFromItem(items[a])
+          let bn = getNameFromItem(items[b])
+          return an === bn ? 0 : (an > bn ? 1 : -1)
         }
         
         for (let k of Object.keys(items).sort(sortFunction)) {
@@ -160,19 +167,19 @@ createApp({
         event.target.textContent = component.name
       }
     },
-    _itemExist(itemType, name) {
+    _itemExist(itemType, aname) {
       if (!['script', 'component', 'feature'].includes(itemType)) {
         throw new Error(`_itemExist: wrong itemType ${itemType}`)
       }
       let ret = false
-      let items = this.definitions[itemType+'s']
+      let items = this.definitions[`${itemType}s`]
 
-      name = name.trim()
+      let name = aname.trim()
       let slug = utils.slugify(name)
       ret = !!(items[slug]);
       if (!ret) {
         ret = Object.values(items).filter(
-          i => (i.name || i).toLowerCase() == name.toLowerCase()
+          i => (i.name || i).toLowerCase() === name.toLowerCase()
         ).length > 0
       }
 
@@ -185,14 +192,14 @@ createApp({
     onRemoveComponent(componentSlug) {
       delete this.definitions.components[componentSlug]
       for (let allograph of Object.values(this.definitions.allographs)) {
-        allograph.components = allograph.components.filter(slug => slug != componentSlug)
+        allograph.components = allograph.components.filter(slug => slug !== componentSlug)
       }
       this.areDefinitionsUnsaved = 1
     },
     onRemoveFeature(featureSlug) {
       delete this.definitions.features[featureSlug]
       for (let component of Object.values(this.definitions.components)) {
-        component.features = component.features.filter(slug => slug != featureSlug)
+        component.features = component.features.filter(slug => slug !== featureSlug)
       }
       this.areDefinitionsUnsaved = 1
     },
@@ -219,19 +226,19 @@ createApp({
       if (!name) return;
 
       let slug = name
-      if (itemType != 'allograph') {
+      if (itemType !== 'allograph') {
         slug = utils.slugify(name)
       } else {
         slug = `${slug}-${this.selection.script}`
       }
       if (!slug) return;
 
-      let items = this.definitions[itemType+'s'] 
+      let items = this.definitions[`${itemType}s`] 
       let item = null
 
-      if (itemType == 'allograph') {
+      if (itemType === 'allograph') {
         item = items[slug]
-        if (!(item && item.script == this.selection.script)) {
+        if (!(item && item.script === this.selection.script)) {
           item = {
             script: this.selection.script,
             character: name,
@@ -242,13 +249,13 @@ createApp({
         }
       } else {
         if (!this._itemExist(itemType, name)) {
-          if (itemType == 'component') {
+          if (itemType === 'component') {
             item = {
               name: name,
               features: []
             }
           }
-          if (itemType == 'feature') {
+          if (itemType === 'feature') {
             item = name
           }    
         }
@@ -288,7 +295,7 @@ createApp({
     },
     selectFirstScript() {
       // do nothing if a valid script is already selected
-      if (!(this.definitions?.scripts && this.definitions?.scripts[this.selection.script])) {
+      if (!(this.definitions?.scripts?.[this.selection.script])) {
         this.selection.script = Object.keys(this.definitions.scripts)[0]
       } else {
         // TODO: why is this not always called at the end of this method?
@@ -418,14 +425,14 @@ createApp({
       let uri = collectionUri;
 
       // TODO: remove hard-coded values
-      const toKeep = new RegExp('ISic0000(01|07|31|46|79)$')
+      const toKeep = /ISic0000(01|07|31|46|79)$/
 
       fetch(uri).then(r => r.json()).then(res => {
         ret = res
 
         ret.member = ret.member.filter(
           m => 
-          !!(m && m.title.match(toKeep))
+          !!(m?.title.match(toKeep))
         )
 
         ret.totalItems = ret.member.length
@@ -436,8 +443,7 @@ createApp({
       
     },
     onImportDefinitions(e) {
-      const self = this;
-      let uri = self.archetypeUri + componentUri;
+      let uri = this.archetypeUri + componentUri;
 
       fetch(uri).then(r => r.json()).then(res => {
         let features = {};
@@ -452,7 +458,7 @@ createApp({
           }
         }
 
-        uri = self.archetypeUri + allographUri;
+        uri = this.archetypeUri + allographUri;
         fetch(uri).then(r => r.json()).then(res => {
           const allographs = {};
           
@@ -470,7 +476,7 @@ createApp({
           }
 
           let ret = {
-            'context': self.archetypeUri,
+            'context': this.archetypeUri,
             'version': '0.1',
             'updated': new Date().toISOString(),
             'scripts': {},
@@ -478,7 +484,7 @@ createApp({
             'components': components,
             'allographs': allographs,
           };
-          self.definitions = ret;
+          this.definitions = ret;
         })
       })
     },

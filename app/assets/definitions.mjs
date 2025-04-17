@@ -549,6 +549,12 @@ createApp({
         }
       }
       return `${SEARCH_PAGE_URL}?f.scr=${script}&f.chr=${rule.allograph}&f.cxf=${rule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
+    },
+    isTypeFormatValid(typeName) {
+      // return true if typeName has format like 'type1' or 'type2.34.8.77'.
+      // valid if 'type' followed by a string of dot separated numbers.
+      const pattern = /^type[0-9]+(\.[0-9]+)*$/;
+      return pattern.test(typeName);
     }
   }
 }).mount('#definitions')

@@ -193,8 +193,10 @@
                     <i class="fas fa-search"></i>
                   </a>
                 </td>
-                <td>{{ rule.allograph }}</td>
-                <td><a :href="getURLFromAlloType(rule)">{{ rule['variant-name'] }}</a></td>
+                <td>
+                  {{ rule.allograph }}
+                </td>
+                <td><a :href="getURLFromAlloType(rule)" :class="{'status-error': !isTypeFormatValid(rule['variant-name'])}">{{ rule['variant-name'] }}</a></td>
                 <template v-for="i in maxVariantCFs" :key="i">
                   <template v-if="i > rule['component-features'].length">
                     <td></td>

@@ -178,10 +178,11 @@
               <tr>
                 <th>Search</th>
                 <th>Type</th>
-                <th>Character</th>
-                <th>Component</th>
-                <th>Feature main</th>
-                <th>Feature secondary</th>
+                <th>Char.</th>
+                <template v-for="i in maxVariantCFs" :key="i">
+                  <th>Component {{ i }}</th>
+                  <th>Feature</th>
+                </template>
                 <th>Remove</th>
               </tr>
             </thead>
@@ -194,14 +195,16 @@
                 </td>
                 <td><a :href="getURLFromAlloType(rule)">{{ rule['variant-name'] }}</a></td>
                 <td>{{ rule.allograph }}</td>
-                <td>{{ rule['component-features'][0]['component'] }}</td>
-                <td>{{ rule['component-features'][0]['feature'] }}</td>
-                <td>
-                  <template v-if="rule['component-features'][1]">
-                    <template v-if="rule['component-features'][1]['component'] != rule['component-features'][0]['component']">{{ rule['component-features'][1]['component'] }} = <br></template>
-                    {{ rule['component-features'][1]['feature'] }}
+                <template v-for="i in maxVariantCFs" :key="i">
+                  <template v-if="i > rule['component-features'].length">
+                    <td></td>
+                    <td></td>
                   </template>
-                </td>
+                  <template v-else>
+                    <td>{{ rule['component-features'][i-1]['component'] }}</td>
+                    <td>{{ rule['component-features'][i-1]['feature'] }}</td>
+                  </template>
+                </template>
                 <td>
                   <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">
                     <i class="fas fa-trash"></i>

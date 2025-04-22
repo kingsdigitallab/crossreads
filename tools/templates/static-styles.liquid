@@ -15,19 +15,30 @@
     padding-left: 15px;
     user-select: none;
   }
-  .tree input[type="checkbox"]:checked + ul {
-    display: block;
+  .tree label:hover {
+    background-color: test;
+    padding-left: 15px;
+    user-select: none;
   }
-  .tree input[type="checkbox"] + ul {
+  .tree input[type="checkbox"] ~ ul {
     display: none;
   }
+  .tree input[type="checkbox"]:checked ~ ul {
+    display: block;
+  }
+  .tree input[type="checkbox"] ~ .features {
+    display: none;
+  }
+  .tree input[type="checkbox"]:checked ~ .features {
+    display: block;
+  }
   .tree label::before {
-    content: "+";
+    content: ">";
     position: absolute;
     left: 0;
   }
-  .tree input[type="checkbox"]:checked + ul > li > label::before {
-    content: "-";
+  .tree input[type="checkbox"]:checked + label::before {
+    content: "v";
   }
   .features {
     margin-left: 20px;

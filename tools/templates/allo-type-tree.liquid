@@ -13,15 +13,15 @@
     {% for scriptAllograph in tree %}
       {% assign script = scriptAllograph[0] %}
       {% assign allographs = scriptAllograph[1] %}
-      <label for="{{ script }}">{{ script }}</label>
       <input type="checkbox" id="{{ script }}" checked aria-expanded="true" />
+      <label for="{{ script }}">{{ script }}</label>
       <ul role="group">
         {% for allographVariants in allographs %}
           {% assign allograph = allographVariants[0] %}
           {% assign variantList = allographVariants[1] %}
           <li role="treeitem">
-            <label for="{{ script }}-{{ allograph }}">{{ allograph }}</label>
             <input type="checkbox" id="{{ script }}-{{ allograph }}" checked aria-expanded="true" />
+            <label for="{{ script }}-{{ allograph }}">{{ allograph }}</label>
             <ul role="group">
               {% render 'allo-type-tree-variants.liquid', variantList: variantList, allograph: allograph, script: script %}
             </ul>

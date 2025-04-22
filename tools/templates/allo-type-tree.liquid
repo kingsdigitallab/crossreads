@@ -10,26 +10,28 @@
 <body>
   <h1>Allograph variants</h1>
   <div class="tree" role="tree">
-    {% for scriptAllograph in tree %}
-      {% assign script = scriptAllograph[0] %}
-      {% assign allographs = scriptAllograph[1] %}
-      <label for="{{ script }}">{{ script }}</label>
-      <input type="checkbox" id="{{ script }}" checked aria-expanded="true" />
-      <ul role="group">
-        {% for allographVariants in allographs %}
-          {% assign allograph = allographVariants[0] %}
-          {% assign variantList = allographVariants[1] %}
-          <li role="treeitem">
-            <label for="{{ script }}-{{ allograph }}">{{ allograph }}</label>
-            <input type="checkbox" id="{{ script }}-{{ allograph }}" checked aria-expanded="true" />
-            <ul role="group">
-              {% render 'allo-type-tree-variants.liquid', variantList: variantList, allograph: allograph, script: script %}
-            </ul>
-          </li>
-        {% endfor %}
-      </ul>
-    {% endfor %}
-  </div>
+      {% for scriptAllograph in tree %}
+        {% assign script = scriptAllograph[0] %}
+        {% assign allographs = scriptAllograph[1] %}
+        <details id="{{ script }}" open>
+          <summary>{{ script }}</summary>
+          <ul role="group">
+            {% for allographVariants in allographs %}
+              {% assign allograph = allographVariants[0] %}
+              {% assign variantList = allographVariants[1] %}
+              <li role="treeitem">
+                <details id="{{ script }}-{{ allograph }}" open>
+                  <summary>{{ allograph }}</summary>
+                  <ul role="group">
+                    {% render 'allo-type-tree-variants.liquid', variantList: variantList, allograph: allograph, script: script %}
+                  </ul>
+                </details>
+              </li>
+            {% endfor %}
+          </ul>
+        </details>
+      {% endfor %}
+    </div>
   {% render 'footer.liquid' %%}
 </body>
 </html>

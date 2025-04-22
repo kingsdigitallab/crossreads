@@ -1,47 +1,27 @@
 <style>
   .tree ul {
     list-style-type: none;
-    padding-left: 20px;
+    padding-left: 0;
+  }
+  .tree ul.features {
+    list-style-type: disc;
   }
   .tree li {
     margin: 5px 0;
-    cursor: pointer;
-  }
-  .tree input[type="checkbox"] {
-    display: none;
-  }
-  .tree label {
-    position: relative;
-    padding-left: 15px;
-    user-select: none;
-  }
-  .tree label:hover {
-    background-color: test;
-    padding-left: 15px;
-    user-select: none;
-  }
-  .tree input[type="checkbox"] ~ ul {
-    display: none;
-  }
-  .tree input[type="checkbox"]:checked ~ ul {
-    display: block;
-  }
-  .tree input[type="checkbox"] ~ .features {
-    display: none;
-  }
-  .tree input[type="checkbox"]:checked ~ .features {
-    display: block;
-  }
-  .tree label::before {
-    content: ">";
-    position: absolute;
-    left: 0;
-  }
-  .tree input[type="checkbox"]:checked + label::before {
-    content: "v";
   }
   .features {
     margin-left: 20px;
+  }
+  .tree details {
+    padding-left: 2em;
+  }
+  .tree summary {
+    border: 1px solid transparent;
+    margin-left: -2em;
+  }
+  .tree summary:hover {
+    border: 1px solid grey;
+    cursor: pointer;
   }
 
 

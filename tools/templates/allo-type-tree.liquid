@@ -8,8 +8,18 @@
   {% render 'static-styles.liquid' %}
 </head>
 <body>
-  <h1>Allograph variants</h1>
-  <div class="tree" role="tree">
+  <div class="banner">
+    <h1>Allograph variants</h1>
+    <p>Jump to: 
+      {% for scriptAllograph in tree %}
+        {% assign script = scriptAllograph[0] %}
+        <a class="link-script" href="#{{ script }}">{{ script }}</a>
+      {% endfor %}
+    </p>
+    <p>You are here: [breadcrumb]</p>
+  </div>
+  <div class="container">
+    <div class="tree" role="tree">
       {% for scriptAllograph in tree %}
         {% assign script = scriptAllograph[0] %}
         {% assign allographs = scriptAllograph[1] %}
@@ -32,6 +42,7 @@
         </details>
       {% endfor %}
     </div>
-  {% render 'footer.liquid' %%}
+  </div>
+  {% render 'footer.liquid', tree: tree %}
 </body>
 </html>

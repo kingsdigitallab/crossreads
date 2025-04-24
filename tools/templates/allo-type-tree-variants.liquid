@@ -4,8 +4,8 @@
       <summary>{{ variant['variant-name'] }} (<a href="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}.html">page</a>)</summary>
       Description:
       <ul class="features">
-        {% for feature in variant['component-features'] %}
-          <li>{{ feature.component }} is {{ feature.feature }}</li>
+        {% for componentFeature in variant['component-features'] %}
+          <li>{{ componentFeature.component }} is {{ componentFeature.feature }}</li>
         {% endfor %}
       </ul>
       {% if variant.children %}

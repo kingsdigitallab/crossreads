@@ -1,4 +1,44 @@
 <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .banner {
+    /* 
+    position: sticky; 
+    top: 0;
+    */
+    background: white;
+    border-bottom: 1px solid grey;
+    padding: 0.5em;
+  }
+
+  .container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5em;
+  }
+
+  footer {
+    padding: 0.5em;
+    border-top: 1px solid grey
+  }
+
+  .link-script {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
   .tree ul {
     list-style-type: none;
     padding-left: 0;
@@ -25,10 +65,4 @@
     cursor: pointer;
   }
 
-
-  footer {
-    margin-top: 2em;
-    padding: 1em;
-    border-top: 1px solid grey
-  }
 </style>

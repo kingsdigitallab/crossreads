@@ -22,7 +22,8 @@ This script generates a web page from a long array of variants such as this exam
       },
       {
         "component": "crossbar",
-        "feature": "straight"
+        "feature": "straight",
+        "ancestor": "type1"
       }
     ],
     "variant-name": "type1.1",
@@ -82,6 +83,7 @@ function buildTree(variants) {
                 {
                   "component": "crossbar",
                   "feature": "straight"
+                  "ancestor": "type1"
                 }
               ],
               "variant-name": "type1.1",
@@ -116,6 +118,8 @@ function buildTree(variants) {
     let parentKey = key.replace(/\.\d+$/, "")
     if (index[parentKey]) {
       index[parentKey].children.push(v);
+      // for each entry in v["component-features"] add ["ancestor"] = X
+      // if that component-feature is found in ancestor X
     } else {
       if (!ret[v.script]) ret[v.script] = {};
       if (!ret[v.script][v.allograph]) ret[v.script][v.allograph] = [];

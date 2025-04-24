@@ -5,18 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Variants Tree</title>
-  {% render 'static-styles.liquid' %}
+  {% render 'static-styles-tree.liquid' %}
 </head>
 <body>
   <div class="banner">
     <h1>Allograph variants</h1>
-    <p>Jump to: 
+    <p class="top-nav">Jump to: 
       {% for scriptAllograph in tree %}
         {% assign script = scriptAllograph[0] %}
         <a class="link-script" href="#{{ script }}">{{ script }}</a>
       {% endfor %}
     </p>
-    <p>You are here: <span id="breadcrumb">[breadcrumb]</span></p>
+    <p class="breadcrumb-container">You are here: <span id="breadcrumb">[breadcrumb]</span></p>
   </div>
   <div class="container">
     <div class="tree" role="tree">

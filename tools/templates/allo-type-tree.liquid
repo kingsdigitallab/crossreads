@@ -77,7 +77,10 @@
           item = item?.closest('details')?.parentElement?.closest('details')?.querySelector('summary')
         }
         let breadcrumbString = breadCrumb.map(summary => {
-          return `<a href="#${summary.closest('details').id}">${escapeHtml(summary.textContent)}</a>`
+          let itemName = summary.textContent
+          // remove bracketed content from itemName
+          itemName = itemName.replace(/\([^)]+\)/g, '')
+          return `<a href="#${summary.closest('details').id}">${escapeHtml(itemName)}</a>`
         }).join(' > ')
         breadCrumbElement.innerHTML = breadcrumbString;
       }

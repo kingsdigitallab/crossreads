@@ -8,7 +8,8 @@ This script generates a web page from a long array of variants such as this exam
     "component-features": [
       {
         "component": "crossbar",
-        "feature": "straight"
+        "feature": "straight",
+        "inherited-from": "type1"
       }
     ],
     "script": "latin"
@@ -18,12 +19,13 @@ This script generates a web page from a long array of variants such as this exam
     "component-features": [
       {
         "component": "crossbar",
-        "feature": "ascending"
+        "feature": "ascending",
+        "inherited-from": "type1.1"
       },
       {
         "component": "crossbar",
         "feature": "straight",
-        "ancestor": "type1"
+        "inherited-from": "type1"
       }
     ],
     "variant-name": "type1.1",
@@ -118,12 +120,24 @@ function buildTree(variants) {
     let parentKey = key.replace(/\.\d+$/, "")
     if (index[parentKey]) {
       index[parentKey].children.push(v);
-      // for each entry in v["component-features"] add ["ancestor"] = X
-      // if that component-feature is found in ancestor X
+      // for each cf in v["component-features"] set 
+      // cf["inherited-from"] = value from parent
+      // cf["inherited-from"] = v[variant-name] if that component-feature is not found in parent
+      for (const cf of v["component-features"]) {  
+        cf["inherited-from"] = v["variant-name"];
+        for (const pcf of index[parentKey]["component-features"]) {
+          if (pcf.component === cf.component && pcf.feature === cf.feature) {
+            cf["inherited-from"] = pcf["inherited-from"]
+          }
+        }
+      }
     } else {
       if (!ret[v.script]) ret[v.script] = {};
       if (!ret[v.script][v.allograph]) ret[v.script][v.allograph] = [];
       ret[v.script][v.allograph].push(v)
+      for (const cf of v["component-features"]) {
+        cf["inherited-from"] = v["variant-name"]
+      }
     }
     index[key] = v;
   }

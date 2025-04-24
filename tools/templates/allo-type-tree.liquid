@@ -16,7 +16,7 @@
         <a class="link-script" href="#{{ script }}">{{ script }}</a>
       {% endfor %}
     </p>
-    <p>You are here: [breadcrumb]</p>
+    <p>You are here: <span id="breadcrumb">[breadcrumb]</span></p>
   </div>
   <div class="container">
     <div class="tree" role="tree">
@@ -44,5 +44,51 @@
     </div>
   </div>
   {% render 'footer.liquid', tree: tree %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.container');
+      const breadCrumbElement = document.getElementById('breadcrumb');
+
+      function getFirstVisibleTreeItem() {
+        const containerTop = container.getBoundingClientRect().top
+        for (const summary of container.querySelectorAll('summary')) {
+          if (summary.getBoundingClientRect().top >= containerTop) {
+            return summary;
+          }
+        }
+        return null
+      }
+
+      function escapeHtml(unsafe) {
+        return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+      }
+
+      function updateBreadCrumb() {
+        // breadcrumb is the first visible summary element in the tree and its ancestor summary elements
+        let breadCrumb = Array()
+        let item = getFirstVisibleTreeItem()
+        while (item) {
+          breadCrumb.unshift(item)
+          item = item?.closest('details')?.parentElement?.closest('details')?.querySelector('summary')
+        }
+        let breadcrumbString = breadCrumb.map(summary => {
+          return `<a href="#${summary.closest('details').id}">${escapeHtml(summary.textContent)}</a>`
+        }).join(' > ')
+        breadCrumbElement.innerHTML = breadcrumbString;
+      }
+
+      // add event listening to scrolling the .container div
+      container.addEventListener('scroll', function() {
+        updateBreadCrumb()
+      })
+
+      updateBreadCrumb()
+    })
+  </script>
 </body>
 </html>

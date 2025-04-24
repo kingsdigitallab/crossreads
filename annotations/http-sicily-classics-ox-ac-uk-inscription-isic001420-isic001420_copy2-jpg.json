@@ -246,6 +246,72 @@
         "value": {
           "script": "greek",
           "components": {
+            "downstroke": {
+              "features": [
+                "sans-serif",
+                "straight",
+                "diagonal",
+                "vertical"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "straight",
+                "sans-serif",
+                "diagonal",
+                "short",
+                "touching"
+              ]
+            }
+          },
+          "tags": [
+            "type1",
+            "type1.1"
+          ],
+          "character": "Τ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001420/ISic001420_copy4_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2281.519287109375,1613.6834716796875,208.58935546875,287.6839599609375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001420.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='BqAAε']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/3a0f0be7-71a9-4637-9573-826ad3af1ae4",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2024-02-22T16:54:03.894Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-04-24T15:51:19.980Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
+          "components": {
             "bottom-bar": {
               "features": [
                 "straight",

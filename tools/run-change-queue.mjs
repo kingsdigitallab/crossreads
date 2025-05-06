@@ -1,14 +1,13 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { utils } from "../app/utils.mjs";
+import { utils, FILE_PATHS, DEBUG_DONT_SAVE } from "../app/utils.mjs";
 
-const ANNOTATIONS_PATH = '../annotations'
-const CHANGE_QUEUE_PATH = `${ANNOTATIONS_PATH}/change-queue.json`
+const PATH_PREFIX = '../'
 
 class ChangeQueueRunner {
 
   run() {
-    let queue = utils.readJsonFile(CHANGE_QUEUE_PATH)
+    this.definitions = utils.readJsonFile(`${PATH_PREFIX}${FILE_PATHS.DEFINITIONS}`)
+
+    let queue = utils.readJsonFile(`${PATH_PREFIX}${FILE_PATHS.CHANGE_QUEUE}`)
     let ret = 0
     let changes = queue.changes
     if (changes) {
@@ -22,7 +21,11 @@ class ChangeQueueRunner {
   }
 
   empty() {
-    utils.writeJsonFile(CHANGE_QUEUE_PATH, {})
+    if (!DEBUG_DONT_SAVE) {
+      utils.writeJsonFile(`${PATH_PREFIX}${FILE_PATHS.CHANGE_QUEUE}`, {})
+    } else {
+      console.log('WARNING: nothing written as DEBUG_DONT_SAVE = true.')
+    }
   }
 
   applyChangeToAnnotationFiles(change) {
@@ -43,12 +46,14 @@ class ChangeQueueRunner {
         // the ann may have been deleted by user after change was queued
         throw new Error(`ERROR: annotation not found. (${filePath})`)
       }
-      utils.writeJsonFile(filePath, content)
+      if (!DEBUG_DONT_SAVE) {
+        utils.writeJsonFile(filePath, content)
+      }
     }
   }
 
   readAnnotationFile(filename) {
-    let filePath = `${ANNOTATIONS_PATH}/${filename}`
+    let filePath = `${PATH_PREFIX}/annotations/${filename}`
     let content = utils.readJsonFile(filePath)
     if (!content) {
       console.log(`WARNING: annotation file not found. (${filePath})`)
@@ -67,8 +72,10 @@ class ChangeQueueRunner {
   }
 
   applyChangeToAnnotation(change, annotation) {
-    if (change.tags) {
-      let annotationValue = annotation.body[0].value
+    let annotationValue = annotation.body[0].value
+
+    if (change?.tags) {
+      // example: change.tags = ['tag1', '-tag2']
       let tagsSet = new Set(annotationValue.tags || [])
       for (let tag of change.tags) {
         if (tag.startsWith('-')) {
@@ -85,8 +92,100 @@ class ChangeQueueRunner {
     } else {
       throw new Error('WARNING: no tags in change.')
     }
+
+    if (change?.componentFeatures) {
+      /*
+        Example input:
+
+        annotationValue = {
+          "script": "latin",
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "bowl": {
+              "features": [
+                "open",
+                "rounded"
+              ]
+            }
+          },
+          "tags": [
+            "serif.curved",
+            "serif.slab"
+          ],
+          "character": "P"
+        }
+
+        change.componentFeatures = [
+          ['downstroke', 'curved'], // add feature1 to component1
+          ['downstroke', '-serif'], // remove feature6 from component1
+          ['bowl', '-ALL']          // remove all features from component5
+        ]
+      */
+     
+      if (!annotationValue.components) {
+        annotationValue.components = {}
+      }
+
+      for (let componentFeature of change.componentFeatures) {        
+        let component = componentFeature[0]
+        let feature = componentFeature[1].trim()
+
+        let annotationComponent = annotationValue.components[component]
+        if (feature.startsWith('-')) {
+          // remove the feature
+          if (annotationComponent?.features) {
+            feature = feature.substring(1)
+            annotationComponent.features = annotationComponent.features.filter(f => f !== feature)              
+            if ((feature === 'ALL') || (annotationComponent.features.length === 0)) {
+              // TODO: test this
+              delete annotationValue.components[component]
+            }
+          }
+        } else {
+          // add the feature
+          if (this.isCharacterComponentFeatureDefined(annotationValue.script, annotationValue.character, component, feature)) {
+            if (!annotationComponent) {
+              annotationComponent = {}
+              annotationValue.components[component] = annotationComponent
+            }
+            if (!annotationComponent.features) {
+              annotationComponent.features = []
+            }
+            if (!annotationComponent.features.includes(feature)) {
+              annotationComponent.features.push(feature)
+            }
+          } else {
+            console.log(`WARNING: can't set ${annotationValue.character}.${component} = ${feature}, no such definition. Annotation ${annotation.id}.`)
+          }
+        }
+      }
+
+    }
     annotation.modifiedBy = change.creator
     annotation.modified = change.created
+  }
+
+  isCharacterComponentFeatureDefined(script, character, component, feature) {
+    // check character x component
+    // check component x feature
+    let ret = false
+    let characterKey = `${character}-${script}`
+    let characterDefinition = this.definitions.allographs[characterKey]
+    if (characterDefinition) {
+      if (characterDefinition.components.includes(component)) {
+        if (this.definitions.components[component]) {
+          ret = this.definitions.components[component].features.includes(feature)
+        }
+      }
+    }
+    return ret
   }
 
 }

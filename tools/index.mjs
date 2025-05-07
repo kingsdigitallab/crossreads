@@ -246,7 +246,7 @@ class AnnotationIndex {
   }
 
   writeJsonFile(obj, path, description='') {
-    obj = {
+    let fullData = {
       'meta': {
         "@context": "http://schema.org",
         'dc:modified': new Date().toISOString(),
@@ -255,7 +255,7 @@ class AnnotationIndex {
       },
       'data': obj
     }
-    let content = JSON.stringify(obj, null, COMPRESS_OUTPUT ? 0 : 2)
+    let content = JSON.stringify(fullData, null, COMPRESS_OUTPUT ? 0 : 2)
     fs.writeFileSync(path, content)
     console.log(`WRITTEN ${path}, ${description}, ${(content.length / 1024 / 1024).toFixed(2)} MB.`)
   }

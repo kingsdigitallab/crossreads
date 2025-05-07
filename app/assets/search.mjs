@@ -9,10 +9,6 @@ import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
 import { AvailableTags } from "../tags.mjs";
 
-// const INDEX_PATH = 'app/index.json'
-// const CHANGE_QUEUE_PATH = 'annotations/change-queue.json'
-// const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
-// const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 const ITEMS_PER_PAGE = 24
 const OPTIONS_PER_FACET = 15
 const OPTIONS_PER_FACET_EXPANDED = 1000
@@ -48,6 +44,7 @@ createApp({
     return {
       selection: {
         tab: 'search',
+        tabEdit: 'tags', // either 'tags' or 'features'
         showSuppliedText: false,
         gtoken: window.localStorage.getItem('gtoken') || '',
         // TODO: remove partial duplication with /annotation
@@ -80,7 +77,7 @@ createApp({
       variantRulesSha: SHA_UNREAD,
       // ---
       options: {
-        perPage: [12, 24, 50, 100]
+        perPage: [12, 24, 50, 100],
       },
       // See itemsjs.search()
       results: {
@@ -97,6 +94,11 @@ createApp({
       user: null,
       descriptions: {
         tags: {
+        },
+        componentFeatures: {
+          action: 'add', // either 'add' or 'remove'
+          component: '',
+          feature: '',
         }
       },
       availableTags: new AvailableTags(),
@@ -139,6 +141,9 @@ createApp({
     },
     'selection.dateTo'() {
       this.search()
+    },
+    'descriptions.componentFeatures.component'() {
+      this.descriptions.componentFeatures.feature = ''
     }
   },
   computed: {
@@ -176,6 +181,38 @@ createApp({
 
       return ret
     },
+    editableComponents() {
+      let ret = []
+      if (this.descriptions.componentFeatures.action === 'add') {
+        // get the components from the definitions
+        if (this.definitions.components) {
+          ret = Object.keys(this.definitions.components)
+        }
+      } else {
+        // get components from the search facet
+        let facets = this.facets
+        if (facets.com) {
+          ret = facets.com.buckets.map(b => b.key)
+        }
+      }
+      return ret.sort()
+    },
+    editableFeatures() {
+      let ret = []
+      if (this.descriptions.componentFeatures.action === 'add') {
+        if (this?.definitions?.components) {
+          let component = this.definitions.components[this.descriptions.componentFeatures.component]
+          ret = component ? this.definitions.components[this.descriptions.componentFeatures.component].features : []
+        }
+      } else {
+        // get components from the search facet
+        let facets = this.facets
+        if (facets.fea) {
+          ret = facets.fea.buckets.map(b => b.key)
+        }
+      }
+      return ret.sort()
+    },
     lastMessage() {
       let ret = {
         content: '',
@@ -210,7 +247,9 @@ createApp({
       return this.afs?.isAuthenticated()
     },
     isUnsaved() {
-      return this.selection.items.size && Object.values(this.descriptions.tags).filter(t => t !== null).length
+      let numberOfChangedTags = Object.values(this.descriptions.tags).filter(t => t !== null).length
+      let isFeatureSelected = this.selection.tabEdit === 'features' && this.descriptions.componentFeatures.feature && this.descriptions.componentFeatures.component
+      return this.selection.items.size && (numberOfChangedTags || isFeatureSelected)
     },
     tagFormatError() {
       return this.availableTags.getTagFormatError(this.selection.newTagName, this.availableTags.tags)
@@ -313,7 +352,7 @@ createApp({
       for (const ann of change.annotations) {
         const item = this.annotationIdsToItem[ann.id]
         if (item) {
-          // remove code duplication with reun-change-queue.mjs
+          // remove code duplication with run-change-queue.mjs
           const tagsSet = new Set(item.tag || [])
           for (const tag of change.tags) {
             if (tag.startsWith('-')) {
@@ -324,6 +363,32 @@ createApp({
             }
           }    
           item.tag = [...tagsSet]
+
+          // componentFeatures
+          if (change.componentFeatures) {
+            const addToArrayIfNotExist = (val, arr) => {
+              if (!arr.includes(val)) arr.push(val)
+            };
+
+            for (let cf of change.componentFeatures) {
+              if (cf[1].startsWith('-')) {
+                let feature = cf[1].substring(1)
+                if (feature === 'ALL') {
+                  item.cxf = item.cxf.filter(icxf => !icxf.startsWith(`${cf[0]} is `))
+                } else {
+                  let cxf = `${cf[0]} is ${feature}`
+                  item.cxf = item.cxf.filter(icxf => icxf !== cxf)
+                }
+                // get components and features from that cxf
+                item.com = item.cxf.map(icxf => icxf.split(' is ')[0])
+                item.fea = item.cxf.map(icxf => icxf.split(' is ')[1])
+              } else {
+                addToArrayIfNotExist(cf[0], item.com)
+                addToArrayIfNotExist(cf[1], item.fea)
+                addToArrayIfNotExist(`${cf[0]} is ${cf[1]}`, item.cxf)              
+              }
+            }
+          }
         }
       }
     },
@@ -346,42 +411,6 @@ createApp({
       ret += '.json'
 
       return ret
-    },
-    async saveChangeQueue() {
-      let ret = false
-      if (DEBUG_DONT_SAVE) {
-        console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
-        ret = true
-      } else {
-        if (this.isUnsaved) {          
-          const change = {
-            // annotationIds: [...this.selection.items].map(item => item.id),
-            annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
-            // e.g. tags: ['tag1', -tag3', 'tag10']
-            tags: Object.entries(this.descriptions.tags).filter(kv => kv[1] !== null).map(kv => (kv[1] === false ? '-' : '') + kv[0]),
-            creator: this.afs.getUserId(),
-            created: new Date().toISOString(),
-          }
-          this.changeQueue.changes.push(change)
-          const res = await this.afs.writeJson(FILE_PATHS.CHANGE_QUEUE, this.changeQueue, this.changeQueueSha)
-          if (res?.ok) {
-            ret = true
-            this.changeQueueSha = res.sha;
-          }
-          this.applyChangeToIndex(change)
-          // TODO: error management
-        }
-      }
-      if (ret) {
-        this.selection.items.clear()
-        this.unselectAllTags()
-      }
-      return ret
-    },
-    unselectAllTags() {
-      for (const k of Object.keys(this.descriptions.tags)) {
-        this.descriptions.tags[k] = null
-      }
     },
     resetSearch() {
       this.selection.searchPhrase = ''
@@ -687,6 +716,15 @@ createApp({
     },
     // ----------------------
     // bulk-edit
+    onClickEditTab(tabKey) {
+      this.selection.tabEdit = tabKey
+      this.unselectAllTags()
+      this.unselectDescriptions()
+    },
+    unselectDescriptions() {
+      this.descriptions.componentFeatures.component = ''
+      this.descriptions.componentFeatures.feature = ''
+    },
     onClickItem(item) {
       if (this.selection.items.has(item)) {
         this.selection.items.delete(item)
@@ -712,6 +750,60 @@ createApp({
     onClickTag(tag) {
       const stateTransitions = {true: false, false: null, null: true}
       this.descriptions.tags[tag] = stateTransitions[this.descriptions.tags[tag]]
+    },
+    async saveChangeQueue() {
+      let ret = false
+
+      if (this.isUnsaved) {          
+        const change = {
+          // annotationIds: [...this.selection.items].map(item => item.id),
+          annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
+          creator: this.afs.getUserId(),
+          created: new Date().toISOString(),
+        }
+        // e.g. tags: ['tag1', -tag3', 'tag10']
+        let tags = Object.entries(this.descriptions.tags).filter(kv => kv[1] !== null).map(kv => (kv[1] === false ? '-' : '') + kv[0])
+        if (tags.length < 1) {
+          change.tags = tags
+        }
+        // componentFeatures
+        let componentFeatures = this.descriptions.componentFeatures
+        if (componentFeatures.feature && componentFeatures.component) {
+          let prefix = componentFeatures.action === 'remove' ? '-' : ''
+          change.componentFeatures = [
+            [componentFeatures.component, prefix + componentFeatures.feature]
+          ]
+        }
+
+        this.changeQueue.changes.push(change)
+        if (DEBUG_DONT_SAVE) {
+          console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
+          console.log(JSON.stringify(this.changeQueue, null, 2))
+          ret = true
+        } else {
+          const res = await this.afs.writeJson(FILE_PATHS.CHANGE_QUEUE, this.changeQueue, this.changeQueueSha)
+          if (res?.ok) {
+            ret = true
+            this.changeQueueSha = res.sha;
+          }
+        }
+        if (ret) {
+          this.applyChangeToIndex(change)
+        }
+      }
+      if (ret) {
+        this.clearAnnotationSelection()
+        this.unselectAllTags()
+        this.unselectDescriptions()
+        this.itemsjs.reindex(this.index.data)
+        this.search(true)
+      }
+      return ret
+    },
+    unselectAllTags() {
+      for (const k of Object.keys(this.descriptions.tags)) {
+        this.descriptions.tags[k] = null
+      }
     },
     // -----------------------
     async onAddVariantType() {

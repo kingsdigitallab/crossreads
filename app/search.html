@@ -224,25 +224,76 @@
             <p>
               <a @click="selectAllAnnotationsOnPage()">Select whole page</a> | <a @click="clearAnnotationSelection()">clear selection</a>
             </p>
-            <h3 class="title is-4">Tags {{ tagSelection }}:</h3>
-            <ul class="tags-selector">
-              <li v-for="state, tag in descriptions.tags">
-                <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`" @mouseenter="onMouseEnterTag(tag)" @mouseleave="onMouseLeaveTag(tag)">
-                  <input type="checkbox" :checked="state === true" :disabled="state === null">
-                  {{ tag }}
-                </label>
-                <img :src="getThumbUrlFromTag(tag, 40)" alt="annotation thumbnail" class="graph-thumb" v-if="getThumbUrlFromTag(tag, 40)">
-              </li>
-            </ul>
-            <div class="field has-addons">
-              <div class="control">
-                <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="selection.newTagName" @keyup.enter="onAddTag()">
-              </div>
-              <div class="control">
-                <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !(selection.newTagName || '').trim()">Add</button>
-              </div>
+
+            <div class="tabs is-medium is-boxed">
+              <ul>
+                <li :class="{'is-active': selection.tabEdit == 'tags'}">
+                  <a @click="onClickEditTab('tags')">Tags {{ tagSelection }}</a>
+                </li>
+                <li :class="{'is-active': selection.tabEdit == 'features'}">
+                  <a @click="onClickEditTab('features')">Features</a>
+                </li>
+              </ul>
             </div>
-            <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
+            
+            <template v-if="selection.tabEdit == 'tags'">
+              <ul class="tags-selector">
+                <li v-for="state, tag in descriptions.tags">
+                  <label @click.stop.prevent="onClickTag(tag)" :class="`state-${state}`" @mouseenter="onMouseEnterTag(tag)" @mouseleave="onMouseLeaveTag(tag)">
+                    <input type="checkbox" :checked="state === true" :disabled="state === null">
+                    {{ tag }}
+                  </label>
+                  <img :src="getThumbUrlFromTag(tag, 40)" alt="annotation thumbnail" class="graph-thumb" v-if="getThumbUrlFromTag(tag, 40)">
+                </li>
+              </ul>
+              <div class="field has-addons">
+                <div class="control">
+                  <input :class="{input: 1, 'is-danger': tagFormatError}" type="text" v-model="selection.newTagName" @keyup.enter="onAddTag()">
+                </div>
+                <div class="control">
+                  <button class="button" @click="onAddTag()" :disabled="!canEdit || Boolean(tagFormatError) || !(selection.newTagName || '').trim()">Add</button>
+                </div>
+              </div>
+              <div class="tag-error" v-if="tagFormatError">{{tagFormatError}}</div>
+            </template>
+
+            <template v-if="selection.tabEdit == 'features'">
+              <div class="field">
+                <label class="label">Action</label>
+                <div class="control">
+                    <div class="select">
+                      <select v-model="descriptions.componentFeatures.action">
+                        <option>add</option>
+                        <option>remove</option>
+                      </select>
+                    </div>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Component</label>
+                <div class="control">
+                  <div class="select">
+                    <select v-model="descriptions.componentFeatures.component">
+                      <option value=""></option>
+                      <option v-for="c in editableComponents">{{ c }}</option>
+                    </select>        
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Feature</label>
+                <div class="control">
+                  <div class="select">
+                    <select v-model="descriptions.componentFeatures.feature">
+                      <option value=""></option>
+                      <option v-if="descriptions.componentFeatures.action == 'remove'" value="ALL">ALL</option>
+                      <option v-for="f in editableFeatures">{{ f }}</option>
+                    </select>        
+                  </div>
+                </div>
+              </div>
+            </template>
+
             <p>
               <br>
               <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">{{ changeQueue?.changes?.length || 'no' }} change(s)</a> pending.

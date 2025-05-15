@@ -660,7 +660,23 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "circular"
+              ]
+            },
+            "finial": {
+              "features": [
+                "serif"
+              ]
+            },
+            "hook": {
+              "features": [
+                "wide"
+              ]
+            }
+          },
           "tags": [
             "serif.curved"
           ],
@@ -674,7 +690,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:2065.452392578125,1054.3048095703125,593.364013671875,675.77587890625"
+          "value": "xywh=pixel:2069.572998046875,1029.581298828125,593.364013671875,675.77587890625"
         }
       },
       {
@@ -695,6 +711,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-05-15T16:24:50.546Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-05-15T16:24:59.271Z"
+    "modified": "2025-05-15T16:25:07.627Z"
   }
 ]

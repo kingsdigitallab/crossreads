@@ -6,7 +6,7 @@ on:
     - cron: "0 8,13,18 * * *"
 
 jobs:
-  index:
+  run-change-queue:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout

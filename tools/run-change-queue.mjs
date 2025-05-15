@@ -74,7 +74,11 @@ class ChangeQueueRunner {
   applyChangeToAnnotation(change, annotation) {
     let annotationValue = annotation.body[0].value
 
+    let hasChange = false
+
     if (change?.tags) {
+      hasChange = true
+
       // example: change.tags = ['tag1', '-tag2']
       let tagsSet = new Set(annotationValue.tags || [])
       for (let tag of change.tags) {
@@ -89,8 +93,6 @@ class ChangeQueueRunner {
       } else {
         delete annotationValue.tags
       }
-    } else {
-      throw new Error('WARNING: no tags in change.')
     }
 
     if (change?.componentFeatures) {
@@ -133,6 +135,8 @@ class ChangeQueueRunner {
         annotationValue.components = {}
       }
 
+      hasChange = true
+
       for (let componentFeature of change.componentFeatures) {        
         let component = componentFeature[0]
         let feature = componentFeature[1].trim()
@@ -168,6 +172,11 @@ class ChangeQueueRunner {
       }
 
     }
+
+    if (!hasChange) {
+      throw new Error(`change item has no action (e.g. .tags or .componentFeatures)`)
+    }
+
     annotation.modifiedBy = change.creator
     annotation.modified = change.created
   }

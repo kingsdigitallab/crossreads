@@ -353,19 +353,21 @@ createApp({
         const item = this.annotationIdsToItem[ann.id]
         if (item) {
           // remove code duplication with run-change-queue.mjs
-          const tagsSet = new Set(item.tag || [])
-          for (const tag of change.tags) {
-            if (tag.startsWith('-')) {
-              tagsSet.delete(tag.substring(1))
-            } else {
-              tagsSet.add(tag)
-              this.availableTags.addTag(tag)
-            }
-          }    
-          item.tag = [...tagsSet]
+          if (change?.tags) {
+            const tagsSet = new Set(item?.tag || [])
+            for (const tag of change.tags) {
+              if (tag.startsWith('-')) {
+                tagsSet.delete(tag.substring(1))
+              } else {
+                tagsSet.add(tag)
+                this.availableTags.addTag(tag)
+              }
+            }    
+            item.tag = [...tagsSet]
+          }
 
           // componentFeatures
-          if (change.componentFeatures) {
+          if (change?.componentFeatures) {
             const addToArrayIfNotExist = (val, arr) => {
               if (!arr.includes(val)) arr.push(val)
             };

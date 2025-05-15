@@ -763,12 +763,13 @@ createApp({
           creator: this.afs.getUserId(),
           created: new Date().toISOString(),
         }
+        // change in tags
         // e.g. tags: ['tag1', -tag3', 'tag10']
         let tags = Object.entries(this.descriptions.tags).filter(kv => kv[1] !== null).map(kv => (kv[1] === false ? '-' : '') + kv[0])
-        if (tags.length < 1) {
+        if (tags.length) {
           change.tags = tags
         }
-        // componentFeatures
+        // change in componentFeatures
         let componentFeatures = this.descriptions.componentFeatures
         if (componentFeatures.feature && componentFeatures.component) {
           let prefix = componentFeatures.action === 'remove' ? '-' : ''

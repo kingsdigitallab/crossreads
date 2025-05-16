@@ -291,7 +291,7 @@ createApp({
   },
   watch: {
     async object(val, valOld) {
-      if (valOld == val) return;
+      if (valOld === val) return;
       if (valOld) {
         await this.saveAnnotationsToGithub()
       }
@@ -357,7 +357,7 @@ createApp({
       let allographKeys = Object.keys(this.definitions.allographs)
       let get_sort_key_from_allograph_key = (akey) => {
         let allograph = this.definitions.allographs[akey]
-        return (allograph.character) + (allograph.script == 'base' ? '1' : '0')
+        return (allograph.character) + (allograph.script === 'base' ? '1' : '0')
       };
       allographKeys.sort((a, b) => {
         a = get_sort_key_from_allograph_key(a)
@@ -366,7 +366,7 @@ createApp({
       })
 
       let last_character = null
-      if (script && script != 'base' && this.definitions.scripts[script]) {
+      if (script && script !== 'base' && this.definitions.scripts[script]) {
         for (let allographKey of allographKeys) {
           let allograph = this.definitions.allographs[allographKey]
           // don't add the base allograph if that charcter has already been added for specific script
@@ -649,7 +649,7 @@ createApp({
       let signAnnotation = this.getAnnotationFromSign(sign)
       let annotationSign = this.getSignFromAnnotation()
       if (this.canEdit) {
-        if (sign == annotationSign) {
+        if (sign === annotationSign) {
           // unbind sign from selected annotation
           this.description.textTarget = null
           this.updateSelectedAnnotationFromDescription()
@@ -660,7 +660,7 @@ createApp({
           // update the description.allograph if none selected
           if (!this.description.allograph) {
             let allos = [sign.innerText]
-            if (allos[0] == allos[0].toUpperCase()) {
+            if (allos[0] === allos[0].toUpperCase()) {
               allos.push(allos[0].toLowerCase())
             } else {
               allos.push(allos[0].toUpperCase())
@@ -669,8 +669,8 @@ createApp({
             for (let allo of allos) {
               for (let k of Object.keys(this.definitions.allographs)) {
                 let allograph = this.definitions.allographs[k] 
-                if (allograph.script == this.description.script) {
-                  if (allograph.character == allo) {
+                if (allograph.script === this.description.script) {
+                  if (allograph.character === allo) {
                     this.description.allograph = k
                     break allosLoop
                   }
@@ -688,7 +688,7 @@ createApp({
       let ret = null
       for (let annotation of this.anno.getAnnotations()) {
         let asign = this.getSignFromAnnotation(annotation)
-        if (sign == asign) {
+        if (sign === asign) {
           ret = annotation
           break
         }
@@ -722,7 +722,7 @@ createApp({
         let sign = this.getSignFromAnnotation(annotation)
         if (sign) {
           sign.classList.add('bound')
-          if (this?.annotation?.id == annotation.id) {
+          if (this?.annotation?.id === annotation.id) {
             sign.classList.add('selected')
             sign.scrollIntoView()
           }
@@ -791,7 +791,7 @@ createApp({
 
       if (this.isComponentFeatureSelected(componentKey, featureKey)) {
         // remove the feature from component
-        component.features = component.features.filter(f => f != featureKey)
+        component.features = component.features.filter(f => f !== featureKey)
         if (!component.features.length) {
           // remove component without any selected feature
           delete components[componentKey]
@@ -977,7 +977,7 @@ createApp({
     setUnsaved(newAnnotation=null) {
       // tells the Annotator that not all changes on screen are saved yet on GH
       if (this.image?.uri) {
-        if (this.isUnsaved == 0) {
+        if (this.isUnsaved === 0) {
           this.isUnsaved = 1
         }
 
@@ -1501,7 +1501,7 @@ createApp({
     },
     onDeleteTag(tag) {
       if (!this.description.tags) return;
-      this.description.tags = this.description.tags.filter(t => t != tag)
+      this.description.tags = this.description.tags.filter(t => t !== tag)
       this.updateSelectedAnnotationFromDescription()
     },
     onBlurObjectSearch() {

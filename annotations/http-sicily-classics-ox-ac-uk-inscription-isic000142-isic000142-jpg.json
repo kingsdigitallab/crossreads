@@ -280,10 +280,25 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
-          "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "horizontal"
+              ]
+            }
+          },
+          "tags": [
+            "serif.wedged"
+          ],
+          "character": "T"
         }
       }
     ],
@@ -295,12 +310,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2812.590087890625,1927.571533203125,299.547607421875,370.868408203125"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000142.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AOUCU']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 6,
+            "end": 7
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/66f5261e-1dee-4706-a301-2e9bc0abefef",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2025-06-02T11:11:10.551Z"
+    "created": "2025-06-02T11:11:10.551Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-06-02T11:11:19.664Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

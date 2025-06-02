@@ -1214,8 +1214,25 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
-          "tags": null,
+          "components": {
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight",
+                "traversing"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal"
+              ]
+            }
+          },
+          "tags": [
+            "serif.curved"
+          ],
           "character": "X"
         }
       }
@@ -1247,7 +1264,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T22:40:52.642Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T22:40:56.113Z"
+    "modified": "2025-06-02T13:32:09.450Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

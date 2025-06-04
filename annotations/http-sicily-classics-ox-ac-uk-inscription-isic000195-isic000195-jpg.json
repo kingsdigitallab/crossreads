@@ -9,6 +9,51 @@
         "format": "application/json",
         "value": {
           "script": "latin",
+          "components": null,
+          "tags": null,
+          "character": "M"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000195/ISic000195_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:975.0416259765625,817.3829956054688,530.24267578125,474.5069580078125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000195.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ATyCy']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/223619ea-ba1d-40c6-ab60-40076b6432e7",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-06-04T12:37:44.573Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-06-04T12:37:49.309Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
           "components": {
             "downstroke": {
               "features": [
@@ -164,7 +209,8 @@
               "features": [
                 "on-baseline",
                 "serif",
-                "straight"
+                "straight",
+                "vertical"
               ]
             }
           },
@@ -203,7 +249,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-06-04T12:37:13.302Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-06-04T12:37:29.319Z"
+    "modified": "2025-06-04T12:37:30.087Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

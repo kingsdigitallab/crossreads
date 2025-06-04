@@ -484,8 +484,19 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
-          "tags": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
+          "tags": [
+            "serif.wedged"
+          ],
           "character": "I"
         }
       }
@@ -517,6 +528,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T23:30:17.826Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T23:30:18.795Z"
+    "modified": "2025-06-04T12:24:44.341Z"
   }
 ]

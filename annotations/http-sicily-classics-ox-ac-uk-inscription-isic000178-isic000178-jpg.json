@@ -1945,8 +1945,17 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
-          "tags": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline"
+              ]
+            }
+          },
+          "tags": [
+            "serif.curved",
+            "serif.wedged"
+          ],
           "character": "T"
         }
       }
@@ -1978,7 +1987,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T23:06:45.573Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T23:06:46.962Z"
+    "modified": "2025-06-04T11:44:05.728Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

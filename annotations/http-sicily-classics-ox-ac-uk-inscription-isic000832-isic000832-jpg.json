@@ -212,7 +212,14 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "closed",
+                "ovoid"
+              ]
+            }
+          },
           "tags": null,
           "character": "Ω"
         }
@@ -245,7 +252,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-06-18T16:34:03.838Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-06-18T16:34:09.001Z"
+    "modified": "2025-06-18T16:34:38.913Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

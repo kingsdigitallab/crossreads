@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx browser-sync start --server --files '.'",
+    "xslt2sef": "npx xslt3 -xsl:'data/tei2html.xslt' -export:'data/tei2html.sef.json' -t -ns:##html5 -nogo; npx xslt3 -xsl:'data/html2html.xslt' -export:'data/html2html.sef.json' -t -ns:##html5 -nogo;",
     "proxy-iip": "PORT=8088 node node_modules/cors-anywhere/server.js"
   },
   "repository": {

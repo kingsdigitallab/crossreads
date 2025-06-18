@@ -1062,6 +1062,58 @@
         "value": {
           "script": "greek",
           "components": {
+            "body": {
+              "features": [
+                "circular",
+                "closed"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Ω"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000832/ISic000832_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2840.4404296875,1923.9415283203125,386.4951171875,333.0626220703125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000832.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AθUHε']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/b1e25f64-484e-4f85-a0ee-c261dcb06925",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-06-18T17:01:46.575Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-06-18T17:01:49.685Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
+          "components": {
             "apex": {
               "features": [
                 "angular",
@@ -1917,7 +1969,8 @@
                 "on-baseline",
                 "parallel",
                 "serif",
-                "straight"
+                "straight",
+                "touching"
               ]
             }
           },
@@ -1953,6 +2006,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-06-18T17:01:11.597Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-06-18T17:01:40.310Z"
+    "modified": "2025-06-18T17:01:40.944Z"
   }
 ]

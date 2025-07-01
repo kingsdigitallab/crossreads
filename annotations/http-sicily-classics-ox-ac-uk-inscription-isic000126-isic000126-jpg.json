@@ -310,9 +310,22 @@
               "features": [
                 "on-baseline"
               ]
+            },
+            "finial": {
+              "features": [
+                "serif"
+              ]
+            },
+            "hook": {
+              "features": [
+                "wide",
+                "narrow"
+              ]
             }
           },
-          "tags": null,
+          "tags": [
+            "serif.slab"
+          ],
           "character": "S"
         }
       }
@@ -344,7 +357,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T21:35:07.420Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-01T15:41:13.798Z"
+    "modified": "2025-07-01T15:42:12.175Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -692,7 +705,6 @@
           "tags": [
             "serif.slab"
           ],
-          "textTarget": null,
           "character": "A"
         }
       }
@@ -704,6 +716,18 @@
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2016.2545166015625,921.9154663085938,407.9554443359375,465.01202392578125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000126.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AMΙAε']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
         }
       }
     ],

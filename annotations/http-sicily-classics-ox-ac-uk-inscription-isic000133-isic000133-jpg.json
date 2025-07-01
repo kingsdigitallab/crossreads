@@ -99,7 +99,13 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "oval"
+              ]
+            }
+          },
           "tags": null,
           "character": "O"
         }
@@ -132,7 +138,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T21:40:39.067Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T21:40:40.197Z"
+    "modified": "2025-07-01T16:29:34.254Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -162,7 +168,10 @@
             "right-bar": {
               "features": [
                 "curved",
-                "diagonal"
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight"
               ]
             }
           },
@@ -200,7 +209,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T21:40:33.824Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-01T16:29:24.683Z"
+    "modified": "2025-07-01T16:29:29.201Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

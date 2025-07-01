@@ -931,7 +931,14 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "top-bar": {
+              "features": [
+                "horizontal",
+                "parallel"
+              ]
+            }
+          },
           "tags": [
             "serif.slab"
           ],
@@ -966,6 +973,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T21:41:19.975Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-01T16:34:04.750Z"
+    "modified": "2025-07-01T16:34:13.627Z"
   }
 ]

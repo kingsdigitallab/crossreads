@@ -620,7 +620,23 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "body": {
+              "features": [
+                "oval"
+              ]
+            },
+            "finial": {
+              "features": [
+                "sans-serif"
+              ]
+            },
+            "hook": {
+              "features": [
+                "narrow"
+              ]
+            }
+          },
           "tags": null,
           "character": "C"
         }
@@ -653,7 +669,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T22:13:53.555Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T22:13:54.575Z"
+    "modified": "2025-07-02T13:44:54.512Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -897,8 +913,34 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
-          "tags": null,
+          "components": {
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight"
+              ]
+            },
+            "crossbar": {
+              "features": [
+                "horizontal",
+                "sans-serif",
+                "straight"
+              ]
+            }
+          },
+          "tags": [
+            "serif.wedged"
+          ],
           "character": "A"
         }
       }
@@ -930,6 +972,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T22:13:58.153Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T22:13:59.355Z"
+    "modified": "2025-07-02T13:45:11.026Z"
   }
 ]

@@ -54,7 +54,35 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "top-bar": {
+              "features": [
+                "horizontal",
+                "parallel",
+                "sans-serif",
+                "straight",
+                "touching"
+              ]
+            },
+            "bottom-bar": {
+              "features": [
+                "horizontal",
+                "on-baseline",
+                "parallel",
+                "sans-serif",
+                "straight",
+                "touching"
+              ]
+            },
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
           "tags": [
             "terminal"
           ],
@@ -89,7 +117,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T22:08:03.003Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-02T13:16:23.398Z"
+    "modified": "2025-07-02T13:17:09.245Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

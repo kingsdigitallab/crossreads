@@ -166,6 +166,14 @@
                 "straight",
                 "vertical"
               ]
+            },
+            "right-stroke": {
+              "features": [
+                "on-baseline",
+                "sans-serif",
+                "straight",
+                "vertical"
+              ]
             }
           },
           "tags": [
@@ -202,7 +210,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-07-04T16:38:10.356Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-04T16:38:24.991Z"
+    "modified": "2025-07-04T16:38:29.277Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -338,6 +346,51 @@
     "created": "2025-07-04T16:37:46.568Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2025-07-04T16:38:04.143Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": null,
+          "tags": null,
+          "character": "I"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000193/ISic000193_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:964.8449096679688,518.1587524414062,90.35980224609375,288.71044921875"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000193.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ATeBε']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/d941d791-98ef-46a2-b186-26c0ab9530a5",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-07-04T16:38:34.616Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-07-04T16:38:35.721Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -841,8 +841,19 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
-          "tags": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
+          "tags": [
+            "serif.curved"
+          ],
           "character": "R"
         }
       }
@@ -874,7 +885,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T23:23:38.335Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T23:23:39.657Z"
+    "modified": "2025-07-04T15:45:27.661Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1347,7 +1358,12 @@
             "middle-bar": {
               "features": [
                 "ascending",
-                "curved"
+                "curved",
+                "one",
+                "parallel",
+                "sans-serif",
+                "short",
+                "touching"
               ]
             }
           },
@@ -1385,6 +1401,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T23:23:27.212Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-04T15:45:02.754Z"
+    "modified": "2025-07-04T15:45:18.594Z"
   }
 ]

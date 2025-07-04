@@ -9,7 +9,16 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
           "tags": [
             "serif.slab"
           ],
@@ -44,7 +53,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-07-04T16:45:32.624Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-04T16:45:37.316Z"
+    "modified": "2025-07-04T16:45:40.186Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -533,5 +542,39 @@
     "created": "2025-07-04T16:45:19.242Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2025-07-04T16:45:27.415Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000194/ISic000194_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:3097.225341796875,1424.541015625,425.072265625,553.449951171875"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/ed402741-23bf-4e01-aa0a-84126b6f687a",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-07-04T16:45:45.621Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-07-04T16:45:47.025Z"
   }
 ]

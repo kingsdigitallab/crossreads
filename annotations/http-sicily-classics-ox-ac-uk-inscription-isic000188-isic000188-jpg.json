@@ -309,7 +309,14 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular",
+                "sans-serif"
+              ]
+            }
+          },
           "tags": [
             "terminal"
           ],
@@ -323,7 +330,7 @@
         "selector": {
           "type": "FragmentSelector",
           "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1920.58544921875,1631.956787109375,435.45654296875,546.374755859375"
+          "value": "xywh=pixel:1879.5045166015625,1627.8486328125,476.5374755859375,550.48291015625"
         }
       },
       {
@@ -344,6 +351,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-07-04T16:02:11.633Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-04T16:02:15.944Z"
+    "modified": "2025-07-04T16:02:28.297Z"
   }
 ]

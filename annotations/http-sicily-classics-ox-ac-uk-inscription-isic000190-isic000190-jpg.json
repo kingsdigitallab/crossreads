@@ -160,9 +160,10 @@
         "value": {
           "script": "latin",
           "components": null,
-          "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "tags": [
+            "serif.curved"
+          ],
+          "character": "B"
         }
       }
     ],
@@ -174,12 +175,26 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:3596.174072265625,746.9203491210938,352.6103515625,578.5548706054688"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000190.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='ATABΙ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 3,
+            "end": 4
+          }
+        }
       }
     ],
     "id": "https://crossreads.web.ox.ac.uk/annotations/95fd3f7e-b380-432d-88c9-b365973f0a0e",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2025-07-04T16:16:53.028Z"
+    "created": "2025-07-04T16:16:53.028Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-07-04T16:16:57.599Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

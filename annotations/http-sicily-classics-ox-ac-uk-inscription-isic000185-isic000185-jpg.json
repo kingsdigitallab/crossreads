@@ -94,7 +94,26 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
+          "components": {
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight",
+                "traversing"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "on-baseline",
+                "serif",
+                "straight",
+                "traversing"
+              ]
+            }
+          },
           "tags": [
             "serif.curved"
           ],
@@ -129,7 +148,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T23:29:32.643Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-04T15:58:53.517Z"
+    "modified": "2025-07-04T15:59:02.057Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -552,7 +571,8 @@
                 "long",
                 "on-baseline",
                 "serif",
-                "straight"
+                "straight",
+                "extending"
               ]
             },
             "left-stroke": {
@@ -571,19 +591,20 @@
                 "sans-serif",
                 "short",
                 "straight",
-                "touching"
+                "touching",
+                "from-baseline"
               ]
             },
             "apex": {
               "features": [
-                "angular"
+                "angular",
+                "sans-serif"
               ]
             }
           },
           "tags": [
             "serif.curved",
-            "serif.wedged",
-            "type1.4"
+            "serif.wedged"
           ],
           "character": "A"
         }
@@ -616,7 +637,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-23T16:25:02.802Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2024-09-24T10:44:42.174Z"
+    "modified": "2025-07-04T15:59:11.000Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

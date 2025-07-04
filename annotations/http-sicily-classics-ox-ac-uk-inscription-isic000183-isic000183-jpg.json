@@ -950,8 +950,19 @@
         "format": "application/json",
         "value": {
           "script": "latin",
-          "components": null,
-          "tags": null,
+          "components": {
+            "downstroke": {
+              "features": [
+                "on-baseline",
+                "serif",
+                "straight",
+                "vertical"
+              ]
+            }
+          },
+          "tags": [
+            "serif.cursive"
+          ],
           "character": "R"
         }
       }
@@ -983,6 +994,6 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T23:21:26.518Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-03T23:21:27.794Z"
+    "modified": "2025-07-04T15:18:09.243Z"
   }
 ]

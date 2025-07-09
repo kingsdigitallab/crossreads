@@ -5,44 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Α - type1.2</title>
   <style>
-  .tree ul {
-    list-style-type: none;
-    padding-left: 20px;
-  }
-  .tree li {
-    margin: 5px 0;
-    cursor: pointer;
-  }
-  .tree input[type="checkbox"] {
-    display: none;
-  }
-  .tree label {
-    position: relative;
-    padding-left: 15px;
-    user-select: none;
-  }
-  .tree input[type="checkbox"]:checked + ul {
-    display: block;
-  }
-  .tree input[type="checkbox"] + ul {
-    display: none;
-  }
-  .tree label::before {
-    content: "+";
-    position: absolute;
-    left: 0;
-  }
-  .tree input[type="checkbox"]:checked + ul > li > label::before {
-    content: "-";
-  }
-  .features {
-    margin-left: 20px;
-  }
-
-
   footer {
-    margin-top: 2em;
-    padding: 1em;
+    padding: 0.5em;
     border-top: 1px solid grey
   }
 </style>
@@ -60,16 +24,22 @@
   </dl>
   <p>Characteristic form:</p>
   <ul>
-      <li>crossbar is straight</li>
+      <li>left-stroke is diagonal</li>
+  <li>right-stroke is diagonal</li>
+  <li>crossbar is straight</li>
+  <li>apex is angular</li>
   <li>crossbar is descending</li>
   </ul>
   <p>
-    <a href="https://kingsdigitallab.github.io/crossreads/search.html?f.scr=Greek&f.chr=Α&f.cxf=crossbar is straight|crossbar is descending">Examples</a>
+    <a href="https://kingsdigitallab.github.io/crossreads/search.html?f.scr=Greek&f.chr=Α&f.cxf=left-stroke is diagonal|right-stroke is diagonal|crossbar is straight|apex is angular|crossbar is descending">Examples</a>
   </p>
   <footer>
-  <p><a href="all.html">Allograph typology</a></p>
-  <p><a href="https://kingsdigitallab.github.io/crossreads/">Crossreads Annotator</a></p>
-  <p><a href="https://crossreads.web.ox.ac.uk/">CROSSREADS</a>, funded by European Research Council (ERC), Grant agreement No. 885040</p>
+   <p><a href="all.html">Allograph typology</a></p> 
+  <p>
+    <a href="https://kingsdigitallab.github.io/crossreads/">Palaeographical environment</a>
+    |
+    <a href="https://crossreads.web.ox.ac.uk/">CROSSREADS</a>, funded by European Research Council (ERC), Grant agreement No. 885040
+  </p>
 </footer>
 
 </body>

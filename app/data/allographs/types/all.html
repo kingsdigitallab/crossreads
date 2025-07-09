@@ -6,3539 +6,4824 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Variants Tree</title>
   <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .banner {
+    background: white;
+    border-bottom: 1px solid grey;
+    padding: 0.5em;
+  }
+
+  .container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5em;
+    background-color: #f8fff8;
+  }
+
+  footer {
+    padding: 0.5em;
+    border-top: 1px solid grey
+  }
+
+  .link-script {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
   .tree ul {
     list-style-type: none;
-    padding-left: 20px;
+    padding-left: 0;
+  }
+  .tree ul.features {
+    list-style-type: disc;
   }
   .tree li {
     margin: 5px 0;
-    cursor: pointer;
-  }
-  .tree input[type="checkbox"] {
-    display: none;
-  }
-  .tree label {
-    position: relative;
-    padding-left: 15px;
-    user-select: none;
-  }
-  .tree input[type="checkbox"]:checked + ul {
-    display: block;
-  }
-  .tree input[type="checkbox"] + ul {
-    display: none;
-  }
-  .tree label::before {
-    content: "+";
-    position: absolute;
-    left: 0;
-  }
-  .tree input[type="checkbox"]:checked + ul > li > label::before {
-    content: "-";
   }
   .features {
     margin-left: 20px;
   }
-
-
-  footer {
-    margin-top: 2em;
-    padding: 1em;
-    border-top: 1px solid grey
+  .tree details {
+    padding-left: 2em;
+    border-left: 1px solid lightgray;
   }
+  .tree summary {
+    border: 1px solid transparent;
+    margin-left: -2.3em;
+  }
+  .tree summary:hover {
+    border: 1px solid grey;
+    cursor: pointer;
+  }
+
+  @media print {
+    html, body {
+      height: auto;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: block;
+    }
+
+    .container {
+      overflow-y: auto;
+    }
+
+    .breadcrumb-container, .top-nav {
+      display: none;
+    }
+
+  }
+
 </style>
 
 </head>
 <body>
-  <h1>Allograph variants</h1>
-  <div class="tree" role="tree">
-    
+  <div class="banner">
+    <h1>Allograph variants</h1>
+    <p class="top-nav">Jump to: 
       
+        
+        <a class="link-script" href="#greek">greek</a>
       
-      <label for="greek">greek</label>
-      <input type="checkbox" id="greek" checked aria-expanded="true" />
-      <ul role="group">
+        
+        <a class="link-script" href="#latin">latin</a>
+      
+    </p>
+    <p class="breadcrumb-container">You are here: <span id="breadcrumb">[breadcrumb]</span></p>
+  </div>
+  <div class="container">
+    <div class="tree" role="tree">
+      
+        
+        
+        <details id="greek" open>
+          <summary>greek</summary>
+          <ul role="group">
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Α" open>
+                  <summary>Α</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Α-type1" open>
+      <summary>type1 (<a href="greek-Α-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
         
           
+            <li>left-stroke is diagonal</li>
           
-          <li role="treeitem">
-            <label for="greek-Α">Α</label>
-            <input type="checkbox" id="greek-Α" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Α-type1">type1</label>
-    <input type="checkbox" id="greek-Α-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Α-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Α-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Α-type1.1.1">type1.1.1</label>
-    <input type="checkbox" id="greek-Α-type1.1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - ascending<br />
-      
-        crossbar - from-baseline<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - ascending<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Α-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Α-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Α-type1.2.1">type1.2.1</label>
-    <input type="checkbox" id="greek-Α-type1.2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - descending<br />
-      
-        crossbar - from-baseline<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - descending<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Α-type1.3">type1.3</label>
-    <input type="checkbox" id="greek-Α-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Α-type1.4">type1.4</label>
-    <input type="checkbox" id="greek-Α-type1.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - vertical<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Α-type2">type2</label>
-    <input type="checkbox" id="greek-Α-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - broken<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Α-type3">type3</label>
-    <input type="checkbox" id="greek-Α-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - curved<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
         
           
+            <li>right-stroke is diagonal</li>
           
-          <li role="treeitem">
-            <label for="greek-Β">Β</label>
-            <input type="checkbox" id="greek-Β" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Β-type1">type1</label>
-    <input type="checkbox" id="greek-Β-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Β-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Β-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - open<br />
-      
-        upper-bowl - open<br />
-      
-        lower-bowl - round<br />
-      
-        upper-bowl - round<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Β-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Β-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - open<br />
-      
-        upper-bowl - open<br />
-      
-        lower-bowl - rounded<br />
-      
-        upper-bowl - rounded<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Β-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Β-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - open<br />
-      
-        upper-bowl - open<br />
-      
-        lower-bowl - angular<br />
-      
-        upper-bowl - angular<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - open<br />
-      
-        upper-bowl - open<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Β-type2">type2</label>
-    <input type="checkbox" id="greek-Β-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Β-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Β-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - closed<br />
-      
-        upper-bowl - closed<br />
-      
-        lower-bowl - round<br />
-      
-        upper-bowl - round<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Β-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Β-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - closed<br />
-      
-        upper-bowl - closed<br />
-      
-        lower-bowl - angular<br />
-      
-        upper-bowl - angular<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Β-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Β-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - open<br />
-      
-        upper-bowl - open<br />
-      
-        lower-bowl - angular<br />
-      
-        upper-bowl - angular<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - closed<br />
-      
-        upper-bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Β-type3">type3</label>
-    <input type="checkbox" id="greek-Β-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - straight<br />
-      
-        middle-bar - straight<br />
-      
-        right-stroke - straight<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
         
           
+            <li>crossbar is straight</li>
           
-          <li role="treeitem">
-            <label for="greek-Γ">Γ</label>
-            <input type="checkbox" id="greek-Γ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Γ-type1">type1</label>
-    <input type="checkbox" id="greek-Γ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Γ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Γ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-        downstroke - on-baseline<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-        downstroke - on-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Γ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Γ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        top-bar - curved<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Γ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Γ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        top-bar - straight<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
         
           
+            <li>apex is angular</li>
           
-          <li role="treeitem">
-            <label for="greek-Δ">Δ</label>
-            <input type="checkbox" id="greek-Δ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Δ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Δ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bowl - open<br />
-      
-        bowl - rounded<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Δ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Δ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bowl - closed<br />
-      
-        bowl - rounded<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Δ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Δ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bowl - closed<br />
-      
-        bowl - angular<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Δ-type2">type2</label>
-    <input type="checkbox" id="greek-Δ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - straight<br />
-      
-        bottom-bar - on-baseline<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ε">Ε</label>
-            <input type="checkbox" id="greek-Ε" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ε-2.3.1">2.3.1</label>
-    <input type="checkbox" id="greek-Ε-2.3.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        middle-bar - horizontal<br />
-      
-        middle-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type1">type1</label>
-    <input type="checkbox" id="greek-Ε-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bowl - closed<br />
-      
-        upper-bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Ε-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - ascending<br />
-      
-        top-bar - ascending<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ε-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - descending<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ε-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - descending<br />
-      
-        top-bar - descending<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.3">type2.3</label>
-    <input type="checkbox" id="greek-Ε-type2.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ε-type2.3.1">type2.3.1</label>
-    <input type="checkbox" id="greek-Ε-type2.3.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        middle-bar - touching<br />
-      
-        middle-bar - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.3.3">type2.3.3</label>
-    <input type="checkbox" id="greek-Ε-type2.3.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - horizontal<br />
-      
-        middle-bar - touching<br />
-      
-        middle-bar - short<br />
-      
-        downstroke - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.3.4">type2.3.4</label>
-    <input type="checkbox" id="greek-Ε-type2.3.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        middle-bar - short<br />
-      
-        middle-bar - not-touching<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - horizontal<br />
-      
-        downstroke - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.4">type2.4</label>
-    <input type="checkbox" id="greek-Ε-type2.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        bottom-bar - curved<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.4">type2.4</label>
-    <input type="checkbox" id="greek-Ε-type2.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        top-bar - curved<br />
-      
-        bottom-bar - curved<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.4">type2.4</label>
-    <input type="checkbox" id="greek-Ε-type2.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - curved<br />
-      
-        top-bar - curved<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.5">type2.5</label>
-    <input type="checkbox" id="greek-Ε-type2.5" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        bottom-bar - curved<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type2.6">type2.6</label>
-    <input type="checkbox" id="greek-Ε-type2.6" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        top-bar - curved<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type3">type3</label>
-    <input type="checkbox" id="greek-Ε-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ε-type3.1">type3.1</label>
-    <input type="checkbox" id="greek-Ε-type3.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-        middle-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type3.2">type3.2</label>
-    <input type="checkbox" id="greek-Ε-type3.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-        middle-bar - not-touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type3.3">type3.3</label>
-    <input type="checkbox" id="greek-Ε-type3.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-        middle-bar - short<br />
-      
-        middle-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ε-type3.4">type3.4</label>
-    <input type="checkbox" id="greek-Ε-type3.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-        middle-bar - short<br />
-      
-        middle-bar - not-touching<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-ϝ">ϝ</label>
-            <input type="checkbox" id="greek-ϝ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-ϝ-type1">type1</label>
-    <input type="checkbox" id="greek-ϝ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - straight<br />
-      
-        top-bar - straight<br />
-      
-        downstroke - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-ϝ-type2">type2</label>
-    <input type="checkbox" id="greek-ϝ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-        top-bar - straight<br />
-      
-        middle-bar - straight<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ζ">Ζ</label>
-            <input type="checkbox" id="greek-Ζ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ζ-type1">type1</label>
-    <input type="checkbox" id="greek-Ζ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ζ-type2">type2</label>
-    <input type="checkbox" id="greek-Ζ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Η">Η</label>
-            <input type="checkbox" id="greek-Η" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Η-type1">type1</label>
-    <input type="checkbox" id="greek-Η-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - straight<br />
-      
-        right-stroke - straight<br />
-      
-        crossbar - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Η-type2">type2</label>
-    <input type="checkbox" id="greek-Η-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - curved<br />
-      
-        right-stroke - curved<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Θ">Θ</label>
-            <input type="checkbox" id="greek-Θ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Θ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Θ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Θ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Θ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - not-touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Θ-type1.3">type1.3</label>
-    <input type="checkbox" id="greek-Θ-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - vertical<br />
-      
-        crossbar - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Θ-type2">type2</label>
-    <input type="checkbox" id="greek-Θ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - point<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ι">Ι</label>
-            <input type="checkbox" id="greek-Ι" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ι-type1">type1</label>
-    <input type="checkbox" id="greek-Ι-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ι-type2">type2</label>
-    <input type="checkbox" id="greek-Ι-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - diagonal<br />
-      
-        top-bar - diagonal<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Κ">Κ</label>
-            <input type="checkbox" id="greek-Κ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Κ-type1">type1</label>
-    <input type="checkbox" id="greek-Κ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Κ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Κ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - above-baseline<br />
-      
-        lower-bar - converging<br />
-      
-        upper-bar - converging<br />
-      
-        lower-bar - touching<br />
-      
-        upper-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Κ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - converging<br />
-      
-        upper-bar - converging<br />
-      
-        lower-bar - above-baseline<br />
-      
-        lower-bar - not-touching<br />
-      
-        upper-bar - not-touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type1.3">type1.3</label>
-    <input type="checkbox" id="greek-Κ-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - above-baseline<br />
-      
-        lower-bar - not-converging<br />
-      
-        upper-bar - not-converging<br />
-      
-        lower-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type1.3">type1.3</label>
-    <input type="checkbox" id="greek-Κ-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - above-baseline<br />
-      
-        lower-bar - not-converging<br />
-      
-        upper-bar - not-converging<br />
-      
-        lower-bar - touching<br />
-      
-        upper-bar - touching<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - above-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type2">type2</label>
-    <input type="checkbox" id="greek-Κ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Κ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Κ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - on-baseline<br />
-      
-        lower-bar - converging<br />
-      
-        lower-bar - touching<br />
-      
-        upper-bar - converging<br />
-      
-        upper-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Κ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - on-baseline<br />
-      
-        lower-bar - converging<br />
-      
-        upper-bar - converging<br />
-      
-        lower-bar - not-touching<br />
-      
-        upper-bar - not-touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type2.3">type2.3</label>
-    <input type="checkbox" id="greek-Κ-type2.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - on-baseline<br />
-      
-        lower-bar - not-converging<br />
-      
-        lower-bar - touching<br />
-      
-        upper-bar - not-converging<br />
-      
-        upper-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type2.4">type2.4</label>
-    <input type="checkbox" id="greek-Κ-type2.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - on-baseline<br />
-      
-        upper-bar - curved<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - on-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type3">type3</label>
-    <input type="checkbox" id="greek-Κ-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Κ-type3.1">type3.1</label>
-    <input type="checkbox" id="greek-Κ-type3.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - below-baseline<br />
-      
-        lower-bar - touching<br />
-      
-        upper-bar - touching<br />
-      
-        upper-bar - converging<br />
-      
-        lower-bar - converging<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Κ-type3.2">type3.2</label>
-    <input type="checkbox" id="greek-Κ-type3.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - below-baseline<br />
-      
-        upper-bar - converging<br />
-      
-        lower-bar - converging<br />
-      
-        lower-bar - not-touching<br />
-      
-        upper-bar - not-touching<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        lower-bar - below-baseline<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Λ">Λ</label>
-            <input type="checkbox" id="greek-Λ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Λ-type1">type1</label>
-    <input type="checkbox" id="greek-Λ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Λ-type2">type2</label>
-    <input type="checkbox" id="greek-Λ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - diagonal<br />
-      
-        right-stroke - diagonal<br />
-      
-        left-stroke - straight<br />
-      
-        right-stroke - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Λ-type3">type3</label>
-    <input type="checkbox" id="greek-Λ-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - curved<br />
-      
-        right-stroke - curved<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Μ">Μ</label>
-            <input type="checkbox" id="greek-Μ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Μ-type1">type1</label>
-    <input type="checkbox" id="greek-Μ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Μ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Μ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - above-baseline<br />
-      
-        left-stroke - diagonal<br />
-      
-        right-stroke - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Μ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Μ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - above-baseline<br />
-      
-        left-stroke - vertical<br />
-      
-        right-stroke - vertical<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - above-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Μ-type2">type2</label>
-    <input type="checkbox" id="greek-Μ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Μ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Μ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - on-baseline<br />
-      
-        right-stroke - on-baseline<br />
-      
-        left-stroke - diagonal<br />
-      
-        right-stroke - diagonal<br />
-      
-        left-bar - above-baseline<br />
-      
-        right-bar - above-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Μ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Μ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - on-baseline<br />
-      
-        right-bar - on-baseline<br />
-      
-        left-stroke - diagonal<br />
-      
-        right-stroke - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Μ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Μ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - on-baseline<br />
-      
-        right-bar - on-baseline<br />
-      
-        left-stroke - diagonal<br />
-      
-        right-stroke - diagonal<br />
-      
-        left-stroke - on-baseline<br />
-      
-        right-stroke - on-baseline<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - on-baseline<br />
-      
-        right-stroke - on-baseline<br />
-      
-        left-stroke - diagonal<br />
-      
-        right-stroke - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Μ-type3">type3</label>
-    <input type="checkbox" id="greek-Μ-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Μ-type3.1">type3.1</label>
-    <input type="checkbox" id="greek-Μ-type3.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - on-baseline<br />
-      
-        left-stroke - vertical<br />
-      
-        right-stroke - on-baseline<br />
-      
-        right-stroke - vertical<br />
-      
-        left-bar - above-baseline<br />
-      
-        right-bar - above-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Μ-type3.2">type3.2</label>
-    <input type="checkbox" id="greek-Μ-type3.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - on-baseline<br />
-      
-        left-stroke - vertical<br />
-      
-        right-stroke - on-baseline<br />
-      
-        right-stroke - vertical<br />
-      
-        left-bar - on-baseline<br />
-      
-        right-bar - on-baseline<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - on-baseline<br />
-      
-        left-stroke - vertical<br />
-      
-        right-stroke - on-baseline<br />
-      
-        right-stroke - vertical<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ν">Ν</label>
-            <input type="checkbox" id="greek-Ν" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ν-type1">type1</label>
-    <input type="checkbox" id="greek-Ν-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ν-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Ν-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - above-baseline<br />
-      
-        right-stroke - diagonal<br />
-      
-        left-stroke - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ν-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Ν-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - above-baseline<br />
-      
-        left-stroke - vertical<br />
-      
-        right-stroke - vertical<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ν-type1.3">type1.3</label>
-    <input type="checkbox" id="greek-Ν-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - above-baseline<br />
-      
-        right-stroke - short<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - above-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ν-type2">type2</label>
-    <input type="checkbox" id="greek-Ν-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ν-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Ν-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - on-baseline<br />
-      
-        left-stroke - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ν-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ν-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - on-baseline<br />
-      
-        left-stroke - vertical<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - on-baseline<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ξ">Ξ</label>
-            <input type="checkbox" id="greek-Ξ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ξ-type1">type1</label>
-    <input type="checkbox" id="greek-Ξ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - on-baseline<br />
-      
-        middle-bar - horizontal<br />
-      
-        top-bar - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ξ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Ξ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - on-baseline<br />
-      
-        downstroke - vertical<br />
-      
-        middle-bar - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ξ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ξ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - on-baseline<br />
-      
-        middle-bar - horizontal<br />
-      
-        downstroke - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ξ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ξ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        bottom-bar - on-baseline<br />
-      
-        middle-bar - horizontal<br />
-      
-        downstroke - diagonal<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ο">Ο</label>
-            <input type="checkbox" id="greek-Ο" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ο-type1">type1</label>
-    <input type="checkbox" id="greek-Ο-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ο-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Ο-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - circular<br />
-      
-        body - small<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - circular<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ο-type2">type2</label>
-    <input type="checkbox" id="greek-Ο-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - oval<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ο-type3">type3</label>
-    <input type="checkbox" id="greek-Ο-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - ovoid<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ο-type4">type4</label>
-    <input type="checkbox" id="greek-Ο-type4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - rhomboid<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ο-type5">type5</label>
-    <input type="checkbox" id="greek-Ο-type5" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - square<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ο-type6">type6</label>
-    <input type="checkbox" id="greek-Ο-type6" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - point<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Π">Π</label>
-            <input type="checkbox" id="greek-Π" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Π-type1">type1</label>
-    <input type="checkbox" id="greek-Π-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Π-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Π-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - above-baseline<br />
-      
-        top-bar - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Π-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Π-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - above-baseline<br />
-      
-        top-bar - horizontal<br />
-      
-        top-bar - extending<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - above-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Π-type2">type2</label>
-    <input type="checkbox" id="greek-Π-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Π-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Π-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - on-baseline<br />
-      
-        top-bar - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Π-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Π-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - on-baseline<br />
-      
-        top-bar - extending<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-stroke - on-baseline<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-ϙ">ϙ</label>
-            <input type="checkbox" id="greek-ϙ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-ϙ-type1">type1</label>
-    <input type="checkbox" id="greek-ϙ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        bowl - round<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ρ">Ρ</label>
-            <input type="checkbox" id="greek-Ρ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ρ-type1">type1</label>
-    <input type="checkbox" id="greek-Ρ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ρ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Ρ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        bowl - round<br />
-      
-        bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Ρ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        bowl - round<br />
-      
-        bowl - open<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type1.3">type1.3</label>
-    <input type="checkbox" id="greek-Ρ-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        bowl - rounded<br />
-      
-        bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type1.4">type1.4</label>
-    <input type="checkbox" id="greek-Ρ-type1.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        bowl - rounded<br />
-      
-        bowl - open<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type1.5">type1.5</label>
-    <input type="checkbox" id="greek-Ρ-type1.5" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        bowl - angular<br />
-      
-        bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type1.6">type1.6</label>
-    <input type="checkbox" id="greek-Ρ-type1.6" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        bowl - angular<br />
-      
-        bowl - open<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type2">type2</label>
-    <input type="checkbox" id="greek-Ρ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ρ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Ρ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-bar - diagonal<br />
-      
-        bowl - round<br />
-      
-        bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ρ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-bar - diagonal<br />
-      
-        bowl - round<br />
-      
-        bowl - open<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type2.3">type2.3</label>
-    <input type="checkbox" id="greek-Ρ-type2.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-bar - diagonal<br />
-      
-        bowl - rounded<br />
-      
-        bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type2.4">type2.4</label>
-    <input type="checkbox" id="greek-Ρ-type2.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-bar - diagonal<br />
-      
-        bowl - rounded<br />
-      
-        bowl - open<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type2.5">type2.5</label>
-    <input type="checkbox" id="greek-Ρ-type2.5" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-bar - diagonal<br />
-      
-        bowl - angular<br />
-      
-        bowl - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ρ-type2.6">type2.6</label>
-    <input type="checkbox" id="greek-Ρ-type2.6" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-bar - diagonal<br />
-      
-        bowl - angular<br />
-      
-        bowl - open<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        right-bar - diagonal<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Σ">Σ</label>
-            <input type="checkbox" id="greek-Σ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Σ-type1">type1</label>
-    <input type="checkbox" id="greek-Σ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Σ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Σ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - one<br />
-      
-        apex - rounded<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Σ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Σ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - one<br />
-      
-        apex - rounded<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Σ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Σ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - one<br />
-      
-        apex - angular<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - one<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Σ-type2">type2</label>
-    <input type="checkbox" id="greek-Σ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - four<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Σ-type3">type3</label>
-    <input type="checkbox" id="greek-Σ-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        middle-bar - two<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Σ-type4">type4</label>
-    <input type="checkbox" id="greek-Σ-type4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - curved<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Τ">Τ</label>
-            <input type="checkbox" id="greek-Τ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Τ-type1">type1</label>
-    <input type="checkbox" id="greek-Τ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Τ-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Τ-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - diagonal<br />
-      
-        top-bar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Τ-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Τ-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - diagonal<br />
-      
-        top-bar - traversing<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - diagonal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Τ-type2">type2</label>
-    <input type="checkbox" id="greek-Τ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Τ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Τ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - horizontal<br />
-      
-        top-bar - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Τ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Τ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - horizontal<br />
-      
-        top-bar - straight<br />
-      
-        top-bar - long<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Τ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Τ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - horizontal<br />
-      
-        top-bar - straight<br />
-      
-        top-bar - long<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Τ-type2.3">type2.3</label>
-    <input type="checkbox" id="greek-Τ-type2.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - horizontal<br />
-      
-        top-bar - straight<br />
-      
-        top-bar - short<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Τ-type2.4">type2.4</label>
-    <input type="checkbox" id="greek-Τ-type2.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - horizontal<br />
-      
-        top-bar - curved<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        top-bar - horizontal<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Υ">Υ</label>
-            <input type="checkbox" id="greek-Υ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Υ-type1">type1</label>
-    <input type="checkbox" id="greek-Υ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-stroke - on-baseline<br />
-      
-        right-stroke - on-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Υ-type2">type2</label>
-    <input type="checkbox" id="greek-Υ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Υ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Υ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        downstroke - short<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Υ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Υ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        left-stroke - straight<br />
-      
-        right-stroke - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Υ-type2.3">type2.3</label>
-    <input type="checkbox" id="greek-Υ-type2.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        left-stroke - curved<br />
-      
-        right-stroke - curved<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Φ">Φ</label>
-            <input type="checkbox" id="greek-Φ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Φ-type1">type1</label>
-    <input type="checkbox" id="greek-Φ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - vertical<br />
-      
-        crossbar - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Φ-type2">type2</label>
-    <input type="checkbox" id="greek-Φ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Φ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Φ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - vertical<br />
-      
-        crossbar - traversing<br />
-      
-        body - circular<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Φ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Φ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - vertical<br />
-      
-        crossbar - traversing<br />
-      
-        body - oval<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Φ-type2.3">type2.3</label>
-    <input type="checkbox" id="greek-Φ-type2.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - vertical<br />
-      
-        crossbar - traversing<br />
-      
-        body - rhomboid<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - vertical<br />
-      
-        crossbar - traversing<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Χ">Χ</label>
-            <input type="checkbox" id="greek-Χ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Χ-type1">type1</label>
-    <input type="checkbox" id="greek-Χ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - diagonal<br />
-      
-        right-bar - diagonal<br />
-      
-        downstroke - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Χ-type2">type2</label>
-    <input type="checkbox" id="greek-Χ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        downstroke - vertical<br />
-      
-        middle-stroke - horizontal<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Χ-type3">type3</label>
-    <input type="checkbox" id="greek-Χ-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - diagonal<br />
-      
-        right-bar - diagonal<br />
-      
-        left-bar - traversing<br />
-      
-        right-bar - traversing<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ψ">Ψ</label>
-            <input type="checkbox" id="greek-Ψ" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ψ-type1">type1</label>
-    <input type="checkbox" id="greek-Ψ-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - on-baseline<br />
-      
-        right-bar - on-baseline<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ψ-type2">type2</label>
-    <input type="checkbox" id="greek-Ψ-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ψ-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Ψ-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - above-baseline<br />
-      
-        right-bar - above-baseline<br />
-      
-        left-bar - straight<br />
-      
-        right-bar - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ψ-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ψ-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - above-baseline<br />
-      
-        right-bar - above-baseline<br />
-      
-        left-bar - curved<br />
-      
-        right-bar - curved<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bar - above-baseline<br />
-      
-        right-bar - above-baseline<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
-        
-          
-          
-          <li role="treeitem">
-            <label for="greek-Ω">Ω</label>
-            <input type="checkbox" id="greek-Ω" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="greek-Ω-type1">type1</label>
-    <input type="checkbox" id="greek-Ω-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ω-type1.1">type1.1</label>
-    <input type="checkbox" id="greek-Ω-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - open<br />
-      
-        body - circular<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type1.2">type1.2</label>
-    <input type="checkbox" id="greek-Ω-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - open<br />
-      
-        body - ovoid<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type1.3">type1.3</label>
-    <input type="checkbox" id="greek-Ω-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - open<br />
-      
-        body - rhomboid<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - open<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type2">type2</label>
-    <input type="checkbox" id="greek-Ω-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ω-type2.1">type2.1</label>
-    <input type="checkbox" id="greek-Ω-type2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ω-type2.1.1">type2.1.1</label>
-    <input type="checkbox" id="greek-Ω-type2.1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - circular<br />
-      
-        feet - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type2.1.2">type2.1.2</label>
-    <input type="checkbox" id="greek-Ω-type2.1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - circular<br />
-      
-        feet - not-touching<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - circular<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type2.2">type2.2</label>
-    <input type="checkbox" id="greek-Ω-type2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ω-type2.2.1">type2.2.1</label>
-    <input type="checkbox" id="greek-Ω-type2.2.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - ovoid<br />
-      
-        feet - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type2.2.2">type2.2.2</label>
-    <input type="checkbox" id="greek-Ω-type2.2.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - ovoid<br />
-      
-        feet - not-touching<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - ovoid<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type2.3">type2.3</label>
-    <input type="checkbox" id="greek-Ω-type2.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="greek-Ω-type2.3.1">type2.3.1</label>
-    <input type="checkbox" id="greek-Ω-type2.3.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - rhomboid<br />
-      
-        feet - touching<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type2.3.2">type2.3.2</label>
-    <input type="checkbox" id="greek-Ω-type2.3.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - rhomboid<br />
-      
-        feet - not-touching<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - rhomboid<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type2.4">type2.4</label>
-    <input type="checkbox" id="greek-Ω-type2.4" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-        body - oval<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        body - closed<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="greek-Ω-type3">type3</label>
-    <input type="checkbox" id="greek-Ω-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        left-bowl - on-baseline<br />
-      
-        right-bowl - on-baseline<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
         
       </ul>
-    
       
-      
-      <label for="latin">latin</label>
-      <input type="checkbox" id="latin" checked aria-expanded="true" />
-      <ul role="group">
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Α-type1.1" open>
+      <summary>type1.1 (<a href="greek-Α-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
         
           
+        
           
-          <li role="treeitem">
-            <label for="latin-A">A</label>
-            <input type="checkbox" id="latin-A" checked aria-expanded="true" />
-            <ul role="group">
-              
-  <li role="treeitem">
-    <label for="latin-A-type1">type1</label>
-    <input type="checkbox" id="latin-A-type1" checked aria-expanded="true" />
-    
-      <ul role="group">
-  <li role="treeitem">
-    <label for="latin-A-type1.1">type1.1</label>
-    <input type="checkbox" id="latin-A-type1.1" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - ascending<br />
-      
-        crossbar - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="latin-A-type1.2">type1.2</label>
-    <input type="checkbox" id="latin-A-type1.2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - descending<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="latin-A-type1.3">type1.3</label>
-    <input type="checkbox" id="latin-A-type1.3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-        crossbar - horizontal<br />
-      
-    </div>
-  </li>
-
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - straight<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="latin-A-type2">type2</label>
-    <input type="checkbox" id="latin-A-type2" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - broken<br />
-      
-    </div>
-  </li>
-
-  <li role="treeitem">
-    <label for="latin-A-type3">type3</label>
-    <input type="checkbox" id="latin-A-type3" checked aria-expanded="true" />
-    
-      <ul role="group">
-</ul>
-    
-    <div class="features">
-      <strong>Component Features:</strong><br />
-      
-        crossbar - curved<br />
-      
-    </div>
-  </li>
-
-
-            </ul>
-          </li>
+        
+          
+        
+          
+        
+          
+            <li>crossbar is ascending</li>
+          
         
       </ul>
-    
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Α-type1.1.1" open>
+      <summary>type1.1.1 (<a href="greek-Α-type1.1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>crossbar is from-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Α-type1.2" open>
+      <summary>type1.2 (<a href="greek-Α-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>crossbar is descending</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Α-type1.2.1" open>
+      <summary>type1.2.1 (<a href="greek-Α-type1.2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>crossbar is from-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Α-type1.3" open>
+      <summary>type1.3 (<a href="greek-Α-type1.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>crossbar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Α-type1.4" open>
+      <summary>type1.4 (<a href="greek-Α-type1.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>crossbar is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Α-type2" open>
+      <summary>type2 (<a href="greek-Α-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+          
+            <li>apex is angular</li>
+          
+        
+          
+            <li>crossbar is broken</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Α-type3" open>
+      <summary>type3 (<a href="greek-Α-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+          
+            <li>apex is angular</li>
+          
+        
+          
+            <li>crossbar is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Α-type4" open>
+      <summary>type4 (<a href="greek-Α-type4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+          
+            <li>apex is angular</li>
+          
+        
+          
+            <li>crossbar is point</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Β" open>
+                  <summary>Β</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Β-type1" open>
+      <summary>type1 (<a href="greek-Β-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+          
+            <li>lower-bowl is open</li>
+          
+        
+          
+            <li>upper-bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Β-type1.1" open>
+      <summary>type1.1 (<a href="greek-Β-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>lower-bowl is round</li>
+          
+        
+          
+            <li>upper-bowl is round</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Β-type1.2" open>
+      <summary>type1.2 (<a href="greek-Β-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>lower-bowl is rounded</li>
+          
+        
+          
+            <li>upper-bowl is rounded</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Β-type2" open>
+      <summary>type2 (<a href="greek-Β-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+          
+            <li>lower-bowl is closed</li>
+          
+        
+          
+            <li>upper-bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Β-type2.1" open>
+      <summary>type2.1 (<a href="greek-Β-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>lower-bowl is round</li>
+          
+        
+          
+            <li>upper-bowl is round</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Β-type2.2" open>
+      <summary>type2.2 (<a href="greek-Β-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>lower-bowl is rounded</li>
+          
+        
+          
+            <li>upper-bowl is rounded</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Β-type2.3" open>
+      <summary>type2.3 (<a href="greek-Β-type2.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>upper-bowl is angular</li>
+          
+        
+          
+            <li>lower-bowl is angular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Β-type3" open>
+      <summary>type3 (<a href="greek-Β-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is straight</li>
+          
+        
+          
+            <li>middle-bar is straight</li>
+          
+        
+          
+            <li>right-stroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Γ" open>
+                  <summary>Γ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Γ-type1" open>
+      <summary>type1 (<a href="greek-Γ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is curved</li>
+          
+        
+          
+            <li>downstroke is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Γ-type2" open>
+      <summary>type2 (<a href="greek-Γ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Γ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Γ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is curved</li>
+          
+        
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Γ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Γ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>top-bar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Γ-type3" open>
+      <summary>type3 (<a href="greek-Γ-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bottom-bar is diagonal</li>
+          
+        
+          
+            <li>top-bar is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Γ-type4" open>
+      <summary>type4 (<a href="greek-Γ-type4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is diagonal</li>
+          
+        
+          
+            <li>top-bar is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Δ" open>
+                  <summary>Δ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Δ-type1" open>
+      <summary>type1 (<a href="greek-Δ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+          
+            <li>bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Δ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Δ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bowl is open</li>
+          
+        
+          
+            <li>bowl is rounded</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Δ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Δ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is rounded</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Δ-type1.2" open>
+      <summary>type1.2 (<a href="greek-Δ-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is angular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Δ-type2" open>
+      <summary>type2 (<a href="greek-Δ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bottom-bar is on-baseline</li>
+          
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ε" open>
+                  <summary>Ε</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ε-type1" open>
+      <summary>type1 (<a href="greek-Ε-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>lower-bowl is closed</li>
+          
+        
+          
+            <li>upper-bowl is closed</li>
+          
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2" open>
+      <summary>type2 (<a href="greek-Ε-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+          
+            <li>bottom-bar is touching</li>
+          
+        
+          
+            <li>top-bar is touching</li>
+          
+        
+          
+            <li>middle-bar is one</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ε-type2.1" open>
+      <summary>type2.1 (<a href="greek-Ε-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>middle-bar is ascending</li>
+          
+        
+          
+            <li>top-bar is ascending</li>
+          
+        
+          
+        
+          
+            <li>bottom-bar is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2.2" open>
+      <summary>type2.2 (<a href="greek-Ε-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is descending</li>
+          
+        
+          
+            <li>middle-bar is descending</li>
+          
+        
+          
+            <li>bottom-bar is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2.3" open>
+      <summary>type2.3 (<a href="greek-Ε-type2.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>middle-bar is horizontal</li>
+          
+        
+          
+        
+          
+            <li>bottom-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ε-type2.3.1" open>
+      <summary>type2.3.1 (<a href="greek-Ε-type2.3.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>middle-bar is touching</li>
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2.3.2" open>
+      <summary>type2.3.2 (<a href="greek-Ε-type2.3.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>middle-bar is touching</li>
+          
+        
+          
+            <li>middle-bar is short</li>
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2.3.3" open>
+      <summary>type2.3.3 (<a href="greek-Ε-type2.3.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>middle-bar is short</li>
+          
+        
+          
+            <li>middle-bar is not-touching</li>
+          
+        
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2.4" open>
+      <summary>type2.4 (<a href="greek-Ε-type2.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is curved</li>
+          
+        
+          
+            <li>bottom-bar is curved</li>
+          
+        
+          
+            <li>middle-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2.5" open>
+      <summary>type2.5 (<a href="greek-Ε-type2.5.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bottom-bar is curved</li>
+          
+        
+          
+            <li>top-bar is straight</li>
+          
+        
+          
+            <li>middle-bar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type2.6" open>
+      <summary>type2.6 (<a href="greek-Ε-type2.6.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is curved</li>
+          
+        
+          
+            <li>bottom-bar is straight</li>
+          
+        
+          
+            <li>middle-bar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type3" open>
+      <summary>type3 (<a href="greek-Ε-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ε-type3.1" open>
+      <summary>type3.1 (<a href="greek-Ε-type3.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>middle-bar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type3.2" open>
+      <summary>type3.2 (<a href="greek-Ε-type3.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>middle-bar is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type3.3" open>
+      <summary>type3.3 (<a href="greek-Ε-type3.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>middle-bar is short</li>
+          
+        
+          
+            <li>middle-bar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ε-type3.4" open>
+      <summary>type3.4 (<a href="greek-Ε-type3.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>middle-bar is short</li>
+          
+        
+          
+            <li>middle-bar is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-ϝ" open>
+                  <summary>ϝ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-ϝ-type1" open>
+      <summary>type1 (<a href="greek-ϝ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bottom-bar is straight</li>
+          
+        
+          
+            <li>top-bar is straight</li>
+          
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-ϝ-type2" open>
+      <summary>type2 (<a href="greek-ϝ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+          
+            <li>top-bar is straight</li>
+          
+        
+          
+            <li>middle-bar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ζ" open>
+                  <summary>Ζ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ζ-type1" open>
+      <summary>type1 (<a href="greek-Ζ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is diagonal</li>
+          
+        
+          
+            <li>bottom-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ζ-type2" open>
+      <summary>type2 (<a href="greek-Ζ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+          
+            <li>bottom-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Η" open>
+                  <summary>Η</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Η-type1" open>
+      <summary>type1 (<a href="greek-Η-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is straight</li>
+          
+        
+          
+            <li>right-stroke is straight</li>
+          
+        
+          
+            <li>crossbar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Η-type2" open>
+      <summary>type2 (<a href="greek-Η-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is curved</li>
+          
+        
+          
+            <li>right-stroke is curved</li>
+          
+        
+          
+            <li>crossbar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Θ" open>
+                  <summary>Θ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Θ-type1" open>
+      <summary>type1 (<a href="greek-Θ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is circular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Θ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Θ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is straight</li>
+          
+        
+          
+            <li>crossbar is touching</li>
+          
+        
+          
+            <li>crossbar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Θ-type1.2" open>
+      <summary>type1.2 (<a href="greek-Θ-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is straight</li>
+          
+        
+          
+            <li>crossbar is not-touching</li>
+          
+        
+          
+            <li>crossbar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Θ-type1.3" open>
+      <summary>type1.3 (<a href="greek-Θ-type1.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is horizontal</li>
+          
+        
+          
+            <li>crossbar is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Θ-type1.4" open>
+      <summary>type1.4 (<a href="greek-Θ-type1.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is point</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Θ-type2" open>
+      <summary>type2 (<a href="greek-Θ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is oval</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Θ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Θ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is horizontal</li>
+          
+        
+          
+            <li>crossbar is straight</li>
+          
+        
+          
+            <li>crossbar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Θ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Θ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is horizontal</li>
+          
+        
+          
+            <li>crossbar is straight</li>
+          
+        
+          
+            <li>crossbar is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ι" open>
+                  <summary>Ι</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ι-type1" open>
+      <summary>type1 (<a href="greek-Ι-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ι-type2" open>
+      <summary>type2 (<a href="greek-Ι-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bottom-bar is diagonal</li>
+          
+        
+          
+            <li>top-bar is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Κ" open>
+                  <summary>Κ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Κ-type1" open>
+      <summary>type1 (<a href="greek-Κ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>lower-bar is above-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Κ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Κ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>lower-bar is converging</li>
+          
+        
+          
+            <li>upper-bar is converging</li>
+          
+        
+          
+            <li>lower-bar is touching</li>
+          
+        
+          
+            <li>upper-bar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type1.2" open>
+      <summary>type1.2 (<a href="greek-Κ-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>lower-bar is converging</li>
+          
+        
+          
+            <li>upper-bar is converging</li>
+          
+        
+          
+        
+          
+            <li>lower-bar is not-touching</li>
+          
+        
+          
+            <li>upper-bar is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type1.3" open>
+      <summary>type1.3 (<a href="greek-Κ-type1.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>lower-bar is not-converging</li>
+          
+        
+          
+            <li>upper-bar is not-converging</li>
+          
+        
+          
+            <li>lower-bar is touching</li>
+          
+        
+          
+            <li>upper-bar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type1.4" open>
+      <summary>type1.4 (<a href="greek-Κ-type1.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>lower-bar is curved</li>
+          
+        
+          
+            <li>upper-bar is curved</li>
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type2" open>
+      <summary>type2 (<a href="greek-Κ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>lower-bar is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Κ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Κ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>lower-bar is converging</li>
+          
+        
+          
+            <li>lower-bar is touching</li>
+          
+        
+          
+            <li>upper-bar is converging</li>
+          
+        
+          
+            <li>upper-bar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Κ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>lower-bar is converging</li>
+          
+        
+          
+            <li>upper-bar is converging</li>
+          
+        
+          
+            <li>lower-bar is not-touching</li>
+          
+        
+          
+            <li>upper-bar is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type2.3" open>
+      <summary>type2.3 (<a href="greek-Κ-type2.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>lower-bar is not-converging</li>
+          
+        
+          
+            <li>lower-bar is touching</li>
+          
+        
+          
+            <li>upper-bar is not-converging</li>
+          
+        
+          
+            <li>upper-bar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type2.4" open>
+      <summary>type2.4 (<a href="greek-Κ-type2.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>upper-bar is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type3" open>
+      <summary>type3 (<a href="greek-Κ-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>lower-bar is below-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Κ-type3.1" open>
+      <summary>type3.1 (<a href="greek-Κ-type3.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>lower-bar is touching</li>
+          
+        
+          
+            <li>upper-bar is touching</li>
+          
+        
+          
+            <li>upper-bar is converging</li>
+          
+        
+          
+            <li>lower-bar is converging</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Κ-type3.2" open>
+      <summary>type3.2 (<a href="greek-Κ-type3.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>upper-bar is converging</li>
+          
+        
+          
+            <li>lower-bar is converging</li>
+          
+        
+          
+            <li>lower-bar is not-touching</li>
+          
+        
+          
+            <li>upper-bar is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Λ" open>
+                  <summary>Λ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Λ-type1" open>
+      <summary>type1 (<a href="greek-Λ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>top-bar is diagonal</li>
+          
+        
+          
+            <li>downstroke is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Λ-type2" open>
+      <summary>type2 (<a href="greek-Λ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+          
+            <li>left-stroke is straight</li>
+          
+        
+          
+            <li>right-stroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Λ-type3" open>
+      <summary>type3 (<a href="greek-Λ-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is curved</li>
+          
+        
+          
+            <li>right-stroke is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Μ" open>
+                  <summary>Μ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Μ-type1" open>
+      <summary>type1 (<a href="greek-Μ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is above-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Μ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Μ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Μ-type1.2" open>
+      <summary>type1.2 (<a href="greek-Μ-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>left-stroke is vertical</li>
+          
+        
+          
+            <li>right-stroke is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Μ-type2" open>
+      <summary>type2 (<a href="greek-Μ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is on-baseline</li>
+          
+        
+          
+            <li>right-stroke is on-baseline</li>
+          
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Μ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Μ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>left-bar is above-baseline</li>
+          
+        
+          
+            <li>right-bar is above-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Μ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Μ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-bar is on-baseline</li>
+          
+        
+          
+            <li>right-bar is on-baseline</li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Μ-type3" open>
+      <summary>type3 (<a href="greek-Μ-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is on-baseline</li>
+          
+        
+          
+            <li>left-stroke is vertical</li>
+          
+        
+          
+            <li>right-stroke is on-baseline</li>
+          
+        
+          
+            <li>right-stroke is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Μ-type3.1" open>
+      <summary>type3.1 (<a href="greek-Μ-type3.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>left-bar is above-baseline</li>
+          
+        
+          
+            <li>right-bar is above-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Μ-type3.2" open>
+      <summary>type3.2 (<a href="greek-Μ-type3.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li>left-bar is on-baseline</li>
+          
+        
+          
+            <li>right-bar is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ν" open>
+                  <summary>Ν</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ν-type1" open>
+      <summary>type1 (<a href="greek-Ν-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>right-stroke is above-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ν-type1.1" open>
+      <summary>type1.1 (<a href="greek-Ν-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>right-stroke is diagonal</li>
+          
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ν-type1.2" open>
+      <summary>type1.2 (<a href="greek-Ν-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>left-stroke is vertical</li>
+          
+        
+          
+            <li>right-stroke is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ν-type1.3" open>
+      <summary>type1.3 (<a href="greek-Ν-type1.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>right-stroke is short</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ν-type2" open>
+      <summary>type2 (<a href="greek-Ν-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>right-stroke is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ν-type2.1" open>
+      <summary>type2.1 (<a href="greek-Ν-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>left-stroke is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ν-type2.2" open>
+      <summary>type2.2 (<a href="greek-Ν-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>left-stroke is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ξ" open>
+                  <summary>Ξ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ξ-type1" open>
+      <summary>type1 (<a href="greek-Ξ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bottom-bar is on-baseline</li>
+          
+        
+          
+            <li>middle-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ξ-type2" open>
+      <summary>type2 (<a href="greek-Ξ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bottom-bar is on-baseline</li>
+          
+        
+          
+            <li>middle-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ξ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Ξ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ξ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Ξ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>downstroke is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ο" open>
+                  <summary>Ο</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ο-type1" open>
+      <summary>type1 (<a href="greek-Ο-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is circular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ο-type1.2" open>
+      <summary>type1.2 (<a href="greek-Ο-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is small</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ο-type2" open>
+      <summary>type2 (<a href="greek-Ο-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is oval</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ο-type3" open>
+      <summary>type3 (<a href="greek-Ο-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is ovoid</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ο-type4" open>
+      <summary>type4 (<a href="greek-Ο-type4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is rhomboid</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ο-type5" open>
+      <summary>type5 (<a href="greek-Ο-type5.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is square</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ο-type6" open>
+      <summary>type6 (<a href="greek-Ο-type6.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>crossbar is point</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Π" open>
+                  <summary>Π</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Π-type1" open>
+      <summary>type1 (<a href="greek-Π-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>right-stroke is above-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Π-type1.1" open>
+      <summary>type1.1 (<a href="greek-Π-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Π-type1.2" open>
+      <summary>type1.2 (<a href="greek-Π-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is extending</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Π-type2" open>
+      <summary>type2 (<a href="greek-Π-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>right-stroke is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Π-type2.1" open>
+      <summary>type2.1 (<a href="greek-Π-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Π-type2.2" open>
+      <summary>type2.2 (<a href="greek-Π-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is extending</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-ϙ" open>
+                  <summary>ϙ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-ϙ-type1" open>
+      <summary>type1 (<a href="greek-ϙ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+          
+            <li>bowl is round</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ρ" open>
+                  <summary>Ρ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ρ-type1" open>
+      <summary>type1 (<a href="greek-Ρ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ρ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Ρ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is round</li>
+          
+        
+          
+            <li>bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type1.2" open>
+      <summary>type1.2 (<a href="greek-Ρ-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is round</li>
+          
+        
+          
+            <li>bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type1.3" open>
+      <summary>type1.3 (<a href="greek-Ρ-type1.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is rounded</li>
+          
+        
+          
+            <li>bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type1.4" open>
+      <summary>type1.4 (<a href="greek-Ρ-type1.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is rounded</li>
+          
+        
+          
+            <li>bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type1.5" open>
+      <summary>type1.5 (<a href="greek-Ρ-type1.5.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is angular</li>
+          
+        
+          
+            <li>bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type1.6" open>
+      <summary>type1.6 (<a href="greek-Ρ-type1.6.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is angular</li>
+          
+        
+          
+            <li>bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type2" open>
+      <summary>type2 (<a href="greek-Ρ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>right-bar is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ρ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Ρ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is round</li>
+          
+        
+          
+            <li>bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Ρ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is round</li>
+          
+        
+          
+            <li>bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type2.3" open>
+      <summary>type2.3 (<a href="greek-Ρ-type2.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is rounded</li>
+          
+        
+          
+            <li>bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type2.4" open>
+      <summary>type2.4 (<a href="greek-Ρ-type2.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is rounded</li>
+          
+        
+          
+            <li>bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type2.5" open>
+      <summary>type2.5 (<a href="greek-Ρ-type2.5.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is angular</li>
+          
+        
+          
+            <li>bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ρ-type2.6" open>
+      <summary>type2.6 (<a href="greek-Ρ-type2.6.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>bowl is angular</li>
+          
+        
+          
+            <li>bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Σ" open>
+                  <summary>Σ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Σ-tyoe3.2" open>
+      <summary>tyoe3.2 (<a href="greek-Σ-tyoe3.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>middle-bar is two</li>
+          
+        
+          
+            <li>bottom-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+          
+            <li>top-bar is parallel</li>
+          
+        
+          
+            <li>bottom-bar is parallel</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Σ-type1" open>
+      <summary>type1 (<a href="greek-Σ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>middle-bar is one</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Σ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Σ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>apex is rounded</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Σ-type1.2" open>
+      <summary>type1.2 (<a href="greek-Σ-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>apex is angular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Σ-type2" open>
+      <summary>type2 (<a href="greek-Σ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>middle-bar is four</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Σ-type3" open>
+      <summary>type3 (<a href="greek-Σ-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>middle-bar is two</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Σ-type3.1" open>
+      <summary>type3.1 (<a href="greek-Σ-type3.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>bottom-bar is diagonal</li>
+          
+        
+          
+            <li>top-bar is diagonal</li>
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Σ-type4" open>
+      <summary>type4 (<a href="greek-Σ-type4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Τ" open>
+                  <summary>Τ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Τ-type1" open>
+      <summary>type1 (<a href="greek-Τ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>top-bar is diagonal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Τ-type1.1" open>
+      <summary>type1.1 (<a href="greek-Τ-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Τ-type1.2" open>
+      <summary>type1.2 (<a href="greek-Τ-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is traversing</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Τ-type2" open>
+      <summary>type2 (<a href="greek-Τ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>top-bar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Τ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Τ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Τ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Τ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is straight</li>
+          
+        
+          
+            <li>top-bar is long</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Τ-type2.3" open>
+      <summary>type2.3 (<a href="greek-Τ-type2.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is straight</li>
+          
+        
+          
+            <li>top-bar is short</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Τ-type2.4" open>
+      <summary>type2.4 (<a href="greek-Τ-type2.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>top-bar is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Υ" open>
+                  <summary>Υ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Υ-type1" open>
+      <summary>type1 (<a href="greek-Υ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-stroke is on-baseline</li>
+          
+        
+          
+            <li>right-stroke is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Υ-type2" open>
+      <summary>type2 (<a href="greek-Υ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Υ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Υ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>left-stroke is straight</li>
+          
+        
+          
+            <li>right-stroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Υ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Υ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>left-stroke is curved</li>
+          
+        
+          
+            <li>right-stroke is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Φ" open>
+                  <summary>Φ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Φ-type1" open>
+      <summary>type1 (<a href="greek-Φ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>crossbar is vertical</li>
+          
+        
+          
+            <li>crossbar is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Φ-type2" open>
+      <summary>type2 (<a href="greek-Φ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>crossbar is vertical</li>
+          
+        
+          
+            <li>crossbar is traversing</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Φ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Φ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>body is circular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Φ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Φ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>body is oval</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Φ-type2.3" open>
+      <summary>type2.3 (<a href="greek-Φ-type2.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>body is rhomboid</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Φ-type2.4" open>
+      <summary>type2.4 (<a href="greek-Φ-type2.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is square</li>
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Χ" open>
+                  <summary>Χ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Χ-type1" open>
+      <summary>type1 (<a href="greek-Χ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-bar is diagonal</li>
+          
+        
+          
+            <li>right-bar is diagonal</li>
+          
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Χ-type2" open>
+      <summary>type2 (<a href="greek-Χ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is vertical</li>
+          
+        
+          
+            <li>middle-stroke is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Χ-type3" open>
+      <summary>type3 (<a href="greek-Χ-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-bar is diagonal</li>
+          
+        
+          
+            <li>right-bar is diagonal</li>
+          
+        
+          
+            <li>left-bar is traversing</li>
+          
+        
+          
+            <li>right-bar is traversing</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ψ" open>
+                  <summary>Ψ</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ψ-type1" open>
+      <summary>type1 (<a href="greek-Ψ-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-bar is on-baseline</li>
+          
+        
+          
+            <li>right-bar is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ψ-type2" open>
+      <summary>type2 (<a href="greek-Ψ-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-bar is above-baseline</li>
+          
+        
+          
+            <li>right-bar is above-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ψ-type2.1" open>
+      <summary>type2.1 (<a href="greek-Ψ-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>left-bar is straight</li>
+          
+        
+          
+            <li>right-bar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ψ-type2.2" open>
+      <summary>type2.2 (<a href="greek-Ψ-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>left-bar is curved</li>
+          
+        
+          
+            <li>right-bar is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="greek-Ω" open>
+                  <summary>Ω</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="greek-Ω-type1" open>
+      <summary>type1 (<a href="greek-Ω-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ω-type1.1" open>
+      <summary>type1.1 (<a href="greek-Ω-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is circular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type1.2" open>
+      <summary>type1.2 (<a href="greek-Ω-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is ovoid</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type1.3" open>
+      <summary>type1.3 (<a href="greek-Ω-type1.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is rhomboid</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type1.4" open>
+      <summary>type1.4 (<a href="greek-Ω-type1.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is square</li>
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type2" open>
+      <summary>type2 (<a href="greek-Ω-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>body is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ω-type2.1" open>
+      <summary>type2.1 (<a href="greek-Ω-type2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is circular</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ω-type2.1.1" open>
+      <summary>type2.1.1 (<a href="greek-Ω-type2.1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>feet is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type2.1.2" open>
+      <summary>type2.1.2 (<a href="greek-Ω-type2.1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>feet is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type2.2" open>
+      <summary>type2.2 (<a href="greek-Ω-type2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is ovoid</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ω-type2.2.1" open>
+      <summary>type2.2.1 (<a href="greek-Ω-type2.2.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>feet is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type2.2.2" open>
+      <summary>type2.2.2 (<a href="greek-Ω-type2.2.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>feet is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type2.3" open>
+      <summary>type2.3 (<a href="greek-Ω-type2.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is rhomboid</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="greek-Ω-type2.3.1" open>
+      <summary>type2.3.1 (<a href="greek-Ω-type2.3.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>feet is touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type2.3.2" open>
+      <summary>type2.3.2 (<a href="greek-Ω-type2.3.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+        
+          
+            <li>feet is not-touching</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type2.4" open>
+      <summary>type2.4 (<a href="greek-Ω-type2.4.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>body is oval</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="greek-Ω-type3" open>
+      <summary>type3 (<a href="greek-Ω-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>left-bowl is on-baseline</li>
+          
+        
+          
+            <li>right-bowl is on-baseline</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+          </ul>
+        </details>
+      
+        
+        
+        <details id="latin" open>
+          <summary>latin</summary>
+          <ul role="group">
+            
+              
+              
+              <li role="treeitem">
+                <details id="latin-A" open>
+                  <summary>A</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="latin-A-type1" open>
+      <summary>type1 (<a href="latin-A-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>crossbar is straight</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+  <li role="treeitem">
+    <details id="latin-A-type1.1" open>
+      <summary>type1.1 (<a href="latin-A-type1.1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>crossbar is ascending</li>
+          
+        
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="latin-A-type1.2" open>
+      <summary>type1.2 (<a href="latin-A-type1.2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is descending</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="latin-A-type1.3" open>
+      <summary>type1.3 (<a href="latin-A-type1.3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+        
+          
+            <li>crossbar is horizontal</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="latin-A-type2" open>
+      <summary>type2 (<a href="latin-A-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>crossbar is broken</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="latin-A-type3" open>
+      <summary>type3 (<a href="latin-A-type3.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>crossbar is curved</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+              
+              
+              <li role="treeitem">
+                <details id="latin-B" open>
+                  <summary>B</summary>
+                  <ul role="group">
+                    
+  <li role="treeitem">
+    <details id="latin-B-type1" open>
+      <summary>type1 (<a href="latin-B-type1.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+          
+            <li>lower-bowl is open</li>
+          
+        
+          
+            <li>upper-bowl is open</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+  <li role="treeitem">
+    <details id="latin-B-type2" open>
+      <summary>type2 (<a href="latin-B-type2.html">page</a>)</summary>
+      Description:
+      <ul class="features">
+        
+          
+            <li>downstroke is straight</li>
+          
+        
+          
+            <li>lower-bowl is closed</li>
+          
+        
+          
+            <li>upper-bowl is closed</li>
+          
+        
+      </ul>
+      
+        <ul role="group">
+</ul>
+      
+    </details>
+  </li>
+
+
+                  </ul>
+                </details>
+              </li>
+            
+          </ul>
+        </details>
+      
+    </div>
   </div>
   <footer>
-  <p><a href="all.html">Allograph typology</a></p>
-  <p><a href="https://kingsdigitallab.github.io/crossreads/">Crossreads Annotator</a></p>
-  <p><a href="https://crossreads.web.ox.ac.uk/">CROSSREADS</a>, funded by European Research Council (ERC), Grant agreement No. 885040</p>
+  
+  <p>
+    <a href="https://kingsdigitallab.github.io/crossreads/">Palaeographical environment</a>
+    |
+    <a href="https://crossreads.web.ox.ac.uk/">CROSSREADS</a>, funded by European Research Council (ERC), Grant agreement No. 885040
+  </p>
 </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.container');
+      const breadCrumbElement = document.getElementById('breadcrumb');
+
+      function getFirstVisibleTreeItem() {
+        const containerTop = container.getBoundingClientRect().top
+        for (const summary of container.querySelectorAll('summary')) {
+          if (summary.getBoundingClientRect().top >= containerTop) {
+            return summary;
+          }
+        }
+        return null
+      }
+
+      function escapeHtml(unsafe) {
+        return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+      }
+
+      function updateBreadCrumb() {
+        // breadcrumb is the first visible summary element in the tree and its ancestor summary elements
+        let breadCrumb = Array()
+        let item = getFirstVisibleTreeItem()
+        while (item) {
+          breadCrumb.unshift(item)
+          item = item?.closest('details')?.parentElement?.closest('details')?.querySelector('summary')
+        }
+        let breadcrumbString = breadCrumb.map(summary => {
+          let itemName = summary.textContent
+          // remove bracketed content from itemName
+          itemName = itemName.replace(/\([^)]+\)/g, '')
+          return `<a href="#${summary.closest('details').id}">${escapeHtml(itemName)}</a>`
+        }).join(' > ')
+        breadCrumbElement.innerHTML = breadcrumbString;
+      }
+
+      // add event listening to scrolling the .container div
+      container.addEventListener('scroll', function() {
+        updateBreadCrumb()
+      })
+
+      updateBreadCrumb()
+    })
+  </script>
 </body>
 </html>

@@ -98,48 +98,50 @@ class AnnotationIndex {
     if (!content) return;
 
     for (let annotation of content) {
-      if (!this.isAnnotationValid(annotation, filePath)) continue;
+      let isValid = this.isAnnotationValid(annotation, filePath)
+      // if (!this.isAnnotationValid(annotation, filePath)) continue;
 
       let bodyValue = annotation?.body[0]?.value
 
-      if (bodyValue?.character) {
-        let scriptName = this.definitions.scripts[bodyValue.script]
-        let description = {'com': [], 'fea': [], 'cxf': []}
-        for (let componentKey of Object.keys(bodyValue?.components || {})) {
-          description['com'].push(componentKey)
-          description['fea'] = [...description['fea'], ...bodyValue?.components[componentKey]?.features]
-          description['cxf'] = [
-            ...description['cxf'], 
-            ...bodyValue?.components[componentKey]?.features.map(f => `${componentKey} is ${f}`)
-          ]
-        }
+      let character = bodyValue?.character || 'UNDEFINED'
 
-        this.updateStatsWithAnnotation(description, bodyValue.character, bodyValue.script, bodyValue.tags, bodyValue?.components)
-
-        let img = annotation.target[0].source
-        let inscriptionNumber = img.replace(/^.*\/(ISic\d+)\/.*$/g, '$1')
-        let inscriptionMeta = this.inscriptionsMeta[inscriptionNumber]
-        if (inscriptionMeta) {
-          description['pla'] = inscriptionMeta.origin_place
-          description['mat'] = inscriptionMeta.support_material
-          description['wme'] = inscriptionMeta.writting_method
-          description['daf'] = inscriptionMeta.origin_date_from
-          description['dat'] = inscriptionMeta.origin_date_to
-        }
-
-        // only keep distinct features
-        description['fea'] = [...new Set(description['fea'])]
-        this.annotations.push({
-          'id': annotation.id,
-          'chr': bodyValue.character,
-          'scr': scriptName,
-          'tag': bodyValue.tags,
-          'doc': annotation.target[1]?.source,
-          'img': annotation.target[0].source,
-          'box': annotation.target[0].selector.value,
-          ...description
-        })
+      let scriptName = this.definitions.scripts[bodyValue.script]
+      let description = {'com': [], 'fea': [], 'cxf': []}
+      for (let componentKey of Object.keys(bodyValue?.components || {})) {
+        description['com'].push(componentKey)
+        description['fea'] = [...description['fea'], ...bodyValue?.components[componentKey]?.features]
+        description['cxf'] = [
+          ...description['cxf'], 
+          ...bodyValue?.components[componentKey]?.features.map(f => `${componentKey} is ${f}`)
+        ]
       }
+
+      this.updateStatsWithAnnotation(description, character, bodyValue.script, bodyValue.tags, bodyValue?.components)
+
+      let img = annotation.target[0].source
+      let inscriptionNumber = img.replace(/^.*\/(ISic\d+)\/.*$/g, '$1')
+      let inscriptionMeta = this.inscriptionsMeta[inscriptionNumber]
+      if (inscriptionMeta) {
+        description['pla'] = inscriptionMeta.origin_place
+        description['mat'] = inscriptionMeta.support_material
+        description['wme'] = inscriptionMeta.writting_method
+        description['daf'] = inscriptionMeta.origin_date_from
+        description['dat'] = inscriptionMeta.origin_date_to
+      }
+
+      // only keep distinct features
+      description['fea'] = [...new Set(description['fea'])]
+      this.annotations.push({
+        'id': annotation.id,
+        'chr': character,
+        'val': isValid,
+        'scr': scriptName,
+        'tag': bodyValue.tags,
+        'doc': annotation.target[1]?.source,
+        'img': annotation.target[0].source,
+        'box': annotation.target[0].selector.value,
+        ...description
+      })
 
       // collect all unique tags
       // if (bodyValue?.tags) {

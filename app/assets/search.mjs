@@ -63,6 +63,7 @@ createApp({
         newTagName: '',
         newTypeName: '',
         withoutTypeTag: false,
+        isInvalid: false,
       },
       // instance of AnyFileSystem, to access github resources
       afs: null,
@@ -564,12 +565,19 @@ createApp({
         }
       }
       // custom filtering by withoutTypeTag
-      if (this.selection.withoutTypeTag) {
-        // TODO: don't overwrite the data filtering
+      if (this.selection.withoutTypeTag || this.selection.isInvalid) {
+        // TODO: don't reset the date filtering
         options.filter = (item) => {
-          if (!item.tag) return true;
-          let allTags = `£${item.tag.join('£')}`
-          return !(allTags.includes('£type'))
+          if (this.selection.isInvalid) {
+            if (item.val) return false;
+          }
+          if (this.selection.withoutTypeTag) {
+            if (item.tag) {
+              let allTags = `£${item.tag.join('£')}`
+              if (allTags.includes('£type')) return false
+            }
+          }
+          return true
         }
         this.selection.dateFrom = DATE_MIN
         this.selection.dateTo = DATE_MAX

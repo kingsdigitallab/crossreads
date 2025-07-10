@@ -1,4 +1,4 @@
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL } from "../utils.mjs";
+import { utils, FILE_PATHS, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL } from "../utils.mjs";
 import { createApp, nextTick } from "vue";
 import { AnyFileSystem } from "../any-file-system.mjs";
 
@@ -6,10 +6,7 @@ import { AnyFileSystem } from "../any-file-system.mjs";
 const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
 const allographUri = '/digipal/api/allograph/?@select=*script_set,*allograph_components,name,character,*component'
 const collectionUri = './data/dts/api/collections-2023-01.json'
-const definitionsPath = 'app/data/pal/definitions-digipal.json'
-const STATS_PATH = 'app/stats.json'
 const SHA_UNREAD = 'SHA_UNREAD'
-const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 const SEARCH_PAGE_URL = 'search.html'
 
 createApp({
@@ -335,7 +332,7 @@ createApp({
       if (IS_BROWSER_LOCAL) {  
         this.stats = await utils.fetchJsonFile('stats.json')
       } else {
-        let res = await this.afs.readJson(STATS_PATH)
+        let res = await this.afs.readJson(FILE_PATHS.STATS)
         if (res.ok) {
           this.stats = res.data
         } else {
@@ -346,7 +343,7 @@ createApp({
     async loadDefinitions() {
       // // TODO: temporarily locals
       // let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
-      let res = await this.afs.readJson(definitionsPath)
+      let res = await this.afs.readJson(FILE_PATHS.DEFINITIONS)
       if (res.ok) {
         this.definitions = res.data
         this.definitionsSha = res.sha
@@ -360,7 +357,7 @@ createApp({
       this.areDefinitionsUnsaved = 0
     },
     async loadVariantRules() {
-      let res = await this.afs.readJson(VARIANT_RULES_PATH)
+      let res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
       if (res?.ok) {
         this.variantRules = res.data
         this.variantRulesSha = res.sha
@@ -386,7 +383,7 @@ createApp({
     async saveDefinitions() {
       if (!this.areDefinitionsUnsaved) return;
       this.definitions.updated = new Date().toISOString()
-      let res = await this.saveToJson(definitionsPath, this.definitions, this.definitionsSha)
+      let res = await this.saveToJson(FILE_PATHS.DEFINITIONS, this.definitions, this.definitionsSha)
       if (res?.ok) {
         this.definitionsSha = res.sha
         this.areDefinitionsUnsaved = 0
@@ -394,7 +391,7 @@ createApp({
     },
     async saveVariantRules() {
       if (!this.areVariantRulesUnsaved) return;
-      let res = await this.saveToJson(VARIANT_RULES_PATH, this.variantRules, this.variantRulesSha)
+      let res = await this.saveToJson(FILE_PATHS.VARIANT_RULES, this.variantRules, this.variantRulesSha)
       if (res?.ok) {
         this.variantRulesSha = res.sha
         this.areVariantRulesUnsaved = 0

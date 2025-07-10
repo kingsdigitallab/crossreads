@@ -99,7 +99,6 @@ class AnnotationIndex {
 
     for (let annotation of content) {
       let isValid = this.isAnnotationValid(annotation, filePath)
-      // if (!this.isAnnotationValid(annotation, filePath)) continue;
 
       let bodyValue = annotation?.body[0]?.value
 
@@ -116,10 +115,11 @@ class AnnotationIndex {
         ]
       }
 
-      this.updateStatsWithAnnotation(description, character, bodyValue.script, bodyValue.tags, bodyValue?.components)
-
       let img = annotation.target[0].source
       let inscriptionNumber = img.replace(/^.*\/(ISic\d+)\/.*$/g, '$1')
+
+      this.updateStatsWithAnnotation(description, character, bodyValue.script, bodyValue.tags, bodyValue?.components, inscriptionNumber)
+
       let inscriptionMeta = this.inscriptionsMeta[inscriptionNumber]
       if (inscriptionMeta) {
         description['pla'] = inscriptionMeta.origin_place
@@ -142,13 +142,6 @@ class AnnotationIndex {
         'box': annotation.target[0].selector.value,
         ...description
       })
-
-      // collect all unique tags
-      // if (bodyValue?.tags) {
-      //   for (let tag of bodyValue?.tags) {
-      //     this.tags.push(tag)
-      //   }
-      // }
     }
   }
 
@@ -186,10 +179,11 @@ class AnnotationIndex {
       'c': {},  // character. DONE
       'f': {},  // features. DONE
       't': {},  // tags. DONE
+      'api': {}, // annotations per inscription
     }
   }
 
-  updateStatsWithAnnotation(description, character, script, tags, components) {
+  updateStatsWithAnnotation(description, character, script, tags, components, inscriptionNumber) {
     this.updateStatsWithFacetOption('SC', `${script}|${character}`)
 
     for (let k of description['com'] || []) {
@@ -210,6 +204,10 @@ class AnnotationIndex {
         this.updateStatsWithFacetOption('cf', `${k}|${f}`)
       }
     }
+
+    // gh-99
+    let apiKey = inscriptionNumber.toLowerCase()
+    this.stats.api[apiKey] = (this.stats.api[apiKey] ?? 0) + 1
   }
 
   updateStatsWithFacetOption(facet, option) {

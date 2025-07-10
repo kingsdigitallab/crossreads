@@ -4,7 +4,11 @@
 import { Octokit } from 'octokit';
 import { utils } from "./utils.mjs";
 
-const isBrowser = (typeof window !== "undefined")
+// TODO: don't hard-code the git repo
+// TODO: deal with paths relative to a web root /app
+
+// true is this code is being executed in a browser
+const IN_BROWSER = (typeof window !== "undefined")
 
 export class AnyFileSystem {  
   /*
@@ -164,7 +168,7 @@ export class AnyFileSystem {
 
 function base64Encode(str) {
   // https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-  if (isBrowser) {
+  if (IN_BROWSER) {
     // return btoa(str);
     const bytes = new TextEncoder().encode(str)
     const binString = Array.from(bytes, (x) => String.fromCodePoint(x)).join("");
@@ -176,7 +180,7 @@ function base64Encode(str) {
 }
 
 function base64Decode(str) {
-  if (isBrowser) {
+  if (IN_BROWSER) {
     const binString = atob(str);
     return new TextDecoder().decode(Uint8Array.from(binString, (m) => m.codePointAt(0)));
   } else {

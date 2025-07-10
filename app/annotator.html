@@ -128,7 +128,9 @@
                 Image
                 <a v-if="image" :href="getImageUrl()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 <span class="smaller" v-if="!!object">
-                  - <a :href="`search.html${getQueryString()}&q=${object['title']}`">{{ annotationsCount }} annotations</a>
+                  - <a :href="`search.html${getQueryString()}&q=${object['title']}`" :data-tooltip="`${ annotationsCount } annotations on this image.\n${ annotationsCountInInscription } annotations on all images of this inscription.`">
+                      {{ annotationsCount }} out of {{ annotationsCountInInscription }} annotations
+                    </a>
                   - <a href="#" @click="getAlloTypes()" data-tooltip="copy TEI snippet with allograph types into the clipboard">Types</a>
                 </span>
                 <span class="side-links">

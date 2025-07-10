@@ -13,6 +13,7 @@ export const FILE_PATHS = {
   VARIANT_RULES: 'app/data/variant-rules.json',
   CHANGE_QUEUE: 'annotations/change-queue.json',
   INDEX: 'app/index.json',
+  STATS: 'app/stats.json',
 }
 
 async function mod(exports) {

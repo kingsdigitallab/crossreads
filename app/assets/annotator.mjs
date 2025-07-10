@@ -27,7 +27,7 @@ TODO:
 
 */
 
-import { utils, DEBUG_DONT_SAVE } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, FILE_PATHS } from "../utils.mjs";
 import { xmlUtils } from "../xml-utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { crossreadsXML } from "../crossreads-xml.mjs";
@@ -250,6 +250,7 @@ createApp({
       availableTags: new AvailableTags(),
       // the number of annotations on the image
       annotationsCount: 0,
+      stats: {},
     }
   },
   async mounted() {
@@ -263,8 +264,10 @@ createApp({
     await this.initAnyFileSystem()
 
     loadOpenSeaDragon(this)
+    // TODO: no await?
     this.loadObjects()
     this.loadDefinitions()
+    await this.loadStats()
     // this.logOk('App loaded')
 
     if (AUTO_SAVE_EVERY_MILLISEC > 0) {
@@ -412,6 +415,18 @@ createApp({
     },
     isAnnotationSelected() {
       return !!this.annotation
+    },
+    annotationsCountInInscription() {
+      let ret = 0
+      let selectedObject = this.selection.object
+      if (selectedObject) {
+        let inscriptionId = utils.getDocIdFromString(selectedObject)
+        let annotationsPerInscription = this.stats?.data?.api
+        if (annotationsPerInscription) {
+          ret = annotationsPerInscription[inscriptionId] ?? 0
+        }
+      }
+      return ret
     },
     tabs: () => utils.tabs(),
     canEdit() {
@@ -586,6 +601,20 @@ createApp({
         this.logError('Failed to load definitions from github.')
       }
     },
+    async loadStats() {
+      // TODO: remove code duplication with same function in definitions.mjs
+      this.stats = null
+      if (IS_BROWSER_LOCAL) {  
+        this.stats = await utils.fetchJsonFile('stats.json')
+      } else {
+        let res = await this.afs.readJson(FILE_PATHS.STATS)
+        if (res.ok) {
+          this.stats = res.data
+        } else {
+          this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
+        }
+      }
+    },    
     fetchObjectXML() {
       // fetch the TEI XML from DTS API for the selected object (this.object)
       if (this.object) {
@@ -697,8 +726,7 @@ createApp({
       return ret
     },
     setAnnotationsCount() {
-      // unused although handy function for user feedback.
-      // But it's called/drawn too often by Vue since it's not reactive.
+      // It's called/drawn too often by Vue since it's not reactive.
       this.annotationsCount = (this?.anno?.getAnnotations() || []).length
     },
     getTextTargetFromSign(sign) {

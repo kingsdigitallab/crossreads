@@ -3561,51 +3561,6 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
-          "tags": null,
-          "allograph": null
-        }
-      }
-    ],
-    "target": [
-      {
-        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001481/ISic001481_tiled.tif",
-        "selector": {
-          "type": "FragmentSelector",
-          "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1518.0604248046875,1931.8292236328125,178.197509765625,195.4425048828125"
-        }
-      },
-      {
-        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic001481.xml",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//*[@xml:id='BwKCK']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 0,
-            "end": 1
-          }
-        }
-      }
-    ],
-    "id": "https://crossreads.web.ox.ac.uk/annotations/c7278f4b-56e1-4aea-a1ec-513a6a180517",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
-    "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2023-11-24T17:36:59.712Z",
-    "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2023-11-24T17:37:00.708Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
-      {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": {
-          "script": "greek",
           "components": {
             "bottom-bar": {
               "features": [

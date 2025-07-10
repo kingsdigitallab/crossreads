@@ -39,6 +39,10 @@ jobs:
         run: cd tools && npm ci && npm run static
       - name: Install site dependencies
         run: cd app && npm ci
+      - name: Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated the type pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

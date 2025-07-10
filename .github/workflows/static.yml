@@ -22,7 +22,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: 22.x
+      - name: Generate type pages
+        run: cd tools && npm ci && npm run static
+      - name: Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated the type pages
+
   deploy:
     environment:
       name: github-pages
@@ -35,14 +50,8 @@ jobs:
         uses: actions/setup-node@v4
         with: 
           node-version: 22.x
-      - name: Generate type pages
-        run: cd tools && npm ci && npm run static
       - name: Install site dependencies
         run: cd app && npm ci
-      - name: Commit and push
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Updated the type pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

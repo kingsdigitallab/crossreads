@@ -79,6 +79,44 @@
   },
   {
     "variant-name": "type1",
+    "script": "latin",
+    "allograph": "B",
+    "component-features": [
+      {
+        "component": "downstroke",
+        "feature": "straight"
+      },
+      {
+        "component": "lower-bowl",
+        "feature": "open"
+      },
+      {
+        "component": "upper-bowl",
+        "feature": "open"
+      }
+    ]
+  },
+  {
+    "variant-name": "type2",
+    "script": "latin",
+    "allograph": "B",
+    "component-features": [
+      {
+        "component": "downstroke",
+        "feature": "straight"
+      },
+      {
+        "component": "lower-bowl",
+        "feature": "closed"
+      },
+      {
+        "component": "upper-bowl",
+        "feature": "closed"
+      }
+    ]
+  },
+  {
+    "variant-name": "type1",
     "script": "greek",
     "allograph": "Α",
     "component-features": [
@@ -658,21 +696,7 @@
   },
   {
     "variant-name": "type1.1",
-    "allograph": "Δ",
-    "component-features": [
-      {
-        "component": "bowl",
-        "feature": "open"
-      },
-      {
-        "component": "bowl",
-        "feature": "rounded"
-      }
-    ],
-    "script": "greek"
-  },
-  {
-    "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Δ",
     "component-features": [
       {
@@ -682,12 +706,16 @@
       {
         "component": "bowl",
         "feature": "rounded"
+      },
+      {
+        "component": "downstroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Δ",
     "component-features": [
       {
@@ -697,9 +725,12 @@
       {
         "component": "bowl",
         "feature": "angular"
+      },
+      {
+        "component": "downstroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2",
@@ -1316,17 +1347,26 @@
   },
   {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
         "component": "lower-bar",
         "feature": "above-baseline"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1348,12 +1388,20 @@
       {
         "component": "upper-bar",
         "feature": "touching"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1375,12 +1423,20 @@
       {
         "component": "upper-bar",
         "feature": "not-touching"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.3",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1402,9 +1458,16 @@
       {
         "component": "upper-bar",
         "feature": "touching"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.4",
@@ -1422,22 +1485,39 @@
       {
         "component": "lower-bar",
         "feature": "above-baseline"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
     ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
         "component": "lower-bar",
         "feature": "on-baseline"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1459,12 +1539,20 @@
       {
         "component": "upper-bar",
         "feature": "touching"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1486,12 +1574,20 @@
       {
         "component": "upper-bar",
         "feature": "not-touching"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.3",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1511,14 +1607,22 @@
         "feature": "not-converging"
       },
       {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
         "component": "upper-bar",
         "feature": "touching"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.4",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1528,23 +1632,39 @@
       {
         "component": "upper-bar",
         "feature": "curved"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
         "component": "lower-bar",
         "feature": "below-baseline"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3.1",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1566,12 +1686,20 @@
       {
         "component": "lower-bar",
         "feature": "converging"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3.2",
+    "script": "greek",
     "allograph": "Κ",
     "component-features": [
       {
@@ -1593,9 +1721,16 @@
       {
         "component": "upper-bar",
         "feature": "not-touching"
+      },
+      {
+        "component": "upper-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1",
@@ -1652,17 +1787,34 @@
   },
   {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
         "component": "left-stroke",
         "feature": "above-baseline"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "left-bar",
+        "feature": "straight"
+      },
+      {
+        "component": "right-bar",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1676,12 +1828,36 @@
       {
         "component": "right-stroke",
         "feature": "diagonal"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "left-bar",
+        "feature": "straight"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-bar",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1695,12 +1871,36 @@
       {
         "component": "right-stroke",
         "feature": "vertical"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "left-bar",
+        "feature": "straight"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-bar",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1718,12 +1918,28 @@
       {
         "component": "right-stroke",
         "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1749,12 +1965,28 @@
       {
         "component": "right-bar",
         "feature": "above-baseline"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1780,12 +2012,28 @@
       {
         "component": "right-stroke",
         "feature": "on-baseline"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1803,12 +2051,28 @@
       {
         "component": "right-stroke",
         "feature": "vertical"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3.1",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1834,12 +2098,28 @@
       {
         "component": "right-bar",
         "feature": "above-baseline"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3.2",
+    "script": "greek",
     "allograph": "Μ",
     "component-features": [
       {
@@ -1865,23 +2145,51 @@
       {
         "component": "right-bar",
         "feature": "on-baseline"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "left-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Ν",
     "component-features": [
       {
         "component": "right-stroke",
         "feature": "above-baseline"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "middle-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Ν",
     "component-features": [
       {
@@ -1895,12 +2203,24 @@
       {
         "component": "left-stroke",
         "feature": "diagonal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "middle-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Ν",
     "component-features": [
       {
@@ -1914,12 +2234,24 @@
       {
         "component": "right-stroke",
         "feature": "vertical"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "middle-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.3",
+    "script": "greek",
     "allograph": "Ν",
     "component-features": [
       {
@@ -1929,23 +2261,47 @@
       {
         "component": "right-stroke",
         "feature": "short"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "middle-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Ν",
     "component-features": [
       {
         "component": "right-stroke",
         "feature": "on-baseline"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "middle-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Ν",
     "component-features": [
       {
@@ -1955,12 +2311,24 @@
       {
         "component": "left-stroke",
         "feature": "diagonal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "middle-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Ν",
     "component-features": [
       {
@@ -1970,9 +2338,20 @@
       {
         "component": "left-stroke",
         "feature": "vertical"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "middle-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1",
@@ -2018,6 +2397,7 @@
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Ξ",
     "component-features": [
       {
@@ -2031,12 +2411,16 @@
       {
         "component": "middle-bar",
         "feature": "horizontal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "horizontal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Ξ",
     "component-features": [
       {
@@ -2050,9 +2434,12 @@
       {
         "component": "downstroke",
         "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "horizontal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1",
@@ -2137,17 +2524,30 @@
   },
   {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Π",
     "component-features": [
       {
         "component": "right-stroke",
         "feature": "above-baseline"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "top-bar",
+        "feature": "horizontal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Π",
     "component-features": [
       {
@@ -2157,12 +2557,20 @@
       {
         "component": "top-bar",
         "feature": "horizontal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Π",
     "component-features": [
       {
@@ -2176,23 +2584,43 @@
       {
         "component": "top-bar",
         "feature": "extending"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Π",
     "component-features": [
       {
         "component": "right-stroke",
         "feature": "on-baseline"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "top-bar",
+        "feature": "horizontal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Π",
     "component-features": [
       {
@@ -2202,12 +2630,20 @@
       {
         "component": "top-bar",
         "feature": "horizontal"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Π",
     "component-features": [
       {
@@ -2217,9 +2653,20 @@
       {
         "component": "top-bar",
         "feature": "extending"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "straight"
+      },
+      {
+        "component": "top-bar",
+        "feature": "horizontal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1",
@@ -2472,18 +2919,58 @@
     "script": "greek"
   },
   {
+    "variant-name": "tyoe3.2",
+    "script": "greek",
+    "allograph": "Σ",
+    "component-features": [
+      {
+        "component": "middle-bar",
+        "feature": "two"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "horizontal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "horizontal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "parallel"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "parallel"
+      }
+    ]
+  },
+  {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Σ",
     "component-features": [
       {
         "component": "middle-bar",
         "feature": "one"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Σ",
     "component-features": [
       {
@@ -2493,12 +2980,24 @@
       {
         "component": "apex",
         "feature": "rounded"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Σ",
     "component-features": [
       {
@@ -2508,31 +3007,136 @@
       {
         "component": "apex",
         "feature": "angular"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Σ",
     "component-features": [
       {
         "component": "middle-bar",
         "feature": "four"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3",
+    "script": "greek",
     "allograph": "Σ",
     "component-features": [
       {
         "component": "middle-bar",
         "feature": "two"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "touching"
+      },
+      {
+        "component": "top-bar",
+        "feature": "touching"
       }
-    ],
-    "script": "greek"
+    ]
+  },
+  {
+    "variant-name": "type3.1",
+    "script": "greek",
+    "allograph": "Σ",
+    "component-features": [
+      {
+        "component": "bottom-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "two"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "touching"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "touching"
+      }
+    ]
+  },
+  {
+    "variant-name": "type3.2",
+    "script": "greek",
+    "allograph": "Σ",
+    "component-features": [
+      {
+        "component": "middle-bar",
+        "feature": "two"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "horizontal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "horizontal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "parallel"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "parallel"
+      },
+      {
+        "component": "bottom-bar",
+        "feature": "touching"
+      },
+      {
+        "component": "middle-bar",
+        "feature": "diagonal"
+      },
+      {
+        "component": "top-bar",
+        "feature": "touching"
+      }
+    ]
   },
   {
     "variant-name": "type4",
@@ -2547,17 +3151,22 @@
   },
   {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
         "component": "top-bar",
         "feature": "diagonal"
+      },
+      {
+        "component": "downstroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
@@ -2567,12 +3176,16 @@
       {
         "component": "top-bar",
         "feature": "touching"
+      },
+      {
+        "component": "downstroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
@@ -2582,23 +3195,31 @@
       {
         "component": "top-bar",
         "feature": "traversing"
+      },
+      {
+        "component": "downstroke",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
         "component": "top-bar",
         "feature": "horizontal"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
@@ -2608,12 +3229,16 @@
       {
         "component": "top-bar",
         "feature": "straight"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
@@ -2627,12 +3252,16 @@
       {
         "component": "top-bar",
         "feature": "long"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.3",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
@@ -2646,12 +3275,16 @@
       {
         "component": "top-bar",
         "feature": "short"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.4",
+    "script": "greek",
     "allograph": "Τ",
     "component-features": [
       {
@@ -2661,9 +3294,12 @@
       {
         "component": "top-bar",
         "feature": "curved"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1",
@@ -2682,14 +3318,22 @@
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Υ",
     "component-features": [
       {
         "component": "downstroke",
         "feature": "vertical"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "diagonal"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
@@ -2707,6 +3351,14 @@
       {
         "component": "right-stroke",
         "feature": "straight"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "diagonal"
       }
     ]
   },
@@ -2726,6 +3378,14 @@
       {
         "component": "right-stroke",
         "feature": "curved"
+      },
+      {
+        "component": "left-stroke",
+        "feature": "diagonal"
+      },
+      {
+        "component": "right-stroke",
+        "feature": "diagonal"
       }
     ]
   },
@@ -2890,6 +3550,7 @@
   },
   {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Ψ",
     "component-features": [
       {
@@ -2899,12 +3560,16 @@
       {
         "component": "right-bar",
         "feature": "on-baseline"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Ψ",
     "component-features": [
       {
@@ -2914,12 +3579,16 @@
       {
         "component": "right-bar",
         "feature": "above-baseline"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Ψ",
     "component-features": [
       {
@@ -2937,12 +3606,16 @@
       {
         "component": "right-bar",
         "feature": "straight"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Ψ",
     "component-features": [
       {
@@ -2960,23 +3633,31 @@
       {
         "component": "right-bar",
         "feature": "curved"
+      },
+      {
+        "component": "downstroke",
+        "feature": "vertical"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
         "component": "body",
         "feature": "open"
+      },
+      {
+        "component": "feet",
+        "feature": "touching"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.1",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -2986,12 +3667,16 @@
       {
         "component": "body",
         "feature": "circular"
+      },
+      {
+        "component": "feet",
+        "feature": "touching"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.2",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3001,12 +3686,16 @@
       {
         "component": "body",
         "feature": "ovoid"
+      },
+      {
+        "component": "feet",
+        "feature": "touching"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.3",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3016,9 +3705,12 @@
       {
         "component": "body",
         "feature": "rhomboid"
+      },
+      {
+        "component": "feet",
+        "feature": "touching"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type1.4",
@@ -3032,22 +3724,31 @@
       {
         "component": "body",
         "feature": "open"
+      },
+      {
+        "component": "feet",
+        "feature": "touching"
       }
     ]
   },
   {
     "variant-name": "type2",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
         "component": "body",
         "feature": "closed"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3057,12 +3758,16 @@
       {
         "component": "body",
         "feature": "circular"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1.1",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3076,12 +3781,16 @@
       {
         "component": "feet",
         "feature": "touching"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.1.2",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3095,12 +3804,16 @@
       {
         "component": "feet",
         "feature": "not-touching"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3110,12 +3823,16 @@
       {
         "component": "body",
         "feature": "ovoid"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2.1",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3129,12 +3846,16 @@
       {
         "component": "feet",
         "feature": "touching"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.2.2",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3148,12 +3869,16 @@
       {
         "component": "feet",
         "feature": "not-touching"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.3",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3163,12 +3888,16 @@
       {
         "component": "body",
         "feature": "rhomboid"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.3.1",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3182,12 +3911,16 @@
       {
         "component": "feet",
         "feature": "touching"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.3.2",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3201,12 +3934,16 @@
       {
         "component": "feet",
         "feature": "not-touching"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type2.4",
+    "script": "greek",
     "allograph": "Ω",
     "component-features": [
       {
@@ -3216,9 +3953,12 @@
       {
         "component": "body",
         "feature": "oval"
+      },
+      {
+        "component": "feet",
+        "feature": "straight"
       }
-    ],
-    "script": "greek"
+    ]
   },
   {
     "variant-name": "type3",
@@ -3287,89 +4027,5 @@
       }
     ],
     "script": "greek"
-  },
-  {
-    "variant-name": "type3.1",
-    "script": "greek",
-    "allograph": "Σ",
-    "component-features": [
-      {
-        "component": "bottom-bar",
-        "feature": "diagonal"
-      },
-      {
-        "component": "top-bar",
-        "feature": "diagonal"
-      },
-      {
-        "component": "middle-bar",
-        "feature": "two"
-      }
-    ]
-  },
-  {
-    "variant-name": "tyoe3.2",
-    "script": "greek",
-    "allograph": "Σ",
-    "component-features": [
-      {
-        "component": "middle-bar",
-        "feature": "two"
-      },
-      {
-        "component": "bottom-bar",
-        "feature": "horizontal"
-      },
-      {
-        "component": "top-bar",
-        "feature": "horizontal"
-      },
-      {
-        "component": "top-bar",
-        "feature": "parallel"
-      },
-      {
-        "component": "bottom-bar",
-        "feature": "parallel"
-      }
-    ]
-  },
-  {
-    "variant-name": "type1",
-    "script": "latin",
-    "allograph": "B",
-    "component-features": [
-      {
-        "component": "downstroke",
-        "feature": "straight"
-      },
-      {
-        "component": "lower-bowl",
-        "feature": "open"
-      },
-      {
-        "component": "upper-bowl",
-        "feature": "open"
-      }
-    ]
-  },
-  {
-    "variant-name": "type2",
-    "script": "latin",
-    "allograph": "B",
-    "component-features": [
-      {
-        "component": "downstroke",
-        "feature": "straight"
-      },
-      {
-        "component": "lower-bowl",
-        "feature": "closed"
-      },
-      {
-        "component": "upper-bowl",
-        "feature": "closed"
-      }
-    ]
   }
 ]

@@ -39,6 +39,7 @@ jobs:
           commit_message: Updated the type pages
 
   deploy:
+    needs: job1
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

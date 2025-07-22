@@ -308,6 +308,9 @@ createApp({
     onClickInnerTab(tabKey) {
       this.selection.innerTab = tabKey
       this.setAddressBarFromSelection()
+      setTimeout(() => {
+        utils.initFillHeightElements();
+      }, 1000)
     },
     onClickAllographComponent(allo, componentSlug) {
       if (!this.canEdit) return;
@@ -326,6 +329,69 @@ createApp({
         component.features.push(featureSlug)
       }
       this.areDefinitionsUnsaved = 1
+    },
+    getRuleTypeErrors(rule) {
+      let ret = []
+
+      let ruleType = rule['variant-name']
+
+      if (!ruleType.match(/^type\d+(\.\d+)*$/)) {
+        ret.push(`Type has an invalid format`)
+      }
+
+      let rulesWithSameType = this.variantRules.filter(r => {
+        return (
+          r.script === rule.script
+          && r.allograph === rule.allograph
+          && r['variant-name'] == ruleType
+        )
+      })
+
+      if (rulesWithSameType.length > 1) {
+        ret.push(`${rulesWithSameType.length - 1} rule(s) with the same type`)
+      }
+
+      // check that all children have the components & features
+
+      // find parent
+      if (0) {
+        let parentType = rule['variant-name'].replace(/\.\d+$/, '')
+        if (parentType !== rule['variant-name']) {
+          let parents = this.variantRules.filter(p => {
+            return (
+              p.script === rule.script
+              && p.allograph === rule.allograph
+              && p['variant-name'] == parentType
+            )
+          })
+
+          if (parents.length > 0) {
+            // todo: check for multiple parents
+            let parent = parents[0]
+            console.log(rule['variant-name'], parent['variant-name'])
+
+            // check if component in parent
+            let cf = rule['component-features'][componentIndex]
+            let matches = parent['component-features'].filter(pcf => {
+              return (pcf.component == cf.component)
+            })
+
+            ret = matches.length > 0
+          }
+        } else {
+          // top type (e.g. type1)
+          ret = true
+        }
+      }
+
+      if (ret.length) {
+        ret = ret.join('\n')
+      } else {
+        // return null so vuejs doens't show the tooltip attribute at all
+        ret = null
+      }
+
+      return ret
     },
     async loadStats() {
       this.stats = null
@@ -362,10 +428,14 @@ createApp({
         this.variantRules = res.data
         this.variantRulesSha = res.sha
         // sort the rules
-        this.variantRules = utils.sortMulti(this.variantRules, [
+        utils.sortMulti(this.variantRules, [
           'allograph', 
           'variant-name'
         ])
+        // sort the C-F within each rule
+        for (let rule of this.variantRules) {
+          utils.sortMulti(rule['component-features'], ['component', 'feature'])
+        }
       } else {
         this.variantRules = []
         this.logMessage(`Failed to load variant rules from github (${res.description})`, 'error')

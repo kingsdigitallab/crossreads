@@ -5,11 +5,6 @@
   --broken-color: red;
 }
 
-.responsive-height {
-  overflow: scroll;
-  align-items: inherit;
-}
-
 .list-selectable {
   max-height: 15em;
   overflow-y: auto;
@@ -137,26 +132,33 @@ label.selectable {
   width: 15em;
 }
 
+.responsive-height {
+  overflow: scroll;
+  align-items: inherit;
+}
+
 .scrollable-table-wrapper {
   overflow: scroll;
   height: 50vh;
 }
 
-.scrollable-table-wrapper thead th {
+.scrollable-table-wrapper thead th,
+table .responsive-height thead th {
   position: -webkit-sticky; /* for Safari */
   position: sticky;
   background-color: rgba(255,255,255,0.9);
   top: 0;
 }
 
-.scrollable-table-wrapper tbody th {
-  position: -webkit-sticky; /* for Safari */
-  position: sticky;
+.scrollable-table-wrapper tbody th,
+table .responsive-height tbody th {
+  /* position: -webkit-sticky; 
+  position: sticky; */
   background-color: rgba(255,255,255,0.9);
   left: 0;
 }
 
-.scrollable-table-wrapper th.unused {
+table th.unused {
   background: repeating-linear-gradient(
     -55deg,
     #eee,
@@ -529,5 +531,10 @@ div[data-tei-subtype='section'] .textpart-number:before {
 /* */
 
 .status-error {
+  background-color: pink;
+}
+
+/* todo: move to right place & make more specific */
+.invalid {
   background-color: pink;
 }

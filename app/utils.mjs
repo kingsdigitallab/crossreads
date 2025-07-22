@@ -60,14 +60,24 @@ async function mod(exports) {
       {title: 'Settings', key: 'settings'},
     ]
 
-  function initFillHeightElements() {
+  exports.initFillHeightElements = () => {
     for (const element of document.querySelectorAll('.responsive-height')) {
-      let height = (window.innerHeight - element.offsetTop + window.scrollY - 15)
-      if (height < 10) {
-        height = 10
+      // dislay the element so getBoundingClientRect() returns something
+      element.style.display = '';
+      let elementY = element.getBoundingClientRect().top;
+      let minHeight = 0;
+      let marginBottom = 12;
+      // let elementY = element.offsetTop;
+      // let height = (window.innerHeight - elementY + window.scrollY - 15)
+      let height = (window.innerHeight - elementY - marginBottom)
+      if (height < minHeight) {
+        height = minHeight
       }
       element.style.height = `${height}px`;
-      // console.log(element.style.height)
+
+      // padding may be incompressible
+      // which causes the element to be > minHeight
+      element.style.display = (element.clientHeight > height) ? 'none' : '';
     }
   }
 
@@ -255,10 +265,13 @@ async function mod(exports) {
   // --------------------------------------------
 
   if (IS_BROWSER) {
-    window.addEventListener("resize", initFillHeightElements);
-    document.addEventListener("scroll", initFillHeightElements);
+    window.addEventListener("resize", exports.initFillHeightElements);
+    document.addEventListener("scroll", exports.initFillHeightElements);
     window.addEventListener("load", (event) => {
-      initFillHeightElements();
+      exports.initFillHeightElements();
+      setTimeout(() => {
+        exports.initFillHeightElements();
+      }, 1500)
     });
   }
 }

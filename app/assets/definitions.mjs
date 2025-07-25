@@ -561,6 +561,8 @@ createApp({
 
       let errorCount = 0
 
+      let ruleHashes = {}
+
       for (let originalRule of this.variantRules) {
         let rule = JSON.parse(JSON.stringify(originalRule))
         rule.originalRule = originalRule
@@ -568,10 +570,16 @@ createApp({
         this.setRuleTypeError(rule)
         this.setRuleComponentFeaturesErrors(rule)
 
+        if (ruleHashes[rule.hash]) {
+          rule.error = 'E9: there is another type with the same component-features'
+        }
+
         if (rule.error || rule['component-features'].filter(cf => cf.error).length) {
           rule.hasError = 1
           errorCount += 1
         }
+
+        ruleHashes[rule.hash] = 1
       }
 
       this.displayVariantRules = ret
@@ -623,6 +631,22 @@ createApp({
       // find parent rule
       let parentRule = this.getParentRule(rule)
 
+      // 0. add components from character
+      let characterKey = `${rule.allograph}-${rule.script}`
+      let character = this.definitions.allographs[characterKey]
+
+      // unique list of component names defined in the rule
+      let ruleComponents = [...new Set(rule['component-features'].map(cf => cf.component))]
+      for (let component of character.components.sort()) {
+        if (ruleComponents.includes(component)) continue;
+        let cfCopy = {
+          component: component,
+          feature: 'UNSPECIFIED',
+          source: 'character'
+        }
+        ret.push(cfCopy)
+      }
+
       // 1. copy CFs from parent rule
       let cfKeys = {}
       if (parentRule) {
@@ -630,12 +654,13 @@ createApp({
           let cfCopy = {
             component: cf.component,
             feature: cf.feature,
-            error: 'E1: This component and feature is defined in parent type but not in this type'
+            source: 'parent-type',
+            error: 'E1: This component-feature pair is defined in parent type but not in this type'
           }
           ret.push(cfCopy)
           let cfKey = `${cf.component}|${cf.feature}`
           cfKeys[cfKey] = cfCopy
-          cfKeys[`${cf.component}|`] = cfCopy
+          // cfKeys[`${cf.component}|`] = cfCopy
         }
       }
 
@@ -646,8 +671,8 @@ createApp({
           let cfCopy = {
             component: cf.component,
             feature: cf.feature,
-            own: 1,
-            error: !parentRule || cfKeys[`${cf.component}|`] ? null : 'E2: This component is not defined in the parent type'
+            source: 'type',
+            // error: !parentRule || cfKeys[`${cf.component}|`] ? null : 'E2: This component is not defined in the parent type'
           }
           ret.push(cfCopy)
           cfKeys[cfKey] = cfCopy
@@ -658,10 +683,9 @@ createApp({
       }
 
       //
-      let characterKey = `${rule.allograph}-${rule.script}`
-      let character = this.definitions.allographs[characterKey]
       if (character) {
         for (let cf of ret) {
+          if (cf.source === 'character') continue;
           if (!character.components.includes(cf.component)) {
             cf.error = 'E3: This component is not part of the character definition'
           } else {
@@ -681,6 +705,7 @@ createApp({
       }
 
       rule['component-features'] = ret
+      rule.hash = `${rule.script}|${rule.allograph}|` + Object.keys(cfKeys).sort().join('|')
 
       return ret
     },

@@ -205,8 +205,8 @@
                   <a :href="getURLFromAlloType(rule)">{{ rule['variant-name'] }}</a>
                 </td>
                 <template v-for="cf in rule['component-features']">
-                  <td :class="{invalid: cf.error, 'own-cf': cf.own}" :data-tooltip="cf.error">{{ cf['component'] }}</td>
-                  <td :class="{invalid: cf.error, 'own-cf': cf.own}" :data-tooltip="cf.error">{{ cf['feature'] }}</td>
+                  <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['component'] }}</td>
+                  <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['feature'] }}</td>
                 </template>
                 <td>
                   <button v-if="canEdit" @click="onRemoveRule(rule.originalRule)" class="button is-small btn-remove is-warning" title="remove">

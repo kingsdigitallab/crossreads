@@ -1,4 +1,4 @@
-import { utils, FILE_PATHS, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL } from "../utils.mjs";
+import { utils, FILE_PATHS } from "../utils.mjs";
 import { createApp, nextTick } from "vue";
 import { AnyFileSystem } from "../any-file-system.mjs";
 
@@ -18,10 +18,13 @@ createApp({
       definitionsSha: SHA_UNREAD,
       areDefinitionsUnsaved: 0,
 
-      //
+      // 
       variantRules: [],
       variantRulesSha: SHA_UNREAD,
       areVariantRulesUnsaved: 0,
+      // for displaying only, see updateDisplayVariantRules()
+      displayVariantRules: [],
+      variantRulesErrorCount: 0,
 
       selection: {
         script: '',
@@ -46,10 +49,14 @@ createApp({
       return this.areDefinitionsUnsaved || this.areVariantRulesUnsaved
     },
     innerTabs() {
+      let errors = ''
+      if (this.variantRulesErrorCount) {
+        errors = ` (${this.variantRulesErrorCount}⚠️)`
+      }
       return [
         {title: 'Allographs x Components', key: 'ac'},
         {title: 'Components x Features', key: 'cf'},
-        {title: 'Variant types', key: 'vt'},
+        {title: 'Variant types' + errors, key: 'vt'},
       ]
     },
     isLoggedIn() {
@@ -68,7 +75,7 @@ createApp({
       return this.getFilteredDefinitions('features', (a) => a)
     },
     filteredVariantRules() {
-      return this.variantRules.filter(r => r.script === this.selection.script)
+      return this.displayVariantRules.filter(r => r.script === this.selection.script)
     },
     maxVariantCFs() {
       let ret = 0;
@@ -330,136 +337,6 @@ createApp({
       }
       this.areDefinitionsUnsaved = 1
     },
-    getRuleComponentFeaturesForDisplay(rule) {
-      let ret = []
-
-      // TODO: DO NOT CHANGE rule! As it may be saved by the user
-
-      // ret = rule['component-features']
-
-      // find parent rule
-      let parentRule = this.getParentRule(rule)
-
-      // 1. copy CFs from parent rule
-      let cfKeys = {}
-      if (parentRule) {
-        for (let cf of parentRule['component-features']) {
-          let cfCopy = {
-            component: cf.component,
-            feature: cf.feature,
-            error: 'E1: This component and feature is defined in parent type but not in this type'
-          }
-          ret.push(cfCopy)
-          let cfKey = `${cf.component}|${cf.feature}`
-          cfKeys[cfKey] = cfCopy
-          cfKeys[`${cf.component}|`] = cfCopy
-        }
-      }
-
-      // 2. add remaining CFs from rule
-      for (let cf of rule['component-features']) {
-        let cfKey = `${cf.component}|${cf.feature}`
-        if (!cfKeys[cfKey]) {
-          let cfCopy = {
-            component: cf.component,
-            feature: cf.feature,
-            own: 1,
-            error: !parentRule || cfKeys[`${cf.component}|`] ? null : 'E2: This component is not defined in the parent type'
-          }
-          ret.push(cfCopy)
-          cfKeys[cfKey] = cfCopy
-          cfKeys[`${cf.component}|`] = cfCopy
-        } else {
-          // console.log(cfKeys[cfKey])
-          cfKeys[cfKey].error = null
-        }
-      }
-
-      //
-      let characterKey = `${rule.allograph}-${rule.script}`
-      let character = this.definitions.allographs[characterKey]
-      if (character) {
-        for (let cf of ret) {
-          if (!character.components.includes(cf.component)) {
-            cf.error = 'E3: This component is not part of the character definition'
-          } else {
-            if (!this.definitions.components[cf.component].features.includes(cf.feature)) {
-              cf.error = 'E4: This feature is not part of the component definition'
-            }
-          }
-        }
-      }
-
-      // pad with empty entries so all rows have same nb of columns
-      for (let i = ret.length; i < this.maxVariantCFs; i++) {
-        ret.push({
-          'component': '',
-          'feature': '',
-        })
-      }
-
-      return ret
-    },
-    getParentRule(rule) {
-      // return reference to the rule with a parent type
-      // if rule['variant-name'] = 'type1.2' =>  eturn rule with 'type1'
-      // return null if rule is a root type (e.g. type1)
-      // return false if the parent rule was not found
-      let ret = null
-
-      let parentType = rule['variant-name'].replace(/\.\d+$/, '')
-      if (parentType !== rule['variant-name']) {
-        ret = false
-        let parents = this.variantRules.filter(p => {
-          return (
-            p.script === rule.script
-            && p.allograph === rule.allograph
-            && p['variant-name'] == parentType
-          )
-        })
-
-        if (parents.length > 0) {
-          // todo: check for multiple parents
-          ret = parents[0]
-        }
-      }
-
-      return ret
-    },
-    getRuleTypeErrors(rule) {
-      let ret = []
-
-      let ruleType = rule['variant-name']
-
-      if (!ruleType.match(/^type\d+(\.\d+)*$/)) {
-        ret.push(`Type has an invalid format`)
-      }
-
-      if (this.getParentRule(rule) === false) {
-        ret.push(`Parent type is missing`)
-      }
-
-      let rulesWithSameType = this.variantRules.filter(r => {
-        return (
-          r.script === rule.script
-          && r.allograph === rule.allograph
-          && r['variant-name'] == ruleType
-        )
-      })
-
-      if (rulesWithSameType.length > 1) {
-        ret.push(`${rulesWithSameType.length - 1} rule(s) with the same type`)
-      }
-
-      if (ret.length) {
-        ret = ret.join('\n')
-      } else {
-        // return null so vuejs doens't show the tooltip attribute at all
-        ret = null
-      }
-
-      return ret
-    },
     async loadStats() {
       this.stats = null
       let res = await this.afs.readJson(FILE_PATHS.STATS)
@@ -496,7 +373,8 @@ createApp({
         // sort the C-F within each rule
         for (let rule of this.variantRules) {
           utils.sortMulti(rule['component-features'], ['component', 'feature'])
-        }
+        }        
+        this.updateDisplayVariantRules()
       } else {
         this.variantRules = []
         this.logMessage(`Failed to load variant rules from github (${res.description})`, 'error')
@@ -505,6 +383,7 @@ createApp({
     onRemoveRule(rule) {
       this.variantRules = this.variantRules.filter(r => r !== rule)
       this.areVariantRulesUnsaved = 1
+      this.updateDisplayVariantRules()
     },
     async saveAll() {
       // TODO: if definition fails & rules succeed user won't see error.
@@ -531,14 +410,7 @@ createApp({
     async saveToJson(targetPath, objectToSave, githubSha) {
       // let res = await utils.updateGithubJsonFile(definitionsPath, this.definitions, this.getOctokit(), this.definitionsSha)
       let res = null
-      if (DEBUG_DONT_SAVE) {
-        res = {
-          ok: false,
-          description: 'Not saving in DEBUG mode. DEBUG_DONT_SAVE = true.',
-        }
-      } else {
-        res = await this.afs.writeJson(targetPath, objectToSave, githubSha)
-      }
+      res = await this.afs.writeJson(targetPath, objectToSave, githubSha)
       if (res.ok) {
         // this.definitionsSha = res.sha
         // this.isUnsaved = 0
@@ -678,12 +550,167 @@ createApp({
       }
       return `${SEARCH_PAGE_URL}?f.scr=${script}&f.chr=${rule.allograph}&f.cxf=${rule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
     },
-    isTypeFormatValid(typeName) {
+    // variant rules
+    updateDisplayVariantRules() {
+      // create a copy of the variant rules
+      // with additional fields for rendering in a table.
+      
+      // structuredClone() not supported by older browsers
+      // also won't work on Proxy objects
+      let ret = []
+
+      let errorCount = 0
+
+      for (let originalRule of this.variantRules) {
+        let rule = JSON.parse(JSON.stringify(originalRule))
+        rule.originalRule = originalRule
+        ret.push(rule)
+        this.setRuleTypeError(rule)
+        this.setRuleComponentFeaturesErrors(rule)
+
+        if (rule.error || rule['component-features'].filter(cf => cf.error).length) {
+          rule.hasError = 1
+          errorCount += 1
+        }
+      }
+
+      this.displayVariantRules = ret
+      this.variantRulesErrorCount = errorCount
+
+      return ret
+    },
+    setRuleTypeError(rule) {
+      let ret = []
+
+      let ruleType = rule['variant-name']
+
       // return true if typeName has format like 'type1' or 'type2.34.8.77'.
       // valid if 'type' followed by a string of dot separated numbers.
-      const pattern = /^type[0-9]+(\.[0-9]+)*$/;
-      return pattern.test(typeName);
-    }
+      if (!ruleType.match(/^type\d+(\.\d+)*$/)) {
+        ret.push(`Type has an invalid format`)
+      }
+
+      if (this.getParentRule(rule) === false) {
+        ret.push(`Parent type is missing`)
+      }
+
+      let rulesWithSameType = this.variantRules.filter(r => {
+        return (
+          r.script === rule.script
+          && r.allograph === rule.allograph
+          && r['variant-name'] == ruleType
+        )
+      })
+
+      if (rulesWithSameType.length > 1) {
+        ret.push(`${rulesWithSameType.length - 1} rule(s) with the same type`)
+      }
+
+      if (ret.length) {
+        ret = ret.join('\n')
+      } else {
+        // return null so vuejs doens't show the tooltip attribute at all
+        ret = null
+      }
+
+      rule.error = ret
+
+      return ret
+    },
+    setRuleComponentFeaturesErrors(rule) {
+      let ret = []
+
+      // find parent rule
+      let parentRule = this.getParentRule(rule)
+
+      // 1. copy CFs from parent rule
+      let cfKeys = {}
+      if (parentRule) {
+        for (let cf of parentRule['component-features']) {
+          let cfCopy = {
+            component: cf.component,
+            feature: cf.feature,
+            error: 'E1: This component and feature is defined in parent type but not in this type'
+          }
+          ret.push(cfCopy)
+          let cfKey = `${cf.component}|${cf.feature}`
+          cfKeys[cfKey] = cfCopy
+          cfKeys[`${cf.component}|`] = cfCopy
+        }
+      }
+
+      // 2. add remaining CFs from rule
+      for (let cf of rule['component-features']) {
+        let cfKey = `${cf.component}|${cf.feature}`
+        if (!cfKeys[cfKey]) {
+          let cfCopy = {
+            component: cf.component,
+            feature: cf.feature,
+            own: 1,
+            error: !parentRule || cfKeys[`${cf.component}|`] ? null : 'E2: This component is not defined in the parent type'
+          }
+          ret.push(cfCopy)
+          cfKeys[cfKey] = cfCopy
+          cfKeys[`${cf.component}|`] = cfCopy
+        } else {
+          cfKeys[cfKey].error = null
+        }
+      }
+
+      //
+      let characterKey = `${rule.allograph}-${rule.script}`
+      let character = this.definitions.allographs[characterKey]
+      if (character) {
+        for (let cf of ret) {
+          if (!character.components.includes(cf.component)) {
+            cf.error = 'E3: This component is not part of the character definition'
+          } else {
+            if (!this.definitions.components[cf.component].features.includes(cf.feature)) {
+              cf.error = 'E4: This feature is not part of the component definition'
+            }
+          }
+        }
+      }
+
+      // pad with empty entries so all rows have same nb of columns
+      for (let i = ret.length; i < this.maxVariantCFs; i++) {
+        ret.push({
+          'component': '',
+          'feature': '',
+        })
+      }
+
+      rule['component-features'] = ret
+
+      return ret
+    },
+    getParentRule(rule) {
+      // return reference to the rule with a parent type
+      // if rule['variant-name'] = 'type1.2' =>  eturn rule with 'type1'
+      // return null if rule is a root type (e.g. type1)
+      // return false if the parent rule was not found
+      let ret = null
+
+      let parentType = rule['variant-name'].replace(/\.\d+$/, '')
+      if (parentType !== rule['variant-name']) {
+        ret = false
+        let parents = this.variantRules.filter(p => {
+          return (
+            p.script === rule.script
+            && p.allograph === rule.allograph
+            && p['variant-name'] == parentType
+          )
+        })
+
+        if (parents.length > 0) {
+          // todo: check for multiple parents
+          ret = parents[0]
+        }
+      }
+
+      return ret
+    },
+
   }
 }).mount('#definitions')
 

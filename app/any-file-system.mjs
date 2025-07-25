@@ -2,7 +2,7 @@
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
 import { Octokit } from 'octokit';
-import { utils } from "./utils.mjs";
+import { utils, DEBUG_DONT_SAVE } from "./utils.mjs";
 
 // TODO: don't hard-code the git repo
 // TODO: deal with paths relative to a web root /app
@@ -172,6 +172,13 @@ export class AnyFileSystem {
     let ret = null;
     if (!system) {
       system = this.guessSystemFromPath(relativePath)
+    }
+
+    if (DEBUG_DONT_SAVE) {
+      return {
+        ok: false,
+        description: 'Not saving in DEBUG mode. DEBUG_DONT_SAVE = true.',
+      }
     }
 
     if (system == this.SYSTEMS.GIT) {

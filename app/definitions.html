@@ -178,6 +178,7 @@
             <thead>
               <tr>
                 <th>Search</th>
+                <th>Issue?</th>
                 <th>Char.</th>
                 <th>Type</th>
                 <template v-for="i in maxVariantCFs" :key="i">
@@ -194,18 +195,21 @@
                     <i class="fas fa-search"></i>
                   </a>
                 </td>
+                <td :data-tooltip="rule.hasError ? 'Hover the red cells in this row' : null">
+                  <template v-if="rule.hasError">⚠️</template>
+                </td>
                 <td>
                   {{ rule.allograph }}
                 </td>
-                <td :class="{invalid: getRuleTypeErrors(rule) !== null}" :data-tooltip="getRuleTypeErrors(rule)"><a :href="getURLFromAlloType(rule)" :class="{'status-error': !isTypeFormatValid(rule['variant-name'])}">
-                  {{ rule['variant-name'] }}
-                </a></td>
-                <template v-for="cf in getRuleComponentFeaturesForDisplay(rule)">
+                <td :class="{invalid: rule.error !== null}" :data-tooltip="rule.error">
+                  <a :href="getURLFromAlloType(rule)">{{ rule['variant-name'] }}</a>
+                </td>
+                <template v-for="cf in rule['component-features']">
                   <td :class="{invalid: cf.error, 'own-cf': cf.own}" :data-tooltip="cf.error">{{ cf['component'] }}</td>
                   <td :class="{invalid: cf.error, 'own-cf': cf.own}" :data-tooltip="cf.error">{{ cf['feature'] }}</td>
                 </template>
                 <td>
-                  <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">
+                  <button v-if="canEdit" @click="onRemoveRule(rule.originalRule)" class="button is-small btn-remove is-warning" title="remove">
                     <i class="fas fa-trash"></i>
                   </button>
                 </td>

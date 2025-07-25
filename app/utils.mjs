@@ -3,9 +3,9 @@
 
 export const IS_BROWSER = (typeof window !== "undefined")
 export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname === 'localhost')
-export const DEBUG_DONT_SAVE = false;
+// export const DEBUG_DONT_SAVE = false;
 // export const DEBUG_DONT_SAVE = true;
-// export const DEBUG_DONT_SAVE = IS_BROWSER;
+export const DEBUG_DONT_SAVE = IS_BROWSER_LOCAL;
 
 export const FILE_PATHS = {
   DTS_COLLECTION: 'app/data/2023-08/collection.json',

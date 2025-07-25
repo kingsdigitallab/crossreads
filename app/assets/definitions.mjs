@@ -587,11 +587,11 @@ createApp({
       // return true if typeName has format like 'type1' or 'type2.34.8.77'.
       // valid if 'type' followed by a string of dot separated numbers.
       if (!ruleType.match(/^type\d+(\.\d+)*$/)) {
-        ret.push(`Type has an invalid format`)
+        ret.push(`E6: Type has an invalid format`)
       }
 
       if (this.getParentRule(rule) === false) {
-        ret.push(`Parent type is missing`)
+        ret.push(`E5: Parent type is missing`)
       }
 
       let rulesWithSameType = this.variantRules.filter(r => {
@@ -603,7 +603,7 @@ createApp({
       })
 
       if (rulesWithSameType.length > 1) {
-        ret.push(`${rulesWithSameType.length - 1} rule(s) with the same type`)
+        ret.push(`E7: ${rulesWithSameType.length - 1} rule(s) with the same type`)
       }
 
       if (ret.length) {

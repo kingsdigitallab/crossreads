@@ -330,6 +330,102 @@ createApp({
       }
       this.areDefinitionsUnsaved = 1
     },
+    getRuleComponentFeaturesForDisplay(rule) {
+      let ret = []
+
+      // TODO: DO NOT CHANGE rule! As it may be saved by the user
+
+      // ret = rule['component-features']
+
+      // find parent rule
+      let parentRule = this.getParentRule(rule)
+
+      // 1. copy CFs from parent rule
+      let cfKeys = {}
+      if (parentRule) {
+        for (let cf of parentRule['component-features']) {
+          let cfCopy = {
+            component: cf.component,
+            feature: cf.feature,
+            error: 'E1: This component and feature is defined in parent type but not in this type'
+          }
+          ret.push(cfCopy)
+          let cfKey = `${cf.component}|${cf.feature}`
+          cfKeys[cfKey] = cfCopy
+          cfKeys[`${cf.component}|`] = cfCopy
+        }
+      }
+
+      // 2. add remaining CFs from rule
+      for (let cf of rule['component-features']) {
+        let cfKey = `${cf.component}|${cf.feature}`
+        if (!cfKeys[cfKey]) {
+          let cfCopy = {
+            component: cf.component,
+            feature: cf.feature,
+            own: 1,
+            error: !parentRule || cfKeys[`${cf.component}|`] ? null : 'E2: This component is not defined in the parent type'
+          }
+          ret.push(cfCopy)
+          cfKeys[cfKey] = cfCopy
+          cfKeys[`${cf.component}|`] = cfCopy
+        } else {
+          // console.log(cfKeys[cfKey])
+          cfKeys[cfKey].error = null
+        }
+      }
+
+      //
+      let characterKey = `${rule.allograph}-${rule.script}`
+      let character = this.definitions.allographs[characterKey]
+      if (character) {
+        for (let cf of ret) {
+          if (!character.components.includes(cf.component)) {
+            cf.error = 'E3: This component is not part of the character definition'
+          } else {
+            if (!this.definitions.components[cf.component].features.includes(cf.feature)) {
+              cf.error = 'E4: This feature is not part of the component definition'
+            }
+          }
+        }
+      }
+
+      // pad with empty entries so all rows have same nb of columns
+      for (let i = ret.length; i < this.maxVariantCFs; i++) {
+        ret.push({
+          'component': '',
+          'feature': '',
+        })
+      }
+
+      return ret
+    },
+    getParentRule(rule) {
+      // return reference to the rule with a parent type
+      // if rule['variant-name'] = 'type1.2' =>  eturn rule with 'type1'
+      // return null if rule is a root type (e.g. type1)
+      // return false if the parent rule was not found
+      let ret = null
+
+      let parentType = rule['variant-name'].replace(/\.\d+$/, '')
+      if (parentType !== rule['variant-name']) {
+        ret = false
+        let parents = this.variantRules.filter(p => {
+          return (
+            p.script === rule.script
+            && p.allograph === rule.allograph
+            && p['variant-name'] == parentType
+          )
+        })
+
+        if (parents.length > 0) {
+          // todo: check for multiple parents
+          ret = parents[0]
+        }
+      }
+
+      return ret
+    },
     getRuleTypeErrors(rule) {
       let ret = []
 
@@ -337,6 +433,10 @@ createApp({
 
       if (!ruleType.match(/^type\d+(\.\d+)*$/)) {
         ret.push(`Type has an invalid format`)
+      }
+
+      if (this.getParentRule(rule) === false) {
+        ret.push(`Parent type is missing`)
       }
 
       let rulesWithSameType = this.variantRules.filter(r => {
@@ -351,39 +451,6 @@ createApp({
         ret.push(`${rulesWithSameType.length - 1} rule(s) with the same type`)
       }
 
-      // check that all children have the components & features
-
-      // find parent
-      if (0) {
-        let parentType = rule['variant-name'].replace(/\.\d+$/, '')
-        if (parentType !== rule['variant-name']) {
-          let parents = this.variantRules.filter(p => {
-            return (
-              p.script === rule.script
-              && p.allograph === rule.allograph
-              && p['variant-name'] == parentType
-            )
-          })
-
-          if (parents.length > 0) {
-            // todo: check for multiple parents
-            let parent = parents[0]
-            console.log(rule['variant-name'], parent['variant-name'])
-
-            // check if component in parent
-            let cf = rule['component-features'][componentIndex]
-            let matches = parent['component-features'].filter(pcf => {
-              return (pcf.component == cf.component)
-            })
-
-            ret = matches.length > 0
-          }
-        } else {
-          // top type (e.g. type1)
-          ret = true
-        }
-      }
-
       if (ret.length) {
         ret = ret.join('\n')
       } else {
@@ -395,20 +462,14 @@ createApp({
     },
     async loadStats() {
       this.stats = null
-      if (IS_BROWSER_LOCAL) {  
-        this.stats = await utils.fetchJsonFile('stats.json')
+      let res = await this.afs.readJson(FILE_PATHS.STATS)
+      if (res.ok) {
+        this.stats = res.data
       } else {
-        let res = await this.afs.readJson(FILE_PATHS.STATS)
-        if (res.ok) {
-          this.stats = res.data
-        } else {
-          this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
-        }
+        this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
       }
     },
     async loadDefinitions() {
-      // // TODO: temporarily locals
-      // let res = await utils.readGithubJsonFile(definitionsPath, this.getOctokit())
       let res = await this.afs.readJson(FILE_PATHS.DEFINITIONS)
       if (res.ok) {
         this.definitions = res.data

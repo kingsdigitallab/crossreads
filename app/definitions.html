@@ -200,16 +200,9 @@
                 <td :class="{invalid: getRuleTypeErrors(rule) !== null}" :data-tooltip="getRuleTypeErrors(rule)"><a :href="getURLFromAlloType(rule)" :class="{'status-error': !isTypeFormatValid(rule['variant-name'])}">
                   {{ rule['variant-name'] }}
                 </a></td>
-                <template v-for="i in maxVariantCFs" :key="i">
-                  <template v-if="i > rule['component-features'].length">
-                    <td></td>
-                    <td></td>
-                  </template>
-                  <template v-else>
-                    <td>
-                      {{ rule['component-features'][i-1]['component'] }}</td>
-                    <td>{{ rule['component-features'][i-1]['feature'] }}</td>
-                  </template>
+                <template v-for="cf in getRuleComponentFeaturesForDisplay(rule)">
+                  <td :class="{invalid: cf.error, 'own-cf': cf.own}" :data-tooltip="cf.error">{{ cf['component'] }}</td>
+                  <td :class="{invalid: cf.error, 'own-cf': cf.own}" :data-tooltip="cf.error">{{ cf['feature'] }}</td>
                 </template>
                 <td>
                   <button v-if="canEdit" @click="onRemoveRule(rule)" class="button is-small btn-remove is-warning" title="remove">

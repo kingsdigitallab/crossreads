@@ -9,6 +9,7 @@ import { utils } from "./utils.mjs";
 
 // true is this code is being executed in a browser
 const IN_BROWSER = (typeof window !== "undefined")
+const USE_RAW_FOR_GIT_ANONYMOUS = true
 
 export class AnyFileSystem {  
   /*
@@ -38,6 +39,10 @@ export class AnyFileSystem {
   }
 
   resetAuthStatus() {
+    // prefixes to remove from the user-given paths
+    this.prefixes = {}
+    this.prefixes[this.SYSTEMS.HTTP] = 'app/'
+
     this.user = null
     this.octokit = null
     this.authStatus = {
@@ -111,23 +116,54 @@ export class AnyFileSystem {
   }
 
   async readJson(relativePath, system=null) {
-    let ret = null;
+    let ret = null
 
     if (!system) {
       system = this.guessSystemFromPath(relativePath)
+    }
+
+    if (!Object.values(this.SYSTEMS).includes(system)) {
+      ret = {
+        data: null,
+        sha: null,
+        label: 'Error',
+        description: `Unknown file system: ${system}`,
+      }
+      return ret
+    }
+
+    let prefix = this.prefixes[system]
+    if (prefix && relativePath.startsWith(prefix)) {
+      relativePath = relativePath.substring(prefix.length)
     }
 
     if (system == this.SYSTEMS.GIT) {
       ret = await readGithubJsonFile(relativePath, this.octokit)
     } else {
       if (system == this.SYSTEMS.HTTP) {
-        ret = await utils.fetchJsonFile(relativePath)        
+        ret = await utils.fetchJsonFile(relativePath)
       }
       if (system == this.SYSTEMS.LOCAL) {
         ret = await utils.readJsonFile(relativePath)
       }
+      ret = this.getResponseFromContent(ret)
     }
 
+    return ret
+  }
+
+  getResponseFromContent(content) {
+    let ret = {
+      data: content,
+      sha: null,
+      label: 'Error',
+      description: 'Unknown error',
+    }
+    ret.ok = Boolean(ret.data)
+    if (ret.ok) {
+      ret.label = 'ok'
+      ret.description = 'ok'
+    }
     return ret
   }
 
@@ -160,6 +196,9 @@ export class AnyFileSystem {
     // github://
     let ret = this.SYSTEMS.GIT
     if (path.startsWith('http:') || path.startsWith('https:')) {
+      ret = this.SYSTEMS.HTTP
+    }
+    if (!this.isAuthenticated() && IN_BROWSER) {
       ret = this.SYSTEMS.HTTP
     }
     return ret
@@ -226,7 +265,6 @@ async function readGithubJsonFile(filePath, octokit) {
   } 
   
   if (download) {
-    const USE_RAW_FOR_GIT_ANONYMOUS = true
     let getUrl = null
     if (USE_RAW_FOR_GIT_ANONYMOUS) {
       getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`

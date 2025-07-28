@@ -161,7 +161,7 @@
           </table>
         </div>
 
-        <div v-if="selection.innerTab == 'vt'" class="responsive-height">
+        <div v-if="selection.innerTab == 'vt'">
           <div class="field is-grouped is-horizontal definitions-controls">
             <p class="control">
               <label class="label">Script</label>
@@ -174,48 +174,69 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
             <a class="tei-snippets" href="https://github.com/kingsdigitallab/crossreads/blob/main/app/data/inscriptions-allograph-types.xml">(TEI snippets)</a>
           </div>
-          <table class="table table-def table-ac is-striped is-narrow is-hoverable is-fullwidth-no is-bordered">
-            <thead>
-              <tr>
-                <th>Search</th>
-                <th>Issue?</th>
-                <th>Char.</th>
-                <th>Type</th>
-                <template v-for="i in maxVariantCFs" :key="i">
-                  <th>Component {{ i }}</th>
-                  <th>Feature</th>
-                </template>
-                <th>Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="rule in filteredVariantRules">
-                <td>
-                  <a class="button is-small" title="search" :href="getSearchLinkFromAlloType(rule)">
-                    <i class="fas fa-search"></i>
-                  </a>
-                </td>
-                <td :data-tooltip="rule.hasError ? 'Hover the red cells in this row' : null">
-                  <template v-if="rule.hasError">⚠️</template>
-                </td>
-                <td>
-                  {{ rule.allograph }}
-                </td>
-                <td :class="{invalid: rule.error !== null}" :data-tooltip="rule.error">
-                  <a :href="getURLFromAlloType(rule)">{{ rule['variant-name'] }}</a>
-                </td>
-                <template v-for="cf in rule['component-features']">
-                  <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['component'] }}</td>
-                  <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['feature'] }}</td>
-                </template>
-                <td>
-                  <button v-if="canEdit" @click="onRemoveRule(rule.originalRule)" class="button is-small btn-remove is-warning" title="remove">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="type-promotion-block">
+            <div v-if="selection.variantRules.size" class="field is-grouped is-horizontal definitions-controls">
+              <p class="control">
+                <label class="label">Promote selected {{ selection.variantRules.size }} type(s) to character named:
+                  <input type="text" class="input">
+                </label>
+              </p>
+              <p class="control">
+                <button @click="onPromoteTypesToCharacter()" class="button primary">Promote</button>
+              </p>
+            </div>
+            <div v-else>
+              x Pending changes
+            </div>
+          </div>
+          <div class="responsive-height">
+            <table class="table table-ac is-striped is-narrow is-hoverable is-fullwidth-no is-bordered">
+              <thead>
+                <tr>
+                  <th>Search</th>
+                  <th>Issue?</th>
+                  <th>Select</th>
+                  <th>Char.</th>
+                  <th>Type</th>
+                  <template v-for="i in maxVariantCFs" :key="i">
+                    <th>Component {{ i }}</th>
+                    <th>Feature</th>
+                  </template>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="rule in filteredVariantRules">
+                  <td>
+                    <a class="button is-small" title="search" :href="getSearchLinkFromAlloType(rule)">
+                      <i class="fas fa-search"></i>
+                    </a>
+                  </td>
+                  <td :data-tooltip="rule.hasError ? 'Hover the red cells in this row' : null">
+                    <template v-if="rule.hasError">⚠️</template>
+                  </td>
+                  <td @click.stop.prevent="onToggleRuleSelection(rule)" class="clickable-cell">
+                    <span v-if="selection.variantRules.has(rule)" class="checked">✔</span>
+                  </td>
+                  <td>
+                    {{ rule.allograph }}
+                  </td>
+                  <td :class="{invalid: rule.error !== null}" :data-tooltip="rule.error">
+                    <a :href="getURLFromAlloType(rule)">{{ rule['variant-name'] }}</a>
+                  </td>
+                  <template v-for="cf in rule['component-features']">
+                    <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['component'] }}</td>
+                    <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['feature'] }}</td>
+                  </template>
+                  <td>
+                    <button v-if="canEdit" @click="onRemoveRule(rule.originalRule)" class="button is-small btn-remove is-warning" title="remove">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <template v-if="false">

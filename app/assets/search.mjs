@@ -1,5 +1,6 @@
 /* 
 TODO:
+. use ChangeQueue class
 . show the correct label for the script
 . remove all hard-coded values
 */
@@ -767,6 +768,7 @@ createApp({
       if (this.isUnsaved) {          
         const change = {
           // annotationIds: [...this.selection.items].map(item => item.id),
+          changeType: "changeAnnotations",
           annotations: [...this.selection.items].map(item => ({'id': item.id, 'file': this.getAnnotationFileNameFromItem(item)})),
           creator: this.afs.getUserId(),
           created: new Date().toISOString(),

@@ -13,7 +13,7 @@ class ChangeQueueRunner {
     if (changes) {
       ret = changes.length;
       for (let change of changes) {
-        this.applyChangeToAnnotationFiles(change)
+        this.applyChange(change)
       }
     }
     this.empty()
@@ -28,28 +28,45 @@ class ChangeQueueRunner {
     }
   }
 
-  applyChangeToAnnotationFiles(change) {
-    // TODO: group by file and write them once
-    for (let annotationRef of change.annotations) {
-      let res = this.readAnnotationFile(annotationRef.file)
-      let filePath = res[0]
-      let content = res[1]
-      let found = false
-      for (let annotation of content) {
-        if (annotation.id === annotationRef.id) {
-          this.applyChangeToAnnotation(change, annotation)
-          found = true
+  applyChange(change) {
+    let ret = false
+
+    if (change.changeType === 'promoteTypesToCharacter') {
+      this.promoteTypesToCharacter(change)
+      ret = true
+    }
+
+    if (change.changeType === 'changeAnnotations')  {
+      ret = true
+
+      // TODO: group by file and write them once
+      for (let annotationRef of change.annotations) {
+        let res = this.readAnnotationFile(annotationRef.file)
+        let filePath = res[0]
+        let content = res[1]
+        let found = false
+        for (let annotation of content) {
+          if (annotation.id === annotationRef.id) {
+            this.applyChangeToAnnotation(change, annotation)
+            found = true
+          }
+        }
+        if (!found) {
+          // not necessarily an error, 
+          // the ann may have been deleted by user after change was queued
+          throw new Error(`ERROR: annotation not found. (${filePath})`)
+        }
+        if (!DEBUG_DONT_SAVE) {
+          utils.writeJsonFile(filePath, content)
         }
       }
-      if (!found) {
-        // not necessarily an error, 
-        // the ann may have been deleted by user after change was queued
-        throw new Error(`ERROR: annotation not found. (${filePath})`)
-      }
-      if (!DEBUG_DONT_SAVE) {
-        utils.writeJsonFile(filePath, content)
-      }
     }
+
+    if (!ret) {
+      throw new Error(`ERROR: unrecognised change.changeType: ${change.changeType}`)
+    }
+
+    return ret
   }
 
   readAnnotationFile(filename) {
@@ -195,6 +212,10 @@ class ChangeQueueRunner {
       }
     }
     return ret
+  }
+
+  promoteTypesToCharacter(change) {
+
   }
 
 }

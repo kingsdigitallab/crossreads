@@ -177,6 +177,7 @@ export class AnyFileSystem {
     if (DEBUG_DONT_SAVE) {
       return {
         ok: false,
+        label: 'saving disabled',
         description: 'Not saving in DEBUG mode. DEBUG_DONT_SAVE = true.',
       }
     }
@@ -189,7 +190,8 @@ export class AnyFileSystem {
         // ret = await utils.fetchJsonFile(relativePath)        
       }
       if (system == this.SYSTEMS.LOCAL) {
-        ret = await utils.writeJsonFile(relativePath, data)
+        utils.writeJsonFile(relativePath, data)
+        ret = this.getResponseFromContent(data)
       }
     }
 
@@ -202,12 +204,21 @@ export class AnyFileSystem {
     // file://
     // github://
     let ret = this.SYSTEMS.GIT
+
+    if (this.isAuthenticated()) {
+      return this.SYSTEMS.GIT
+    }
     if (path.startsWith('http:') || path.startsWith('https:')) {
-      ret = this.SYSTEMS.HTTP
+      return this.SYSTEMS.HTTP
     }
-    if (!this.isAuthenticated() && IN_BROWSER) {
-      ret = this.SYSTEMS.HTTP
+    if (!IN_BROWSER) {
+      return this.SYSTEMS.LOCAL
     }
+
+    // TODO: test thoroughly in browser with all possible paths/files.
+    // Ideally we'd want to request on same domain from browser first.
+    // But some data files are more up to date in github repo than github Pages.
+
     return ret
   }
 }

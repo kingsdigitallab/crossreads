@@ -1,6 +1,7 @@
 import { utils, FILE_PATHS } from "../utils.mjs";
 import { createApp, nextTick } from "vue";
 import { AnyFileSystem } from "../any-file-system.mjs";
+import { ChangeQueue } from "../change-queue.mjs";
 
 // const componentFeatureUri = '/digipal/api/componentfeature/'
 const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
@@ -26,12 +27,20 @@ createApp({
       displayVariantRules: [],
       variantRulesErrorCount: 0,
 
+      changeQueue: {
+        changes: [],
+      },
+      // the github sha of the annotations file.
+      // needed for writing it and detecting conflicts.
+      changeQueueSha: SHA_UNREAD,
+
       selection: {
         script: '',
         scriptName: '',
         tab: 'definitions',
         innerTab: 'ac',
         gtoken: window.localStorage.getItem('gtoken') || '',
+        variantRules: new Set()
       },
       newItems: {
         allograph: '',
@@ -54,7 +63,7 @@ createApp({
         errors = ` (${this.variantRulesErrorCount}⚠️)`
       }
       return [
-        {title: 'Allographs x Components', key: 'ac'},
+        {title: 'Characters x Components', key: 'ac'},
         {title: 'Components x Features', key: 'cf'},
         {title: 'Variant types' + errors, key: 'vt'},
       ]
@@ -563,6 +572,8 @@ createApp({
 
       let ruleHashes = {}
 
+      this.selection.variantRules.clear()
+
       for (let originalRule of this.variantRules) {
         let rule = JSON.parse(JSON.stringify(originalRule))
         rule.originalRule = originalRule
@@ -735,7 +746,21 @@ createApp({
 
       return ret
     },
+    onToggleRuleSelection(rule) {
+      var selectedRules = this.selection.variantRules
+      if (selectedRules.has(rule)) {
+        selectedRules.delete(rule)
+      } else {
+        selectedRules.add(rule)
+      }
+    },
+    onPromoteTypesToCharacter() {
 
+    },
+    async loadChangeQueue() {
+      // TODO: remove code duplication with search.mjs
+      
+    }
   }
 }).mount('#definitions')
 

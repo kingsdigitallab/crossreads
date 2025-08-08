@@ -1,5 +1,7 @@
 import { utils, FILE_PATHS, DEBUG_DONT_SAVE } from "../app/utils.mjs";
 
+// TODO: use ChangeQueue class
+
 const PATH_PREFIX = '../'
 
 class ChangeQueueRunner {
@@ -215,6 +217,23 @@ class ChangeQueueRunner {
   }
 
   promoteTypesToCharacter(change) {
+    const EXAMPLE_CHANGE = {
+      "changeType": "promoteTypesToCharacter",
+      "types": [
+        {
+          "variantName": "type1",
+          "script": "greek",
+          "character": "Ω"
+        },
+        {
+          "variantName": "type2",
+          "script": "greek",
+          "character": "Ω"
+        }
+      ],
+      "character": "Omega12"
+    }
+
 
   }
 

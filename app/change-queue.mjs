@@ -10,7 +10,8 @@ export class ChangeQueue {
   change-queue.json contains the list of outstanding changes.
   */
 
-  constructor() {
+  constructor(queuePath=null) {
+    this.setQueuePath(queuePath)
     this.sha = SHA_UNREAD
     this.afs = new AnyFileSystem()
     this.changes = []

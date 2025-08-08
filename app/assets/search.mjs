@@ -874,6 +874,15 @@ createApp({
         created: new Date()
       })
     },
+    logWarning(content) {
+      this.logMessage(content, 'warning')
+    },
+    logError(content) {
+      this.logMessage(content, 'danger')
+    },
+    logOk(content) {
+      this.logMessage(content, 'success')
+    },
     getQueryString() {
       return utils.getQueryString()
     },

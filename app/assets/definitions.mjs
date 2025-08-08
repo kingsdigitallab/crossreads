@@ -27,12 +27,7 @@ createApp({
       displayVariantRules: [],
       variantRulesErrorCount: 0,
 
-      changeQueue: {
-        changes: [],
-      },
-      // the github sha of the annotations file.
-      // needed for writing it and detecting conflicts.
-      changeQueueSha: SHA_UNREAD,
+      changeQueue: null,
 
       selection: {
         script: '',
@@ -40,7 +35,8 @@ createApp({
         tab: 'definitions',
         innerTab: 'ac',
         gtoken: window.localStorage.getItem('gtoken') || '',
-        variantRules: new Set()
+        variantRules: new Set(),
+        characterNameForPromotedTypes: '',
       },
       newItems: {
         allograph: '',
@@ -104,6 +100,14 @@ createApp({
       }
       return ret
     },
+    typePromotionError() {
+      let ret = null
+      let matches = this.selection.characterNameForPromotedTypes.match(/^\w+$/)
+      if (!matches) {
+        ret = 'Invalid character name for promoted types. Please use only letters and numbers.'
+      }
+      return ret
+    },
   },
   async mounted() {
     this.setSelectionFromAddressBar()
@@ -111,6 +115,7 @@ createApp({
     await this.loadDefinitions()
     await this.loadStats()
     await this.loadVariantRules()
+    await this.loadChangeQueue()
   },
   watch: {
     'selection.script'() {
@@ -369,6 +374,13 @@ createApp({
       this.setAddressBarFromSelection()
       this.areDefinitionsUnsaved = 0
     },
+    async loadChangeQueue() {
+      this.changeQueue = new ChangeQueue()
+      let res = await this.changeQueue.load()
+      if (!res.ok) {
+        this.logMessage(`Could not load change queue (${res.description})`, 'danger')
+      }
+    },
     async loadVariantRules() {
       let res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
       if (res?.ok) {
@@ -540,6 +552,15 @@ createApp({
         level: level,
         created: new Date()
       })
+    },
+    logWarning(content) {
+      this.logMessage(content, 'warning')
+    },
+    logError(content) {
+      this.logMessage(content, 'danger')
+    },
+    logOk(content) {
+      this.logMessage(content, 'success')
     },
     clearMessages() {
       this.messages.length = 0
@@ -754,13 +775,29 @@ createApp({
         selectedRules.add(rule)
       }
     },
-    onPromoteTypesToCharacter() {
-
+    async onPromoteTypesToCharacter() {
+      // add a new change to the change queue
+      let change = {
+        changeType: 'promoteTypesToCharacter',
+        types: Array.from(this.selection.variantRules).map(rule => {
+          return {
+            variantName: rule['variant-name'],
+            script: rule.script,
+            character: rule.allograph,
+          }
+        }),
+        character: this.selection.characterNameForPromotedTypes,
+      }
+      this.changeQueue.addChange(change)
+      console.log(JSON.stringify(change, null, 2))
+      let res = await this.changeQueue.save()
+      if (!res.ok) {
+        this.logError(`Failed to save change queue (${res.description})`)
+      } else {
+        this.selection.characterNameForPromotedTypes = ''
+        this.selection.variantRules.clear()
+      }
     },
-    async loadChangeQueue() {
-      // TODO: remove code duplication with search.mjs
-      
-    }
   }
 }).mount('#definitions')
 

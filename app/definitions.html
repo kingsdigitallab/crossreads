@@ -178,11 +178,14 @@
             <div v-if="selection.variantRules.size" class="field is-grouped is-horizontal definitions-controls">
               <p class="control">
                 <label class="label">Promote selected {{ selection.variantRules.size }} type(s) to character named:
-                  <input type="text" class="input">
+                  <input type="text" class="input" v-model="selection.characterNameForPromotedTypes">
                 </label>
               </p>
               <p class="control">
-                <button @click="onPromoteTypesToCharacter()" class="button primary">Promote</button>
+                <button @click="onPromoteTypesToCharacter()" class="button primary" :disabled="typePromotionError" :data-tooltip="typePromotionError">
+                  <span v-if="typePromotionError">⚠️ </span> 
+                  Promote
+                </button>
               </p>
             </div>
             <div v-else>

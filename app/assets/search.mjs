@@ -275,7 +275,6 @@ createApp({
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
     async loadDefinitions() {
-      // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
       const res = await this.afs.readJson(FILE_PATHS.DEFINITIONS)
       if (res.ok) {
         this.definitions = res.data
@@ -351,45 +350,47 @@ createApp({
       }
     },
     applyChangeToIndex(change) {
-      for (const ann of change.annotations) {
-        const item = this.annotationIdsToItem[ann.id]
-        if (item) {
-          // remove code duplication with run-change-queue.mjs
-          if (change?.tags) {
-            const tagsSet = new Set(item?.tag || [])
-            for (const tag of change.tags) {
-              if (tag.startsWith('-')) {
-                tagsSet.delete(tag.substring(1))
-              } else {
-                tagsSet.add(tag)
-                this.availableTags.addTag(tag)
-              }
-            }    
-            item.tag = [...tagsSet]
-          }
-
-          // componentFeatures
-          if (change?.componentFeatures) {
-            const addToArrayIfNotExist = (val, arr) => {
-              if (!arr.includes(val)) arr.push(val)
-            };
-
-            for (let cf of change.componentFeatures) {
-              if (cf[1].startsWith('-')) {
-                let feature = cf[1].substring(1)
-                if (feature === 'ALL') {
-                  item.cxf = item.cxf.filter(icxf => !icxf.startsWith(`${cf[0]} is `))
+      if (change.annotations) {
+        for (const ann of change.annotations) {
+          const item = this.annotationIdsToItem[ann.id]
+          if (item) {
+            // remove code duplication with run-change-queue.mjs
+            if (change?.tags) {
+              const tagsSet = new Set(item?.tag || [])
+              for (const tag of change.tags) {
+                if (tag.startsWith('-')) {
+                  tagsSet.delete(tag.substring(1))
                 } else {
-                  let cxf = `${cf[0]} is ${feature}`
-                  item.cxf = item.cxf.filter(icxf => icxf !== cxf)
+                  tagsSet.add(tag)
+                  this.availableTags.addTag(tag)
                 }
-                // get components and features from that cxf
-                item.com = item.cxf.map(icxf => icxf.split(' is ')[0])
-                item.fea = item.cxf.map(icxf => icxf.split(' is ')[1])
-              } else {
-                addToArrayIfNotExist(cf[0], item.com)
-                addToArrayIfNotExist(cf[1], item.fea)
-                addToArrayIfNotExist(`${cf[0]} is ${cf[1]}`, item.cxf)              
+              }    
+              item.tag = [...tagsSet]
+            }
+
+            // componentFeatures
+            if (change?.componentFeatures) {
+              const addToArrayIfNotExist = (val, arr) => {
+                if (!arr.includes(val)) arr.push(val)
+              };
+
+              for (let cf of change.componentFeatures) {
+                if (cf[1].startsWith('-')) {
+                  let feature = cf[1].substring(1)
+                  if (feature === 'ALL') {
+                    item.cxf = item.cxf.filter(icxf => !icxf.startsWith(`${cf[0]} is `))
+                  } else {
+                    let cxf = `${cf[0]} is ${feature}`
+                    item.cxf = item.cxf.filter(icxf => icxf !== cxf)
+                  }
+                  // get components and features from that cxf
+                  item.com = item.cxf.map(icxf => icxf.split(' is ')[0])
+                  item.fea = item.cxf.map(icxf => icxf.split(' is ')[1])
+                } else {
+                  addToArrayIfNotExist(cf[0], item.com)
+                  addToArrayIfNotExist(cf[1], item.fea)
+                  addToArrayIfNotExist(`${cf[0]} is ${cf[1]}`, item.cxf)              
+                }
               }
             }
           }

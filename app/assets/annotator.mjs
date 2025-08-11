@@ -563,7 +563,6 @@ createApp({
     async loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
       // fetch(getUncachedURL(this.apis.collections))
-      // let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
       let res = await this.afs.readJson(DTS_COLLECTION_PATH)
       if (res.ok) {
         this.objects = {}
@@ -588,7 +587,6 @@ createApp({
       }
     },
     async loadDefinitions() {
-      // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
       let res = await this.afs.readJson(DEFINITIONS_PATH)
       if (res.ok) {
         // sort all the features alphabetically gh-4
@@ -1119,7 +1117,6 @@ createApp({
       let filePath = this.getAnnotationFilePath()
       this.setLastModified()
       if (filePath) {
-        // let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
         let res = await this.afs.readJson(filePath)
         if (res && res.ok) {
           this.setLastModified(res.data)

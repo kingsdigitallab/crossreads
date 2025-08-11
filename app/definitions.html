@@ -177,7 +177,7 @@
           <div class="type-promotion-block">
             <div v-if="selection.variantRules.size" class="field is-grouped is-horizontal definitions-controls">
               <p class="control">
-                <label class="label">Promote selected {{ selection.variantRules.size }} type(s) to character named:
+                <label class="label">Promote selected {{ selection.variantRules.size }} type(s) to {{ characterNameForPromotedTypesExists ? 'existing' : 'new' }} character named:
                   <input type="text" class="input" v-model="selection.characterNameForPromotedTypes">
                 </label>
               </p>
@@ -189,7 +189,10 @@
               </p>
             </div>
             <div v-else>
-              x Pending changes
+              <template v-if="numberOfPendingVariantTypeChanges">⏳</template>
+              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">
+                {{ numberOfPendingVariantTypeChanges ?? 'No' }} change(s)
+              </a> pending.
             </div>
           </div>
           <div class="responsive-height">
@@ -218,7 +221,10 @@
                   <td :data-tooltip="rule.hasError ? 'Hover the red cells in this row' : null">
                     <template v-if="rule.hasError">⚠️</template>
                   </td>
-                  <td @click.stop.prevent="onToggleRuleSelection(rule)" class="clickable-cell">
+                  <td v-if="isChangePendingOnVariantType(rule)" data-tooltip="A change to this variant type is pending">
+                    <span>⏳</span>                    
+                  </td>
+                  <td v-else @click.stop.prevent="onToggleRuleSelection(rule)" class="clickable-cell">
                     <span v-if="selection.variantRules.has(rule)" class="checked">✔</span>
                   </td>
                   <td>

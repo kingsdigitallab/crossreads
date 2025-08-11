@@ -102,11 +102,21 @@ createApp({
     },
     typePromotionError() {
       let ret = null
-      let matches = this.selection.characterNameForPromotedTypes.match(/^\w+$/)
+      let matches = this.selection.characterNameForPromotedTypes.match(/^\S+$/)
       if (!matches) {
         ret = 'Invalid character name for promoted types. Please use only letters and numbers.'
       }
       return ret
+    },
+    characterNameForPromotedTypesExists() {
+      let scriptChar = `${this.selection.characterNameForPromotedTypes}-${this.selection.script}`
+      let ret = (this?.definitions?.allographs[scriptChar])
+      return ret
+    },
+    numberOfPendingVariantTypeChanges() {
+      let changes = this?.changeQueue?.changes ?? []
+      console.log(JSON.stringify(changes, null, 2))
+      return changes.filter(c => c.changeType === "promoteTypesToCharacter").length
     },
   },
   async mounted() {
@@ -775,6 +785,21 @@ createApp({
         selectedRules.add(rule)
       }
     },
+    isChangePendingOnVariantType(rule) {
+      if (!this.changeQueue) return false
+      let matchingChanges = this.changeQueue.filter('promoteTypesToCharacter').filter(change => {
+        let matchingTypes = change.types.filter(ct => {
+          return (
+            (ct.script === rule.script) 
+            && (ct.variantName === rule['variant-name']) 
+            && (ct.character === rule.allograph)
+          )
+        })
+        return matchingTypes.length > 0
+      })
+
+      return matchingChanges.length > 0
+    },
     async onPromoteTypesToCharacter() {
       // add a new change to the change queue
       let change = {
@@ -787,9 +812,9 @@ createApp({
           }
         }),
         character: this.selection.characterNameForPromotedTypes,
+        script: this.selection.script,
       }
       this.changeQueue.addChange(change)
-      console.log(JSON.stringify(change, null, 2))
       let res = await this.changeQueue.save()
       if (!res.ok) {
         this.logError(`Failed to save change queue (${res.description})`)

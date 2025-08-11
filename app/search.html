@@ -302,7 +302,10 @@
 
             <p>
               <br>
-              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">{{ changeQueue?.changes?.length || 'no' }} change(s)</a> pending.
+              <template v-if="changeQueue?.changes?.length">⏳</template>
+              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">
+                {{ changeQueue?.changes?.length || 'No' }} change(s)
+              </a> pending.
             </p>
           </div>
         </div>

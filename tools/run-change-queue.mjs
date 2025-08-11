@@ -220,21 +220,21 @@ class ChangeQueueRunner {
     const EXAMPLE_CHANGE = {
       "changeType": "promoteTypesToCharacter",
       "types": [
-        {
-          "variantName": "type1",
-          "script": "greek",
-          "character": "Ω"
-        },
-        {
-          "variantName": "type2",
-          "script": "greek",
-          "character": "Ω"
-        }
+          {
+              "variantName": "type1",
+              "script": "greek",
+              "character": "Ω"
+          },
+          {
+              "variantName": "type2",
+              "script": "greek",
+              "character": "Ω"
+          }
       ],
-      "character": "Omega12"
+      "character": "Ω1+2",
+      "script": "greek"
     }
-
-
+    
   }
 
 }

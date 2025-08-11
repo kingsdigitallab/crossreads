@@ -36,12 +36,17 @@ export class ChangeQueue {
     let content = {
       changes: this.changes
     }
+    console.log(JSON.stringify(content, null, 2))
     let res = await this.afs.writeJson(this.queuePath, content, this.sha)
     if (res?.ok) {
       this.sha = res.sha
     }
 
     return res    
+  }
+
+  filter(changeType) {
+    return this.changes.filter(c => c?.changeType === changeType)
   }
 
   addChange(change) {

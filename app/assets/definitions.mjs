@@ -800,6 +800,9 @@ createApp({
 
       return matchingChanges.length > 0
     },
+    isRuleForSubType(rule) {
+      return Boolean(rule['variant-name'].match(/\d\.\d/))
+    },
     async onPromoteTypesToCharacter() {
       // add a new change to the change queue
       let change = {

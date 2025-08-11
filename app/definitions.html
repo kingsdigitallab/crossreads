@@ -221,12 +221,17 @@
                   <td :data-tooltip="rule.hasError ? 'Hover the red cells in this row' : null">
                     <template v-if="rule.hasError">⚠️</template>
                   </td>
-                  <td v-if="isChangePendingOnVariantType(rule)" data-tooltip="A change to this variant type is pending">
-                    <span>⏳</span>                    
-                  </td>
-                  <td v-else @click.stop.prevent="onToggleRuleSelection(rule)" class="clickable-cell">
-                    <span v-if="selection.variantRules.has(rule)" class="checked">✔</span>
-                  </td>
+                  <template v-if="isRuleForSubType(rule)">
+                    <td></td>
+                  </template>
+                  <template v-else>
+                    <td v-if="isChangePendingOnVariantType(rule)" data-tooltip="A change to this variant type is pending">
+                      <span>⏳</span>                    
+                    </td>
+                    <td v-else @click.stop.prevent="onToggleRuleSelection(rule)" class="clickable-cell">
+                      <span v-if="selection.variantRules.has(rule)" class="checked">✔</span>
+                    </td>
+                  </template>
                   <td>
                     {{ rule.allograph }}
                   </td>

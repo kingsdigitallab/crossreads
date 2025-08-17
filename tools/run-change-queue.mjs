@@ -1,44 +1,91 @@
 import { utils, FILE_PATHS, DEBUG_DONT_SAVE } from "../app/utils.mjs";
-
-// TODO: use ChangeQueue class
+import { ChangeQueue } from "../app/change-queue.mjs";
 
 const PATH_PREFIX = '../'
 
+class ApplyError extends Error {
+}
+
 class ChangeQueueRunner {
 
-  run() {
-    this.definitions = utils.readJsonFile(`${PATH_PREFIX}${FILE_PATHS.DEFINITIONS}`)
-
-    let queue = utils.readJsonFile(`${PATH_PREFIX}${FILE_PATHS.CHANGE_QUEUE}`)
-    let ret = 0
-    let changes = queue.changes
-    if (changes) {
-      ret = changes.length;
-      for (let change of changes) {
-        this.applyChange(change)
-      }
-    }
-    this.empty()
-    return ret
+  constructor() {
+    this.queue = new ChangeQueue(`${PATH_PREFIX}${FILE_PATHS.CHANGE_QUEUE}`) 
   }
 
-  empty() {
+  async run() {
+    this.definitions = utils.readJsonFile(`${PATH_PREFIX}${FILE_PATHS.DEFINITIONS}`)
+    this.variantRules = utils.readJsonFile(`${PATH_PREFIX}${FILE_PATHS.VARIANT_RULES}`)
+
+    await this.queue.load()
+
+    let changeCount = this.queue.length()
+
+    let changes = this.queue.getChanges()
+
+    // some types of changes will be processed after the others.
+    // otherwise they may invalidate following changes.
+    // that's b/c the web app doesn't apply those types of changes to the data.
+    this.nextPassChanges = []
+    this.currentPass = 1
+    let appliedCount = 0
+
+    while (true) {
+      if (changes.length < 1) {
+        if (this.nextPassChanges.length) {
+          this.currentPass += 1
+          changes = this.queue.setChanges(this.nextPassChanges)          
+        } else {
+          break
+        }
+      }
+
+      let change = changes.shift()
+
+      try {
+        let wasApplied = this.applyChange(change)
+        if (wasApplied) {
+          appliedCount += 1
+        }
+      } catch (error) {
+        if (error instanceof ApplyError) {
+          console.log(`ERROR: ${error.message}`)
+        }
+        console.log(change)
+        throw error
+      }      
+    }
+
     if (!DEBUG_DONT_SAVE) {
-      utils.writeJsonFile(`${PATH_PREFIX}${FILE_PATHS.CHANGE_QUEUE}`, {})
-    } else {
-      console.log('WARNING: nothing written as DEBUG_DONT_SAVE = true.')
+      await this.queue.save()
+    }
+
+    console.log(`done (${changeCount} change(s) = ${appliedCount} applied + ${changeCount - appliedCount} not applied)`)
+
+    if (changeCount - appliedCount !== 0) {
+      throw Error(`Not all changes have been applied`)
     }
   }
 
   applyChange(change) {
+    // return true if the change has been applied
     let ret = false
 
+    let recognisedType = false
+
     if (change.changeType === 'promoteTypesToCharacter') {
-      this.promoteTypesToCharacter(change)
-      ret = true
+      recognisedType = true
+
+      if (this.currentPass < 2) {
+        this.nextPassChanges.push(change)
+      } else {
+        ret = true
+        this.promoteTypesToCharacter(change)
+      }
     }
 
     if (change.changeType === 'changeAnnotations')  {
+      recognisedType = true
+
       ret = true
 
       // TODO: group by file and write them once
@@ -55,8 +102,8 @@ class ChangeQueueRunner {
         }
         if (!found) {
           // not necessarily an error, 
-          // the ann may have been deleted by user after change was queued
-          throw new Error(`ERROR: annotation not found. (${filePath})`)
+          // the annotations may have been deleted by user after change was queued.
+          throw new ApplyError(`annotation not found. (${filePath})`)
         }
         if (!DEBUG_DONT_SAVE) {
           utils.writeJsonFile(filePath, content)
@@ -64,8 +111,8 @@ class ChangeQueueRunner {
       }
     }
 
-    if (!ret) {
-      throw new Error(`ERROR: unrecognised change.changeType: ${change.changeType}`)
+    if (!recognisedType) {
+      throw new ApplyError(`unrecognised change.changeType: ${change.changeType}`)
     }
 
     return ret
@@ -84,7 +131,7 @@ class ChangeQueueRunner {
       )
       content = utils.readJsonFile(filePath)
       if (!content) {
-        throw new Error(`ERROR: annotation file not found. (${filePath})`)
+        throw new ApplyError(`annotation file not found. (${filePath})`)
       }
     }
     return [filePath, content]
@@ -193,7 +240,7 @@ class ChangeQueueRunner {
     }
 
     if (!hasChange) {
-      throw new Error(`change item has no action (e.g. .tags or .componentFeatures)`)
+      throw new ApplyError(`change item has no action (e.g. .tags or .componentFeatures)`)
     }
 
     annotation.modifiedBy = change.creator
@@ -220,26 +267,77 @@ class ChangeQueueRunner {
     const EXAMPLE_CHANGE = {
       "changeType": "promoteTypesToCharacter",
       "types": [
-          {
-              "variantName": "type1",
-              "script": "greek",
-              "character": "Ω"
-          },
-          {
-              "variantName": "type2",
-              "script": "greek",
-              "character": "Ω"
-          }
+        {
+          "variantName": "type2",
+          "script": "greek",
+          "character": "Ω"
+        },
+        {
+          "variantName": "type1",
+          "script": "greek",
+          "character": "Ω"
+        }
       ],
       "character": "Ω1+2",
       "script": "greek"
     }
+
+    let characterDefinition = this.promoteCharacterDefinition(change)
+    this.promoteTypesInRules(change)
+    this.promoteTypesInAnnotations(change)
+  }
+
+  promoteCharacterDefinition(change) {
+    // get or create character in definitions
+    let charKey = `${change.character}-${change.script}`
+    let char = this.definitions.allographs[charKey]
+    if (!char) {
+      char = {
+        'script': change.script,
+        'character': change.character,
+        'components': [],
+      }
+    }
+    
+    // ensures we include components from all promoted characters
+    let components = [...char.components]
+    for (let type of change.types) {
+      let incomingComponents = this.definitions.allographs[`${type.character}-${type.script}`].components
+      components = [...components, ...incomingComponents]
+    }
+
+    // save definitions
+    char.components = [...new Set(components)]
+    // console.log(charKey, char)
+    this.definitions.allographs[charKey] = char
+    this.definitions.updated = new Date().toISOString();
+    if (!DEBUG_DONT_SAVE) {
+      utils.writeJsonFile(`${PATH_PREFIX}${FILE_PATHS.DEFINITIONS}`, this.definitions)
+    }
+  }
+  
+  promoteTypesInRules(change) {
+    for (let type of change.types) {
+      for (let rule of this.variantRules) {
+        if (rule.script === type.script && rule.allograph === type.character && (rule['variant-name'] +  '.').startsWith(type.variantName + '.')) {
+          // console.log(rule)
+          rule.script = change.script
+          rule.allograph = change.character
+          // console.log(rule)
+        }
+      }
+    }
+    if (!DEBUG_DONT_SAVE) {
+      utils.writeJsonFile(`${PATH_PREFIX}${FILE_PATHS.VARIANT_RULES}`, this.variantRules)
+    }
+  }
+  
+  promoteTypesInAnnotations(change) {
     
   }
 
 }
 
 let runner = new ChangeQueueRunner()
-let changeCount = runner.run()
+await runner.run()
 
-console.log(`done (${changeCount} change(s))`)

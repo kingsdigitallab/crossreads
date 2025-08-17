@@ -29,6 +29,8 @@ export class ChangeQueue {
       this.sha = res.sha
     }
 
+    // console.log(this.changes)
+
     return res
   }
 
@@ -51,6 +53,15 @@ export class ChangeQueue {
 
   addChange(change) {
     this.changes.push(change)
+  }
+
+  setChanges(changes) {
+    this.changes = changes
+    return changes
+  }
+
+  length() {
+    return this.changes.length
   }
 
   clear() {
@@ -92,24 +103,6 @@ const SAMPLE_CHANGE_QUEUE = {
       ]
     },
     {
-      "changeType": "promoteTypesToCharacter",
-      "creator": "https://api.github.com/users/simonastoyanova",
-      "created": "2025-07-10T15:10:53.820Z",
-      "character": "P1+2",
-      "types": [
-        {
-          "variantName": "type1",
-          "character": "P",
-          "script": "latin",
-        },
-        {
-          "variantName": "type2",
-          "character": "P",
-          "script": "latin",
-        },
-      ]
-    },
-    {
       "changeType": "changeAnnotations",
       "annotations": [
         {
@@ -123,5 +116,22 @@ const SAMPLE_CHANGE_QUEUE = {
         "-type1.2"
       ]
     },    
+    {
+      "changeType": "promoteTypesToCharacter",
+      "types": [
+        {
+          "variantName": "type2",
+          "script": "greek",
+          "character": "Ω"
+        },
+        {
+          "variantName": "type1",
+          "script": "greek",
+          "character": "Ω"
+        }
+      ],
+      "character": "Ω1+2",
+      "script": "greek"
+    },
   ]
 }

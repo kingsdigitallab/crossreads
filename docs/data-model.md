@@ -289,7 +289,7 @@ that object on the ISicily github repository.
     "modified": "2025-03-24T15:55:16.645Z"
   }
 ]
-'''
+```
 
 ### Variant rules and types
 
@@ -304,7 +304,7 @@ Latin A. They define three types of allographs. The crossbar in Latin A
 type1 must be straight. The crossbar in Latin A type1.1 must be straight
 and ascending.
 
-'''json
+```json
 [
   {
     "variant-name": "type1",
@@ -348,7 +348,7 @@ and ascending.
     "script": "latin"
   },
 ]
-'''
+```
 
 ### Change Queue
 
@@ -364,7 +364,7 @@ annotation. The second change removes one tag named \"type1.2\" from an
 annotation. The third change promotes two variant types of Ω to a new
 character called Ω1+2.
 
-'''json
+```json
 [
   {
     "changeType": "changeAnnotations",
@@ -415,4 +415,4 @@ character called Ω1+2.
     "script": "greek"
   },
 ]
-'''
+```

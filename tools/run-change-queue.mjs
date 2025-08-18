@@ -1,5 +1,7 @@
 import { utils, FILE_PATHS, DEBUG_DONT_SAVE } from "../app/utils.mjs";
 import { ChangeQueue } from "../app/change-queue.mjs";
+import fs from 'fs';
+import path from "path";
 
 const PATH_PREFIX = '../'
 
@@ -283,8 +285,17 @@ class ChangeQueueRunner {
     }
 
     let characterDefinition = this.promoteCharacterDefinition(change)
-    this.promoteTypesInRules(change)
-    this.promoteTypesInAnnotations(change)
+
+    // This must be done BEFORE calling getVariantRulesFromChange()
+    let changingRulesCopy = this.getVariantRulesFromChange(change)
+    changingRulesCopy = JSON.parse(JSON.stringify(changingRulesCopy))
+
+    let changingRules = this.getVariantRulesFromChange(change, true)    
+    this.promoteTypesInRules(change, changingRules)
+
+    let rulesCounts = this.promoteTypesInAnnotations(change, changingRulesCopy)
+
+    console.log(rulesCounts)
   }
 
   promoteCharacterDefinition(change) {
@@ -316,24 +327,98 @@ class ChangeQueueRunner {
     }
   }
   
-  promoteTypesInRules(change) {
-    for (let type of change.types) {
-      for (let rule of this.variantRules) {
-        if (rule.script === type.script && rule.allograph === type.character && (rule['variant-name'] +  '.').startsWith(type.variantName + '.')) {
-          // console.log(rule)
-          rule.script = change.script
-          rule.allograph = change.character
-          // console.log(rule)
-        }
-      }
+  promoteTypesInRules(change, rules) {
+    for (let rule of rules) {
+      rule.script = change.script
+      rule.allograph = change.character
     }
+
     if (!DEBUG_DONT_SAVE) {
       utils.writeJsonFile(`${PATH_PREFIX}${FILE_PATHS.VARIANT_RULES}`, this.variantRules)
     }
   }
+
+  getVariantRulesFromChange(change, includeSubRules=false) {
+    let ret = []
+
+    for (let type of change.types) {
+      for (let rule of this.variantRules) {
+        if (rule.script === type.script && rule.allograph === type.character && (rule['variant-name'] +  '.').startsWith(type.variantName + '.')) {
+          if (!includeSubRules && rule['variant-name'] !== type.variantName) continue;
+          ret.push(rule)
+        }
+      }
+    }
+
+    return ret
+  }
   
-  promoteTypesInAnnotations(change) {
-    
+  promoteTypesInAnnotations(change, changingRulesCopy) {
+    let ret = {}
+
+    for (let filename of fs.readdirSync('../annotations').sort()) {
+      let filePath = path.join('../annotations', filename);
+      if (filePath.endsWith('.json') && !filePath.endsWith('change-queue.json') && !fs.lstatSync(filePath).isDirectory()) {
+        let annotations = utils.readJsonFile(filePath)
+        // console.log(filePath, changingRulesCopy.length)
+
+        let hasChanged = false
+
+        for (let annotation of annotations) {
+          let macthingRule = this.promoteTypesInAnnotation(change, annotation, changingRulesCopy)
+          
+          if (macthingRule) {
+            hasChanged = true
+            let typeName = macthingRule["variant-name"]
+            if (ret[typeName]) {
+              ret[typeName] += 1
+            } else {
+              ret[typeName] = 1
+            }
+          }
+        }
+
+        if (hasChanged) {
+          if (!DEBUG_DONT_SAVE) {
+            utils.writeJsonFile(filePath, annotations)
+          }
+        }
+      }
+    }
+
+    return ret
+  }
+
+  promoteTypesInAnnotation(change, annotation, changingRulesCopy) {
+    let ret = null
+
+    let bodyValue = annotation.body[0].value
+
+    let rulesMatchingAnnotation = changingRulesCopy.filter(rule => {
+      if (rule.script !== bodyValue.script || rule.allograph !== bodyValue.character) return false
+      return rule['component-features'].every(cf => {
+        let component = bodyValue.components[cf.component]
+        if (!component) {
+          console.log(`INFO: annotation ${annotation.id} is missing component ${cf.component}`)
+        } else {
+          return bodyValue.components[cf.component].features.includes(cf.feature)
+        }
+      })
+    })
+
+    if (rulesMatchingAnnotation.length > 1) {
+      throw ApplyError(`Annotation ${annotation.id} matches more than one variant rule.`)
+    }
+    if (rulesMatchingAnnotation.length) {
+      ret = rulesMatchingAnnotation[0]
+    }
+
+    if (ret) {
+      bodyValue.script = change.script
+      bodyValue.character = change.script
+    }
+
+    return ret
   }
 
 }

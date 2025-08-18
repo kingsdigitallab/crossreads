@@ -5,6 +5,8 @@ import path from "path";
 
 const PATH_PREFIX = '../'
 
+const CROSSREADS_AUTOMATION_USER_ID = "https://api.github.com/users/crossreads-bot"
+
 class ApplyError extends Error {
 }
 
@@ -415,7 +417,9 @@ class ChangeQueueRunner {
 
     if (ret) {
       bodyValue.script = change.script
-      bodyValue.character = change.script
+      bodyValue.character = change.character
+      annotation.modified = new Date().toISOString();
+      annotation.modifiedBy = CROSSREADS_AUTOMATION_USER_ID;
     }
 
     return ret

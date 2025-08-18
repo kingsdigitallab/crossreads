@@ -418,8 +418,8 @@ class ChangeQueueRunner {
     if (ret) {
       bodyValue.script = change.script
       bodyValue.character = change.character
-      annotation.modified = new Date().toISOString();
-      annotation.modifiedBy = CROSSREADS_AUTOMATION_USER_ID;
+      annotation.modified = change?.created ?? new Date().toISOString()
+      annotation.modifiedBy = change?.creator ?? CROSSREADS_AUTOMATION_USER_ID
     }
 
     return ret

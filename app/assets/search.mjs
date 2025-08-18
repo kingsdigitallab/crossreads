@@ -68,6 +68,7 @@ createApp({
       },
       // instance of AnyFileSystem, to access github resources
       afs: null,
+      // TODO: use ChangeQueue class
       changeQueue: {
         changes: [],
       },

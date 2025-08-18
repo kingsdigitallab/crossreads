@@ -29,8 +29,6 @@ export class ChangeQueue {
       this.sha = res.sha
     }
 
-    // console.log(this.changes)
-
     return res
   }
 
@@ -38,7 +36,7 @@ export class ChangeQueue {
     let content = {
       changes: this.changes
     }
-    console.log(JSON.stringify(content, null, 2))
+    // console.log(JSON.stringify(content, null, 2))
     let res = await this.afs.writeJson(this.queuePath, content, this.sha)
     if (res?.ok) {
       this.sha = res.sha
@@ -52,6 +50,12 @@ export class ChangeQueue {
   }
 
   addChange(change) {
+    if (!change.created) {
+      change.created = new Date().toISOString()
+    }
+    if (!change.creator) {
+      change.creator = this.afs.getUserId()
+    }
     this.changes.push(change)
   }
 

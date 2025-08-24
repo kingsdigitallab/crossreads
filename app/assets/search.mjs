@@ -501,7 +501,7 @@ createApp({
           title: 'Script',
         },
         chr: {
-          title: 'Allograph',
+          title: 'Character',
         },
         tag: {
           title: 'Tags',

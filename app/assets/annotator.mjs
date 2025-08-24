@@ -251,6 +251,9 @@ createApp({
       // the number of annotations on the image
       annotationsCount: 0,
       stats: {},
+
+      variantRules: [],
+      variantRulesSha: null,
     }
   },
   async mounted() {
@@ -265,8 +268,9 @@ createApp({
 
     loadOpenSeaDragon(this)
     // TODO: no await?
-    this.loadObjects()
-    this.loadDefinitions()
+    await this.loadObjects()
+    await this.loadDefinitions()
+    await this.loadVariantRules()
     await this.loadStats()
     // this.logOk('App loaded')
 
@@ -350,7 +354,7 @@ createApp({
       }
       return ret
     },
-    filteredAllographs() {
+    filteredCharacters() {
       let ret = {}
       let script = this.description.script
 
@@ -386,6 +390,47 @@ createApp({
     selectedAllographDefinition() {
       // returns the definition of the Allograph currently selected in the UI
       return this.definitions.allographs[this.description.allograph]
+    },
+    filteredVariants() {
+      let ret = {'': {'variant-name': ''}}
+
+      let characterKey = this.description?.allograph
+      if (characterKey && this.variantRules && this.definitions) {
+        let character = this.definitions.allographs[characterKey]?.character
+        for (let rule of this.variantRules) {
+          if (rule.allograph === character && rule.script === this.description.script) {
+            ret[rule['variant-name']] = rule
+          }
+        }
+      }
+
+      return ret
+    },
+    variantNameFromDescription() {
+      let ret = ''
+      let dotsInBestMatch = 0
+
+      for (let variant of Object.values(this.filteredVariants)) {
+        if (!variant['variant-name']) continue;
+        let match = true
+        for (let cf of variant['component-features']) {
+          if (!this.description.components[cf.component]?.features?.includes(cf.feature)) {
+            match = false
+            break
+          }
+        }
+        if (match) {
+          let dotsInMatch = variant['variant-name'].split('.').length
+          // privilege more specific match 
+          if (dotsInMatch > dotsInBestMatch) {
+            dotsInBestMatch = dotsInMatch
+            ret = variant['variant-name']
+            // console.log(variant['variant-name'])
+          }
+        }
+      }
+
+      return ret
     },
     filteredComponents() {
       // Returns a dictionary with all possible components & features 
@@ -599,6 +644,16 @@ createApp({
         this.logError('Failed to load definitions from github.')
       }
     },
+    async loadVariantRules() {
+      const res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
+      if (res?.ok) {
+        this.variantRules = res.data
+        this.variantRulesSha = res.sha
+      } else {
+        this.variantRules = []
+        this.logError(`Failed to load variant rules from github (${res.description})`)
+      }
+    },
     async loadStats() {
       // TODO: remove code duplication with same function in definitions.mjs
       this.stats = null
@@ -799,7 +854,7 @@ createApp({
       this.setAddressBarFromSelection()
       this.updateSelectedAnnotationFromDescription()
     },
-    onChangeAllograph() {
+    onChangeCharacter() {
       this.updateDescriptionFromAllograph()
       this.updateSelectedAnnotationFromDescription()
     },
@@ -1563,6 +1618,30 @@ createApp({
         const types = utils.getAlloTypesFromAnnotations(annotations, res.data)
         navigator.clipboard.writeText(utils.getTEIfromAlloTypes(types))
       }
+    },
+    onChangeVariant(e) {
+      let newVariantName = e.target.value
+      /*
+        components: {
+          'c1': { features: ['f1', 'f3'] },
+        },
+      */
+      let components = {
+      }
+      let newVariant = this.filteredVariants[newVariantName]
+      if (newVariant) {
+        for (let cf of newVariant['component-features']) {
+          let features = components[cf.component]?.features
+          if (!features) {
+            features = []
+            components[cf.component] = {features: features}
+          }
+          features.push(cf.feature)
+        }
+      }
+      this.description.components = components
+      
+      this.updateSelectedAnnotationFromDescription()
     }
   },
 }).use(vuetify).mount('#annotator');

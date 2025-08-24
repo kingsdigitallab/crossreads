@@ -169,7 +169,7 @@
               <p class="panel-heading">
                 Description
                 <a v-if="image" :href="getAnnotationsAbsolutePath()" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                <span v-if="isAnnotationSelected">(Selected)</span>
+                <span v-if="isAnnotationSelected" class="smaller">&nbsp;(Selected)</span>
               </p>
               <div class="panel-block responsive-height">
                 <dl class="description">
@@ -181,12 +181,23 @@
                       </select>
                     </div>
                   </dd>
-                  <dt>Allograph ({{description.allograph}})</dt> 
+
+                  <dt>Character ({{description.allograph}})</dt> 
                   <dd>
                     <!-- <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span> -->
                     <div class="select">
-                      <select v-model="description.allograph" @change="onChangeAllograph()" :disabled="!canEdit">
-                        <option v-for="(allograph, allographKey) in filteredAllographs" :value="allographKey">{{ allograph.character }} <template v-if="allograph.script == 'base'">(BASE)</template></option>
+                      <select v-model="description.allograph" @change="onChangeCharacter()" :disabled="!canEdit">
+                        <option v-for="(character, characterKey) in filteredCharacters" :value="characterKey">{{ character.character }} <template v-if="character.script == 'base'">(BASE)</template></option>
+                      </select>
+                    </div>
+                  </dd>
+
+                  <dt>Variant</dt> 
+                  <dd>
+                    <!-- <span v-if="!(description.allograph in definitions.allographs)">{{description.allograph}}</span> -->
+                    <div class="select">
+                      <select @change="onChangeVariant" :disabled="!canEdit">
+                        <option v-for="(variant, variantKey) in filteredVariants" :value="variantKey" :selected="variantKey === variantNameFromDescription">{{ variant['variant-name'] }}</template></option>
                       </select>
                     </div>
                   </dd>

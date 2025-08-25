@@ -206,6 +206,11 @@ export class AnyFileSystem {
     // github://
     let ret = this.SYSTEMS.GIT
 
+    let canFetchLocally = IS_BROWSER_LOCAL && path.startsWith(this.prefixes[this.SYSTEMS.HTTP])
+
+    if (DEBUG_DONT_SAVE && canFetchLocally) {
+      return this.SYSTEMS.HTTP
+    }
     if (this.isAuthenticated()) {
       return this.SYSTEMS.GIT
     }
@@ -215,7 +220,7 @@ export class AnyFileSystem {
     if (!IS_BROWSER) {
       return this.SYSTEMS.LOCAL
     }
-    if (IS_BROWSER_LOCAL && path.startsWith(this.prefixes[this.SYSTEMS.HTTP])) {
+    if (canFetchLocally) {
       return this.SYSTEMS.HTTP
     }
 

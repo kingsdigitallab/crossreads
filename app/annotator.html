@@ -190,6 +190,11 @@
                         <option v-for="(character, characterKey) in filteredCharacters" :value="characterKey">{{ character.character }} <template v-if="character.script == 'base'">(BASE)</template></option>
                       </select>
                     </div>
+                    <div>
+                      <p v-if="charactersChoicesFromSign" class="link-list">
+                        <a v-for="(char, charKey) of charactersChoicesFromSign" @click="onClickCharacterChoiceFromSign(charKey)" :class="{selectable: 1, selected: charKey === description.allograph}">{{ char.character }}</a>
+                      </p>
+                    </div>
                   </dd>
 
                   <dt>Variant</dt> 

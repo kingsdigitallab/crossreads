@@ -230,6 +230,7 @@ createApp({
         object: null,
         image: null,
       },
+
       // 0: no box edited; 1: 1+ box created/descr changed; 2: 1+ box moved/resized
       isUnsaved: 0,
       // null: no asked; -1: error; 0: loading; 1: loaded
@@ -410,22 +411,24 @@ createApp({
       let ret = ''
       let dotsInBestMatch = 0
 
-      for (let variant of Object.values(this.filteredVariants)) {
-        if (!variant['variant-name']) continue;
-        let match = true
-        for (let cf of variant['component-features']) {
-          if (!this.description.components[cf.component]?.features?.includes(cf.feature)) {
-            match = false
-            break
+      if (this.description.components) {
+        for (let variant of Object.values(this.filteredVariants)) {
+          if (!variant['variant-name']) continue;
+          let match = true
+          for (let cf of variant['component-features']) {
+            if (!this.description.components[cf.component]?.features?.includes(cf.feature)) {
+              match = false
+              break
+            }
           }
-        }
-        if (match) {
-          let dotsInMatch = variant['variant-name'].split('.').length
-          // privilege more specific match 
-          if (dotsInMatch > dotsInBestMatch) {
-            dotsInBestMatch = dotsInMatch
-            ret = variant['variant-name']
-            // console.log(variant['variant-name'])
+          if (match) {
+            let dotsInMatch = variant['variant-name'].split('.').length
+            // privilege more specific match 
+            if (dotsInMatch > dotsInBestMatch) {
+              dotsInBestMatch = dotsInMatch
+              ret = variant['variant-name']
+              // console.log(variant['variant-name'])
+            }
           }
         }
       }
@@ -603,6 +606,18 @@ createApp({
       } 
       return ret
     },
+    charactersChoicesFromSign() {
+      let sign = this.getSignFromAnnotation()
+      let ret = this.getCharactersFromSign(sign)
+
+      let keys = Object.keys(ret)
+      if (keys.length == 1 && keys[0] === this.description.allograph) {
+        // only one choice and already selected, we hide this
+        ret = {}
+      }
+
+      return ret
+    }
   },
   methods: {
     async loadObjects() {
@@ -637,6 +652,15 @@ createApp({
         // sort all the features alphabetically gh-4
         for (let component of Object.values(res.data.components)) {
           component.features.sort()
+        }
+        // optimisation: add a temporary sign for each character
+        // e.g. E1+2 => E
+        for (let allo of Object.values(res.data.allographs)) {
+          allo.sign = allo.character
+          let prefix = allo.sign.replace(/\d.*$/, '')
+          if (prefix) {
+            allo.sign = prefix
+          }
         }
         this.definitions = res.data
         this.updateDescriptionFromAllograph()
@@ -741,30 +765,55 @@ createApp({
 
           // update the description.allograph if none selected
           if (!this.description.allograph) {
-            let allos = [sign.innerText]
-            if (allos[0] === allos[0].toUpperCase()) {
-              allos.push(allos[0].toLowerCase())
+            let charactersFromSign = this.getCharactersFromSign(sign)
+
+            if (Object.keys(charactersFromSign).length == 1) {
+              this.description.allograph = Object.keys(charactersFromSign)[0]
             } else {
-              allos.push(allos[0].toUpperCase())
-            }
-            allosLoop:
-            for (let allo of allos) {
-              for (let k of Object.keys(this.definitions.allographs)) {
-                let allograph = this.definitions.allographs[k] 
-                if (allograph.script === this.description.script) {
-                  if (allograph.character === allo) {
-                    this.description.allograph = k
-                    break allosLoop
-                  }
-                }
-              }
+              this.description.allograph = ''
             }
           }
+
           signAnnotation = selectedAnnotation
           this.updateSelectedAnnotationFromDescription()
         }
       }
       this.selectAnnotation(signAnnotation)
+    },
+    onClickCharacterChoiceFromSign(characterKey) {
+      this.description.allograph = characterKey
+    },
+    getCharactersFromSign(sign) {
+      let ret = {}
+
+      if (!sign) {
+        return ret
+      }
+
+      let allos = [sign.innerText]
+      if (allos[0] === allos[0].toUpperCase()) {
+        allos.push(allos[0].toLowerCase())
+      } else {
+        allos.push(allos[0].toUpperCase())
+      }
+      allosLoop:
+      for (let allo of allos) {
+        for (let k of Object.keys(this.definitions.allographs)) {
+          let allograph = this.definitions.allographs[k] 
+          if (allograph.script === this.description.script) {
+            if (allograph.sign === allo) {
+              // this.description.allograph = k
+              // break allosLoop
+              ret[k] = allograph
+            }
+          }
+        }
+        if (Object.keys(ret).length) {
+          break
+        }
+      }
+
+      return ret
     },
     getAnnotationFromSign(sign) {
       let ret = null
@@ -1640,7 +1689,7 @@ createApp({
         }
       }
       this.description.components = components
-      
+
       this.updateSelectedAnnotationFromDescription()
     }
   },

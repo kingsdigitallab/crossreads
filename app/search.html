@@ -97,11 +97,11 @@
                   <ul>
                     <li v-for="option in getOptionsFromFacet(facet)" @click="onClickFacetOption(facetKey, option.key)" :class="{'is-selected': option.selected}">
                       <div v-if="facetKey == 'tag'" @mouseenter="onMouseEnterTag(option.key, true)" @mouseleave="onMouseLeaveTag(option.key)">
-                        <span class="option-label">{{ option.key }}</span>
+                        <span class="option-label">{{ getLabelFromOption(option.key, facetKey) }}</span>
                         <span class="option-count">{{ option.doc_count }}</span>
                       </div>
                       <div v-else>
-                        <span class="option-label">{{ option.key }}</span>
+                        <span class="option-label">{{ getLabelFromOption(option.key, facetKey) }}</span>
                         <span class="option-count">{{ option.doc_count }}</span>
                       </div>
                     </li>

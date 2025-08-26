@@ -655,6 +655,28 @@ createApp({
       })
       return ret
     },
+    getLabelFromOption(optionKey, facetKey) {
+      // TODO: cache the responses
+      let ret = optionKey
+      if (this.definitions) {
+        if (facetKey === 'fea') {
+          ret = this.definitions.features[optionKey] ?? ret
+        }
+        if (facetKey === 'com') {
+          ret = this.definitions.components[optionKey]?.name ?? ret
+        }
+        if (facetKey === 'scr') {
+          ret = this.definitions.scripts[optionKey] ?? ret
+        }
+        if (facetKey === 'cxf') {
+          let parts = optionKey.split(' is ')
+          if (parts.length === 2) {
+            ret = this.getLabelFromOption(parts[0], 'com') + ' is ' + this.getLabelFromOption(parts[1], 'fea')
+          }
+        }
+      }
+      return ret
+    },
     onClickFacetOption(facetKey, optionKey) {
       let facet = this.selection.facets[facetKey]
       if (!facet) {

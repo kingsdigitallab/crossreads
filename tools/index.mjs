@@ -104,7 +104,7 @@ class AnnotationIndex {
 
       let character = bodyValue?.character || 'UNDEFINED'
 
-      let scriptName = this.definitions.scripts[bodyValue.script]
+      // let scriptName = this.definitions.scripts[bodyValue.script]
       let description = {'com': [], 'fea': [], 'cxf': []}
       for (let componentKey of Object.keys(bodyValue?.components || {})) {
         description['com'].push(componentKey)
@@ -135,7 +135,7 @@ class AnnotationIndex {
         'id': annotation.id,
         'chr': character,
         'val': isValid,
-        'scr': scriptName,
+        'scr': bodyValue.script,
         'tag': bodyValue.tags,
         'doc': annotation.target[1]?.source,
         'img': annotation.target[0].source,
@@ -256,8 +256,15 @@ class AnnotationIndex {
       'data': obj
     }
     let content = JSON.stringify(fullData, null, COMPRESS_OUTPUT ? 0 : 2)
-    fs.writeFileSync(path, content)
-    console.log(`WRITTEN ${path}, ${description}, ${(content.length / 1024 / 1024).toFixed(2)} MB.`)
+    
+    let action = 'WRITTEN'
+    let contentBefore = utils.readJsonFile(path)
+    if (contentBefore && contentBefore.data && JSON.stringify(contentBefore.data) === JSON.stringify(obj)) {
+      action = 'UNCHANGED'
+    } else {
+      fs.writeFileSync(path, content)
+    }
+    console.log(`${action} ${path}, ${description}, ${(content.length / 1024 / 1024).toFixed(2)} MB.`)  
   }
 
 }

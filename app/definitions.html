@@ -35,7 +35,7 @@
               <template v-if="!isLoggedIn && tab.key == 'settings'"><i class="fas fa-exclamation-triangle"></i>&nbsp;</template>
               {{ tab.title }}
               &nbsp;
-              <button v-if="selection.tab == tab.key" @click.prevent.stop="saveAll()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
+              <button v-if="selection.tab === tab.key && canEdit" @click.prevent.stop="saveAll()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </a>            
           </li>
         </ul>
@@ -201,7 +201,7 @@
                 <tr>
                   <th>Search</th>
                   <th>Issue?</th>
-                  <th>Select</th>
+                  <th v-if="canEdit">Select</th>
                   <th>Char.</th>
                   <th>Type</th>
                   <template v-for="i in maxVariantCFs" :key="i">
@@ -221,16 +221,18 @@
                   <td :data-tooltip="rule.hasError ? 'Hover the red cells in this row' : null">
                     <template v-if="rule.hasError">⚠️</template>
                   </td>
-                  <template v-if="isRuleForSubType(rule)">
-                    <td></td>
-                  </template>
-                  <template v-else>
-                    <td v-if="isChangePendingOnVariantType(rule)" data-tooltip="A change to this variant type is pending">
-                      <span>⏳</span>                    
-                    </td>
-                    <td v-else @click.stop.prevent="onToggleRuleSelection(rule)" class="clickable-cell">
-                      <span v-if="selection.variantRules.has(rule)" class="checked">✔</span>
-                    </td>
+                  <template v-if="canEdit">
+                    <template v-if="isRuleForSubType(rule)">
+                      <td></td>
+                    </template>
+                    <template v-else>
+                      <td v-if="isChangePendingOnVariantType(rule)" data-tooltip="A change to this variant type is pending">
+                        <span>⏳</span>                    
+                      </td>
+                      <td v-else @click.stop.prevent="onToggleRuleSelection(rule)" class="clickable-cell">
+                        <span v-if="selection.variantRules.has(rule)" class="checked">✔</span>
+                      </td>
+                    </template>
                   </template>
                   <td>
                     {{ rule.allograph }}

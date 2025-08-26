@@ -296,7 +296,7 @@ async function readGithubJsonFile(filePath, octokit, githubRepoPath) {
   if (download) {
     let getUrl = null
     if (USE_RAW_FOR_GIT_ANONYMOUS) {
-      getUrl = `https://raw.githubusercontent.com/${githubRepoPath}/main/${filePath}`
+      getUrl = `https://raw.githubusercontent.com/${githubRepoPath}/refs/heads/main/${filePath}`
     } else {
       // no need for octokit or token BUT rate limit is easily exceeded
       getUrl = apiUrl;

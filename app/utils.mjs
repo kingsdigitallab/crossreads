@@ -24,7 +24,7 @@ async function mod(exports) {
     fs = (await import('fs'));
   }
 
-  exports.slugify = (str) => str.replace(/\W+/g, '-').toLowerCase()
+  exports.slugify = (str) => str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '').toLowerCase()
 
   exports.setQueryString = (parameters, defaults={}) => {
     // TODO: try URLSearchParams.toString() instead.

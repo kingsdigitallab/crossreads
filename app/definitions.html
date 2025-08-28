@@ -208,7 +208,7 @@
                     <th>Component {{ i }}</th>
                     <th>Feature</th>
                   </template>
-                  <th>Remove</th>
+                  <th v-if="canEdit">Remove</th>
                 </tr>
               </thead>
               <tbody>
@@ -244,7 +244,7 @@
                     <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['component'] }}</td>
                     <td :class="[cf.error ? 'invalid' : '', `source-${cf.source}`]" :data-tooltip="cf.error">{{ cf['feature'] }}</td>
                   </template>
-                  <td>
+                  <td v-if="canEdit">
                     <button v-if="canEdit" @click="onRemoveRule(rule.originalRule)" class="button is-small btn-remove is-warning" title="remove">
                       <i class="fas fa-trash"></i>
                     </button>

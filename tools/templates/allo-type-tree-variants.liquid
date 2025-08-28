@@ -6,7 +6,7 @@
       <ul class="features">
         {% for componentFeature in variant['component-features'] %}
           {% if componentFeature['inherited-from'] == variant['variant-name'] %}
-            <li>{{ componentFeature.component }} is {{ componentFeature.feature }}</li>
+            <li>{{ componentFeature.label }}</li>
           {% endif %}
         {% endfor %}
       </ul>

@@ -26,6 +26,31 @@ async function mod(exports) {
 
   exports.slugify = (str) => str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '').toLowerCase()
 
+  exports.getLabelFromDefinition = (itemKey, itemType, definitions) => {
+      // TODO: cache the responses
+    let ret = itemKey
+
+    if (definitions) {
+      if (itemType === 'fea') {
+        ret = definitions.features[itemKey] ?? ret
+      }
+      if (itemType === 'com') {
+        ret = definitions.components[itemKey]?.name ?? ret
+      }
+      if (itemType === 'scr') {
+        ret = definitions.scripts[itemKey] ?? ret
+      }
+      if (itemType === 'cxf') {
+        let parts = itemKey.split(' is ')
+        if (parts.length === 2) {
+          ret = exports.getLabelFromDefinition(parts[0], 'com', definitions) + ' is ' + exports.getLabelFromDefinition(parts[1], 'fea', definitions)
+        }
+      }
+    }
+
+    return ret
+  }
+  
   exports.setQueryString = (parameters, defaults={}) => {
     // TODO: try URLSearchParams.toString() instead.
     let newRelativePathQuery = window.location.pathname

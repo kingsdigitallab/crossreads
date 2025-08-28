@@ -115,7 +115,6 @@ createApp({
     },
     numberOfPendingVariantTypeChanges() {
       let changes = this?.changeQueue?.changes ?? []
-      console.log(JSON.stringify(changes, null, 2))
       return changes.filter(c => c.changeType === "promoteTypesToCharacter").length
     },
   },
@@ -826,6 +825,9 @@ createApp({
         this.selection.variantRules.clear()
       }
     },
-  }
+    getLabelFromDefinition(itemKey, itemType) {
+      return utils.getLabelFromDefinition(itemKey, itemType, this.definitions)
+    }
+  },
 }).mount('#definitions')
 

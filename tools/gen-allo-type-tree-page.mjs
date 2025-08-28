@@ -51,14 +51,15 @@ So we can have A type1 and B type 1.
 */
 
 import * as fs from 'node:fs';
-import { utils } from '../app/utils.mjs'
+import { utils, FILE_PATHS } from '../app/utils.mjs'
 import * as toolbox from './toolbox.mjs'
 
 // Constants for easy editing
-const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
+const PATH_PREFIX = '../'
+// const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
 const TREE_PAGE_PATH = '../app/data/allographs/types/all.html'
 
-function buildTree(variants) {
+function buildTree(variants, definitions) {
   /* Returns a tree of script > allograph > variants > sub-variants.
   Such as this:
   {
@@ -116,8 +117,11 @@ function buildTree(variants) {
   let index = {}
   for (const v of variants) {
     v.children = []
-    let key = `${v.script}-${v.allograph}-${v['variant-name']}` 
+    let key = `${v.script}-${v.allograph}-${v['variant-name']}`
     let parentKey = key.replace(/\.\d+$/, "")
+    
+    // v.scriptLabel = utils.getLabelFromDefinition(v.script, "scr", definitions)
+
     if (index[parentKey]) {
       index[parentKey].children.push(v);
       // for each cf in v["component-features"] set 
@@ -125,6 +129,7 @@ function buildTree(variants) {
       // cf["inherited-from"] = v[variant-name] if that component-feature is not found in parent
       for (const cf of v["component-features"]) {  
         cf["inherited-from"] = v["variant-name"];
+        cf["label"] = utils.getLabelFromDefinition(`${cf['component']} is ${cf['feature']}`, "cxf", definitions)
         for (const pcf of index[parentKey]["component-features"]) {
           if (pcf.component === cf.component && pcf.feature === cf.feature) {
             cf["inherited-from"] = pcf["inherited-from"]
@@ -137,6 +142,7 @@ function buildTree(variants) {
       ret[v.script][v.allograph].push(v)
       for (const cf of v["component-features"]) {
         cf["inherited-from"] = v["variant-name"]
+        cf["label"] = utils.getLabelFromDefinition(`${cf['component']} is ${cf['feature']}`, "cxf", definitions)
       }
     }
     index[key] = v;
@@ -145,9 +151,18 @@ function buildTree(variants) {
   return ret;
 }
 
+function loadJsonFile(path) {
+  const ret = utils.readJsonFile(PATH_PREFIX + path)
+  if (!ret) {
+    throw Error(`Can't find the definition file.`)
+  }
+  return ret
+}
+
 function main() {
-  const variants = utils.readJsonFile(VARIANT_RULES_JSON_PATH)
-  const tree = buildTree(variants)
+  const definitions = loadJsonFile(FILE_PATHS.DEFINITIONS)
+  const variants = loadJsonFile(FILE_PATHS.VARIANT_RULES)
+  const tree = buildTree(variants, definitions)
 
   let res = toolbox.renderTemplate('allo-type-tree.liquid', {tree: tree})
 

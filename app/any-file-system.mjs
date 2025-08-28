@@ -15,6 +15,10 @@ export class AnyFileSystem {
   /*
   Unified file read/write interface over different file systems.
 
+  Use it to read/write all JSON data files that belongs to this code base or repository.
+
+  Use other methods (see utils.mjs) for data outside this code base.
+
   Should support the following systems:
   * local : read/write from locally mounted filesystem
   * http  : read-only http fetches
@@ -200,18 +204,22 @@ export class AnyFileSystem {
   }
 
   guessSystemFromPath(path) {
-    // TODO: determine the system based on settings & path
-    // isBrowser
-    // file://
-    // github://
+    // Determine the system where to read/write a file based on settings & path.
+    //
+    // TODO: add a setting condition to switch between those two use cases
+    // * editing period: better to read from GH so data is always fresh
+    // * sustainability/portability: better to http fetch relatively
+    // gh-119
     let ret = this.SYSTEMS.GIT
 
     let canFetchLocally = IS_BROWSER_LOCAL && path.startsWith(this.prefixes[this.SYSTEMS.HTTP])
 
     if (DEBUG_DONT_SAVE && canFetchLocally) {
+      // bypass github and fetch locally for insulated testing purpose
       return this.SYSTEMS.HTTP
     }
     if (this.isAuthenticated()) {
+      // b/c we want live content (not a stale copy on Github Pages) with SHA so it can be edited
       return this.SYSTEMS.GIT
     }
     if (path.startsWith('http:') || path.startsWith('https:')) {

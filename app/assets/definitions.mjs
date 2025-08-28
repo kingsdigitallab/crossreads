@@ -1,6 +1,7 @@
 import { utils, FILE_PATHS } from "../utils.mjs";
 import { createApp, nextTick } from "vue";
 import { AnyFileSystem } from "../any-file-system.mjs";
+import { ChangeQueue } from "../change-queue.mjs";
 
 // const componentFeatureUri = '/digipal/api/componentfeature/'
 const componentUri = '/digipal/api/component/?@select=name,*componentfeature_set,feature'
@@ -26,12 +27,16 @@ createApp({
       displayVariantRules: [],
       variantRulesErrorCount: 0,
 
+      changeQueue: null,
+
       selection: {
         script: '',
         scriptName: '',
         tab: 'definitions',
         innerTab: 'ac',
         gtoken: window.localStorage.getItem('gtoken') || '',
+        variantRules: new Set(),
+        characterNameForPromotedTypes: '',
       },
       newItems: {
         allograph: '',
@@ -54,7 +59,7 @@ createApp({
         errors = ` (${this.variantRulesErrorCount}⚠️)`
       }
       return [
-        {title: 'Allographs x Components', key: 'ac'},
+        {title: 'Characters x Components', key: 'ac'},
         {title: 'Components x Features', key: 'cf'},
         {title: 'Variant types' + errors, key: 'vt'},
       ]
@@ -95,6 +100,24 @@ createApp({
       }
       return ret
     },
+    typePromotionError() {
+      let ret = null
+      let matches = this.selection.characterNameForPromotedTypes.match(/^\S+$/)
+      if (!matches) {
+        ret = 'Invalid character name for promoted types. Please use only letters and numbers.'
+      }
+      return ret
+    },
+    characterNameForPromotedTypesExists() {
+      let scriptChar = `${this.selection.characterNameForPromotedTypes}-${this.selection.script}`
+      let ret = (this?.definitions?.allographs[scriptChar])
+      return ret
+    },
+    numberOfPendingVariantTypeChanges() {
+      let changes = this?.changeQueue?.changes ?? []
+      console.log(JSON.stringify(changes, null, 2))
+      return changes.filter(c => c.changeType === "promoteTypesToCharacter").length
+    },
   },
   async mounted() {
     this.setSelectionFromAddressBar()
@@ -102,6 +125,7 @@ createApp({
     await this.loadDefinitions()
     await this.loadStats()
     await this.loadVariantRules()
+    await this.loadChangeQueue()
   },
   watch: {
     'selection.script'() {
@@ -360,6 +384,13 @@ createApp({
       this.setAddressBarFromSelection()
       this.areDefinitionsUnsaved = 0
     },
+    async loadChangeQueue() {
+      this.changeQueue = new ChangeQueue()
+      let res = await this.changeQueue.load()
+      if (!res.ok) {
+        this.logMessage(`Could not load change queue (${res.description})`, 'danger')
+      }
+    },
     async loadVariantRules() {
       let res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
       if (res?.ok) {
@@ -532,6 +563,15 @@ createApp({
         created: new Date()
       })
     },
+    logWarning(content) {
+      this.logMessage(content, 'warning')
+    },
+    logError(content) {
+      this.logMessage(content, 'danger')
+    },
+    logOk(content) {
+      this.logMessage(content, 'success')
+    },
     clearMessages() {
       this.messages.length = 0
     },
@@ -562,6 +602,8 @@ createApp({
       let errorCount = 0
 
       let ruleHashes = {}
+
+      this.selection.variantRules.clear()
 
       for (let originalRule of this.variantRules) {
         let rule = JSON.parse(JSON.stringify(originalRule))
@@ -735,7 +777,55 @@ createApp({
 
       return ret
     },
+    onToggleRuleSelection(rule) {
+      var selectedRules = this.selection.variantRules
+      if (selectedRules.has(rule)) {
+        selectedRules.delete(rule)
+      } else {
+        selectedRules.add(rule)
+      }
+    },
+    isChangePendingOnVariantType(rule) {
+      if (!this.changeQueue) return false
+      let matchingChanges = this.changeQueue.filter('promoteTypesToCharacter').filter(change => {
+        let matchingTypes = change.types.filter(ct => {
+          return (
+            (ct.script === rule.script) 
+            && (ct.variantName === rule['variant-name']) 
+            && (ct.character === rule.allograph)
+          )
+        })
+        return matchingTypes.length > 0
+      })
 
+      return matchingChanges.length > 0
+    },
+    isRuleForSubType(rule) {
+      return Boolean(rule['variant-name'].match(/\d\.\d/))
+    },
+    async onPromoteTypesToCharacter() {
+      // add a new change to the change queue
+      let change = {
+        changeType: 'promoteTypesToCharacter',
+        types: Array.from(this.selection.variantRules).map(rule => {
+          return {
+            variantName: rule['variant-name'],
+            script: rule.script,
+            character: rule.allograph,
+          }
+        }),
+        character: this.selection.characterNameForPromotedTypes,
+        script: this.selection.script,
+      }
+      this.changeQueue.addChange(change)
+      let res = await this.changeQueue.save()
+      if (!res.ok) {
+        this.logError(`Failed to save change queue (${res.description})`)
+      } else {
+        this.selection.characterNameForPromotedTypes = ''
+        this.selection.variantRules.clear()
+      }
+    },
   }
 }).mount('#definitions')
 

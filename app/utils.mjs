@@ -11,7 +11,8 @@ export const FILE_PATHS = {
   DTS_COLLECTION: 'app/data/2023-08/collection.json',
   DEFINITIONS: 'app/data/pal/definitions-digipal.json',
   VARIANT_RULES: 'app/data/variant-rules.json',
-  CHANGE_QUEUE: 'annotations/change-queue.json',
+  // CHANGE_QUEUE: 'annotations/change-queue.json',
+  CHANGE_QUEUE: 'app/data/change-queue.json',
   INDEX: 'app/index.json',
   STATS: 'app/stats.json',
 }
@@ -23,7 +24,7 @@ async function mod(exports) {
     fs = (await import('fs'));
   }
 
-  exports.slugify = (str) => str.replace(/\W+/g, '-').toLowerCase()
+  exports.slugify = (str) => str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '').toLowerCase()
 
   exports.setQueryString = (parameters, defaults={}) => {
     // TODO: try URLSearchParams.toString() instead.

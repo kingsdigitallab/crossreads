@@ -97,11 +97,11 @@
                   <ul>
                     <li v-for="option in getOptionsFromFacet(facet)" @click="onClickFacetOption(facetKey, option.key)" :class="{'is-selected': option.selected}">
                       <div v-if="facetKey == 'tag'" @mouseenter="onMouseEnterTag(option.key, true)" @mouseleave="onMouseLeaveTag(option.key)">
-                        <span class="option-label">{{ option.key }}</span>
+                        <span class="option-label">{{ getLabelFromOption(option.key, facetKey) }}</span>
                         <span class="option-count">{{ option.doc_count }}</span>
                       </div>
                       <div v-else>
-                        <span class="option-label">{{ option.key }}</span>
+                        <span class="option-label">{{ getLabelFromOption(option.key, facetKey) }}</span>
                         <span class="option-count">{{ option.doc_count }}</span>
                       </div>
                     </li>
@@ -126,22 +126,24 @@
                 </label>
               </div>
 
-              <p class="panel-heading">
-                New <a href="../definitions.html?itb=vt">variant type</a>
-              </p>
-              <div class="panel-block type">
-                <div>
-                  <div class="field has-addons">
-                    <div class="control">
-                      <input :class="{input: 1, 'is-danger': typeFormatError}" type="text" v-model="selection.newTypeName" @keyup.enter="onAddVariantType()">
+              <template v-if="canEdit">
+                <p class="panel-heading">
+                  New <a href="../definitions.html?itb=vt">variant type</a>
+                </p>
+                <div class="panel-block type">
+                  <div>
+                    <div class="field has-addons">
+                      <div class="control">
+                        <input :class="{input: 1, 'is-danger': typeFormatError}" type="text" v-model="selection.newTypeName" @keyup.enter="onAddVariantType()">
+                      </div>
+                      <div class="control">
+                        <button class="button" @click="onAddVariantType()" :disabled="!canEdit || Boolean(typeFormatError) || !(selection.newTypeName || '').trim()">Add</button>
+                      </div>
                     </div>
-                    <div class="control">
-                      <button class="button" @click="onAddVariantType()" :disabled="!canEdit || Boolean(typeFormatError) || !(selection.newTypeName || '').trim()">Add</button>
-                    </div>
+                    <p class="tag-error" v-if="typeFormatError">{{typeFormatError}}</p>
                   </div>
-                  <p class="tag-error" v-if="typeFormatError">{{typeFormatError}}</p>
                 </div>
-              </div>
+              </template>
 
               <p class="panel-heading">Others</p>
               <div class="panel-block">
@@ -164,7 +166,7 @@
             </div>
           </div>
           
-          <div class="column is-6 results">
+          <div :class="'results column' + (canEdit ? 'is-6' : 'is-9')">
             <h2 class="title is-3">Annotations ({{ pagination.total }})</h2>
             <div class="results-controls">
 
@@ -223,7 +225,7 @@
             </p>
           </div>
 
-          <div class="column is-3 selection">
+          <div v-if="canEdit" class="column is-3 selection">
             <h2 class="title is-3">Bulk edit ({{ selection.items.size }})
               <button @click.prevent.stop="saveChangeQueue()" class="button is-primary" :disabled="!canEdit || !isUnsaved">Save</button>
             </h2>
@@ -302,7 +304,10 @@
 
             <p>
               <br>
-              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">{{ changeQueue?.changes?.length || 'no' }} change(s)</a> pending.
+              <template v-if="changeQueue?.changes?.length">⏳</template>
+              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">
+                {{ changeQueue?.changes?.length || 'No' }} change(s)
+              </a> pending.
             </p>
           </div>
         </div>

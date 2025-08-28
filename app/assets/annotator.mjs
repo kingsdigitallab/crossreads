@@ -230,6 +230,7 @@ createApp({
         object: null,
         image: null,
       },
+
       // 0: no box edited; 1: 1+ box created/descr changed; 2: 1+ box moved/resized
       isUnsaved: 0,
       // null: no asked; -1: error; 0: loading; 1: loaded
@@ -251,6 +252,9 @@ createApp({
       // the number of annotations on the image
       annotationsCount: 0,
       stats: {},
+
+      variantRules: [],
+      variantRulesSha: null,
     }
   },
   async mounted() {
@@ -265,8 +269,9 @@ createApp({
 
     loadOpenSeaDragon(this)
     // TODO: no await?
-    this.loadObjects()
-    this.loadDefinitions()
+    await this.loadObjects()
+    await this.loadDefinitions()
+    await this.loadVariantRules()
     await this.loadStats()
     // this.logOk('App loaded')
 
@@ -350,7 +355,7 @@ createApp({
       }
       return ret
     },
-    filteredAllographs() {
+    filteredCharacters() {
       let ret = {}
       let script = this.description.script
 
@@ -386,6 +391,49 @@ createApp({
     selectedAllographDefinition() {
       // returns the definition of the Allograph currently selected in the UI
       return this.definitions.allographs[this.description.allograph]
+    },
+    filteredVariants() {
+      let ret = {'': {'variant-name': ''}}
+
+      let characterKey = this.description?.allograph
+      if (characterKey && this.variantRules && this.definitions) {
+        let character = this.definitions.allographs[characterKey]?.character
+        for (let rule of this.variantRules) {
+          if (rule.allograph === character && rule.script === this.description.script) {
+            ret[rule['variant-name']] = rule
+          }
+        }
+      }
+
+      return ret
+    },
+    variantNameFromDescription() {
+      let ret = ''
+      let dotsInBestMatch = 0
+
+      if (this.description.components) {
+        for (let variant of Object.values(this.filteredVariants)) {
+          if (!variant['variant-name']) continue;
+          let match = true
+          for (let cf of variant['component-features']) {
+            if (!this.description.components[cf.component]?.features?.includes(cf.feature)) {
+              match = false
+              break
+            }
+          }
+          if (match) {
+            let dotsInMatch = variant['variant-name'].split('.').length
+            // privilege more specific match 
+            if (dotsInMatch > dotsInBestMatch) {
+              dotsInBestMatch = dotsInMatch
+              ret = variant['variant-name']
+              // console.log(variant['variant-name'])
+            }
+          }
+        }
+      }
+
+      return ret
     },
     filteredComponents() {
       // Returns a dictionary with all possible components & features 
@@ -558,12 +606,23 @@ createApp({
       } 
       return ret
     },
+    charactersChoicesFromSign() {
+      let sign = this.getSignFromAnnotation()
+      let ret = this.getCharactersFromSign(sign)
+
+      let keys = Object.keys(ret)
+      if (keys.length == 1 && keys[0] === this.description.allograph) {
+        // only one choice and already selected, we hide this
+        ret = {}
+      }
+
+      return ret
+    }
   },
   methods: {
     async loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
       // fetch(getUncachedURL(this.apis.collections))
-      // let res = await utils.readGithubJsonFile(DTS_COLLECTION_PATH, this.getOctokit())
       let res = await this.afs.readJson(DTS_COLLECTION_PATH)
       if (res.ok) {
         this.objects = {}
@@ -588,17 +647,35 @@ createApp({
       }
     },
     async loadDefinitions() {
-      // let res = await utils.readGithubJsonFile(DEFINITIONS_PATH, this.getOctokit())
       let res = await this.afs.readJson(DEFINITIONS_PATH)
       if (res.ok) {
         // sort all the features alphabetically gh-4
         for (let component of Object.values(res.data.components)) {
           component.features.sort()
         }
+        // optimisation: add a temporary sign for each character
+        // e.g. E1+2 => E
+        for (let allo of Object.values(res.data.allographs)) {
+          allo.sign = allo.character
+          let prefix = allo.sign.replace(/\d.*$/, '')
+          if (prefix) {
+            allo.sign = prefix
+          }
+        }
         this.definitions = res.data
         this.updateDescriptionFromAllograph()
       } else {
         this.logError('Failed to load definitions from github.')
+      }
+    },
+    async loadVariantRules() {
+      const res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
+      if (res?.ok) {
+        this.variantRules = res.data
+        this.variantRulesSha = res.sha
+      } else {
+        this.variantRules = []
+        this.logError(`Failed to load variant rules from github (${res.description})`)
       }
     },
     async loadStats() {
@@ -688,30 +765,55 @@ createApp({
 
           // update the description.allograph if none selected
           if (!this.description.allograph) {
-            let allos = [sign.innerText]
-            if (allos[0] === allos[0].toUpperCase()) {
-              allos.push(allos[0].toLowerCase())
+            let charactersFromSign = this.getCharactersFromSign(sign)
+
+            if (Object.keys(charactersFromSign).length == 1) {
+              this.description.allograph = Object.keys(charactersFromSign)[0]
             } else {
-              allos.push(allos[0].toUpperCase())
-            }
-            allosLoop:
-            for (let allo of allos) {
-              for (let k of Object.keys(this.definitions.allographs)) {
-                let allograph = this.definitions.allographs[k] 
-                if (allograph.script === this.description.script) {
-                  if (allograph.character === allo) {
-                    this.description.allograph = k
-                    break allosLoop
-                  }
-                }
-              }
+              this.description.allograph = ''
             }
           }
+
           signAnnotation = selectedAnnotation
           this.updateSelectedAnnotationFromDescription()
         }
       }
       this.selectAnnotation(signAnnotation)
+    },
+    onClickCharacterChoiceFromSign(characterKey) {
+      this.description.allograph = characterKey
+    },
+    getCharactersFromSign(sign) {
+      let ret = {}
+
+      if (!sign) {
+        return ret
+      }
+
+      let allos = [sign.innerText]
+      if (allos[0] === allos[0].toUpperCase()) {
+        allos.push(allos[0].toLowerCase())
+      } else {
+        allos.push(allos[0].toUpperCase())
+      }
+      allosLoop:
+      for (let allo of allos) {
+        for (let k of Object.keys(this.definitions.allographs)) {
+          let allograph = this.definitions.allographs[k] 
+          if (allograph.script === this.description.script) {
+            if (allograph.sign === allo) {
+              // this.description.allograph = k
+              // break allosLoop
+              ret[k] = allograph
+            }
+          }
+        }
+        if (Object.keys(ret).length) {
+          break
+        }
+      }
+
+      return ret
     },
     getAnnotationFromSign(sign) {
       let ret = null
@@ -801,7 +903,7 @@ createApp({
       this.setAddressBarFromSelection()
       this.updateSelectedAnnotationFromDescription()
     },
-    onChangeAllograph() {
+    onChangeCharacter() {
       this.updateDescriptionFromAllograph()
       this.updateSelectedAnnotationFromDescription()
     },
@@ -1119,7 +1221,6 @@ createApp({
       let filePath = this.getAnnotationFilePath()
       this.setLastModified()
       if (filePath) {
-        // let res = await utils.readGithubJsonFile(filePath, this.getOctokit())
         let res = await this.afs.readJson(filePath)
         if (res && res.ok) {
           this.setLastModified(res.data)
@@ -1566,6 +1667,30 @@ createApp({
         const types = utils.getAlloTypesFromAnnotations(annotations, res.data)
         navigator.clipboard.writeText(utils.getTEIfromAlloTypes(types))
       }
+    },
+    onChangeVariant(e) {
+      let newVariantName = e.target.value
+      /*
+        components: {
+          'c1': { features: ['f1', 'f3'] },
+        },
+      */
+      let components = {
+      }
+      let newVariant = this.filteredVariants[newVariantName]
+      if (newVariant) {
+        for (let cf of newVariant['component-features']) {
+          let features = components[cf.component]?.features
+          if (!features) {
+            features = []
+            components[cf.component] = {features: features}
+          }
+          features.push(cf.feature)
+        }
+      }
+      this.description.components = components
+
+      this.updateSelectedAnnotationFromDescription()
     }
   },
 }).use(vuetify).mount('#annotator');

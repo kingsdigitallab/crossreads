@@ -2,23 +2,23 @@
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
 import { Octokit } from 'octokit';
-import { utils, DEBUG_DONT_SAVE } from "./utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, IS_BROWSER } from "./utils.mjs";
 
-// TODO: don't hard-code the git repo
 // TODO: deal with paths relative to a web root /app
 
-// true is this code is being executed in a browser
-const IN_BROWSER = (typeof window !== "undefined")
+// true if this code is being executed in a browser
+// const IS_BROWSER = (typeof window !== "undefined")
 const USE_RAW_FOR_GIT_ANONYMOUS = true
+const GITHUB_REPO_PATH = 'kingsdigitallab/crossreads'
 
 export class AnyFileSystem {  
   /*
   Unified file read/write interface over different file systems.
 
   Should support the following systems:
-  * github: classic token authentication is needed for write operations
-  * http  : read-only fetches
   * local : read/write from locally mounted filesystem
+  * http  : read-only http fetches
+  * github: personal authenticationn token (PAT) is needed for write operations
 
   Advantages:
   * similar protocol across medium (e.g. return values, error codes)
@@ -34,7 +34,8 @@ export class AnyFileSystem {
     GIT:   3,
   }
 
-  constructor() {
+  constructor(githubRepoPath=GITHUB_REPO_PATH) {
+    this.githubRepoPath = githubRepoPath
     this.resetAuthStatus()
   }
 
@@ -138,7 +139,7 @@ export class AnyFileSystem {
     }
 
     if (system == this.SYSTEMS.GIT) {
-      ret = await readGithubJsonFile(relativePath, this.octokit)
+      ret = await readGithubJsonFile(relativePath, this.octokit, this.githubRepoPath)
     } else {
       if (system == this.SYSTEMS.HTTP) {
         ret = await utils.fetchJsonFile(relativePath)
@@ -177,19 +178,21 @@ export class AnyFileSystem {
     if (DEBUG_DONT_SAVE) {
       return {
         ok: false,
+        label: 'saving disabled',
         description: 'Not saving in DEBUG mode. DEBUG_DONT_SAVE = true.',
       }
     }
 
     if (system == this.SYSTEMS.GIT) {
-      ret = await updateGithubJsonFile(relativePath, data, this.octokit, sha)
+      ret = await updateGithubJsonFile(relativePath, data, this.octokit, this.githubRepoPath, sha)
     } else {
       if (system == this.SYSTEMS.HTTP) {
         // TODO: error
         // ret = await utils.fetchJsonFile(relativePath)        
       }
       if (system == this.SYSTEMS.LOCAL) {
-        ret = await utils.writeJsonFile(relativePath, data)
+        utils.writeJsonFile(relativePath, data)
+        ret = this.getResponseFromContent(data)
       }
     }
 
@@ -202,19 +205,36 @@ export class AnyFileSystem {
     // file://
     // github://
     let ret = this.SYSTEMS.GIT
+
+    let canFetchLocally = IS_BROWSER_LOCAL && path.startsWith(this.prefixes[this.SYSTEMS.HTTP])
+
+    if (DEBUG_DONT_SAVE && canFetchLocally) {
+      return this.SYSTEMS.HTTP
+    }
+    if (this.isAuthenticated()) {
+      return this.SYSTEMS.GIT
+    }
     if (path.startsWith('http:') || path.startsWith('https:')) {
-      ret = this.SYSTEMS.HTTP
+      return this.SYSTEMS.HTTP
     }
-    if (!this.isAuthenticated() && IN_BROWSER) {
-      ret = this.SYSTEMS.HTTP
+    if (!IS_BROWSER) {
+      return this.SYSTEMS.LOCAL
     }
+    if (canFetchLocally) {
+      return this.SYSTEMS.HTTP
+    }
+
+    // TODO: test thoroughly in browser with all possible paths/files.
+    // Ideally we'd want to request on same domain from browser first.
+    // But some data files are more up to date in github repo than github Pages.
+
     return ret
   }
 }
 
 function base64Encode(str) {
   // https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-  if (IN_BROWSER) {
+  if (IS_BROWSER) {
     // return btoa(str);
     const bytes = new TextEncoder().encode(str)
     const binString = Array.from(bytes, (x) => String.fromCodePoint(x)).join("");
@@ -226,7 +246,7 @@ function base64Encode(str) {
 }
 
 function base64Decode(str) {
-  if (IN_BROWSER) {
+  if (IS_BROWSER) {
     const binString = atob(str);
     return new TextDecoder().decode(Uint8Array.from(binString, (m) => m.codePointAt(0)));
   } else {
@@ -236,7 +256,7 @@ function base64Decode(str) {
 }
 
 // client-side
-async function readGithubJsonFile(filePath, octokit) {
+async function readGithubJsonFile(filePath, octokit, githubRepoPath) {
   let ret = {
     data: null,
     sha: null,
@@ -248,8 +268,10 @@ async function readGithubJsonFile(filePath, octokit) {
 
   let download = true;
 
+  let apiUrl = `https://api.github.com/repos/${githubRepoPath}/contents/${filePath}`
+
   if (octokit) {
-    let getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
+    let getUrl = apiUrl;
     try {
       res = await octokit.request(`GET ${getUrl}`, {
         headers: {
@@ -274,10 +296,10 @@ async function readGithubJsonFile(filePath, octokit) {
   if (download) {
     let getUrl = null
     if (USE_RAW_FOR_GIT_ANONYMOUS) {
-      getUrl = `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${filePath}`
+      getUrl = `https://raw.githubusercontent.com/${githubRepoPath}/refs/heads/main/${filePath}`
     } else {
       // no need for octokit or token BUT rate limit is easily exceeded
-      getUrl = `https://api.github.com/repos/kingsdigitallab/crossreads/contents/${filePath}`;
+      getUrl = apiUrl;
     }
     res = await utils.fetchJsonFile(getUrl)
     if (res) {
@@ -304,7 +326,8 @@ async function updateGithubJsonFile (
   filePath,
   data,
   octokit,
-  sha = null
+  githubRepoPath,
+  sha = null,
 ) {
   let ret = {
     sha: null,
@@ -318,8 +341,8 @@ async function updateGithubJsonFile (
   // console.log(JSON.stringify(data, null, 2))
 
   let options = {
-    owner: "kingsdigitallab",
-    repo: "crossreads",
+    owner: githubRepoPath.split('/')[0],
+    repo: githubRepoPath.split('/')[1],
     // path: `projects/${this.selection.project}/a11y-issues.json`,
     path: filePath,
     message: `Modified ${filePath}`,

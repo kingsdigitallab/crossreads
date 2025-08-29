@@ -79,6 +79,9 @@ and Idiograph. Variant rules were introduced to support a flexible
 hierarchy of allographs. The description of a graph into components and
 their respective features remains fundamentally the same.
 
+<img width="1026" height="803" alt="image" src="https://github.com/user-attachments/assets/cdd856ac-fb9a-4a52-a646-a97d4166eb97" />
+
+
 ### Definitions
 
 The palaeographical definitions created by the researchers are stored in

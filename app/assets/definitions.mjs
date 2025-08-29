@@ -385,6 +385,7 @@ createApp({
     },
     async loadChangeQueue() {
       this.changeQueue = new ChangeQueue()
+      await this.changeQueue.authenticateToGithub(this.selection.gtoken)
       let res = await this.changeQueue.load()
       if (!res.ok) {
         this.logMessage(`Could not load change queue (${res.description})`, 'danger')
@@ -818,7 +819,8 @@ createApp({
       }
       this.changeQueue.addChange(change)
       let res = await this.changeQueue.save()
-      if (!res.ok) {
+      if (!res?.ok) {
+        this.changeQueue.removeLastChange()
         this.logError(`Failed to save change queue (${res.description})`)
       } else {
         this.selection.characterNameForPromotedTypes = ''

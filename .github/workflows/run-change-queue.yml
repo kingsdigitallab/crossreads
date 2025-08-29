@@ -15,8 +15,10 @@ jobs:
         uses: actions/setup-node@v3
         with: 
           node-version: 19.x
-      - name: Install dependencies
+      - name: Install tool dependencies
         run: cd tools && npm ci
+      - name: Install app dependencies
+        run: cd app && npm ci
       - name: Run Change Queue
         run: cd tools && node run-change-queue.mjs
       - name: Commit and push

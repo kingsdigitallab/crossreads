@@ -18,6 +18,10 @@ export class ChangeQueue {
     this.clear()
   }
 
+  async authenticateToGithub(gitToken) {
+    await this.afs.authenticateToGithub(gitToken)
+  }
+
   setQueuePath(queuePath=null) {
     this.queuePath = queuePath ?? FILE_PATHS.CHANGE_QUEUE
   }
@@ -57,6 +61,10 @@ export class ChangeQueue {
       change.creator = this.afs.getUserId()
     }
     this.changes.push(change)
+  }
+
+  removeLastChange() {
+    this.changes.pop()
   }
 
   setChanges(changes) {

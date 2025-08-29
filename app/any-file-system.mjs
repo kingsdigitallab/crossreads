@@ -4,10 +4,6 @@
 import { Octokit } from 'octokit';
 import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, IS_BROWSER } from "./utils.mjs";
 
-// TODO: deal with paths relative to a web root /app
-
-// true if this code is being executed in a browser
-// const IS_BROWSER = (typeof window !== "undefined")
 const USE_RAW_FOR_GIT_ANONYMOUS = true
 const GITHUB_REPO_PATH = 'kingsdigitallab/crossreads'
 
@@ -173,7 +169,6 @@ export class AnyFileSystem {
   }
 
   async writeJson(relativePath, data, sha=null, system=null) {
-    // todo: default error struct
     let ret = null;
     if (!system) {
       system = this.guessSystemFromPath(relativePath)
@@ -189,14 +184,20 @@ export class AnyFileSystem {
 
     if (system == this.SYSTEMS.GIT) {
       ret = await updateGithubJsonFile(relativePath, data, this.octokit, this.githubRepoPath, sha)
-    } else {
-      if (system == this.SYSTEMS.HTTP) {
-        // TODO: error
-        // ret = await utils.fetchJsonFile(relativePath)        
-      }
-      if (system == this.SYSTEMS.LOCAL) {
+    } else if (system == this.SYSTEMS.LOCAL) {
         utils.writeJsonFile(relativePath, data)
         ret = this.getResponseFromContent(data)
+    } else if (system == this.SYSTEMS.HTTP) {
+      ret = {
+        ok: false,
+        label: 'log in needed',
+        description: `Can't save from browser without git authentication`,
+      }
+    } else {
+      ret = {
+        ok: false,
+        label: 'unknown system',
+        description: `Can't save to unrecognised file system ${system}`,
       }
     }
 

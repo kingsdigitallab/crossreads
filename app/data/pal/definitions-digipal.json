@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2025-07-10T10:29:42.130Z",
+  "updated": "2025-08-29T21:49:51.410Z",
   "scripts": {
     "base": "Base",
     "latin": "Latin",
@@ -485,19 +485,20 @@
       "script": "latin",
       "character": "A",
       "components": [
-        "right-stroke",
-        "left-stroke",
+        "apex",
         "crossbar",
-        "apex"
+        "left-stroke",
+        "right-stroke"
       ]
     },
     "B-latin": {
       "script": "latin",
       "character": "B",
       "components": [
+        "downstroke",
         "lower-bowl",
         "upper-bowl",
-        "downstroke"
+        "apex"
       ]
     },
     "C-latin": {
@@ -757,31 +758,31 @@
       "character": "Β",
       "components": [
         "downstroke",
-        "lower-bowl",
-        "upper-bowl",
         "left-stroke",
+        "lower-bowl",
         "middle-bar",
-        "right-stroke"
+        "right-stroke",
+        "upper-bowl"
       ]
     },
     "Γ-greek": {
       "script": "greek",
       "character": "Γ",
       "components": [
-        "top-bar",
+        "bottom-bar",
         "downstroke",
-        "bottom-bar"
+        "top-bar"
       ]
     },
     "Δ-greek": {
       "script": "greek",
       "character": "Δ",
       "components": [
+        "bottom-bar",
         "bowl",
         "downstroke",
         "left-stroke",
-        "right-stroke",
-        "bottom-bar"
+        "right-stroke"
       ]
     },
     "Ε-greek": {
@@ -790,9 +791,9 @@
       "components": [
         "bottom-bar",
         "downstroke",
+        "lower-bowl",
         "middle-bar",
         "top-bar",
-        "lower-bowl",
         "upper-bowl"
       ]
     },
@@ -800,9 +801,9 @@
       "script": "greek",
       "character": "Ζ",
       "components": [
-        "top-bar",
+        "bottom-bar",
         "downstroke",
-        "bottom-bar"
+        "top-bar"
       ]
     },
     "Η-greek": {
@@ -810,8 +811,8 @@
       "character": "Η",
       "components": [
         "bottom-bar",
-        "left-stroke",
         "crossbar",
+        "left-stroke",
         "right-stroke",
         "top-bar"
       ]
@@ -828,9 +829,9 @@
       "script": "greek",
       "character": "Ι",
       "components": [
-        "downstroke",
         "apex",
         "bottom-bar",
+        "downstroke",
         "middle-bar",
         "top-bar"
       ]
@@ -840,40 +841,40 @@
       "character": "Κ",
       "components": [
         "downstroke",
-        "upper-bar",
-        "lower-bar"
+        "lower-bar",
+        "upper-bar"
       ]
     },
     "Λ-greek": {
       "script": "greek",
       "character": "Λ",
       "components": [
-        "top-bar",
-        "downstroke",
+        "apex",
         "bottom-bar",
+        "downstroke",
         "left-stroke",
         "right-stroke",
-        "apex"
+        "top-bar"
       ]
     },
     "Μ-greek": {
       "script": "greek",
       "character": "Μ",
       "components": [
-        "right-stroke",
-        "left-stroke",
+        "apex",
         "left-bar",
+        "left-stroke",
         "right-bar",
-        "apex"
+        "right-stroke"
       ]
     },
     "Ν-greek": {
       "script": "greek",
       "character": "Ν",
       "components": [
-        "right-stroke",
         "left-stroke",
-        "middle-stroke"
+        "middle-stroke",
+        "right-stroke"
       ]
     },
     "Ξ-greek": {
@@ -881,9 +882,9 @@
       "character": "Ξ",
       "components": [
         "bottom-bar",
+        "downstroke",
         "middle-bar",
-        "top-bar",
-        "downstroke"
+        "top-bar"
       ]
     },
     "Ο-greek": {
@@ -909,8 +910,8 @@
       "script": "greek",
       "character": "Ρ",
       "components": [
-        "downstroke",
         "bowl",
+        "downstroke",
         "right-bar"
       ]
     },
@@ -920,9 +921,9 @@
       "components": [
         "apex",
         "bottom-bar",
+        "downstroke",
         "middle-bar",
-        "top-bar",
-        "downstroke"
+        "top-bar"
       ]
     },
     "Τ-greek": {
@@ -937,8 +938,8 @@
       "script": "greek",
       "character": "Υ",
       "components": [
-        "downstroke",
         "apex",
+        "downstroke",
         "left-stroke",
         "right-stroke"
       ]
@@ -957,8 +958,8 @@
       "components": [
         "downstroke",
         "left-bar",
-        "right-bar",
-        "middle-stroke"
+        "middle-stroke",
+        "right-bar"
       ]
     },
     "Ψ-greek": {
@@ -975,9 +976,9 @@
       "character": "Ω",
       "components": [
         "body",
+        "feet",
         "left-bowl",
-        "right-bowl",
-        "feet"
+        "right-bowl"
       ]
     },
     "ϝ-greek": {
@@ -986,8 +987,8 @@
       "components": [
         "bottom-bar",
         "downstroke",
-        "top-bar",
-        "middle-bar"
+        "middle-bar",
+        "top-bar"
       ]
     },
     "ϙ-greek": {

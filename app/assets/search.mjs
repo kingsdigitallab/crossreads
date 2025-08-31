@@ -411,10 +411,12 @@ createApp({
 
       let ret = ''
 
-      ret = item.doc.replace('.xml', '')
-      ret += item.img.replace(/^.*(\/[^/]+)_tiled\.tif$/, '$1.jpg')
-      ret = utils.slugify(ret)
-      ret += '.json'
+      ret = item.fil
+
+      // ret = item.doc.replace('.xml', '')
+      // ret += item.img.replace(/^.*(\/[^/]+)_tiled\.tif$/, '$1.jpg')
+      // ret = utils.slugify(ret)
+      // ret += '.json'
 
       return ret
     },
@@ -638,7 +640,13 @@ createApp({
     getDocIdFromItem(item) {
       // TODO get from doc when doc will be always populated
       // let ret = (item?.doc || '').replace(/^.*id=/, '')
-      const ret = (item?.img || '').replace(/^.*inscription_images\/([^/]+)\/.*$/, '$1')
+      // if (item.doc) {
+      //   return item.doc.replace(/\.xml$/, '')
+      // }
+      let ret = null 
+      // from the img: not good b/c it can be wrong when annotation has been copied by mistake to another doc
+      // ret = (item?.img || '').replace(/^.*inscription_images\/([^/]+)\/.*$/, '$1')
+      ret = item.fil.replace(/^.*-isic(\d+)-.*$/i, 'ISic$1')
       return ret
     },
     getAnnotatorLinkFromItem(item) {

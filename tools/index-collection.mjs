@@ -46,6 +46,8 @@ async function indexCollection() {
   let shortList = ['ISic020600', 'ISic001132']
   shortList = null
 
+  let notWellFormedFiles = []
+
   let total = 0
   for (let filename of fs.readdirSync(TEI_FOLDER).sort()) {
     let iSicCode = filename.replace('.xml', '')
@@ -60,7 +62,14 @@ async function indexCollection() {
         'inscription_number': iSicCode,
       }
 
-      let xml = await xmlUtils.fromString(filePath)
+      let xml = null
+      try {
+        xml = await xmlUtils.fromString(filePath)
+      } catch (e) {
+        notWellFormedFiles.push(filePath)
+        console.log(`ERROR: could not parse XML from ${filePath}. Type: ${e.name}. Cause: ${e.message}`)
+        continue
+      }
       let val = ''
 
       metadata['writting_method'] = getMultipleValuesFromXML(xml, "//tei:layoutDesc//tei:rs//text()")
@@ -80,7 +89,7 @@ async function indexCollection() {
       val = xmlUtils.xpath(xml, "//tei:objectType//text()")
       metadata['object_type'] = xmlUtils.toString(val).trim() || 'unspecified'
   
-      data[iSicCode] = metadata
+      data[iSicCode.toLowerCase()] = metadata
     }
   }
 
@@ -106,6 +115,10 @@ async function indexCollection() {
   }
 
   writeJsonFile(PATH_INDEX_COLLECTION, index, `${total} inscriptions`)
+
+  if (notWellFormedFiles.length) {
+    console.log(`Following files were not loaded properly: ${notWellFormedFiles}.`)
+  }
 
   ret = 0
   return ret

@@ -115,8 +115,10 @@ class AnnotationIndex {
         ]
       }
 
-      let img = annotation.target[0].source
-      let inscriptionNumber = img.replace(/^.*\/(ISic\d+)\/.*$/g, '$1')
+      // e.g. extarct ISic000085 from image
+      // let img = annotation.target[0].source
+      // let inscriptionNumber = img.replace(/^.*\/(ISic\d+)\/.*$/g, '$1')
+      let inscriptionNumber = filePath.replace(/^.*-(isic\d+)-.*$/gi, '$1').toLowerCase()
 
       this.updateStatsWithAnnotation(description, character, bodyValue.script, bodyValue.tags, bodyValue?.components, inscriptionNumber)
 
@@ -138,6 +140,7 @@ class AnnotationIndex {
         'scr': bodyValue.script,
         'tag': bodyValue.tags,
         'doc': annotation.target[1]?.source,
+        'fil': path.basename(filePath),
         'img': annotation.target[0].source,
         'box': annotation.target[0].selector.value,
         ...description

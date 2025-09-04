@@ -115,6 +115,40 @@
         "format": "application/json",
         "value": {
           "script": "greek",
+          "components": null,
+          "tags": null,
+          "textTarget": null,
+          "character": "Θ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001560/ISic001560_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1388.989013671875,2164.63232421875,1074.26513671875,1067.592529296875"
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/c31e17c1-7058-4bb8-9655-7a5487ae83fa",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-09-04T17:08:07.839Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-09-04T17:08:14.146Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
           "components": {
             "downstroke": {
               "features": [

@@ -13,6 +13,7 @@ export const FILE_PATHS = {
   VARIANT_RULES: 'app/data/variant-rules.json',
   // CHANGE_QUEUE: 'annotations/change-queue.json',
   CHANGE_QUEUE: 'app/data/change-queue.json',
+  // TODO: move them under data folder
   INDEX: 'app/index.json',
   STATS: 'app/stats.json',
 }
@@ -206,7 +207,7 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getDocIdFromString = (str) => {
+  exports.getDocIdFromString = (str, withCase=false) => {
     // Returns the first occurrence of 'isic123456' found in str.
     // '' if none found.
     // Examples:
@@ -217,40 +218,50 @@ async function mod(exports) {
     const matches = str.match(/\bisic\d{6,}\b/i);
     if (matches) {
       ret = matches[0].toLowerCase()
+      if (withCase) {
+        ret = ret.replace('isic', 'ISic')
+      }
     }
 
     return ret
   }
 
   exports.getAlloTypesFromAnnotations = (annotations, variantRules) => {
-    // Return the number of annotations matching each rule.
+    // Return the rules which match at least one of the annotations
     // Don't return rules without matches.
     // The output should be a list of rules.
     // Each rule should have a 'inscriptions' key, 
     // which value is a map between inscription code and the number of matches.
     const ret = []
 
-    for (const atype of variantRules) {
-      for (const annotation of annotations) {
-        const body = annotation?.body
-        if (!body) continue;
-        const value = body[0]?.value
-        if (!value) continue;
-        const components = value.components
-        if (!components) continue;
+    let found = {}
+
+    for (const annotation of annotations) {
+      const body = annotation?.body
+      if (!body) continue;
+      const value = body[0]?.value
+      if (!value) continue;
+      const components = value.components
+      if (!components) continue;
       
-        // TODO: check script once it has been added to variant-rules
-        if (atype.allograph === value?.character) {
-          let match = true
+      for (const atype of variantRules) {
+        let match = false
+
+        if (atype.allograph === value?.character && atype.script === value.script) {
+          match = true
           for (const cf of atype['component-features']) {
             if (!components[cf.component]?.features?.includes(cf.feature)) {
               match = false;
               break;
             }
           }
-          if (match) {
+        }
+        if (match) {
+          let tk = `${atype.script}-${atype.allograph}-${atype['variant-name']}`
+          if (!found[tk]) {            
             ret.push(atype)
-            break
+            // break
+            found[tk] = 1
           }
         }
       }

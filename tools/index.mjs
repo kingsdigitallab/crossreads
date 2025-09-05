@@ -10,7 +10,7 @@ C include the letter and word in the dts selector?
 */
 import * as fs from 'fs';
 import * as path from 'path';
-import { utils } from "../app/utils.mjs";
+import { FILE_PATHS, utils } from "../app/utils.mjs";
 
 const INDEX_PATH = '../app/index.json'
 const STATS_PATH = '../app/stats.json'
@@ -118,6 +118,7 @@ class AnnotationIndex {
       // e.g. extarct ISic000085 from image
       // let img = annotation.target[0].source
       // let inscriptionNumber = img.replace(/^.*\/(ISic\d+)\/.*$/g, '$1')
+      // TODO: use utils.getDocIDFromString() & test if it works on this format
       let inscriptionNumber = filePath.replace(/^.*-(isic\d+)-.*$/gi, '$1').toLowerCase()
 
       this.updateStatsWithAnnotation(description, character, bodyValue.script, bodyValue.tags, bodyValue?.components, inscriptionNumber)
@@ -131,6 +132,16 @@ class AnnotationIndex {
         description['dat'] = inscriptionMeta.origin_date_to
       }
 
+      // variants features
+      let variantInfo = {}
+      if (1) {
+        let rules = utils.getAlloTypesFromAnnotations([annotation], this.variantRules)
+        if (rules.length) {
+          variantInfo['var'] = rules.map(r => r['variant-name'])
+        }
+      }
+
+      // core featrures
       // only keep distinct features
       description['fea'] = [...new Set(description['fea'])]
       this.annotations.push({
@@ -143,7 +154,8 @@ class AnnotationIndex {
         'fil': path.basename(filePath),
         'img': annotation.target[0].source,
         'box': annotation.target[0].selector.value,
-        ...description
+        ...description,
+        ...variantInfo,
       })
     }
   }
@@ -171,6 +183,10 @@ class AnnotationIndex {
 
   loadDefinitions() {
     this.definitions = utils.readJsonFile(DEFINITIONS_PATH)    
+  }
+
+  loadVariantRules() {
+    this.variantRules = utils.readJsonFile('../' + FILE_PATHS.VARIANT_RULES)
   }
 
   initStats() {
@@ -220,6 +236,7 @@ class AnnotationIndex {
   build(annotations_path) {
 
     this.loadDefinitions()
+    this.loadVariantRules()
 
     this.indexCollection = utils.readJsonFile(PATH_INDEX_COLLECTION)
     this.inscriptionsMeta = this.indexCollection.data

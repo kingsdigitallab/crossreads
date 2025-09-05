@@ -505,6 +505,9 @@ createApp({
         chr: {
           title: 'Character',
         },
+        var: {
+          title: 'Variant type',
+        },
         tag: {
           title: 'Tags',
         },

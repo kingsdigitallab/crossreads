@@ -26,13 +26,17 @@ function processVariantRule(variantRule, definitions) {
   context['component-features'] = variantRule['component-features'].map(feature => `  <li>${getLabel(feature.component, 'cxf')} is ${getLabel(feature.feature, 'fea')}</li>`).join('\n')
   context['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${definitions.scripts[context.script]}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
 
+  let variantKey = `${variantRule.script}-${variantRule.allograph}-${variantRule['variant-name']}`
+  context['variant-key'] = variantKey
+
   let htmlContent = toolbox.renderTemplate(HTML_TEMPLATE_PATH, context)
 
   // Create the file name using allograph and variant-name
-  const fileName = `${variantRule.script}-${variantRule.allograph}-${variantRule['variant-name']}.html`;
+  const fileName = `${variantKey}.html`
 
   // Write the HTML content to a file
   const outputPath = path.join(__dirname, OUTPUT_DIR, fileName);
+  
   fs.writeFileSync(outputPath, htmlContent)
   console.log(`HTML file created: ${outputPath}`);
 }

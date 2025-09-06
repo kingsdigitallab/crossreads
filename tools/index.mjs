@@ -10,7 +10,7 @@ C include the letter and word in the dts selector?
 */
 import * as fs from 'fs';
 import * as path from 'path';
-import { FILE_PATHS, utils } from "../app/utils.mjs";
+import { FILE_PATHS, SETTINGS, utils } from "../app/utils.mjs";
 
 const INDEX_PATH = '../app/index.json'
 const STATS_PATH = '../app/stats.json'
@@ -30,6 +30,7 @@ class AnnotationIndex {
   constructor(path) {
     this.path = path
     this.messages = []
+    this.varsBoxItems = {}
   }
 
   log(message, level='WARNING', annotionsFile=null, annotationId=null) {
@@ -132,19 +133,25 @@ class AnnotationIndex {
         description['dat'] = inscriptionMeta.origin_date_to
       }
 
+      // the coordinates of the bounding box in IIIF format
+      // "xywh=pixel:1328.8419189453125,2340.632080078125,83.12060546875,335.348388671875"
+      // [1328,2340,83,335]
+      let box = annotation.target[0].selector.value
+      box = box.substring(11).split(',').map(v => parseInt(v))
+
       // variants features
       let variantInfo = {}
       if (1) {
         let rules = utils.getAlloTypesFromAnnotations([annotation], this.variantRules)
         if (rules.length) {
-          variantInfo['var'] = rules.map(r => r['variant-name'])
+          variantInfo['var'] = rules.map(r => r['variant-name'])          
         }
       }
 
       // core featrures
       // only keep distinct features
       description['fea'] = [...new Set(description['fea'])]
-      this.annotations.push({
+      let item = {
         'id': annotation.id,
         'chr': character,
         'val': isValid,
@@ -153,10 +160,23 @@ class AnnotationIndex {
         'doc': annotation.target[1]?.source,
         'fil': path.basename(filePath),
         'img': annotation.target[0].source,
-        'box': annotation.target[0].selector.value,
+        'box': box.join(','),
         ...description,
         ...variantInfo,
-      })
+      }
+      this.annotations.push(item)
+
+      // TODO: do that in a funtion
+      for (let avar of item?.var ?? []) {
+        let varKey = `${item.scr}-${item.chr}-${avar}`
+        if (!this.varsBoxItems[varKey]) {
+          this.varsBoxItems[varKey] = []
+        }
+        let boxSortKey = (item.tag && item.tag.includes('m.exemplar')) ? '1' : '0'
+        boxSortKey += '-' + String(box[2] * box[3]).padStart(7, '0')
+        this.varsBoxItems[varKey].push([boxSortKey, item])
+      }
+
     }
   }
 
@@ -254,7 +274,49 @@ class AnnotationIndex {
 
     this.writeIndexFiles()
 
+    this.writeThumbs()
+
     console.log('DONE ')
+  }
+
+  writeThumbs() {
+    // TODO create folder if needed
+
+    let parentPath = '../' + FILE_PATHS.THUMBS
+
+    let thumbsSummary = {}
+
+    let thumbsSummaryLast = utils.readJsonFile(parentPath + '/thumbs.json')
+    if (!thumbsSummaryLast) {
+      thumbsSummaryLast = {
+        data: {}
+      }
+    }
+
+    for (let [varKey, boxItems] of Object.entries(this.varsBoxItems)) {
+      // sort the index items for this variatn type by examplar and size of the box
+      // examplar fist, largest boxes first
+      boxItems.sort((a,b) => b[0].localeCompare(a[0]))
+
+      // now save the best image under the thumbs folder
+      let thumbPath = parentPath + '/' + varKey + '.jpg'
+      let item = boxItems[0][1]
+      let url = `${item.img}/${item.box}/,${SETTINGS.EXEMPLAR_THUMB_HEIGHT}/0/default.jpg`
+      // console.log(`${url} => ${thumbPath}`)
+      let existingThumb = thumbsSummaryLast.data[varKey]
+      if (existingThumb && existingThumb.box === item.box && fs.existsSync(thumbPath)) {
+        // console.log('SKIPPED (already saved)')
+      } else {
+        // fetch the image crop from the IIIF image server
+        console.log(`FETCH variant type thumbnail from ${url} to ${thumbPath}`)
+        utils.fetchFile(url, thumbPath)
+      }
+      thumbsSummary[varKey] = item
+    }
+
+    // write the subset of the annotation index used for the thumbs
+    // so we know where they come from and we can prevent fetching next time we index if the crop is the same
+    this.writeJsonFile(thumbsSummary, parentPath + '/thumbs.json', `${Object.keys(thumbsSummary).length} thumbnails.`)
   }
 
   writeIndexFiles() {

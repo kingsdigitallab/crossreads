@@ -16,6 +16,13 @@ export const FILE_PATHS = {
   // TODO: move them under data folder
   INDEX: 'app/index.json',
   STATS: 'app/stats.json',
+  THUMBS: 'app/data/thumbs',
+}
+
+export const SETTINGS = {
+  // if you change this you'll need to empty the content of the app/data/thumbs folder
+  // then re-run tools/index.mjs to obtaint the new sizes
+  EXEMPLAR_THUMB_HEIGHT: 150,
 }
 
 async function mod(exports) {
@@ -297,6 +304,16 @@ async function mod(exports) {
   exports.getURLFromAlloType = (atype, prefix=null) => {
     const baseUrl = prefix || 'https://kingsdigitallab.github.io/crossreads/'
     return `${baseUrl}data/allographs/types/${atype.script}-${atype.allograph}-${atype['variant-name']}.html`
+  }
+
+  exports.fetchFile = async (url, filePath) => {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const buffer = Buffer.from(await response.arrayBuffer());
+    fs.writeFileSync(filePath, buffer);
+
+    return filePath;
   }
 
   // --------------------------------------------

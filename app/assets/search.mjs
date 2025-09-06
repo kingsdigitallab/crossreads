@@ -627,7 +627,8 @@ createApp({
     getThumbUrlFromItem(item, height=48) {
       let ret = ''
       if (item) {
-        const crop = item.box.substring(11)
+        // const crop = item.box.substring(11)
+        const crop = item.box.replace('xywh=pixel:', '')
         ret = `${item.img}/${crop}/,${height}/0/default.jpg`
       }
 

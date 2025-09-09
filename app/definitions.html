@@ -190,7 +190,7 @@
             </div>
             <div v-else>
               <template v-if="numberOfPendingVariantTypeChanges">⏳</template>
-              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">
+              <a :href="getGitUrlTo('CHANGE_QUEUE')" target="_blank">
                 {{ numberOfPendingVariantTypeChanges ?? 'No' }} change(s)
               </a> pending.
             </div>

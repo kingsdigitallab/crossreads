@@ -829,7 +829,10 @@ createApp({
     },
     getLabelFromDefinition(itemKey, itemType) {
       return utils.getLabelFromDefinition(itemKey, itemType, this.definitions)
-    }
+    },
+    getGitUrlTo(file_key, isRaw=false) {
+      return utils.getGitUrlTo(file_key, isRaw)
+    },
   },
 }).mount('#definitions')
 

@@ -305,7 +305,7 @@
             <p>
               <br>
               <template v-if="changeQueue?.changes?.length">⏳</template>
-              <a href="https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json" target="_blank">
+              <a :href="getGitUrlTo('CHANGE_QUEUE')" target="_blank">
                 {{ changeQueue?.changes?.length || 'No' }} change(s)
               </a> pending.
             </p>

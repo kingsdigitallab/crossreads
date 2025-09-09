@@ -976,6 +976,10 @@ createApp({
       const ret = Number.isNaN(res) ? defaultValue : res
       // console.log(stringValue, res, defaultValue, ret)
       return ret
-    }
+    },
+    getGitUrlTo(file_key, isRaw=false) {
+      return utils.getGitUrlTo(file_key, isRaw)
+    },
+    
   }
 }).mount('#search');

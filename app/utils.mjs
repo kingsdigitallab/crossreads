@@ -20,10 +20,13 @@ export const FILE_PATHS = {
 }
 
 export const SETTINGS = {
+  // TODO: search this string & replace everywhere
+  GITHUB_REPO_PATH: 'kingsdigitallab/crossreads',
   // if you change this you'll need to empty the content of the app/data/thumbs folder
   // then re-run tools/index.mjs to obtaint the new sizes
   EXEMPLAR_THUMB_HEIGHT: 150,
 }
+SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
 
 async function mod(exports) {
 
@@ -33,6 +36,21 @@ async function mod(exports) {
   }
 
   exports.slugify = (str) => str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '').toLowerCase()
+
+  exports.getGitUrlTo = (file_key, isRaw=false) => {
+    // Returns a URL on github to the key of a file from FILE_PATHS
+    // e.g. 'CHANGE_QUEUE' => 
+    // https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json
+    let ret = ''
+    if (isRaw) {
+      // https://raw.githubusercontent.com/kingsdigitallab/crossreads/refs/heads/main/app/data/change-queue.json
+      ret = `https://raw.githubusercontent.com/${SETTINGS.GITHUB_REPO_PATH}/refs/heads/main/${FILE_PATHS[file_key]}`
+    } else {
+      // https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json
+      ret = `${SETTINGS.GITHUB_REPO_URL}/blob/main/${FILE_PATHS[file_key]}`
+    }
+    return ret
+  }
 
   exports.getLabelFromDefinition = (itemKey, itemType, definitions) => {
       // TODO: cache the responses

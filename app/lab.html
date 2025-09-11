@@ -54,6 +54,7 @@
               <td>Discard</td>
               <td>Query</td>
               <td>Insc.</td>
+              <td>Anywhere</td>
               <td v-for="place in places">{{ place }}</td>
             </tr>
           </thead>
@@ -67,6 +68,7 @@
             <td>
               {{ inscriptionSet.inscriptions.length }}
             </td>
+            <td>{{ getPlaceTimeRange(inscriptionSet) }}</td>
             <td v-for="place in places">{{ getPlaceTimeRange(inscriptionSet, place) }}</td>
           </tr>
         </table>

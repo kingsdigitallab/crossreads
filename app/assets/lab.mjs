@@ -144,16 +144,23 @@ createApp({
         })
       }
     },
-    getPlaceTimeRange(inscriptionSet, place) {
+    getPlaceTimeRange(inscriptionSet, place=null) {
+      // returns the date range as a string
+      // that contains all date ranges in a place in an inscriptionSet.
+      // If place is null, return the date range across all places.
       let ret = []
 
       if (inscriptionSet.places) {
-        for (let dateRange of inscriptionSet.places[place] ?? []) {
-          if (ret.length < 1) {
-            ret = dateRange
-          } else {
-            ret[0] = Math.min(ret[0], dateRange[0])
-            ret[1] = Math.max(ret[1], dateRange[1])
+        for (let [placeKey, dateRanges] of Object.entries(inscriptionSet.places)) {
+          if (!place || placeKey == place) {
+            for (let dateRange of dateRanges) {
+              if (ret.length < 1) {
+                ret = dateRange
+              } else {
+                ret[0] = Math.min(ret[0], dateRange[0])
+                ret[1] = Math.max(ret[1], dateRange[1])
+              }
+            }
           }
         }
       }

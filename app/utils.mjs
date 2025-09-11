@@ -3,9 +3,9 @@
 
 export const IS_BROWSER = (typeof window !== "undefined")
 export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname === 'localhost')
-export const DEBUG_DONT_SAVE = false;
+// export const DEBUG_DONT_SAVE = false;
 // export const DEBUG_DONT_SAVE = true;
-// export const DEBUG_DONT_SAVE = IS_BROWSER_LOCAL;
+export const DEBUG_DONT_SAVE = IS_BROWSER_LOCAL;
 
 export const FILE_PATHS = {
   DTS_COLLECTION: 'app/data/2023-08/collection.json',
@@ -15,24 +15,46 @@ export const FILE_PATHS = {
   CHANGE_QUEUE: 'app/data/change-queue.json',
   // TODO: move them under data folder
   INDEX: 'app/index.json',
+  ANNOTATIONS_ISSUES: 'app/data/annotations-issues.json',
+  INDEX_COLLECTION: 'app/data/index-collection.json',
   STATS: 'app/stats.json',
   THUMBS: 'app/data/thumbs',
+  ANNOTATIONS: 'annotations',
 }
 
+// TODO: move all hard-coded literals in the code base to this SETTINGS dictionary
 export const SETTINGS = {
   // TODO: search this string & replace everywhere
   GITHUB_REPO_PATH: 'kingsdigitallab/crossreads',
   // if you change this you'll need to empty the content of the app/data/thumbs folder
   // then re-run tools/index.mjs to obtaint the new sizes
   EXEMPLAR_THUMB_HEIGHT: 150,
+  APPLICATION_TABS: [
+    {title: 'Annotator', key: 'annotator'},
+    {title: 'Definitions', key: 'definitions'},
+    {title: 'Search', key: 'search'},
+    {title: 'Lab', key: 'lab'},
+    {title: 'Settings', key: 'settings'},
+  ],
+  BROWSER_STORAGE_INSCRIPTION_SETS: 'inscriptionSets',
 }
 SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
+
+// Absolute filesystem path to the code base root folder.
+// null if called from browser.
+export let ROOT_PATH = null
 
 async function mod(exports) {
 
   let fs = null
   if (!IS_BROWSER) {
-    fs = (await import('fs'));
+    fs = (await import('fs'))
+    let url = (await import('url'))
+    let path = (await import('path'))
+
+    const __filename = url.fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    ROOT_PATH = path.resolve(__dirname, '..')
   }
 
   exports.slugify = (str) => str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '').toLowerCase()
@@ -105,12 +127,7 @@ async function mod(exports) {
     return window.location.search
   }
 
-  exports.tabs = () => [
-      {title: 'Annotator', key: 'annotator'},
-      {title: 'Definitions', key: 'definitions'},
-      {title: 'Search', key: 'search'},
-      {title: 'Settings', key: 'settings'},
-    ]
+  exports.tabs = () => SETTINGS.APPLICATION_TABS
 
   exports.initFillHeightElements = () => {
     for (const element of document.querySelectorAll('.responsive-height')) {
@@ -153,8 +170,27 @@ async function mod(exports) {
     return ret
   }
 
+  exports.resolveFilePathFromFileKey = (fileKeyOrPath) => {
+    // Looks up fileKeyOrPath in FILE_PATHS and returns the absolute path.
+    // If looks up fails, returns fileKeyOrPath.
+    let ret = fileKeyOrPath
+    if (ROOT_PATH) {
+      let path = FILE_PATHS[fileKeyOrPath]
+      if (path) {
+        // TODO: use path.join() instead
+        ret = ROOT_PATH + '/' + path
+      } else {
+        if (fileKeyOrPath === fileKeyOrPath.toUpperCase()) {
+          throw Error(`${fileKeyOrPath} is not a valid key in utils.FILE_PATHS`)
+        }
+      }
+    }
+    return ret
+  }
+
   exports.readJsonFile = (path) => {
     let ret = null
+    path = exports.resolveFilePathFromFileKey(path)
     if (fs.existsSync(path)) {
       const content = fs.readFileSync(path, {encoding:'utf8', flag:'r'})
       ret = JSON.parse(content)
@@ -162,9 +198,13 @@ async function mod(exports) {
     return ret
   }
 
-  exports.writeJsonFile = (path, content) => {
+  exports.writeJsonFile = (path, content, description=null) => {
+    path = exports.resolveFilePathFromFileKey(path)
     const contentJson = JSON.stringify(content, null, 2)
     fs.writeFileSync(path, contentJson)
+    if (description !== null) {
+      console.log(`WRITTEN ${path}, ${description}, ${(contentJson.length / 1024 / 1024).toFixed(2)} MB.`)
+    }
   }
 
   exports.sortMulti = (arr, fields) => arr.sort((a, b) => {

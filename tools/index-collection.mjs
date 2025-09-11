@@ -2,29 +2,15 @@
 
 import fs from 'fs';
 import path from "path";
-import { utils } from "../app/utils.mjs";
+import { utils, FILE_PATHS } from "../app/utils.mjs";
 import { xmlUtils } from "../app/xml-utils.mjs";
-const HELP = 'Test that the encoding of the TEI corpus allows word and sign segmentation.'
 
 const DOWNLOAD_CORPUS = 'git clone https://github.com/ISicily/ISicily'
 const UPDATE_CORPUS = 'cd ISicily && git pull'
-const DTS_COLLECTION_JSON='../app/data/2023-08/inscriptions.json'
 
 const TEI_FOLDER = './ISicily/inscriptions/'
 
 const COMPRESS_OUTPUT = false
-const PATH_INDEX_COLLECTION = 'index-collection.json'
-
-async function readJsonFile(path) {
-  let content = fs.readFileSync(path);
-  return JSON.parse(content)
-}
-
-async function writeJsonFile(path, obj, description='') {
-  let content = JSON.stringify(obj, null, COMPRESS_OUTPUT ? 0 : 2)
-  fs.writeFileSync(path, content)
-  console.log(`WRITTEN ${path}, ${description}, ${(content.length / 1024 / 1024).toFixed(2)} MB.`)
-}
 
 async function downloadCorpus() {
   if (!fs.existsSync(TEI_FOLDER)) {
@@ -114,7 +100,7 @@ async function indexCollection() {
     data: data
   }
 
-  writeJsonFile(PATH_INDEX_COLLECTION, index, `${total} inscriptions`)
+  utils.writeJsonFile('INDEX_COLLECTION', index, `${total} inscriptions`)
 
   if (notWellFormedFiles.length) {
     console.log(`Following files were not loaded properly: ${notWellFormedFiles}.`)

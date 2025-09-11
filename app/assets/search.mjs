@@ -5,7 +5,7 @@ TODO:
 . remove all hard-coded values
 */
 
-import { utils, FILE_PATHS, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "../utils.mjs";
+import { utils, FILE_PATHS, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, SETTINGS} from "../utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
 import { AvailableTags } from "../tags.mjs";
@@ -234,6 +234,17 @@ createApp({
       //       key: "A"
       //       selected: false
       return this.results?.data?.aggregations
+    },
+    searchName() {
+      let ret = []
+
+      // query: (this.selection.searchPhrase || '').trim(),
+      // filters: this.selection.facets
+      for (let [filterKey, filterValues] of Object.entries(this.selection.facets)) {
+        ret.push(filterValues.join(', '))
+      }
+
+      return ret.join('; ')
     },
     pageMax() {
       let ret = 1
@@ -547,12 +558,22 @@ createApp({
       return ret
     },
     search(keepPage=false) {
+      // This search uses internal search and affect vuejs model and UI
       // .pagination
       // data.items
       // data.aggregations
       if (!keepPage) {
         this.selection.page = 1
       }
+
+      this.results = this.internalSearch(this.selection.page, this.selection.perPage)
+      this.$nextTick(() => {
+        this.loadVisibleThumbs()
+      })
+      this.setAddressBarFromSelection()
+    },
+    internalSearch(page=1, perPage=1000000) {
+      // search with itemsjs without affecting the vue model or the UI
       const options = {
         per_page: this.selection.perPage,
         page: this.selection.page,
@@ -591,13 +612,7 @@ createApp({
         this.selection.dateTo = DATE_MAX
       }
 
-      this.results = this.itemsjs.search(options)
-      // img.addEventListener('load', loaded)
-      this.$nextTick(() => {
-        this.loadVisibleThumbs()
-        // this.loadLazyThumbs()
-      })
-      this.setAddressBarFromSelection()
+      return this.itemsjs.search(options)
     },
     loadVisibleThumbs() {
       for (const element of document.querySelectorAll('.graph-thumb')) {
@@ -642,15 +657,11 @@ createApp({
       return 'unloaded-thumb'
     },
     getDocIdFromItem(item) {
-      // TODO get from doc when doc will be always populated
-      // let ret = (item?.doc || '').replace(/^.*id=/, '')
-      // if (item.doc) {
-      //   return item.doc.replace(/\.xml$/, '')
-      // }
       let ret = null 
       // from the img: not good b/c it can be wrong when annotation has been copied by mistake to another doc
       // ret = (item?.img || '').replace(/^.*inscription_images\/([^/]+)\/.*$/, '$1')
-      ret = item.fil.replace(/^.*-isic(\d+)-.*$/i, 'ISic$1')
+      // ret = item.fil.replace(/^.*-isic(\d+)-.*$/i, 'ISic$1')
+      ret = utils.getDocIdFromString(item.fil, true)
       return ret
     },
     getAnnotatorLinkFromItem(item) {
@@ -935,6 +946,8 @@ createApp({
       }
       
       utils.setQueryString(searchParams, defaults)
+
+      window.document.title = 'Search ' + this.searchName
     },
     setSelectionFromAddressBar() {
       const searchParams = new URLSearchParams(window.location.search);
@@ -980,6 +993,23 @@ createApp({
     getGitUrlTo(file_key, isRaw=false) {
       return utils.getGitUrlTo(file_key, isRaw)
     },
-    
+    onClickAddResultsToLab() {
+      let results = this.internalSearch()
+
+      let items = results?.data?.items
+      if (items) {
+        let storage_key = SETTINGS.BROWSER_STORAGE_INSCRIPTION_SETS
+        let inscriptionSets = window.localStorage.getItem(storage_key) ?? '[]'
+        inscriptionSets = JSON.parse(inscriptionSets)
+
+        let inscriptionSet = {
+          id: new Date().toISOString(),
+          name: this.searchName,
+          inscriptions: [...new Set(items.map(item => utils.getDocIdFromString(item.fil)))]
+        }
+        inscriptionSets.push(inscriptionSet)
+        window.localStorage.setItem(storage_key, JSON.stringify(inscriptionSets))
+      }
+    }
   }
 }).mount('#search');

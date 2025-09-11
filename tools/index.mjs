@@ -10,14 +10,7 @@ C include the letter and word in the dts selector?
 */
 import * as fs from 'fs';
 import * as path from 'path';
-import { FILE_PATHS, SETTINGS, utils } from "../app/utils.mjs";
-
-const INDEX_PATH = '../app/index.json'
-const STATS_PATH = '../app/stats.json'
-const TESTS_PATH = '../app/data/index/tests.json'
-const ANNOTATIONS_PATH = '../annotations'
-const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
-const PATH_INDEX_COLLECTION = 'index-collection.json'
+import { SETTINGS, utils } from "../app/utils.mjs";
 
 // Set to true to minify the index.json output.
 // false to make it more readable for debugging purpose.
@@ -27,8 +20,8 @@ class AnnotationIndex {
   annotations = []
   tags = {}
 
-  constructor(path) {
-    this.path = path
+  constructor(path=null) {
+    this.path = path ?? 'INDEX'
     this.messages = []
     this.varsBoxItems = {}
   }
@@ -202,11 +195,11 @@ class AnnotationIndex {
   }
 
   loadDefinitions() {
-    this.definitions = utils.readJsonFile(DEFINITIONS_PATH)    
+    this.definitions = utils.readJsonFile('DEFINITIONS')    
   }
 
   loadVariantRules() {
-    this.variantRules = utils.readJsonFile('../' + FILE_PATHS.VARIANT_RULES)
+    this.variantRules = utils.readJsonFile('VARIANT_RULES')
   }
 
   initStats() {
@@ -253,12 +246,13 @@ class AnnotationIndex {
     this.stats[facet][option] = (this.stats[facet][option] || 0) + 1
   }
 
-  build(annotations_path) {
+  build(annotations_path=null) {
+    annotations_path = annotations_path ?? utils.resolveFilePathFromFileKey('ANNOTATIONS')
 
     this.loadDefinitions()
     this.loadVariantRules()
 
-    this.indexCollection = utils.readJsonFile(PATH_INDEX_COLLECTION)
+    this.indexCollection = utils.readJsonFile('INDEX_COLLECTION')
     this.inscriptionsMeta = this.indexCollection.data
 
     this.initStats()
@@ -276,13 +270,12 @@ class AnnotationIndex {
 
     this.writeThumbs()
 
-    console.log('DONE ')
+    console.log('DONE')
   }
 
   writeThumbs() {
     // TODO create folder if needed
-
-    let parentPath = '../' + FILE_PATHS.THUMBS
+    let parentPath = utils.resolveFilePathFromFileKey('THUMBS')
 
     let thumbsSummary = {}
 
@@ -322,12 +315,14 @@ class AnnotationIndex {
   writeIndexFiles() {
     this.writeJsonFile(this.annotations, this.path, `${this.annotations.length} annotation(s)`)
 
-    this.writeJsonFile(this.stats, STATS_PATH, 'definition stats.')
+    this.writeJsonFile(this.stats, 'STATS', 'definition stats.')
 
-    this.writeJsonFile(this.messages, TESTS_PATH, `${this.messages.length} messages`)
+    this.writeJsonFile(this.messages, 'ANNOTATIONS_ISSUES', `${this.messages.length} messages`)
   }
 
   writeJsonFile(obj, path, description='') {
+    path = utils.resolveFilePathFromFileKey(path)
+
     let fullData = {
       'meta': {
         "@context": "http://schema.org",
@@ -351,5 +346,5 @@ class AnnotationIndex {
 
 }
 
-const index = new AnnotationIndex(INDEX_PATH)
-index.build(ANNOTATIONS_PATH)
+const index = new AnnotationIndex()
+index.build()

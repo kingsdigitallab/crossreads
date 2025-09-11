@@ -6,6 +6,7 @@
     <title>Search</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
 
     <!-- <script src="importmap.js"></script> -->
@@ -47,6 +48,7 @@
           <ul>
             <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
               <a :href="`${tab.key}.html`+this.getQueryString()">
+                <template v-if="tab.key === 'lab'"><span title="Add the search results to the Lab" class="button is-small" @click.stop.prevent="onClickAddResultsToLab()">&#x2795;</span>&nbsp;</template>
                 {{ tab.title }}
               </a>
             </li>

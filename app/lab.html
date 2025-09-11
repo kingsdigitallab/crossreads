@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lab</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome5/css/fontawesome-all.min.css"/>
+
+    <!-- <script src="importmap.js"></script> -->
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "./node_modules/vue/dist/vue.esm-browser.js",
+          "octokit": "https://cdn.skypack.dev/octokit@2.0.14"
+        }
+      }
+    </script>
+    
+    <script src="assets/lab.mjs" type="module"></script>
+    <link rel="stylesheet" href="./assets/main.css">
+  </head>
+  <body>
+    <section class="section full-width" id="lab">
+      <div class="container is-fluid">
+        <div :class="['notification', 'is-'+lastMessage.level, 'is-light']">
+          {{ lastMessage.content }}
+        </div>
+        <div class="tabs is-medium is-boxed">
+          <ul>
+            <li v-for="tab in tabs" :class="{'is-active': selection.tab == tab.key}">
+              <a :href="`${tab.key}.html`+this.getQueryString()">
+                {{ tab.title }}
+              </a>
+            </li>
+          </ul>
+          <a href="https://github.com/kingsdigitallab/crossreads/issues" target="_blank" class="icon-text">
+            <span class="icon"><i class="fas fa-bug"></i></span>
+            <span>Issues</span>
+          </a>
+        </div>
+
+        <p v-if="filteredInscriptionSets.length < 1">
+          You selecion is empty.
+          To get started go the search tab and 
+          click the + sign in the Lab tab
+          to add your search results to this page.
+        </p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <td>Remove</td>
+              <td>Query</td>
+              <td>Insc.</td>
+              <td v-for="place in places">{{ place }}</td>
+            </tr>
+          </thead>
+          <tr v-for="inscriptionSet in filteredInscriptionSets">
+            <td>
+              <button v-if="inscriptionSet.id != 'intersection'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
+            </td>
+            <td>
+              {{ inscriptionSet.name }}
+            </td>
+            <td>
+              {{ inscriptionSet.inscriptions.length }}
+            </td>
+            <td v-for="place in places">{{ getPlaceTimeRange(inscriptionSet, place) }}</td>
+          </tr>
+        </table>
+
+      </div>
+    </section>
+  </body>
+</html>

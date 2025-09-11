@@ -51,27 +51,29 @@
         <table v-else class="table">
           <thead>
             <tr>
-              <td>Discard</td>
-              <td>Query</td>
-              <td>Insc.</td>
-              <td>Anywhere</td>
-              <td v-for="place in places">{{ place }}</td>
+              <th>Discard</th>
+              <th>Query</th>
+              <th>Insc.</th>
+              <th>Anywhere</th>
+              <th v-for="place in places">{{ place }}</td>
             </tr>
           </thead>
-          <tr v-for="inscriptionSet in filteredInscriptionSets">
-            <td>
-              <button v-if="inscriptionSet.id != 'intersection'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
-            </td>
-            <td>
-              <a v-if="inscriptionSet.searchQueryString" :href="`search.html${inscriptionSet.searchQueryString}`">{{ inscriptionSet.name }}</a>
-              <template v-else>{{ inscriptionSet.name }}</template>
-            </td>
-            <td>
-              {{ inscriptionSet.inscriptions.length }}
-            </td>
-            <td>{{ getPlaceTimeRange(inscriptionSet) }}</td>
-            <td v-for="place in places">{{ getPlaceTimeRange(inscriptionSet, place) }}</td>
-          </tr>
+          <tbody>
+            <tr v-for="inscriptionSet in filteredInscriptionSets">
+              <td>
+                <button v-if="inscriptionSet.id != 'intersection'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
+              </td>
+              <td>
+                <a v-if="inscriptionSet.searchQueryString" :href="`search.html${inscriptionSet.searchQueryString}`">{{ inscriptionSet.name }}</a>
+                <template v-else>{{ inscriptionSet.name }}</template>
+              </td>
+              <td>
+                {{ inscriptionSet.inscriptions.length }}
+              </td>
+              <td>{{ getPlaceTimeRange(inscriptionSet) }}</td>
+              <td v-for="place in places">{{ getPlaceTimeRange(inscriptionSet, place) }}</td>
+            </tr>
+          </tbody>
         </table>
 
       </div>

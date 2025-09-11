@@ -578,8 +578,9 @@ createApp({
     getURLFromAlloType(rule) {
       return utils.getURLFromAlloType(rule, './')
     },
-    getSearchLinkFromAlloType(rule) {
+    getSearchLinkFromAlloType(filteredRule) {
       // TODO: get this from the rule
+      let rule = filteredRule?.originalRule ?? filteredRule
       let script = ''
       for (let allo of Object.values(this.definitions.allographs)) {
         if (allo.character === rule.allograph) {

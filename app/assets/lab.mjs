@@ -67,27 +67,35 @@ createApp({
       this.afs = new AnyFileSystem()
       await this.afs.authenticateToGithub(this.selection.gtoken)
     },
+    async loadCollectionIndex() {
+      const res = await this.afs.readJson(FILE_PATHS.INDEX_COLLECTION)
+      if (res.ok) {
+        this.collectionIndex = res.data?.data ?? {}
+      } else {
+        this.logError('Failed to load collection index.')
+      }
+    },
     loadInscriptionSets(excludedId=null) {
       let storage_key = SETTINGS.BROWSER_STORAGE_INSCRIPTION_SETS
       let inscriptionSets = window.localStorage.getItem(storage_key) ?? '[]'
       this.inscriptionSets = JSON.parse(inscriptionSets)
-      this.inscriptionSets = this.inscriptionSets.filter(iset => iset.id !== excludedId)
+      if (excludedId == 'union') {
+        this.inscriptionSets = []
+      } else {
+        this.inscriptionSets = this.inscriptionSets.filter(iset => iset.id !== excludedId)
+      }
 
       let ret = JSON.parse(JSON.stringify(this.inscriptionSets))
 
-      // add a set which is the intersection of all others
-      if (this.inscriptionSets.length > 1) {
-        let intersection = [...this.inscriptionSets[0].inscriptions]
-        for (let aset of this.inscriptionSets) {
-          intersection = intersection.filter(id => aset.inscriptions.includes(id))
-        }
-        this.inscriptionSets.push({
-          id: 'intersection',
-          name: 'Intersection',
-          inscriptions: intersection
-        })
-      }
+      this.addIntersectionSet()
 
+      this.addUnionSet()
+
+      this.addPlacesAndDateRangesToInscriptionSets()
+
+      return ret
+    },
+    addPlacesAndDateRangesToInscriptionSets() {
       // add .places to each set, which is a dict placeName -> Array([min, max date])
       let places = []
       for (let iset of this.inscriptionSets) {
@@ -108,23 +116,40 @@ createApp({
         }
       }
       this.places = Object.keys(places)
-
-      return ret
     },
-    async loadCollectionIndex() {
-      const res = await this.afs.readJson(FILE_PATHS.INDEX_COLLECTION)
-      if (res.ok) {
-        this.collectionIndex = res.data?.data ?? {}
-      } else {
-        this.logError('Failed to load collection index.')
+    addIntersectionSet() {
+      if (this.inscriptionSets.length > 1) {
+        let intersection = [...this.inscriptionSets[0].inscriptions]
+        for (let aset of this.inscriptionSets) {
+          intersection = intersection.filter(id => aset.inscriptions.includes(id))
+        }
+        this.inscriptionSets.push({
+          id: 'intersection',
+          name: 'Intersection',
+          inscriptions: intersection
+        })
+      }
+    },
+    addUnionSet() {
+      // 2 because that's more than one user-provided set + intersection set
+      if (this.inscriptionSets.length > 2) {
+        let union = []
+        for (let aset of this.inscriptionSets) {
+          union = [...union, ...aset.inscriptions]
+        }
+        this.inscriptionSets.push({
+          id: 'union',
+          name: 'Union',
+          inscriptions: [...new Set(union)]
+        })
       }
     },
     getPlaceTimeRange(inscriptionSet, place) {
-      let ret = ''
+      let ret = []
 
       if (inscriptionSet.places) {
         for (let dateRange of inscriptionSet.places[place] ?? []) {
-          if (!ret) {
+          if (ret.length < 1) {
             ret = dateRange
           } else {
             ret[0] = Math.min(ret[0], dateRange[0])
@@ -133,7 +158,7 @@ createApp({
         }
       }
 
-      return ret
+      return ret.join(', ')
     },
     // -----------------------
     logMessage(content, level = 'info') {

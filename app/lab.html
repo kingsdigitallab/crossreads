@@ -48,10 +48,10 @@
           to add your search results to this page.
         </p>
 
-        <table class="table">
+        <table v-else class="table">
           <thead>
             <tr>
-              <td>Remove</td>
+              <td>Discard</td>
               <td>Query</td>
               <td>Insc.</td>
               <td v-for="place in places">{{ place }}</td>

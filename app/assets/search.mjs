@@ -1005,7 +1005,8 @@ createApp({
         let inscriptionSet = {
           id: new Date().toISOString(),
           name: this.searchName,
-          inscriptions: [...new Set(items.map(item => utils.getDocIdFromString(item.fil)))]
+          inscriptions: [...new Set(items.map(item => utils.getDocIdFromString(item.fil)))],
+          searchQueryString: window.location.search
         }
         inscriptionSets.push(inscriptionSet)
         window.localStorage.setItem(storage_key, JSON.stringify(inscriptionSets))

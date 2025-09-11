@@ -63,7 +63,8 @@
               <button v-if="inscriptionSet.id != 'intersection'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
             </td>
             <td>
-              {{ inscriptionSet.name }}
+              <a v-if="inscriptionSet.searchQueryString" :href="`search.html${inscriptionSet.searchQueryString}`">{{ inscriptionSet.name }}</a>
+              <template v-else>{{ inscriptionSet.name }}</template>
             </td>
             <td>
               {{ inscriptionSet.inscriptions.length }}

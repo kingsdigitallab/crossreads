@@ -73,23 +73,22 @@ createApp({
       this.inscriptionSets = JSON.parse(inscriptionSets)
       this.inscriptionSets = this.inscriptionSets.filter(iset => iset.id !== excludedId)
 
+      let ret = JSON.parse(JSON.stringify(this.inscriptionSets))
 
-      let ret = this.inscriptionSets
-
-      if (ret.length > 1) {
-        // add a set which is the intersection of all others
-        let intersection = [...ret[0].inscriptions]
-        for (let aset of ret) {
+      // add a set which is the intersection of all others
+      if (this.inscriptionSets.length > 1) {
+        let intersection = [...this.inscriptionSets[0].inscriptions]
+        for (let aset of this.inscriptionSets) {
           intersection = intersection.filter(id => aset.inscriptions.includes(id))
         }
-        ret.push({
+        this.inscriptionSets.push({
           id: 'intersection',
           name: 'Intersection',
           inscriptions: intersection
         })
       }
 
-
+      // add .places to each set, which is a dict placeName -> Array([min, max date])
       let places = []
       for (let iset of this.inscriptionSets) {
         iset.places = {}
@@ -110,7 +109,7 @@ createApp({
       }
       this.places = Object.keys(places)
 
-      return this.inscriptionSets
+      return ret
     },
     async loadCollectionIndex() {
       const res = await this.afs.readJson(FILE_PATHS.INDEX_COLLECTION)

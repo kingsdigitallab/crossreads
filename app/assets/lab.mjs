@@ -20,6 +20,9 @@ createApp({
       maxDateRange: [-500, 500],
       maxInscriptionsPerPlace: 0,
 
+      zoomedCell: null,
+      zoomedCellSticky: null,
+
       selection: {
         tab: 'lab',
         tabEdit: 'tags', // either 'tags' or 'features'
@@ -325,6 +328,28 @@ createApp({
     },
     breakLongNames(name) {
       return name.replace(' ', '<br>')
-    }
+    },
+    onMouseEnterCell(inscriptionSet, place) {
+      let inscriptions = inscriptionSet.inscriptions
+        .map(inscId => this.collectionIndex[inscId])
+      if (place !== ANYWHERE) {
+        inscriptions = inscriptions.filter(insc => insc.origin_place.includes(place))
+      }
+      this.zoomedCell = {
+        inscriptionSets: [inscriptionSet],
+        place: place,
+        inscriptions: inscriptions
+      }
+    },
+    onMouseLeaveCell(inscriptionSet, place) {
+      this.zoomedCell = this.zoomedCellSticky
+    },
+    onUnstickZoomedCell() {
+      this.zoomedCellSticky = null
+      this.zoomedCell = null
+    },
+    onStickZoomedCell() {
+      this.zoomedCellSticky = this.zoomedCell
+    },
   }
 }).mount('#lab');

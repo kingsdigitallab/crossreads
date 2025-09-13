@@ -37,6 +37,26 @@
   </head>
   <body>
     <section class="section full-width" id="lab">
+
+      <div :class="{'annotation-preview': 1}" v-if="zoomedCell">
+        <h4 class="title is-4">
+          <template v-for="(inscriptionSet, setIdx) in zoomedCell.inscriptionSets">
+            <template v-if="setIdx &gt; 0">,<br></template>[{{ inscriptionSet.name }}]
+          </template>
+          <template v-if="zoomedCell.place">
+            <br>
+            in {{ zoomedCell.place }}
+          </template>
+        </h4>
+        <button v-if="zoomedCell === zoomedCellSticky" class="button" @click="onUnstickZoomedCell()">Close</button>
+        <ol>
+          <li v-for="(inscription, inscIdx) in zoomedCell.inscriptions">
+            <strong>{{ inscIdx + 1 }}. {{ inscription.inscription_number }}</strong>
+            ({{ inscription.origin_date_from }}, {{ inscription.origin_date_to }})
+          </li>
+        </ol>
+      </div>
+
       <div class="container is-fluid">
         <div :class="['notification', 'is-'+lastMessage.level, 'is-light']">
           {{ lastMessage.content }}
@@ -85,7 +105,7 @@
                 <td>
                   {{ inscriptionSet.inscriptions.length }}
                 </td>
-                <td class="date-range" v-for="place in filteredPlaces">
+                <td class="date-range" v-for="place in filteredPlaces" @mouseenter="onMouseEnterCell(inscriptionSet, place)" @mouseleave="onMouseLeaveCell(inscriptionSet, place)" @click="onStickZoomedCell()">
                   <div class="date-viz" v-html="getSvgFromInscriptionSetAndPlace(inscriptionSet, place)">
                   </div>
                   <span class="date-pair">

@@ -51,6 +51,9 @@ createApp({
       let ret = this.inscriptionSets
       return ret
     },
+    coreInscriptionSets() {
+      return (this.inscriptionSets.filter(inscSet => !['intersection', 'union'].includes(inscSet.id)))
+    },
     filteredPlaces() {
       return [ANYWHERE, ...this.places]
     },
@@ -332,19 +335,26 @@ createApp({
     breakLongNames(name) {
       return name.replace(' ', '<br>')
     },
-    onMouseEnterCell(inscriptionSet, place) {
-      let inscriptions = inscriptionSet.inscriptions
-        .map(inscId => this.collectionIndex[inscId])
+    onMouseEnterCell(inscriptionSets, place=ANYWHERE) {
+      let inscriptions = []
+      for (let inscriptionSet of inscriptionSets) {
+        if (inscriptionSet === inscriptionSets[0]) {
+          inscriptions = inscriptionSet.inscriptions
+        } else {
+          inscriptions = inscriptions.filter(inscId => inscriptionSet.inscriptions.includes(inscId))
+        }
+      }
+      inscriptions = inscriptions.map(inscId => this.collectionIndex[inscId])
       if (place !== ANYWHERE) {
         inscriptions = inscriptions.filter(insc => insc.origin_place.includes(place))
       }
       this.zoomedCell = {
-        inscriptionSets: [inscriptionSet],
+        inscriptionSets: inscriptionSets,
         place: place,
         inscriptions: inscriptions
       }
     },
-    onMouseLeaveCell(inscriptionSet, place) {
+    onMouseLeaveCell() {
       this.zoomedCell = this.zoomedCellSticky
     },
     onUnstickZoomedCell() {
@@ -354,5 +364,8 @@ createApp({
     onStickZoomedCell() {
       this.zoomedCellSticky = this.zoomedCell
     },
+    getSharedInscriptions(inscriptionSet1, inscriptionSet2) {
+      return inscriptionSet1.inscriptions.filter(inscId => inscriptionSet2.inscriptions.includes(inscId))
+    }
   }
 }).mount('#lab');

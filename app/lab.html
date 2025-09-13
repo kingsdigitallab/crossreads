@@ -101,7 +101,7 @@
                 <td>
                   {{ inscriptionSet.inscriptions.length }}
                 </td>
-                <td class="date-range" v-for="place in filteredPlaces" @mouseenter="onMouseEnterCell(inscriptionSet, place)" @mouseleave="onMouseLeaveCell(inscriptionSet, place)" @click="onStickZoomedCell()">
+                <td class="date-range" v-for="place in filteredPlaces" @mouseenter="onMouseEnterCell([inscriptionSet], place)" @mouseleave="onMouseLeaveCell()" @click="onStickZoomedCell()">
                   <div class="date-viz" v-html="getSvgFromInscriptionSetAndPlace(inscriptionSet, place)">
                   </div>
                   <span class="date-pair">
@@ -111,6 +111,26 @@
               </tr>
             </tbody>
           </table>
+
+          <div v-if="coreInscriptionSets.length > 1">
+            <h4 class="title is-4">Co-occurrence Matrix</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th v-for="inscriptionSet1 in coreInscriptionSets">{{ inscriptionSet1.name }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="inscriptionSet1 in coreInscriptionSets">
+                  <th>{{ inscriptionSet1.name }}</th>
+                  <td v-for="inscriptionSet2 in coreInscriptionSets" @mouseenter="onMouseEnterCell([inscriptionSet1, inscriptionSet2])" @mouseleave="onMouseLeaveCell()" @click="onStickZoomedCell()">
+                    {{ getSharedInscriptions(inscriptionSet1, inscriptionSet2).length }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

@@ -20,6 +20,20 @@
     
     <script src="assets/lab.mjs" type="module"></script>
     <link rel="stylesheet" href="./assets/main.css">
+    <style>
+      :root {
+        --histogramWidthPx: 70px;
+        --histogramHeightPx: 50px;
+        --barColor: #05714B;
+      }
+      .date-viz {
+        width: var(--histogramWidthPx);
+        height: var(--histogramHeightPx);
+      }
+      .date-pair {
+        color: var(--barColor);
+      }
+    </style>
   </head>
   <body>
     <section class="section full-width" id="lab">
@@ -48,34 +62,40 @@
           to add your search results to this page.
         </p>
 
-        <table v-else class="table">
-          <thead>
-            <tr>
-              <th>Discard</th>
-              <th>Query</th>
-              <th>Insc.</th>
-              <th>Anywhere</th>
-              <th v-for="place in places">{{ place }}</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="inscriptionSet in filteredInscriptionSets">
-              <td>
-                <button v-if="inscriptionSet.id != 'intersection'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
-              </td>
-              <td>
-                <a v-if="inscriptionSet.searchQueryString" :href="`search.html${inscriptionSet.searchQueryString}`">{{ inscriptionSet.name }}</a>
-                <template v-else>{{ inscriptionSet.name }}</template>
-              </td>
-              <td>
-                {{ inscriptionSet.inscriptions.length }}
-              </td>
-              <td>{{ getPlaceTimeRange(inscriptionSet) }}</td>
-              <td v-for="place in places">{{ getPlaceTimeRange(inscriptionSet, place) }}</td>
-            </tr>
-          </tbody>
-        </table>
-
+        <div v-else class="wide-table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Discard</th>
+                <th>Query</th>
+                <th>Insc.</th>
+                <th>Anywhere</th>
+                <th v-for="place in places" v-html="breakLongNames(place)"></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="inscriptionSet in filteredInscriptionSets">
+                <td>
+                  <button v-if="inscriptionSet.id != 'intersection'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
+                </td>
+                <td>
+                  <a v-if="inscriptionSet.searchQueryString" :href="`search.html${inscriptionSet.searchQueryString}`">{{ inscriptionSet.name }}</a>
+                  <template v-else>{{ inscriptionSet.name }}</template>
+                </td>
+                <td>
+                  {{ inscriptionSet.inscriptions.length }}
+                </td>
+                <td class="date-range" v-for="place in filteredPlaces">
+                  <div class="date-viz" v-html="getSvgFromInscriptionSetAndPlace(inscriptionSet, place)">
+                  </div>
+                  <span class="date-pair">
+                    {{ getPlaceTimeRangeStr(inscriptionSet, place) }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   </body>

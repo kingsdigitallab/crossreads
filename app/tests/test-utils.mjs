@@ -1,7 +1,18 @@
 import { utils, FILE_PATHS } from "../../app/utils.mjs";
 
-let func = utils.getDocIdFromString
-let funcName = 'getDocIdFromString'
+function testFunction(functionPath, cases) {
+  let failCount = 0
+  let func = eval(functionPath)
+  for (let acase of cases) {
+    let res = func(...acase[0])
+    if (JSON.stringify(res) !== JSON.stringify(acase[1])) {
+      console.log(`FAIL: call ${functionPath}(${acase[0]}) returns ${res} expected ${acase[1]}`)
+      failCount += 1
+    }
+  }
+  
+  console.log(`INFO: ${functionPath}: ${failCount} fails / ${cases.length} tests`)
+}
 
 let cases = [
   [['ISic020317'], 'isic020317'],
@@ -14,10 +25,14 @@ let cases = [
   [['http-sicily-classics-ox-ac-uk-inscription-isic003367-isic003368-jpg.json'], 'isic003367'],
 ]
 
-for (let acase of cases) {
-  let res = func(...acase[0])
-  if (res !== acase[1]) {
-    console.log(`FAIL: call ${funcName}(${acase[0]}) returns ${res} expected ${acase[1]}`)
-  }
-}
 
+testFunction('utils.getDocIdFromString', cases)
+
+cases = [
+  [[[275, 375], 50], [250, 400]],
+  [[[-275, -375], 50], [-300, -350]],
+  [[[-250, 350], 50], [-250, 350]],
+  [[[-250, 350], 100], [-300, 400]],
+]
+
+testFunction('utils.clipDateRange', cases)

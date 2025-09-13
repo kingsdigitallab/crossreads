@@ -74,6 +74,23 @@ async function mod(exports) {
     return ret
   }
 
+  exports.getCssVar = (varName, defaultValue=null) => {
+    let ret = window.getComputedStyle(document.documentElement).getPropertyValue(`--${varName}`) 
+    if (ret === null) {
+      ret = defaultValue
+      console.log(`WARNING: getCssVar(${varName}), css variable is not defined`)
+    }
+    return ret
+  }
+
+  exports.clipDateRange = (range, clipUnit) => {
+    // returns a new range that contains `range` and is clipped to the nearest multiple of `clipUnit`
+    // E.g. clipDateRange([275, 375], 50) will return [250, 400]
+    const start = Math.floor(range[0] / clipUnit) * clipUnit;
+    const end = Math.ceil(range[1] / clipUnit) * clipUnit;
+    return [start, end];
+  }
+
   exports.getLabelFromDefinition = (itemKey, itemType, definitions) => {
       // TODO: cache the responses
     let ret = itemKey

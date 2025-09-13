@@ -3,6 +3,7 @@
   --hover-color: yellow;
   --bound-color: blue;
   --broken-color: red;
+  --histogram-bar-color: green;
 }
 
 .list-selectable {
@@ -573,4 +574,13 @@ div[data-tei-subtype='section'] .textpart-number:before {
 }
 .wide-table-container {
   overflow-x: scroll;
+}
+.histogram-bar {
+  fill: var(--histogram-bar-color);
+}
+.histogram-bar.alternate {
+  filter: brightness(150%);
+}
+.date-pair {
+  color: var(--histogram-bar-color);
 }

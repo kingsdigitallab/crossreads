@@ -1,5 +1,5 @@
 /* TODO
-M show insc data on hover histogram
+D show insc data on hover histogram
 C histogram: add marker for centuries
 D optimise the size and ratio of the histograms
 C co-occurence matrix
@@ -241,12 +241,15 @@ createApp({
           let chart = ''
           let binWidth = chartSize[0] / binsData.bins.length
           let binX = chartMargin
+          let alternateClass = ''
           for (let bin of binsData.bins) {
             let height = bin.inscriptionsCount / this.maxInscriptionsPerPlace * chartSize[1]
             if (height) {
-              chart += `<rect data-year="${bin.from}" data-qt="${bin.inscriptionsCount}" x="${binX}" y="${boxSize[1] - chartMargin - height}" width="${binWidth}" height="${height}" fill="${barColor}" />\n`
+              // fill="${barColor}"
+              chart += `<rect class="histogram-bar ${alternateClass}" data-year="${bin.from}" data-qt="${bin.inscriptionsCount}" x="${binX}" y="${boxSize[1] - chartMargin - height}" width="${binWidth}" height="${height}" />\n`
             }
             binX += binWidth
+            alternateClass = alternateClass ? '' : 'alternate'
           }
 
           // add axes

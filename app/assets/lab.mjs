@@ -1,9 +1,9 @@
 /* TODO
-D show insc data on hover histogram
+C shared periods
 C histogram: add marker for centuries
 D optimise the size and ratio of the histograms
-C co-occurence matrix
-C shared periods
+D co-occurence matrix
+D show insc data on hover histogram
 */
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp} from "vue";

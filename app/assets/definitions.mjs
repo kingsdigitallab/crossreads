@@ -579,17 +579,8 @@ createApp({
       return utils.getURLFromAlloType(rule, './')
     },
     getSearchLinkFromAlloType(filteredRule) {
-      // TODO: get this from the rule
       let rule = filteredRule?.originalRule ?? filteredRule
-      let script = ''
-      for (let allo of Object.values(this.definitions.allographs)) {
-        if (allo.character === rule.allograph) {
-          script = allo.script
-          script = this.definitions.scripts[script]
-          break;
-        }
-      }
-      return `${SEARCH_PAGE_URL}?f.scr=${script}&f.chr=${rule.allograph}&f.cxf=${rule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
+      return `${SEARCH_PAGE_URL}?f.scr=${rule.script}&f.chr=${rule.allograph}&f.cxf=${rule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
     },
     // variant rules
     updateDisplayVariantRules() {

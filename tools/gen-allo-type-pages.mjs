@@ -23,8 +23,9 @@ function processVariantRule(variantRule, definitions) {
   }
   
   context['script'] = getLabel(variantRule.script, 'scr')
+  context['grapheme'] = utils.getGraphemeFromCharacter(variantRule.allograph)
   context['component-features'] = variantRule['component-features'].map(feature => `  <li>${getLabel(feature.component, 'cxf')} is ${getLabel(feature.feature, 'fea')}</li>`).join('\n')
-  context['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${definitions.scripts[context.script]}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
+  context['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${variantRule.script}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
 
   let variantKey = `${variantRule.script}-${variantRule.allograph}-${variantRule['variant-name']}`
   context['variant-key'] = variantKey

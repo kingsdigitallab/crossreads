@@ -30,7 +30,7 @@
       <div :class="{'annotation-preview': 1, 'pull-right': showModalOnTheRight}" v-if="hoveredItem">
         <img :src="getThumbUrlFromItem(hoveredItem, 150)" alt="Placeholder image" class="graph-thumb">
         <h4 class="title is-4">
-          {{ hoveredItem.chr }} ({{ hoveredItem.scr }})
+          {{ hoveredItem.chr[0] }} ({{ hoveredItem.scr }})
         </h4>
         <p v-if="hoveredItem?.tag" class="tags">
           Tags: <span v-for="tag in (hoveredItem?.tag || []).sort()">{{ tag }}</span>
@@ -199,7 +199,7 @@
                       </figure>
                     </div>
                     <div class="media-content">
-                      <p class="title is-4">{{ item.chr }}</p>
+                      <p class="title is-4">{{ item.chr[0] }}</p>
                       <p class="subtitle is-6">{{ item.scr }}</p>
                     </div>
                   </div>                

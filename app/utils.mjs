@@ -27,7 +27,7 @@ export const SETTINGS = {
   // TODO: search this string & replace everywhere
   GITHUB_REPO_PATH: 'kingsdigitallab/crossreads',
   // if you change this you'll need to empty the content of the app/data/thumbs folder
-  // then re-run tools/index.mjs to obtaint the new sizes
+  // then re-run tools/index.mjs to obtain the new sizes
   EXEMPLAR_THUMB_HEIGHT: 150,
   APPLICATION_TABS: [
     {title: 'Annotator', key: 'annotator'},
@@ -268,23 +268,32 @@ async function mod(exports) {
 
     // Latin script ranges
     if (
-        (charCode >= 0x0041 && charCode <= 0x007A) || // Basic Latin
-        (charCode >= 0x00C0 && charCode <= 0x02FF) || // Latin-1 Supplement, Latin Extended-A, etc.
-        (charCode >= 0x1E00 && charCode <= 0x1FFF) || // Phonetic Extensions, Latin Extended-C, etc.
-        (charCode >= 0x2C60 && charCode <= 0x2C7F) || // Latin Extended-D
-        (charCode >= 0xA720 && charCode <= 0xA7FF) || // Supplemental Latin-1
-        (charCode >= 0xFB00 && charCode <= 0xFB06)    // Alphabetic Presentation Forms
+      (charCode >= 0x0041 && charCode <= 0x007A) || // Basic Latin
+      (charCode >= 0x00C0 && charCode <= 0x02FF) || // Latin-1 Supplement, Latin Extended-A, etc.
+      (charCode >= 0x1E00 && charCode <= 0x1FFF) || // Phonetic Extensions, Latin Extended-C, etc.
+      (charCode >= 0x2C60 && charCode <= 0x2C7F) || // Latin Extended-D
+      (charCode >= 0xA720 && charCode <= 0xA7FF) || // Supplemental Latin-1
+      (charCode >= 0xFB00 && charCode <= 0xFB06)    // Alphabetic Presentation Forms
     ) {
         ret = "latin";
     }
 
     // Greek script ranges
     if (
-        (charCode >= 0x0370 && charCode <= 0x03FF) || // Greek and Coptic
-        (charCode >= 0x1F00 && charCode <= 0x1FFF)   // Greek Extended
+      (charCode >= 0x0370 && charCode <= 0x03FF) || // Greek and Coptic
+      (charCode >= 0x1F00 && charCode <= 0x1FFF)   // Greek Extended
     ) {
-        ret = "greek";
+      ret = "greek";
     }
+
+    return ret
+  }
+
+  exports.getGraphemeFromCharacter = (character) => {
+    // e.g. Ω1+2 => Ω
+    let ret = character
+
+    ret = ret.replace(/^(\D+).*$/, '$1')
 
     return ret
   }

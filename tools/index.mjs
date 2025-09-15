@@ -79,7 +79,7 @@ class AnnotationIndex {
 
   addAnnotationsFromFile(filePath) {
     // annotation = {
-    //   'chr': 'A',
+    //   'chr': ['A'],
     //   'scr': 'latin',
     //   'tag': ['tag1', 'tag-2'],
     //   'img': "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001408/ISic001408_tiled.tif",
@@ -141,12 +141,18 @@ class AnnotationIndex {
         }
       }
 
+      let characters = [character]
+      let grapheme = utils.getGraphemeFromCharacter(characters[0])
+      if (grapheme !== characters[0]) {
+        characters.push(grapheme)
+      }
+
       // core featrures
       // only keep distinct features
       description['fea'] = [...new Set(description['fea'])]
       let item = {
         'id': annotation.id,
-        'chr': character,
+        'chr': characters,
         'val': isValid,
         'scr': bodyValue.script,
         'tag': bodyValue.tags,
@@ -161,7 +167,7 @@ class AnnotationIndex {
 
       // TODO: do that in a funtion
       for (let avar of item?.var ?? []) {
-        let varKey = `${item.scr}-${item.chr}-${avar}`
+        let varKey = `${item.scr}-${item.chr[0]}-${avar}`
         if (!this.varsBoxItems[varKey]) {
           this.varsBoxItems[varKey] = []
         }

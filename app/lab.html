@@ -49,6 +49,7 @@
           <li v-for="(inscription, inscIdx) in zoomedCell.inscriptions">
             <strong>{{ inscIdx + 1 }}. {{ inscription.inscription_number }}</strong>
             ({{ inscription.origin_date_from }}, {{ inscription.origin_date_to }})
+            <template v-if="zoomedCell.place === 'Anywhere'">{{ inscription.origin_place[0] }}</template>
           </li>
         </ol>
       </div>

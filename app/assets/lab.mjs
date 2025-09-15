@@ -257,7 +257,7 @@ createApp({
 
           // add axes
           // X axis
-          let axes = `<rect x="${chartMargin}" y="${boxSize[1] - chartMargin + 1}" width="${chartSize[0]}" height="${axisThickness}" fill="${axesColor}" />\n`
+          let axes = `<rect x="${chartMargin}" y="${boxSize[1] - chartMargin}" width="${chartSize[0]}" height="${axisThickness}" fill="${axesColor}" />\n`
           // Y axis
           axes += `<rect x="${chartMargin}" y="${chartMargin}" width="${axisThickness}" height="${chartSize[1] + 1}" fill="${axesColor}" />\n`
 
@@ -351,7 +351,7 @@ createApp({
       this.zoomedCell = {
         inscriptionSets: inscriptionSets,
         place: place,
-        inscriptions: inscriptions
+        inscriptions: inscriptions.sort()
       }
     },
     onMouseLeaveCell() {

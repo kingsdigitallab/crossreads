@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Variants Tree</title>
+  <link rel="shortcut icon" href="#">
   {% render 'static-styles-tree.liquid' %}
 </head>
 <body>
@@ -19,20 +20,20 @@
     <p class="breadcrumb-container">You are here: <span id="breadcrumb">[breadcrumb]</span></p>
   </div>
   <div class="container">
-    <div class="tree" role="tree">
+    <div class="tree">
       {% for scriptAllograph in tree %}
         {% assign script = scriptAllograph[0] %}
         {% assign allographs = scriptAllograph[1] %}
         <details id="{{ script }}" open>
           <summary>{{ script }}</summary>
-          <ul role="group">
+          <ul>
             {% for allographVariants in allographs %}
               {% assign allograph = allographVariants[0] %}
               {% assign variantList = allographVariants[1] %}
-              <li role="treeitem">
+              <li>
                 <details id="{{ script }}-{{ allograph }}" open>
                   <summary>{{ allograph }}</summary>
-                  <ul role="group">
+                  <ul>
                     {% render 'allo-type-tree-variants.liquid', variantList: variantList, allograph: allograph, script: script %}
                   </ul>
                 </details>

@@ -9,13 +9,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Constants for easy editing
-const VARIANT_RULES_JSON_PATH = '../app/data/variant-rules.json';
 const OUTPUT_DIR = '../app/data/allographs/types/';
 const HTML_TEMPLATE_PATH = 'allo-type.liquid';
-const DEFINITIONS_PATH = '../app/data/pal/definitions-digipal.json'
 const SEARCH_PAGE_URL = 'https://kingsdigitallab.github.io/crossreads/search.html'
 
-function processVariantRule(variantRule, definitions) {
+function processVariantRule(variantRule, definitions, thumbs) {
   let context = JSON.parse(JSON.stringify(variantRule))
 
   function getLabel(itemKey, itemType) {
@@ -29,6 +27,13 @@ function processVariantRule(variantRule, definitions) {
 
   let variantKey = `${variantRule.script}-${variantRule.allograph}-${variantRule['variant-name']}`
   context['variant-key'] = variantKey
+  let thumbInfo = thumbs?.data?.[variantKey]
+  if (thumbInfo) {
+    context['thumbInfo'] = thumbInfo
+    thumbInfo.place = utils.capitaliseWords(thumbInfo?.pla?.[0] ?? 'unknown')
+    thumbInfo.docId = utils.getDocIdFromString(thumbInfo.fil, true)
+    // thmubInfo.linkAnnotator = `https://kingsdigitallab.github.io/crossreads/annotator.html?obj={{thumbInfo.}}&img=ISic000085.jpg&sup=0&ann={{thmbInfo.id}}`
+  }
 
   let htmlContent = toolbox.renderTemplate(HTML_TEMPLATE_PATH, context)
 
@@ -63,14 +68,16 @@ function emptyOutputFolder() {
 function main() {
   emptyOutputFolder(OUTPUT_DIR)
 
-  const variantRulesFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
+  // const variantRulesFilePath = path.join(__dirname, VARIANT_RULES_JSON_PATH);
 
-  const variantRules = utils.readJsonFile(variantRulesFilePath)
+  const variantRules = utils.readJsonFile('VARIANT_RULES')
 
-  let definitions = utils.readJsonFile(DEFINITIONS_PATH)
+  let definitions = utils.readJsonFile('DEFINITIONS')
+
+  let thumbs = utils.readJsonFile('THUMBS_ALL')
 
   for (const variantRule of variantRules) {
-    processVariantRule(variantRule, definitions);
+    processVariantRule(variantRule, definitions, thumbs);
   }
 }
 

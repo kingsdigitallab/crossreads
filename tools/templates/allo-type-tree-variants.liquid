@@ -1,8 +1,11 @@
 {% for variant in variantList %}
-  <li role="treeitem">
+  <li>
     <details id="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}" open>
-      <summary>{{ variant['variant-name'] }} (<a href="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}.html">page</a>)</summary>
-      <p><img src="../../thumbs/{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}.jpg" height="75"></p>
+      <summary>{{ variant['variant-name'] }}</summary>
+      <a href="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}.html">details</a>
+      <p>
+        <img alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on an object" src="../../thumbs/{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}.jpg" height="75">
+      </p>
       Description:
       <ul class="features">
         {% for componentFeature in variant['component-features'] %}
@@ -12,7 +15,7 @@
         {% endfor %}
       </ul>
       {% if variant.children %}
-        <ul role="group">{% render 'allo-type-tree-variants.liquid', variantList: variant.children, allograph: allograph, script: script %}</ul>
+        <ul>{% render 'allo-type-tree-variants.liquid', variantList: variant.children, allograph: allograph, script: script %}</ul>
       {% endif %}
     </details>
   </li>

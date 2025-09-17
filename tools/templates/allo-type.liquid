@@ -3,28 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{allograph}} - {{variant-name}}</title>
+  <title>{{grapheme}} - {{variant-name}}</title>
+  <link rel="shortcut icon" href="#">
   {% render 'static-styles.liquid' %}
 </head>
 <body>
-  <h1>{{allograph}} - {{variant-name}}</h1>
-  <dl>
-    <dt>Script</dt>
-    <dd>{{script}}</dd>
-    <dt>Grapheme</dt>
-    <dd>{{grapheme}}</dd>
-    <dt>Variant</dt>
-    <dd>{{variant-name}}</dd>
-  </dl>
-  <p>Characteristic form:</p>
-  <ul>
-    {{component-features}}
-  </ul>
-  <p>Exemplar:</p>
-  <p><img src="../../thumbs/{{ variant-key }}.jpg"></p>  
-  <p>
-    <a href="{{examples-url}}">Examples</a>
-  </p>
-  {% render 'footer.liquid' %}
+  <main>
+    <h1>{{grapheme}} - {{variant-name}}</h1>
+    <section>
+      <dl>
+        <dt>Script</dt>
+        <dd>{{script}}</dd>
+        <dt>Grapheme</dt>
+        <dd>{{grapheme}}</dd>
+        <dt>Allograph</dt>
+        <dd>{{variant-name}}</dd>
+        <dt>Characteristic form:</dt>
+        <dd>
+          <ul>
+            {{component-features}}
+          </ul>
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h2>Typology</h2>
+      <p><a href="all.html#{{variant-key}}">More general types</a></p>
+      <p><a href="all.html#{{variant-key}}">More specific types</a></p>
+      <p><a href="all.html#{{variant-key}}">Full typology of allographs</a></p>
+    </section>
+    <section>
+      <h2>Exemplar</h2>
+      {% if thumbInfo %}
+        <p>
+          <figure>
+            <img 
+              src="../../thumbs/{{ variant-key }}.jpg"
+              alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on object {{ thumbInfo.docId }}"
+            >
+            <figcaption>
+              Inscription <a href="">{{ thumbInfo.docId }}</a>.
+              <br> 
+              Origin: {{ thumbInfo.place }}
+              between {{ thumbInfo.daf }} and {{ thumbInfo.dat }}
+            </figcaption>
+          </figure>
+        </p>  
+      {% else %}
+        <p>
+          <img alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on an object" src="../../thumbs/{{ variant-key }}.jpg">
+        </p>  
+      {% endif %}
+      <p>
+        <a href="{{examples-url}}">Other examples</a>
+      </p>
+    <section>
+  </main>
+  {% render 'footer.liquid', variant-key: variant-key %}
 </body>
 </html>

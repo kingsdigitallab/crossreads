@@ -19,6 +19,7 @@ export const FILE_PATHS = {
   INDEX_COLLECTION: 'app/data/index-collection.json',
   STATS: 'app/stats.json',
   THUMBS: 'app/data/thumbs',
+  THUMBS_ALL: 'app/data/thumbs/thumbs.json',
   ANNOTATIONS: 'annotations',
 }
 
@@ -58,6 +59,8 @@ async function mod(exports) {
   }
 
   exports.slugify = (str) => str.replace(/\W+/g, '-').replace(/^-+/, '').replace(/-+$/, '').toLowerCase()
+
+  exports.capitaliseWords = (str) => str.replace(/(\b\w)/g, m => m.toUpperCase())
 
   exports.getGitUrlTo = (file_key, isRaw=false) => {
     // Returns a URL on github to the key of a file from FILE_PATHS

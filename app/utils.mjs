@@ -38,6 +38,7 @@ export const SETTINGS = {
     {title: 'Settings', key: 'settings'},
   ],
   BROWSER_STORAGE_INSCRIPTION_SETS: 'inscriptionSets',
+  CORPUS_BUILDING_INSCRIPTION_URL: 'https://kingsdigitallab.github.io/corpus-building/inscription/{docId}',
 }
 SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
 
@@ -92,6 +93,13 @@ async function mod(exports) {
     const start = Math.floor(range[0] / clipUnit) * clipUnit;
     const end = Math.ceil(range[1] / clipUnit) * clipUnit;
     return [start, end];
+  }
+
+  exports.getDisplayDateRange = (range) => {
+    // [-100, 150] => 'between 100 BC and 150 AD'
+    let correctedRange = range
+    if (range[0] > range[1]) correctedRange = [range[1], range[0]]
+    return 'between ' + correctedRange.map(d => d >= 0 ? `AD ${d}` : `${-d} BC`).join(' and ')
   }
 
   exports.getLabelFromDefinition = (itemKey, itemType, definitions) => {

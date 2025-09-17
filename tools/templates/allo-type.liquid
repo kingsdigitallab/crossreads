@@ -42,10 +42,10 @@
               alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on object {{ thumbInfo.docId }}"
             >
             <figcaption>
-              Inscription <a href="">{{ thumbInfo.docId }}</a>.
+              <a class="external" href="{{thumbInfo.linkInscription}}">Inscription {{ thumbInfo.docId }}</a>.
               <br> 
               Origin: {{ thumbInfo.place }}
-              between {{ thumbInfo.daf }} and {{ thumbInfo.dat }}
+              {{ thumbInfo.displayDateRange }}
             </figcaption>
           </figure>
         </p>  

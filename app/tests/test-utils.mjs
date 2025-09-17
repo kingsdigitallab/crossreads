@@ -36,3 +36,12 @@ cases = [
 ]
 
 testFunction('utils.clipDateRange', cases)
+
+cases = [
+  [[[-50, 100]], 'between 50 BC and AD 100'],
+  [[[50, 100]], 'between AD 50 and AD 100'],
+  [[[-100, -50]], 'between 100 BC and 50 BC'],
+  [[[50, -100]], 'between 100 BC and AD 50'],
+]
+
+testFunction('utils.getDisplayDateRange', cases)

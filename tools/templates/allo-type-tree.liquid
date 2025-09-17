@@ -14,7 +14,8 @@
     <p class="top-nav">Jump to: 
       {% for scriptAllograph in tree %}
         {% assign script = scriptAllograph[0] %}
-        <a class="link-script" href="#{{ script }}">{{ script }}</a>
+        {% assign scriptLabel = scripts[scriptAllograph[0]] %}
+        <a class="link-script" href="#{{ script }}">{{ scriptLabel }}</a>
       {% endfor %}
     </p>
     <p class="breadcrumb-container">You are here: <span id="breadcrumb">[breadcrumb]</span></p>
@@ -23,9 +24,10 @@
     <div class="tree">
       {% for scriptAllograph in tree %}
         {% assign script = scriptAllograph[0] %}
+        {% assign scriptLabel = scripts[scriptAllograph[0]] %}
         {% assign allographs = scriptAllograph[1] %}
         <details id="{{ script }}" open>
-          <summary>{{ script }}</summary>
+          <summary>{{ scriptLabel }}</summary>
           <ul>
             {% for allographVariants in allographs %}
               {% assign allograph = allographVariants[0] %}

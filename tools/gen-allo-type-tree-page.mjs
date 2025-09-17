@@ -164,7 +164,10 @@ function main() {
   const variants = loadJsonFile(FILE_PATHS.VARIANT_RULES)
   const tree = buildTree(variants, definitions)
 
-  let res = toolbox.renderTemplate('allo-type-tree.liquid', {tree: tree})
+  let res = toolbox.renderTemplate('allo-type-tree.liquid', {
+    tree: tree, 
+    scripts: definitions.scripts
+  })
 
   fs.writeFileSync(TREE_PAGE_PATH, res);
 }

@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { fileURLToPath } from 'node:url';
-import { utils } from '../app/utils.mjs';
+import { utils, SETTINGS } from '../app/utils.mjs';
 import * as toolbox from './toolbox.mjs'
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,6 +32,8 @@ function processVariantRule(variantRule, definitions, thumbs) {
     context['thumbInfo'] = thumbInfo
     thumbInfo.place = utils.capitaliseWords(thumbInfo?.pla?.[0] ?? 'unknown')
     thumbInfo.docId = utils.getDocIdFromString(thumbInfo.fil, true)
+    thumbInfo.linkInscription = SETTINGS.CORPUS_BUILDING_INSCRIPTION_URL.replace('{docId}', thumbInfo.docId)
+    thumbInfo.displayDateRange = utils.getDisplayDateRange([thumbInfo.daf, thumbInfo.dat])
     // thmubInfo.linkAnnotator = `https://kingsdigitallab.github.io/crossreads/annotator.html?obj={{thumbInfo.}}&img=ISic000085.jpg&sup=0&ann={{thmbInfo.id}}`
   }
 

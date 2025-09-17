@@ -10,10 +10,10 @@
 <body>
   <main>
     <h1>{{grapheme}} - {{variant-name}}</h1>
-    <section>
+    <section class="variant-definition">
       <dl>
         <dt>Script</dt>
-        <dd>{{script}}</dd>
+        <dd>{{scriptLabel}}</dd>
         <dt>Grapheme</dt>
         <dd>{{grapheme}}</dd>
         <dt>Allograph</dt>
@@ -21,16 +21,28 @@
         <dt>Characteristic form:</dt>
         <dd>
           <ul>
-            {{component-features}}
+            {% for cf in component-features %}
+              <li class="{% if not cf.inheritedFrom %}not-inherited{% endif %}">{{ cf.label }}</li>
+            {% endfor %}
           </ul>
         </dd>
       </dl>
     </section>
     <section>
       <h2>Typology</h2>
-      <p><a href="all.html#{{variant-key}}">More general types</a></p>
-      <p><a href="all.html#{{variant-key}}">More specific types</a></p>
       <p><a href="all.html#{{variant-key}}">Full typology of allographs</a></p>
+      {% if rulesGeneral[0] %}
+        <h3>More general types</h3>
+        {% for rule in rulesGeneral %}
+          <a href="{{ script }}-{{ allograph }}-{{ rule['variant-name'] }}.html">{{ rule['variant-name'] }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      {% endif %}
+      {% if rulesSpecific[0] %}
+        <h3>More specific types</h3>
+        {% for rule in rulesSpecific %}          
+          <a href="{{ script }}-{{ allograph }}-{{ rule['variant-name'] }}.html">{{ rule['variant-name'] }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      {% endif %}
     </section>
     <section>
       <h2>Exemplar</h2>
@@ -45,6 +57,7 @@
               <a class="external" href="{{thumbInfo.linkInscription}}">Inscription {{ thumbInfo.docId }}</a>.
               <br> 
               Origin: {{ thumbInfo.place }}
+              <br> 
               {{ thumbInfo.displayDateRange }}
             </figcaption>
           </figure>

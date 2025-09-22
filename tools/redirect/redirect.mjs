@@ -1,5 +1,6 @@
 import url from 'url';
 import http from 'http';
+import https from 'https';
 
 const PREFIX_FROM = 'http://localhost:4000/images';
 const PREFIX_TO = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=';
@@ -23,10 +24,18 @@ const server = http.createServer((req, res) => {
       headers: req.headers,
     };
 
-    const proxyReq = http.request(redirectUrl.href, options, (proxyRes) => {
-      res.writeHead(proxyRes.statusCode, proxyRes.headers);
-      proxyRes.pipe(res, { end: true });
-    });
+    let proxyReq;
+    if (redirectUrl.protocol === 'https:') {
+      proxyReq = https.request(redirectUrl.href, options, (proxyRes) => {
+        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+        proxyRes.pipe(res, { end: true });
+      });
+    } else {
+      proxyReq = http.request(redirectUrl.href, options, (proxyRes) => {
+        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+        proxyRes.pipe(res, { end: true });
+      });
+    }
 
     req.pipe(proxyReq, { end: true });
   } else {

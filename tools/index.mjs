@@ -252,7 +252,7 @@ class AnnotationIndex {
     this.stats[facet][option] = (this.stats[facet][option] || 0) + 1
   }
 
-  build(annotations_path=null) {
+  async build(annotations_path=null) {
     annotations_path = annotations_path ?? utils.resolveFilePathFromFileKey('ANNOTATIONS')
 
     this.loadDefinitions()
@@ -274,12 +274,12 @@ class AnnotationIndex {
 
     this.writeIndexFiles()
 
-    this.writeThumbs()
+    await this.writeThumbs()
 
     console.log('DONE')
   }
 
-  writeThumbs() {
+  async writeThumbs() {
     // TODO create folder if needed
     let parentPath = utils.resolveFilePathFromFileKey('THUMBS')
 
@@ -308,7 +308,7 @@ class AnnotationIndex {
       } else {
         // fetch the image crop from the IIIF image server
         console.log(`FETCH variant type thumbnail from ${url} to ${thumbPath}`)
-        utils.fetchFile(url, thumbPath)
+        await utils.fetchFile(url, thumbPath)
       }
       thumbsSummary[varKey] = item
     }
@@ -353,4 +353,4 @@ class AnnotationIndex {
 }
 
 const index = new AnnotationIndex()
-index.build()
+await index.build()

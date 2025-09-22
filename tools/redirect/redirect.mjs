@@ -7,6 +7,9 @@ const PREFIX_TO = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=';
 
 // PORT is the port from PREFIX_FROM string or 80 if not mentioned
 const PORT = (new URL(PREFIX_FROM).port || '80');
+const HELP = 'Launch a proxy to the image server, for testing purpose. gh-109'
+
+console.log(HELP)
 
 const server = http.createServer((req, res) => {
   let fullUrl = new URL(req.url, PREFIX_FROM);
@@ -14,8 +17,9 @@ const server = http.createServer((req, res) => {
   console.log(fullUrl.href);
 
   if (fullUrl.href.startsWith(PREFIX_FROM)) {
-    const newPath = fullUrl.pathname.slice(PREFIX_FROM.length);
-    const redirectUrl = new URL(newPath, PREFIX_TO);
+    const newPath = fullUrl.href.slice(PREFIX_FROM.length);
+    // const redirectUrl = new URL(newPath, PREFIX_TO);
+    const redirectUrl = new URL(PREFIX_TO + newPath);
 
     console.log(`Redirecting to ${redirectUrl.href}`);
 

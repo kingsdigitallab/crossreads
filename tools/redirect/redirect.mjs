@@ -1,10 +1,16 @@
+import url from 'url';
 import http from 'http';
 
-const PREFIX_FROM = 'http://localhost:3000';
-const PREFIX_TO = 'http://localhost:4000';
+const PREFIX_FROM = 'http://localhost:4000/images';
+const PREFIX_TO = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=';
+
+// PORT is the port from PREFIX_FROM string or 80 if not mentioned
+const PORT = (new URL(PREFIX_FROM).port || '80');
 
 const server = http.createServer((req, res) => {
   let url = req.url;
+
+  console.log(url)
 
   if (url.startsWith(PREFIX_FROM)) {
     url = PREFIX_TO + url.slice(PREFIX_FROM.length);
@@ -27,7 +33,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-const PORT = 3000;
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

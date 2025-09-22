@@ -57,7 +57,6 @@ const IIIF_OBJECT_INFO_URL = `${SETTINGS.IIIF_SERVER_BASE}${SETTINGS.IIIF_SERVER
 const ANNOTATION_FORMAT_VERSION = '2023-09-01-00'
 const ANNOTATION_URI_PREFIX = 'https://crossreads.web.ox.ac.uk/annotations/'
 const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#${ANNOTATION_FORMAT_VERSION}`
-const DEFINITIONS_PATH = 'app/data/pal/definitions-digipal.json'
 // const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
 const DTS_COLLECTION_PATH = 'app/data/2023-08/collection.json'
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
@@ -65,7 +64,6 @@ const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
-const VARIANT_RULES_PATH = 'app/data/variant-rules.json'
 
 let isButtonPressed = false
 function logButtons(e) {
@@ -540,7 +538,7 @@ createApp({
         if (newValue) {
           let options = {}
           let imageUrl = this.getImageUrl()
-          if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
+          if (typeof IIIF_OBJECT_INFO_URL !== 'undefined') {
             options = [imageUrl]
           } else {
             options = {
@@ -648,7 +646,7 @@ createApp({
       }
     },
     async loadDefinitions() {
-      let res = await this.afs.readJson(DEFINITIONS_PATH)
+      let res = await this.afs.readJson(FILE_PATHS.DEFINITIONS)
       if (res.ok) {
         // sort all the features alphabetically gh-4
         for (let component of Object.values(res.data.components)) {
@@ -1661,7 +1659,7 @@ createApp({
       }
     },
     async getAlloTypes() {
-      const res = await this.afs.readJson(VARIANT_RULES_PATH)
+      const res = await this.afs.readJson(FILE_PATHS.VARIANT_RULES)
       if (res?.ok) {
         let annotations = deepCopy(this.anno.getAnnotations())
         annotations = this.convertAnnotationsToW3C(annotations)

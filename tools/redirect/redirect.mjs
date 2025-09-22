@@ -8,20 +8,22 @@ const PREFIX_TO = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=';
 const PORT = (new URL(PREFIX_FROM).port || '80');
 
 const server = http.createServer((req, res) => {
-  let url = req.url;
+  let fullUrl = new URL(req.url, PREFIX_FROM);
 
-  console.log(url)
+  console.log(fullUrl.href);
 
-  if (url.startsWith(PREFIX_FROM)) {
-    url = PREFIX_TO + url.slice(PREFIX_FROM.length);
-    console.log(`Redirecting to ${url}`);
+  if (fullUrl.href.startsWith(PREFIX_FROM)) {
+    const newPath = fullUrl.pathname.slice(PREFIX_FROM.length);
+    const redirectUrl = new URL(newPath, PREFIX_TO);
+
+    console.log(`Redirecting to ${redirectUrl.href}`);
 
     const options = {
       method: req.method,
       headers: req.headers,
     };
 
-    const proxyReq = http.request(url, options, (proxyRes) => {
+    const proxyReq = http.request(redirectUrl.href, options, (proxyRes) => {
       res.writeHead(proxyRes.statusCode, proxyRes.headers);
       proxyRes.pipe(res, { end: true });
     });

@@ -39,6 +39,10 @@ export const SETTINGS = {
   ],
   BROWSER_STORAGE_INSCRIPTION_SETS: 'inscriptionSets',
   CORPUS_BUILDING_INSCRIPTION_URL: 'https://kingsdigitallab.github.io/corpus-building/inscription/{docId}',
+  // Corresponds to {scheme}://{server}{/prefix} in IIIF Image API
+  IIIF_SERVER_BASE: 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=',
+  // todo: we shouldn't hard-code the _tiled.tif
+  IIIF_SERVER_OBJ_ID: '/inscription_images/{DOCID}/{IMGID}_tiled.tif',
 }
 SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
 

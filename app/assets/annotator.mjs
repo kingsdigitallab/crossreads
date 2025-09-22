@@ -27,7 +27,7 @@ TODO:
 
 */
 
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, FILE_PATHS } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, FILE_PATHS, SETTINGS } from "../utils.mjs";
 import { xmlUtils } from "../xml-utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { crossreadsXML } from "../crossreads-xml.mjs";
@@ -45,11 +45,12 @@ const NO_MATCHING_DOC = 'NO_MATCHING_DOC'
 const EDIT_LOCK_IN_MINUTES = 10
 
 // if IMG_PATH_IIIF_ROOT defined, the viewer will fetch full image files instead of IIIF tiles
+const IIIF_OBJECT_INFO_URL = `${SETTINGS.IIIF_SERVER_BASE}${SETTINGS.IIIF_SERVER_OBJ_ID}/info.json`
 // Local IIIF server
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
 // Crossreads live IIIF server
 // https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json
-const IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
+//// const IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 // IIIF server via local proxy to avoid CORS blockage
 // let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
@@ -1089,9 +1090,9 @@ createApp({
     // },
     getImageUrl() {
       let ret = `${IMG_PATH_STATIC_ROOT}${this.image.uri}`
-      if (typeof IMG_PATH_IIIF_ROOT !== 'undefined') {
+      if (typeof IIIF_OBJECT_INFO_URL !== 'undefined') {
         let imgid = this.image.uri.replace(/\.[^.]+$/, '');
-        ret = IMG_PATH_IIIF_ROOT
+        ret = IIIF_OBJECT_INFO_URL
           .replace('{DOCID}', this.object['title'])
           .replace('{IMGID}', imgid);
       }

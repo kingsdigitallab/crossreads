@@ -22,6 +22,7 @@ const server = http.createServer((req, res) => {
     const options = {
       method: req.method,
       headers: req.headers,
+      rejectUnauthorized: false // Disable SSL verification
     };
 
     let proxyReq;

@@ -3,15 +3,10 @@ This script detects and report issues in the current definition file.
 
 TODO: fixing issues which we are 100% sure are safe.
 */
-
-import { utils, FILE_PATHS, DEBUG_DONT_SAVE } from "../app/utils.mjs";
-const PATH_PREFIX = '../'
+import { utils } from "../app/utils.mjs";
 const EXPECTED_DEFINITION_VERSIONS = ['0.1']
 
-import path from "path";
-import fs from 'fs';
-
-const definitions = utils.readJsonFile(`${PATH_PREFIX}${FILE_PATHS.DEFINITIONS}`)
+const definitions = utils.readJsonFile('DEFINITIONS')
 
 const ENTITIES = ['features', 'components', 'allographs']
 
@@ -73,9 +68,9 @@ for (let parentEntity of ENTITIES) {
         for (let [parentKey, parent] of Object.entries(definitions[parentEntity])) {
             let childrenUsedByParent = parent[childEntity]
             usedChildren = [...usedChildren, ...childrenUsedByParent]
-            let undefined = childrenUsedByParent.filter(k => !definedChildren.includes(k))
-            if (undefined.length) {
-                log(`${parentEntity} "${parentKey}" uses "${undefined}", but they are not defined`, 'ERROR')
+            let undefinedEntities = childrenUsedByParent.filter(k => !definedChildren.includes(k))
+            if (undefinedEntities.length) {
+                log(`${parentEntity} "${parentKey}" uses "${undefinedEntities}", but they are not defined`, 'ERROR')
             }
             if (childrenUsedByParent.length < 1) {
                 log(`${parentEntity} "${parentKey}" does not use any ${childEntity}`, 'WARNING')

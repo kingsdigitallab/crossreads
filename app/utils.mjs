@@ -19,7 +19,7 @@ export const FILE_PATHS = {
   INDEX_COLLECTION: 'app/data/index-collection.json',
   STATS: 'app/stats.json',
   THUMBS: 'app/data/thumbs',
-  THUMBS_ALL: 'app/data/thumbs/thumbs.json',
+  INDEX_THUMBS: 'app/data/thumbs/thumbs.json',
   ANNOTATIONS: 'annotations',
 }
 

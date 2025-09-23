@@ -110,7 +110,7 @@ function main() {
 
   let definitions = utils.readJsonFile('DEFINITIONS')
 
-  let thumbs = utils.readJsonFile('THUMBS_ALL')
+  let thumbs = utils.readJsonFile('INDEX_THUMBS')
 
   for (const variantRule of variantRules) {
     processVariantRule(variantRule, definitions, thumbs, variantRules);

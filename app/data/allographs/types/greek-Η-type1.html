@@ -16,13 +16,20 @@
   .external::after {
     content: ' ⎋';
   }
+  .not-inherited {
+    font-weight: bold;
+  }
+  .variant-definition dt {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
 </style>
 
 </head>
 <body>
   <main>
     <h1>Η - type1</h1>
-    <section>
+    <section class="variant-definition">
       <dl>
         <dt>Script</dt>
         <dd>Greek</dd>
@@ -33,18 +40,22 @@
         <dt>Characteristic form:</dt>
         <dd>
           <ul>
-              <li>crossbar is straight</li>
-  <li>left-stroke is straight</li>
-  <li>right-stroke is straight</li>
+            
+              <li class="not-inherited">crossbar is straight</li>
+            
+              <li class="not-inherited">left-stroke is straight</li>
+            
+              <li class="not-inherited">right-stroke is straight</li>
+            
           </ul>
         </dd>
       </dl>
     </section>
     <section>
       <h2>Typology</h2>
-      <p><a href="all.html#greek-Η-type1">More general types</a></p>
-      <p><a href="all.html#greek-Η-type1">More specific types</a></p>
       <p><a href="all.html#greek-Η-type1">Full typology of allographs</a></p>
+      
+      
     </section>
     <section>
       <h2>Exemplar</h2>
@@ -59,6 +70,7 @@
               <a class="external" href="https://kingsdigitallab.github.io/corpus-building/inscription/ISic001155">Inscription ISic001155</a>.
               <br> 
               Origin: Thermae Himeraeae
+              <br> 
               between 200 BC and AD 100
             </figcaption>
           </figure>

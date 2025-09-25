@@ -8,11 +8,9 @@ if (!IS_BROWSER) {
 
 async function mod(exports) {
 
-  exports.removeNamespaces = function(xmlString) {
-    return xmlString.replace(/\s*xmlns(:\w+)?="[^"]*"/g, "")
-  }
+  exports.removeNamespaces = (xmlString) => xmlString.replace(/\s*xmlns(:\w+)?="[^"]*"/g, "")
 
-  exports.xslt = async function(xml, xsltPath) {
+  exports.xslt = async (xml, xsltPath) => {
     let ret = null
 
     if (!xml) return ret;
@@ -82,7 +80,7 @@ async function mod(exports) {
    * 
    * namespaces.default is the default namespace
    */
-  exports.xpath = function(xml, xpath, namespaces) {
+  exports.xpath = (xml, xpath, namespaces) => {
     // SaxonJS.getResource({
     //   // location: '../../src/test.xml',
     //   text: xmlString,
@@ -111,7 +109,7 @@ async function mod(exports) {
     return items
   }
 
-  exports.toString = function(xml, keepNamespaces=false) {
+  exports.toString = (xml, keepNamespaces=false) => {
     let ret = SaxonJS.serialize(xml, {
       method: 'html',
       indent: true,
@@ -123,7 +121,7 @@ async function mod(exports) {
     return ret
   }
 
-  exports.fromString = async function(xmlString) {
+  exports.fromString = async (xmlString) => {
     // xmlString is either:
     // * a URL
     // * a relative path
@@ -141,6 +139,10 @@ async function mod(exports) {
       }
     }
     return await SaxonJS.getResource(options)
+  }
+
+  exports.getAttr = (node, attributeName, defaultValue) => {
+    return node.attributes.getNamedItem(attributeName)?.value ?? defaultValue
   }
 
 };

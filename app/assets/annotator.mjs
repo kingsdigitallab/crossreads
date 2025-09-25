@@ -332,7 +332,7 @@ createApp({
       const ret = []
       for (const k of Object.keys(this.images)) {
         const o = this.images[k]
-        if (o.type === 'print') {
+        if (o.type === 'screen') {
           ret.push(o)
         }
       }
@@ -713,9 +713,7 @@ createApp({
       this.images = {}
       // let it = xml.evaluate('//tei:graphic', xml, this.getURIFromXMLPrefix, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
       let xmlObject = await xmlUtils.fromString(xmlString)
-      for (let node of xmlUtils.xpath(xmlObject, '//tei:graphic')) {
-        // let node = it.iterateNext()
-        // if (!node) break
+      for (let node of xmlUtils.xpath(xmlObject, '//tei:graphic[@url][@n]')) {
         // TODO: less assumption about encoding, make it more robust 
         let uri = node.attributes['url'].value
         this.images[uri] = {
@@ -725,12 +723,11 @@ createApp({
           surface: node.parentElement.attributes.type.value // front
         }
       }
-      let filteredImages = this.filteredImages
       let img = this.image
       if (!img) {
+        let filteredImages = this.filteredImages
         img = filteredImages ? filteredImages[0] : null
       }
-      // this.onSelectImage(img)
       this.image = img
     },
     async setTextFromXMLString(xmlString) {
@@ -1089,7 +1086,8 @@ createApp({
     getImageUrl() {
       let ret = `${IMG_PATH_STATIC_ROOT}${this.image.uri}`
       if (typeof IIIF_OBJECT_INFO_URL !== 'undefined') {
-        let imgid = this.image.uri.replace(/\.[^.]+$/, '');
+        // let imgid = this.image.uri.replace(/\.[^.]+$/, '');
+        let imgid = this.image.uri;
         ret = IIIF_OBJECT_INFO_URL
           .replace('{DOCID}', this.object['title'])
           .replace('{IMGID}', imgid);
@@ -1221,7 +1219,7 @@ createApp({
       this.setLastModified()
       if (filePath) {
         let res = await this.afs.readJson(filePath)
-        if (res && res.ok) {
+        if (res?.ok) {
           this.setLastModified(res.data)
           let annotations = this.upgradeAnnotations(res.data)
           annotations = this.dedupeAnnotations(annotations)
@@ -1495,11 +1493,14 @@ createApp({
     getAnnotationFilePath() {
       let ret = null
       if (this.object && this.image) {
-        ret = 'annotations/' + utils.slugify(`${this.object['@id']}/${this.image.uri}`) + '.json'
+        // console.log(this.object['@id'], this.image.uri)
+        // ret = 'annotations/' + utils.slugify(`${this.object['@id']}/${this.image.uri}`) + '.json'
+        ret = utils.getAnnotationFilenameFromImageAndDoc(this.image.uri, this.object['@id'])
       }
       return ret
     },
     getAnnotationsAbsolutePath() {
+      // TODO: remove hard-coded value
       return `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${this.getAnnotationFilePath()}`;
     },
     getCollectionPath() {

@@ -43,7 +43,10 @@ export const SETTINGS = {
   IIIF_SERVER_BASE: 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=',
   // IIIF_SERVER_BASE: 'http://localhost:4000/images', // for TESTING ONLY
   // todo: we shouldn't hard-code the _tiled.tif
-  IIIF_SERVER_OBJ_ID: '/inscription_images/{DOCID}/{IMGID}_tiled.tif',
+  // IIIF_SERVER_OBJ_ID: '/inscription_images/{DOCID}/{IMGID}_tiled.tif',
+  IIIF_SERVER_OBJ_ID: '/inscription_images/{DOCID}/{IMGID}',
+  DTS_COLLECTION: 'https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json',
+  DTS_DOC_BASE: 'http://sicily.classics.ox.ac.uk/inscription/',
 }
 SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
 
@@ -80,6 +83,24 @@ async function mod(exports) {
       // https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json
       ret = `${SETTINGS.GITHUB_REPO_URL}/blob/main/${FILE_PATHS[file_key]}`
     }
+    return ret
+  }
+
+  exports.getAnnotationFilenameFromImageAndDoc = (imageFilename, docId, keepProtocol=false) => {
+    // Returns the name of the annotation file
+    // from the TEI/IIIF image filename and the ID of the inscription doc/TEI in DTS.
+    // e.g. (ISic000085_tiled.tif, http://sicily.classics.ox.ac.uk/inscription/ISic000085)
+    // => 'sicily-classics-ox-ac-uk-inscription-isic000085-isic000085_tiled-tif.json'
+    if (!docId) {
+      let docIdFromImage = exports.getDocIdFromString(imageFilename)
+      docId = `${SETTINGS.DTS_DOC_BASE}${docIdFromImage}`
+    }
+    if (!keepProtocol) {
+      // remove https://
+      docId = docId.replace(/^[^:/]+:\/\//, '')
+    }
+    let annotationFilename = utils.slugify(`${docId}/${imageFilename}`)
+    let ret = `${FILE_PATHS.ANNOTATIONS}/${annotationFilename}.json`
     return ret
   }
 
@@ -322,7 +343,7 @@ async function mod(exports) {
     // 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic020313/ISic020313_tiled.tif' => 'ISic020313'
     let ret = ''
 
-    const matches = str.match(/\bisic\d{6,}\b/i);
+    const matches = str.replace('_', '-').match(/\bisic\d{6,}\b/gi);
     if (matches) {
       ret = matches[0].toLowerCase()
       if (withCase) {

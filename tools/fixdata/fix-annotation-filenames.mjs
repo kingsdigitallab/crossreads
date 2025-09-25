@@ -24,7 +24,7 @@ class RenameAnnotationFiles {
     for (let teiPath of fs.readdirSync(TEI_FOLDER).sort()) {
       teiPath = path.join(TEI_FOLDER, teiPath);
       if (teiPath.endsWith('.xml') && !fs.lstatSync(teiPath).isDirectory()) {
-        if (!teiPath.includes('0085.xml')) continue;
+        // if (!teiPath.includes('0085.xml')) continue;
         console.log(teiPath)
         let content = fs.readFileSync(teiPath, {encoding:'utf8', flag:'r'})
         // content = xmlUtils.removeNamespaces(content)

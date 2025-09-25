@@ -69,7 +69,7 @@ class RenameAnnotationFiles {
                 continue
               }
 
-              utils.exec(`git mv ${annotationFilePathOld} ${annotationFilePath}`)
+              await utils.exec(`git mv ${annotationFilePathOld} ${annotationFilePath}`)
               targetFilePaths[annotationFilePath] = 1
             }
           }

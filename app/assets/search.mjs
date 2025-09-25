@@ -668,8 +668,9 @@ createApp({
       // TODO: remove hard-coded assumptions.
       // the transforms (obj, img) should be more dynamic than that.
       let ret = ''
-      const annotatorImageId = item.img.replace('_tiled.tif', ".jpg").replace(/^.*\//, '')
-      ret = `./annotator.html?obj=http://sicily.classics.ox.ac.uk/inscription/${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
+      // const annotatorImageId = item.img.replace('_tiled.tif', ".jpg").replace(/^.*\//, '')
+      const annotatorImageId = item.img.replace(/^.*\//, '')
+      ret = `./annotator.html?obj=${SETTINGS.DTS_DOC_BASE}${this.getDocIdFromItem(item)}&img=${annotatorImageId}&ann=${item.id}`
       return ret
     },
     getOptionsFromFacet(facet) {

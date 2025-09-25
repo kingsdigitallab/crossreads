@@ -47,7 +47,7 @@ class AnnotationIndex {
           if (ann.target[0]) {
             let inscriptionId = this.getInscriptionIdFromAnnotation(ann)
             isFixed = true
-            target.source = `http://sicily.classics.ox.ac.uk/inscription/${inscriptionId}.xml`
+            target.source = `${SETTINGS.DTS_DOC_BASE}${inscriptionId}.xml`
             level = 'FIX'
           }
           this.log("target[i].source contained 'null'", level, filePath, ann.id)

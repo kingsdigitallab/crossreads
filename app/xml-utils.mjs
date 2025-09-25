@@ -10,6 +10,9 @@ async function mod(exports) {
 
   exports.removeNamespaces = (xmlString) => xmlString.replace(/\s*xmlns(:\w+)?="[^"]*"/g, "")
 
+  // this is null in browser; but defined in nodje...
+  exports.XError = SaxonJS?.XError
+
   exports.xslt = async (xml, xsltPath) => {
     let ret = null
 

@@ -18,36 +18,35 @@ class ConvertTokensInAnnotations {
   }
 
   async run() {
+    let total = 0
+    let withN = 0
 
-    // for (let teiPath of fs.readdirSync(TEI_FOLDER).sort()) {
-    //   teiPath = path.join(TEI_FOLDER, teiPath);
-    //   if (teiPath.endsWith('.xml') && !fs.lstatSync(teiPath).isDirectory()) {
-    //     if (!teiPath.includes('0092.xml')) continue;
-    //     let res = await this.getTokenMappingFromTEI(teiPath)
-    //     break
-    //   }
-    // }
-    
     let annotationsFilesPath = '../../annotations'
     for (let annotationsFilePath of fs.readdirSync(annotationsFilesPath).sort()) {
       annotationsFilePath = path.join(annotationsFilesPath, annotationsFilePath);
       if (annotationsFilePath.endsWith('.json') && !fs.lstatSync(annotationsFilePath).isDirectory()) {
+        if (annotationsFilePath.includes('http')) continue;
         // if (!annotationsFilePath.includes('0092-')) continue;
 
-        console.log(annotationsFilePath)
-        await this.processAnnotationsFile(annotationsFilePath)
-
+        // console.log(annotationsFilePath)
+        let res = await this.processAnnotationsFile(annotationsFilePath)
+        if (res) withN++
+        total++
         // break
       }
     }
+
+    console.log(`${withN} TEI files have a tei:w[@n]; ${total} files in total.`)
 
   }
 
   async processAnnotationsFile(annotationsFilePath) {
     let isicId = utils.getDocIdFromString(annotationsFilePath, true)
-    let idsToN = await this.getTokenMappingFromTEI(`${TEI_FOLDER}${isicId}.xml`)
+    let xmlPath = `${TEI_FOLDER}${isicId}.xml`
 
-    console.log(idsToN)
+    if (!await this.isTEIConverted(xmlPath)) return
+
+    let idsToN = await this.getTokenMappingFromTEI(xmlPath)
 
     let annotations = utils.readJsonFile(annotationsFilePath)
 
@@ -56,15 +55,28 @@ class ConvertTokensInAnnotations {
       for (let target of anno.target) {
         let value = target?.selector?.value ?? ''
         let oldId = value.replace(/^.*'([^']+)'.*$/, '$1')
-        if (oldId != value) {
+        if (oldId !== value) {
           if ((!idsToN[oldId] || !idsToN[oldId][0]) && !seenTokenIds[oldId]) {
-            console.log(`Token Id from annotation ${oldId} is not found in the inscription TEI (${idsToN[oldId][1]}).`)
+            // console.log(`Token Id from annotation ${oldId} is not found in the inscription TEI (${idsToN[oldId][1]}).`)
+            console.log(`WARNING: token Id from annotation ${oldId} is not found in the inscription TEI ${xmlPath}.`)
             seenTokenIds[oldId] = 1
           }
-          // console.log(oldId)
         }
       }
     }
+  }
+
+  async isTEIConverted(xmlPath) {
+    // returns true if the TEI file contains the @n attribute on other elements than lb
+    let xml = await xmlUtils.fromString(xmlPath)
+    //let nodesWithN = xmlUtils.xpath(xml, "//tei:div[@type='edition'][not(@subtype)]//*[name() != 'lb'][@n]")
+    let nodesWithN = await xmlUtils.xpath(xml, "//tei:div[@type='edition'][not(@subtype)]//*[name() != 'lb'][@n]")
+
+    if (!nodesWithN.length) {
+      console.log(`WARNING: no element with @n in the edition ${xmlPath}`)
+    }
+
+    return nodesWithN.length > 0
   }
 
   async getTokenMappingFromTEI(teiPath) {

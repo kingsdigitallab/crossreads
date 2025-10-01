@@ -833,7 +833,7 @@ createApp({
       return {
         textId: null,
         wordId: word.attributes.getNamedItem('data-tei-id').value,
-        signId: sign.attributes.getNamedItem('data-idx').value
+        signId: sign.attributes.getNamedItem('data-idx-w').value
       }
     },
     updateSignHighlights() {
@@ -883,7 +883,7 @@ createApp({
           ret = NO_MATCHING_WORD
           let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
           if (word) {
-            ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`) || NO_MATCHING_SIGN
+            ret = word.querySelector(`span[data-idx-w="${description?.textTarget?.signId}"]`) || NO_MATCHING_SIGN
           }
         }
       }

@@ -1,4 +1,4 @@
-import { IS_BROWSER } from './utils.mjs'
+import { ROOT_PATH, IS_BROWSER} from './utils.mjs'
 import { xmlUtils } from './xml-utils.mjs'
 
 async function mod(exports) {
@@ -6,8 +6,8 @@ async function mod(exports) {
   let TEI2HTML_XSLT = 'data/tei2html.xslt'
   let HTML2HTML_XSLT = 'data/html2html.xslt'
   if (!IS_BROWSER) {
-    TEI2HTML_XSLT = `../app/${TEI2HTML_XSLT}`
-    HTML2HTML_XSLT = `../app/${HTML2HTML_XSLT}`
+    TEI2HTML_XSLT = `${ROOT_PATH}/app/${TEI2HTML_XSLT}`
+    HTML2HTML_XSLT = `${ROOT_PATH}/app/${HTML2HTML_XSLT}`
   }
 
   exports.getHtmlFromTei = async function(xmlString) {

@@ -437,6 +437,21 @@ async function mod(exports) {
     return filePath;
   }
 
+  exports.areSignsEquivalent = (signA, signB) => {
+    let signs = [signA, signB].map(s => {
+      let ret = exports.getGraphemeFromCharacter(s).toLowerCase()
+      // in Crossreads v in the transcription 
+      // is like U in the annotation description
+      if (ret === 'u') ret = 'v'
+      if (ret === '·') ret = 'punctuation'
+      if (ret === '❦') ret = 'punctuation'
+      if (ret === ':') ret = 'punctuation'
+      return ret
+    })
+
+    return (signs[0] === signs[1])
+  }
+
   // --------------------------------------------
 
   if (IS_BROWSER) {

@@ -113,6 +113,14 @@ async function mod(exports) {
   }
 
   exports.toString = (xml, keepNamespaces=false) => {
+    if (typeof xml === 'string' || xml instanceof String) {
+      return xml
+    }
+    if (xml?.nodeType === 2) {
+      // attribute
+      return `@${xml.localName}="${xml.value}"`
+    }
+    
     let ret = SaxonJS.serialize(xml, {
       method: 'html',
       indent: true,

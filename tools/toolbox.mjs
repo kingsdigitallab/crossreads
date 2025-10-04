@@ -30,6 +30,36 @@ export async function pullTEICorpus() {
     }
 }
 
+export function parseCommandLineArgs() {
+    let ret = {
+        scriptName: path.basename(process.argv[1]),
+        action: '',
+        params: [],
+        options: [],
+        verbosity: 0,
+    }
+
+    let args = process.argv.slice(2)
+    while (args.length) {
+        let arg = args.shift()
+        if (arg.startsWith('-')) {
+            ret.options.push(arg)
+            if (arg === '-v') {
+                ret.verbosity = 1
+            }
+        } else {
+            if (!ret.action) {
+                ret.action = arg    
+            } else {
+                ret.params.push(arg)
+            }
+        }
+    }
+
+    return ret
+}
+
+
 // export function isXMLWellFormed(xmlString) {
 //     let ret = false
 

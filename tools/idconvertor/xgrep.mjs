@@ -28,6 +28,8 @@ class XGrep {
     let args = parseCommandLineArgs()
 
     if (args.action === 'xpath') {
+      let filters = args.options['-f'] ?? []
+
       let xpath = args.params[0]
       if (!xpath) {
         console.log('Please provide a xpath selector')
@@ -37,6 +39,8 @@ class XGrep {
       let values = {}
 
       for (let xmlFileName of fs.readdirSync(TEI_FOLDER).sort()) {
+        if (!filters.every(f => xmlFileName.includes(f))) continue;
+        
         let xmlFilePath = path.join(TEI_FOLDER, xmlFileName)
         let xmlString = fs.readFileSync(xmlFilePath, {encoding:'utf8', flag:'r'})
         let xml = null
@@ -52,7 +56,7 @@ class XGrep {
         }
         let nodes = await xmlUtils.xpath(xml, xpath)
 
-        if (nodes && nodes.length) {
+        if (nodes?.length) {
           console.log(`${xmlFileName}: ${nodes.length} matches`)
           for (let node of nodes) {
             let rep = xmlUtils.toString(node)

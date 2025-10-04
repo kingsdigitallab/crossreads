@@ -54,8 +54,13 @@ createApp({
     coreInscriptionSets() {
       return (this.inscriptionSets.filter(inscSet => !['intersection', 'union'].includes(inscSet.id)))
     },
-    filteredPlaces() {
-      return [ANYWHERE, ...this.places]
+    filteredPlaces() {      
+      let ret = SETTINGS.PLACES_IN_DISPLAY_ORDER.filter(p => this.places.includes(p.toLowerCase()))
+      ret = ret.map(p => p.toLowerCase())
+      for (let p of this.places.sort()) {
+        if (!ret.includes(p)) ret.push(p)
+      }
+      return [ANYWHERE, ...ret]
     },
     lastMessage() {
       let ret = {

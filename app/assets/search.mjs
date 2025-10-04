@@ -128,6 +128,7 @@ createApp({
     }
 
     this.setSelectionFromAddressBar()
+    this.restoreLaqQueriesFromAddressBar()
     this.search()
   },
   watch: {
@@ -950,8 +951,8 @@ createApp({
 
       window.document.title = 'Search ' + this.searchName
     },
-    setSelectionFromAddressBar() {
-      const searchParams = new URLSearchParams(window.location.search);
+    setSelectionFromAddressBar(queryString=null) {
+      const searchParams = new URLSearchParams(queryString ?? window.location.search);
 
       this.selection.object = searchParams.get('obj') || ''
       this.selection.image = searchParams.get('img') || ''
@@ -983,6 +984,21 @@ createApp({
         }
       }
       // console.log(this.selection.facets)
+    },
+    restoreLaqQueriesFromAddressBar() {
+      const searchParams = new URLSearchParams(window.location.search);
+
+      let labQueriesEncoded = searchParams.get('laq') || ''
+      if (labQueriesEncoded) {
+        // TODO: error management
+        let labQueries = JSON.parse(atob(labQueriesEncoded))
+        window.localStorage.setItem(SETTINGS.BROWSER_STORAGE_INSCRIPTION_SETS, '[]')
+        for (let query of labQueries) {
+          this.setSelectionFromAddressBar(query)
+          this.onClickAddResultsToLab()
+        }
+        this.logOk(`Restored the Lab results from the link. Go the the Lab tab to view them.`)
+      }
     },
     _getNumberFromString(stringValue, defaultValue=0) {
       // TODO: move to utils.

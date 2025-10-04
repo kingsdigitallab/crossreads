@@ -131,7 +131,7 @@ export const SETTINGS = {
   IIIF_SERVER_OBJ_ID: '/inscription_images/{DOCID}/{IMGID}',
   DTS_COLLECTION: 'https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json',
   DTS_DOC_BASE: 'http://sicily.classics.ox.ac.uk/inscription/',
+  // convert PLACES_IN_DISPLAY_ORDER into a list
   PLACES_IN_DISPLAY_ORDER: PLACES_IN_DISPLAY_ORDER.split('\n').map(p => p.trim()).filter(p => p.length),
 }
 SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
-

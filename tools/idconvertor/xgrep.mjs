@@ -60,19 +60,22 @@ class XGrep {
           }
         }
       }
-      console.log(values)
+      if (args.options['-g']) {
+        console.log(values)
+      }
     } else {
       this.showHelp(args)
     }
   }
 
   showHelp(args) {
-    console.log(`Usage: ${args.scriptName} ACTION [ARG...] [-v]\n`)
+    console.log(`Usage: ${args.scriptName} ACTION [ARG...] [-v] [-g]\n`)
     console.log(`Run xpath on TEI corpus\n`)
     console.log(`ACTIONS:\n`)
     console.log(`  xpath <xpath>: run <xpath> on TEI corpus\n`)
     console.log(`OPTIONS:\n`)
     console.log(`  -v:            more verbose output\n`)
+    console.log(`  -g:            show grouped matched\n`)
   }
 
 }

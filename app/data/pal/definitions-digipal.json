@@ -1,7 +1,7 @@
 {
   "context": "//digipal.eu",
   "version": "0.1",
-  "updated": "2025-09-24T12:32:39.273Z",
+  "updated": "2025-09-29T11:43:46.824Z",
   "scripts": {
     "base": "Base",
     "latin": "Latin",
@@ -54,7 +54,9 @@
     "three": "three",
     "four": "four",
     "absent": "absent",
-    "equal-length": "equal-length"
+    "equal-length": "equal-length",
+    "inward": "inward",
+    "outward": "outward"
   },
   "components": {
     "ascender": {
@@ -300,7 +302,9 @@
         "on-baseline",
         "straight",
         "serif",
-        "sans-serif"
+        "sans-serif",
+        "inward",
+        "outward"
       ]
     },
     "upper-bar": {
@@ -515,18 +519,18 @@
       "script": "latin",
       "character": "D",
       "components": [
-        "downstroke",
-        "bowl"
+        "bowl",
+        "downstroke"
       ]
     },
     "E-latin": {
       "script": "latin",
       "character": "E",
       "components": [
-        "top-bar",
         "bottom-bar",
         "downstroke",
-        "middle-bar"
+        "middle-bar",
+        "top-bar"
       ]
     },
     "F-latin": {

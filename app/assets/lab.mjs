@@ -48,7 +48,7 @@ createApp({
   computed: {
     tabs: () => utils.tabs(),
     filteredInscriptionSets() {
-      let ret = this.inscriptionSets
+      let ret = this.inscriptionSets.filter(iset => !iset.hidden)
       return ret
     },
     coreInscriptionSets() {
@@ -169,13 +169,11 @@ createApp({
       ret = {
         id: 'union',
         name: 'All inscriptions',
-        inscriptions: [...new Set(union)]
+        inscriptions: [...new Set(union)],
+        hidden: (this.inscriptionSets.filter(iset => iset.id !== 'intersection').length < 2)
       }
 
-      // 2 because that's more than one user-provided set + intersection set
-      if (this.inscriptionSets.length > 2) {
-        this.inscriptionSets.push(ret)
-      }
+      this.inscriptionSets.push(ret)
 
       return ret
     },

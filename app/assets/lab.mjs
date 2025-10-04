@@ -203,7 +203,7 @@ createApp({
           if (place === ANYWHERE || placeKey === place) {
             for (let dateRange of dateRanges) {
               if (ret.length < 1) {
-                ret = dateRange
+                ret = [...dateRange]
               } else {
                 ret[0] = Math.min(ret[0], dateRange[0])
                 ret[1] = Math.max(ret[1], dateRange[1])

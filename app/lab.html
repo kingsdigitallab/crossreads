@@ -132,6 +132,14 @@
               </tbody>
             </table>
           </div>
+
+          <div v-if="permalink">
+            <p>
+              <br>
+              <a :href="permalink">Link to this result page</a>
+              <br>
+            </p>
+          </div>
         </div>
       </div>
     </section>

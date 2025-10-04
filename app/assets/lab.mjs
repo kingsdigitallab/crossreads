@@ -77,6 +77,18 @@ createApp({
     isUnsaved() {
       return false
     },
+    permalink() {
+      let ret = ''
+      let isets = this.coreInscriptionSets
+      if (isets.length) {
+        let queries = this.coreInscriptionSets.map(
+          iset => iset.searchQueryString
+        )
+        let queriesEncoded = btoa(JSON.stringify(queries))
+        ret = `search.html?laq=${queriesEncoded}`
+      }
+      return ret
+    }
   },
   methods: {
     async initAnyFileSystem() {

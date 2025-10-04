@@ -136,7 +136,7 @@
           <div v-if="permalink">
             <p>
               <br>
-              <a :href="permalink">Link to this result page</a>
+              <a :href="permalink">Lab results for <template v-for="iset in coreInscriptionSets">{{iset.name}} | </template></a>
               <br>
             </p>
           </div>

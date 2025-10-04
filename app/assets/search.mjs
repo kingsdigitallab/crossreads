@@ -1011,6 +1011,8 @@ createApp({
         }
         inscriptionSets.push(inscriptionSet)
         window.localStorage.setItem(storage_key, JSON.stringify(inscriptionSets))
+
+        this.logOk(`Added new results to Lab tab: ${this.searchName}`)
       }
     }
   }

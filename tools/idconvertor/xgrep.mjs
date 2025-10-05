@@ -14,13 +14,10 @@ in both the old and new system.
 */
 import fs from 'fs';
 import path from "path";
-import { utils, FILE_PATHS } from "../../app/utils.mjs";
 import { xmlUtils } from "../../app/xml-utils.mjs";
-import { crossreadsXML } from "../../app/crossreads-xml.mjs";
 import { parseCommandLineArgs } from "../toolbox.mjs"
 
 const TEI_FOLDER = '../ISicily/inscriptions/'
-const UNSPECIFIED_CHARACTER = 'Unspecified character'
 
 class XGrep {
 
@@ -40,7 +37,7 @@ class XGrep {
 
       for (let xmlFileName of fs.readdirSync(TEI_FOLDER).sort()) {
         if (!filters.every(f => xmlFileName.includes(f))) continue;
-        
+
         let xmlFilePath = path.join(TEI_FOLDER, xmlFileName)
         let xmlString = fs.readFileSync(xmlFilePath, {encoding:'utf8', flag:'r'})
         let xml = null
@@ -65,6 +62,7 @@ class XGrep {
         }
       }
       if (args.options['-g']) {
+        // console.log(JSON.stringify(values, null, 2))
         console.log(values)
       }
     } else {
@@ -73,13 +71,14 @@ class XGrep {
   }
 
   showHelp(args) {
-    console.log(`Usage: ${args.scriptName} ACTION [ARG...] [-v] [-g]\n`)
-    console.log(`Run xpath on TEI corpus\n`)
+    console.log(`Usage: ${args.scriptName} ACTION [ARG...] [OPTIONS...]\n`)
+    console.log(`List TEI files matching a given xpath selector.\n`)
     console.log(`ACTIONS:\n`)
-    console.log(`  xpath <xpath>: run <xpath> on TEI corpus\n`)
+    console.log(`  xpath XPATH: run XPATH on TEI corpus\n`)
     console.log(`OPTIONS:\n`)
-    console.log(`  -v:            more verbose output\n`)
-    console.log(`  -g:            show grouped matched\n`)
+    console.log(`  -v:            more verbose output`)
+    console.log(`  -g:            show grouped matches and frequencies`)
+    console.log(`  -f SUBSTRINGS: file name must contain SUBSTRINGS\n`)
   }
 
 }

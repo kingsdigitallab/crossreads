@@ -133,6 +133,8 @@ export const SETTINGS = {
   DTS_DOC_BASE: "http://sicily.classics.ox.ac.uk/inscription/",
   // convert PLACES_IN_DISPLAY_ORDER into a list
   PLACES_IN_DISPLAY_ORDER: PLACES_IN_DISPLAY_ORDER.split("\n").map(p => p.trim()).filter(p => p.length),
-  ANNOTATION_TOKEN_XPATH: "//tei:div[@type='edition']/@subtype",
+  XPATH_TRANSCRIPTION_IN_TEI: "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']",
+  XPATH_TOKENS_IN_TEI: "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')]", // [@n='5']
+  EXPECTED_TOKEN_TAGS: ['w', 'g', 'space', 'gap', 'orig'],
 }
 SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`

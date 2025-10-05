@@ -14,7 +14,7 @@ in both the old and new system.
 */
 import fs from 'fs';
 import path from "path";
-import { utils, FILE_PATHS } from "../../app/utils.mjs";
+import { utils, FILE_PATHS, SETTINGS } from "../../app/utils.mjs";
 import { xmlUtils } from "../../app/xml-utils.mjs";
 import { crossreadsXML } from "../../app/crossreads-xml.mjs";
 import { parseCommandLineArgs } from "../toolbox.mjs"
@@ -46,7 +46,7 @@ class ConvertTokensInAnnotations {
       annotationsFilePath = path.join(annotationsFilesPath, annotationsFilePath);
       if (annotationsFilePath.endsWith('.json') && !fs.lstatSync(annotationsFilePath).isDirectory()) {
         if (annotationsFilePath.includes('http')) continue;
-        // if (!annotationsFilePath.includes('0085-')) continue;
+        if (!annotationsFilePath.includes('0085-')) continue;
 
         // console.log(annotationsFilePath)
         let res = await this.processAnnotationsFile(annotationsFilePath)
@@ -102,7 +102,8 @@ class ConvertTokensInAnnotations {
         let characterInDescription = anno?.body[0]?.value?.character ?? UNSPECIFIED_CHARACTER
         let xpath = `//*[@data-tei-id='${oldId}']//*[@data-idx-w='${start}']`
         if (newId) {
-          xpath = `//*[@data-tei-n='${newId}']//*[@data-idx-n='${start}']`
+          // xpath = `//*[@data-tei-n='${newId}']//*[@data-idx-n='${start}']`
+          xpath = xmlUtils.convertXpathFromTEItoHTML(value, start)
         }
         let signSpans = await xmlUtils.xpath(html, xpath)
           
@@ -114,20 +115,21 @@ class ConvertTokensInAnnotations {
             if (oldId) {
               // find the new token id and sign index
               // https://stackoverflow.com/a/3854389
-              let nearestNNodes = xmlUtils.xpath(signSpan, "ancestor::*[string(number(@data-tei-n)) != 'NaN']")
+              // let nearestNNodes = xmlUtils.xpath(signSpan, "ancestor::*[string(number(@data-tei-n)) != 'NaN']")
+              let nearestNNodes = xmlUtils.xpath(signSpan, `ancestor::${SETTINGS.XPATH_TOKENS_IN_TEI.replace(/^\/\//, '')}[string(number(@data-tei-n)) != 'NaN']`)
               if (nearestNNodes.length > 0) {
                 let nearestNNode = nearestNNodes[nearestNNodes.length-1]
                 let nearestN = xmlUtils.getAttr(nearestNNode, 'data-tei-n')
                 let nearestNTag = xmlUtils.getAttr(nearestNNode, 'data-tei')
-                if (nearestNTag !== 'w') {
-                  console.log(`INFO: ancestor with @n is not a <w> tag but <${nearestNTag}> ${reference}`)
+                if (!SETTINGS.EXPECTED_TOKEN_TAGS.includes(nearestNTag)) {
+                  console.log(`WARN: ancestor with @n has an unexpected tag: <${nearestNTag}> ${reference}`)
                 }
                 let signIdx = xmlUtils.getAttr(signSpan, 'data-idx-n')
 
                 // update the annotation with the new id and idx
                 //target.selector.value = `//*[name()!='lb'][@n='${nearestN}']`
-                target.selector.value = `//*[@n='${nearestN}']`
-                target.selector.refinedBy.start = signIdx
+                target.selector.value = `${SETTINGS.XPATH_TRANSCRIPTION_IN_TEI}${SETTINGS.XPATH_TOKENS_IN_TEI}[@n='${nearestN}']`
+                target.selector.refinedBy.start = parseInt(signIdx, 10)
 
                 annotationsHaveChanged = true
 
@@ -160,10 +162,11 @@ class ConvertTokensInAnnotations {
     // returns true if the TEI file contains the @n attribute on other elements than lb
     let xml = await xmlUtils.fromString(xmlPath)
     //let nodesWithN = xmlUtils.xpath(xml, "//tei:div[@type='edition'][not(@subtype)]//*[name() != 'lb'][@n]")
-    let nodesWithN = await xmlUtils.xpath(xml, "//tei:div[@type='edition'][not(@subtype)]//*[name() != 'lb'][name() != 'cb'][not(@type='textpart')][@n]")
+    let xpath = `${SETTINGS.XPATH_TRANSCRIPTION_IN_TEI}${SETTINGS.XPATH_TOKENS_IN_TEI}[@n]`
+    let nodesWithN = await xmlUtils.xpath(xml, xpath)
 
     if (!nodesWithN.length) {
-      console.log(`WARN: no element with @n in the edition ${xmlPath}`)
+      console.log(`WARN: no token with @n in the edition ${xmlPath}`)
     }
 
     return nodesWithN.length > 0

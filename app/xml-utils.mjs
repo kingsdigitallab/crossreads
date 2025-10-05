@@ -156,6 +156,22 @@ async function mod(exports) {
     return node.attributes.getNamedItem(attributeName)?.value ?? defaultValue
   }
 
+  exports.convertXpathFromTEItoHTML = (xpath, signIdx=null) => {
+    // Convert the xpath from annotaion to TEI token 
+    // into        xpath                to HTML token and sign
+    //
+    // //tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='5']
+    // becomes
+    // //*[@data-tei!='l'][@data-tei!='lg'][@data-tei!='lb'][@data-tei!='cb'][@data-tei!='milestone'][not(@data-tei-type='textpart')][@data-tei-n='5']//*[@data-idx-w='0']
+    xpath = xpath.replace(/^.*\/\/\*/, '//*')
+    xpath = xpath.replace(/@(\w+)/g, '@data-tei-$1')
+    xpath = xpath.replaceAll('name()', '@data-tei')
+    if (signIdx > -1) {
+      xpath += `//*[@data-idx-w='${signIdx}']`
+    }
+    return xpath
+  }
+
 };
 
 export let xmlUtils = {}

@@ -731,8 +731,8 @@ createApp({
       this.image = img
     },
     async setTextFromXMLString(xmlString) {
-      let res = await crossreadsXML.getHtmlFromTei(xmlString)
-      this.text = xmlUtils.toString(res)
+      let html = await crossreadsXML.getHtmlFromTei(xmlString)
+      this.text = xmlUtils.toString(html)
       // console.log(this.text)
       // attach events to each sign
       nextTick(() => {
@@ -743,6 +743,9 @@ createApp({
         }
         this.updateSignHighlights()
       })
+    },
+    async doesEditionUseNewTokenIds(html) {
+      // this.doesEditionUseNewTokenIds
     },
     onClickSign(sign) {
       this.logEvent('onClickSign')

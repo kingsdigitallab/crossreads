@@ -46,7 +46,7 @@ class ConvertTokensInAnnotations {
       annotationsFilePath = path.join(annotationsFilesPath, annotationsFilePath);
       if (annotationsFilePath.endsWith('.json') && !fs.lstatSync(annotationsFilePath).isDirectory()) {
         if (annotationsFilePath.includes('http')) continue;
-        if (!annotationsFilePath.includes('0085-')) continue;
+        // if (!annotationsFilePath.includes('0092-')) continue;
 
         // console.log(annotationsFilePath)
         let res = await this.processAnnotationsFile(annotationsFilePath)
@@ -56,7 +56,7 @@ class ConvertTokensInAnnotations {
       }
     }
 
-    console.log(`${withN} TEI files have a tei:w[@n]; ${total} files in total.`)
+    console.log(`${withN} TEI files use the new token id system (@n); ${total} files in total.`)
 
   }
 
@@ -64,7 +64,7 @@ class ConvertTokensInAnnotations {
     let isicId = utils.getDocIdFromString(annotationsFilePath, true)
     let xmlFilePath = `${TEI_FOLDER}${isicId}.xml`
 
-    if (!await this.isTEIConverted(xmlFilePath)) return
+    if (!await this.isTEIConverted(xmlFilePath)) return false
 
     let annotationsHaveChanged = false
 
@@ -116,7 +116,9 @@ class ConvertTokensInAnnotations {
               // find the new token id and sign index
               // https://stackoverflow.com/a/3854389
               // let nearestNNodes = xmlUtils.xpath(signSpan, "ancestor::*[string(number(@data-tei-n)) != 'NaN']")
-              let nearestNNodes = xmlUtils.xpath(signSpan, `ancestor::${SETTINGS.XPATH_TOKENS_IN_TEI.replace(/^\/\//, '')}[string(number(@data-tei-n)) != 'NaN']`)
+              let xpathTokensHtml = xmlUtils.convertXpathFromTEItoHTML(SETTINGS.XPATH_TOKENS_IN_TEI.replace(/^\/\//, ''))
+              let xpathTokenHtml = `ancestor::${xpathTokensHtml}[string(number(@data-tei-n)) != 'NaN']`
+              let nearestNNodes = xmlUtils.xpath(signSpan, xpathTokenHtml)
               if (nearestNNodes.length > 0) {
                 let nearestNNode = nearestNNodes[nearestNNodes.length-1]
                 let nearestN = xmlUtils.getAttr(nearestNNode, 'data-tei-n')
@@ -138,6 +140,7 @@ class ConvertTokensInAnnotations {
                 let status = start !== signIdx ? 'INFO' : 'WARN'
                 console.log(`${status}: ${oldId}.${start} -> ${nearestN}.${signIdx} ${reference}`)
               } else {
+                // console.log(xpathTokenHtml)
                 console.log(`WARN: Annotated sign has no ancestor with @n ${reference}`)
               }
             }
@@ -171,31 +174,6 @@ class ConvertTokensInAnnotations {
 
     return nodesWithN.length > 0
   }
-
-  async getTokenMappingFromTEI(teiPath) {
-    let ret = {}
-
-    let xsltPath = '../templates/tei-id-n.xslt'
-    // let xsltPath = '../../app/data/tei2html.xslt'
-    
-    console.log(teiPath)
-
-    let teiContent = fs.readFileSync(teiPath, {encoding:'utf8', flag:'r'})
-
-    ret = await xmlUtils.xslt(teiContent, xsltPath)
-    ret = xmlUtils.toString(ret)
-
-    // console.log(ret)
-
-    ret = ret.replace(/<\/?mapping>/g, '')
-    ret = ret.replace(/,\s+}/g, '}')
-    ret = JSON.parse(ret)
-    
-    // console.log(JSON.stringify(ret, null, 2))
-
-    return ret
-  }
-
 
   showHelp(args) {
     console.log(`Usage: ${args.scriptName} ACTION [ARG...] [-v]\n`)

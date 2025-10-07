@@ -164,12 +164,25 @@ async function mod(exports) {
     // becomes
     // //*[@data-tei!='l'][@data-tei!='lg'][@data-tei!='lb'][@data-tei!='cb'][@data-tei!='milestone'][not(@data-tei-type='textpart')][@data-tei-n='5']//*[@data-idx-w='0']
     xpath = xpath.replace(/^.*\/\/\*/, '//*')
+    xpath = xpath.replace(/\bxml:/, '')
     xpath = xpath.replace(/@(\w+)/g, '@data-tei-$1')
     xpath = xpath.replaceAll('name()', '@data-tei')
-    if (signIdx > -1) {
-      xpath += `//*[@data-idx-w='${signIdx}']`
+    if (parseInt(signIdx, 10) > -1) {
+      xpath += `//*[@data-idx-n='${signIdx}']`
     }
     return xpath
+  }
+
+  exports.getCSSSelectorFromXpath = (xpath) => {
+    // Converts a html xpath to css selector
+    // e.g. //*[@n='10'] => [n='10']
+    // "//*[@data-tei!='l'][@data-tei!='lg'][@data-tei!='lb'][@data-tei!='cb'][@data-tei!='milestone'][not(@data-tei-type='textpart')][@data-tei-n='10']//*[@data-idx-n='null']"
+    // =>
+    // "*:not([data-tei='l']):not([data-tei='lg']):not([data-tei='lb']):not([data-tei='cb']):not([data-tei='milestone']):not([data-tei-type='textpart'])[data-tei-n='10'] *[data-idx-n='null']"
+    let ret = xpath
+    ret = ret.replace(/^\/\//, '').replaceAll('@', '').replace(/\[(.*?)!=(.*?)\]/g, ':not([$1=$2])').replace(/\[not\((.*?)\)\]/g, ':not([$1])').replaceAll('//', ' ')
+    // throw Error('getCSSSelectorFromXpath not implemented')
+    return ret
   }
 
 };

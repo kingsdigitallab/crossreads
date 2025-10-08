@@ -1535,7 +1535,7 @@ createApp({
       if (this.object && this.image) {
         // console.log(this.object['@id'], this.image.uri)
         // ret = 'annotations/' + utils.slugify(`${this.object['@id']}/${this.image.uri}`) + '.json'
-        ret = utils.getAnnotationFilenameFromImageAndDoc(this.image.uri, this.object['@id'])
+        ret = utils.getAnnotationPathFromImageAndDoc(this.image.uri, this.object['@id'])
       }
       return ret
     },

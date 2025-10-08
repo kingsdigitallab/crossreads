@@ -7,15 +7,14 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "collection:filter": "node filter-collection.js ../app/data/2023-08/inscriptions.json",
+    "index-collection": "node index-collection.mjs",
+    "index": "node index.mjs",
+    "static": "node gen-allo-type-pages.mjs && node gen-allo-type-tree-page.mjs && npm run inscriptions-allograph-types",
+    "inscriptions-allograph-types": "node get-allo-types-from-insc.mjs > ../app/data/inscriptions-allograph-types.xml",
     "iiif:start": "docker run --rm -d -v /home/jeff/src/prj/crossreads/crossreads/data/2022:/usr/local/share/images -p 5004:5004 --name crossreads-img lorisimageserver/loris",
     "iiif:stop": "docker stop crossreads-img",
-    "collection:filter": "node filter-collection.js ../app/data/2023-08/inscriptions.json",
-    "test:words": "node test-words.js",
-    "index": "node index.mjs",
-    "index-collection": "node index-collection.mjs",
-    "inscriptions-allograph-types": "node get-allo-types-from-insc.mjs > ../app/data/inscriptions-allograph-types.xml",
-    "static": "node gen-allo-type-pages.mjs && node gen-allo-type-tree-page.mjs && npm run inscriptions-allograph-types"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

@@ -45,20 +45,20 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getAnnotationFilenameFromImageAndDoc = (imageFilename, docId, keepProtocol=false) => {
-    // Returns the name of the annotation file
+  exports.getAnnotationPathFromImageAndDoc = (imageFilename, absoluteDocId, keepProtocol=false) => {
+    // Returns the path to the annotation file relative to project folder
     // from the TEI/IIIF image filename and the ID of the inscription doc/TEI in DTS.
     // e.g. (ISic000085_tiled.tif, http://sicily.classics.ox.ac.uk/inscription/ISic000085)
-    // => 'sicily-classics-ox-ac-uk-inscription-isic000085-isic000085_tiled-tif.json'
-    if (!docId) {
+    // => 'annotations/sicily-classics-ox-ac-uk-inscription-isic000085-isic000085_tiled-tif.json'
+    if (!absoluteDocId) {
       let docIdFromImage = exports.getDocIdFromString(imageFilename)
-      docId = `${SETTINGS.DTS_DOC_BASE}${docIdFromImage}`
+      absoluteDocId = `${SETTINGS.DTS_DOC_BASE}${docIdFromImage}`
     }
     if (!keepProtocol) {
       // remove https://
-      docId = docId.replace(/^[^:/]+:\/\//, '')
+      absoluteDocId = absoluteDocId.replace(/^[^:/]+:\/\//, '')
     }
-    let annotationFilename = utils.slugify(`${docId}/${imageFilename}`)
+    let annotationFilename = utils.slugify(`${absoluteDocId}/${imageFilename}`)
     let ret = `${FILE_PATHS.ANNOTATIONS}/${annotationFilename}.json`
     return ret
   }

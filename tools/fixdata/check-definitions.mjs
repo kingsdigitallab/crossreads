@@ -3,7 +3,7 @@ This script detects and report issues in the current definition file.
 
 TODO: fixing issues which we are 100% sure are safe.
 */
-import { utils } from "../app/utils.mjs";
+import { utils } from "../../app/utils.mjs";
 const EXPECTED_DEFINITION_VERSIONS = ['0.1']
 
 const definitions = utils.readJsonFile('DEFINITIONS')

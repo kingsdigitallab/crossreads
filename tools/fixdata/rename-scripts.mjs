@@ -4,6 +4,11 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'node:url';
 
+/*
+Substitute the key of some scripts in the 
+definition, annotation and change-queue files.
+*/
+
 const __filename = fileURLToPath(import.meta.url);
 const PARENT_PATH = dirname(__filename);
 

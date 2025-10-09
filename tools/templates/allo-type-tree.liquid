@@ -12,26 +12,26 @@
   <div class="banner">
     <h1>Allograph variants</h1>
     <p class="top-nav">Jump to: 
-      {% for scriptAllograph in tree %}
-        {% assign script = scriptAllograph[0] %}
-        {% assign scriptLabel = scripts[scriptAllograph[0]] %}
+      {% for scriptAllograph in tree -%}
+        {%- assign script = scriptAllograph[0] -%}
+        {%- assign scriptLabel = scripts[scriptAllograph[0]] -%}
         <a class="link-script" href="#{{ script }}">{{ scriptLabel }}</a>
-      {% endfor %}
+      {%- endfor -%}
     </p>
     <p class="breadcrumb-container">You are here: <span id="breadcrumb">[breadcrumb]</span></p>
   </div>
   <div class="container">
     <div class="tree">
-      {% for scriptAllograph in tree %}
-        {% assign script = scriptAllograph[0] %}
-        {% assign scriptLabel = scripts[scriptAllograph[0]] %}
-        {% assign allographs = scriptAllograph[1] %}
+      {% for scriptAllograph in tree -%}
+        {%- assign script = scriptAllograph[0] -%}
+        {%- assign scriptLabel = scripts[scriptAllograph[0]] -%}
+        {%- assign allographs = scriptAllograph[1] -%}
         <details id="{{ script }}" open>
           <summary>{{ scriptLabel }}</summary>
           <ul>
-            {% for allographVariants in allographs %}
-              {% assign allograph = allographVariants[0] %}
-              {% assign variantList = allographVariants[1] %}
+            {% for allographVariants in allographs -%}
+              {%- assign allograph = allographVariants[0] -%}
+              {%- assign variantList = allographVariants[1] -%}
               <li>
                 <details id="{{ script }}-{{ allograph }}" open>
                   <summary>{{ allograph }}</summary>
@@ -40,10 +40,10 @@
                   </ul>
                 </details>
               </li>
-            {% endfor %}
+            {% endfor -%}
           </ul>
         </details>
-      {% endfor %}
+      {% endfor -%}
     </div>
   </div>
   {% render 'footer.liquid', tree: tree %}

@@ -21,56 +21,54 @@
         <dt>Characteristic form:</dt>
         <dd>
           <ul>
-            {% for cf in component-features %}
+            {%- for cf in component-features %}
               <li class="{% if not cf.inheritedFrom %}not-inherited{% endif %}">{{ cf.label }}</li>
-            {% endfor %}
+            {%- endfor -%}
           </ul>
         </dd>
       </dl>
     </section>
     <section>
       <h2>Typology</h2>
-      <p><a href="all.html#{{variant-key}}">Full typology of allographs</a></p>
-      {% if rulesGeneral[0] %}
+      <p><a href="all.html#{{variant-key | url_encode}}">Full typology of allographs</a></p>
+      {% if rulesGeneral[0] -%}
         <h3>More general types</h3>
-        {% for rule in rulesGeneral %}
-          <a href="{{ script }}-{{ allograph }}-{{ rule['variant-name'] }}.html">{{ rule['variant-name'] }}</a>{% unless forloop.last %}, {% endunless %}
-        {% endfor %}
-      {% endif %}
-      {% if rulesSpecific[0] %}
+        {% for rule in rulesGeneral -%}
+          <a href="{{ script }}-{{ allograph | url_encode }}-{{ rule['variant-name'] | url_encode }}.html">{{ rule['variant-name'] }}</a>{% unless forloop.last %},{% endunless %}
+        {% endfor -%}
+      {%- endif -%}
+      {%- if rulesSpecific[0] -%}
         <h3>More specific types</h3>
-        {% for rule in rulesSpecific %}          
-          <a href="{{ script }}-{{ allograph }}-{{ rule['variant-name'] }}.html">{{ rule['variant-name'] }}</a>{% unless forloop.last %}, {% endunless %}
-        {% endfor %}
-      {% endif %}
+        {% for rule in rulesSpecific -%}
+          <a href="{{ script }}-{{ allograph | url_encode }}-{{ rule['variant-name'] | url_encode }}.html">{{ rule['variant-name'] }}</a>{% unless forloop.last %},{% endunless %}
+        {% endfor -%}
+      {%- endif -%}
     </section>
     <section>
       <h2>Exemplar</h2>
-      {% if thumbInfo %}
-        <p>
-          <figure>
-            <img 
-              src="../../thumbs/{{ variant-key }}.jpg"
-              alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on object {{ thumbInfo.docId }}"
-            >
-            <figcaption>
-              <a class="external" href="{{thumbInfo.linkInscription}}">Inscription {{ thumbInfo.docId }}</a>.
-              <br> 
-              Origin: {{ thumbInfo.place }}
-              <br> 
-              {{ thumbInfo.displayDateRange }}
-            </figcaption>
-          </figure>
-        </p>  
-      {% else %}
+      {% if thumbInfo -%}
+        <figure>
+          <img 
+            src="../../thumbs/{{ variant-key | url_encode }}.jpg"
+            alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on object {{ thumbInfo.docId }}"
+          >
+          <figcaption>
+            <a class="external" href="{{thumbInfo.linkInscription}}">Inscription {{ thumbInfo.docId }}</a>.
+            <br>
+            Origin: {{ thumbInfo.place }}
+            <br>
+            {{ thumbInfo.displayDateRange }}
+          </figcaption>
+        </figure>
+      {%- else -%}
         <p>
           <img alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on an object" src="../../thumbs/{{ variant-key }}.jpg">
-        </p>  
-      {% endif %}
+        </p>
+      {%- endif %}
       <p>
         <a href="{{examples-url}}">Other examples</a>
       </p>
-    <section>
+    </section>
   </main>
   {% render 'footer.liquid', variant-key: variant-key %}
 </body>

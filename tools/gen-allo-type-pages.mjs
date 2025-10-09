@@ -51,7 +51,7 @@ function processVariantRule(variantRule, definitions, thumbs, variantRules) {
       inheritedFrom: componentFeatureToType[`${cf.component}-${cf.feature}`],
     }
   }).sort((a, b) => a.label.localeCompare(b.label))
-  context['examples-url'] = `${SEARCH_PAGE_URL}?f.scr=${variantRule.script}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`
+  context['examples-url'] = encodeURI(`${SEARCH_PAGE_URL}?f.scr=${variantRule.script}&f.chr=${variantRule.allograph}&f.cxf=${variantRule['component-features'].map(feature => `${feature.component} is ${feature.feature}`).join('|')}`)
 
   let variantKey = `${variantRule.script}-${variantRule.allograph}-${variantRule['variant-name']}`
   context['variant-key'] = variantKey

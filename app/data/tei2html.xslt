@@ -8,7 +8,7 @@
   <xsl:output method="html" encoding="utf-8" indent="yes"/>
   
   <xsl:template match="/">
-    <xsl:apply-templates select="//tei:text/tei:body/tei:div[@type='edition'][not(@subtype='transliteration')][not(@subtype='simple-lemmatized')]"/>
+    <xsl:apply-templates select="//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']"/>
   </xsl:template>
 
   <xsl:template match="comment()">
@@ -68,7 +68,10 @@
     <xsl:attribute name="class">
       <xsl:value-of select="concat('tei-', local-name())"/>
       <xsl:if test="@type"> tei-type-<xsl:value-of select="@type"/></xsl:if>
+      <!-- TODO: the next line can be removed after all TEIs have been converted to new token id system, see gh-108 -->
       <xsl:if test="local-name() = 'w' or local-name() = 'name' or local-name() = 'g' or local-name() = 'placeName' or local-name() = 'num' or local-name() = 'orgName' or local-name()='orig'"> is-word</xsl:if>
+      <!-- new system to identify tokens, keep it, see gh-108 -->
+      <xsl:if test="number(@n)=number(@n) and name()!='l' and name()!='lg' and name()!='lb' and name()!='cb' and name()!='milestone' and not(@type='textpart')"> is-word</xsl:if>
     </xsl:attribute>
     <xsl:attribute name="data-tei"><xsl:value-of select="local-name()" /></xsl:attribute>
     <!-- (tei:w|tei:name|tei:num) -->
@@ -79,7 +82,14 @@
     <xsl:attribute name="{concat('data-tei-', local-name())}"><xsl:value-of select="." /></xsl:attribute>
   </xsl:template>
 
+  <!-- TODO: the next template can be removed after all TEIs have been converted to new token id system, see gh-108 -->
   <xsl:template match="tei:w//text()|tei:name//text()|tei:g//text()|tei:placeName//text()|tei:num//text()|tei:orgName//text()|tei:orig//text()">
+    <xsl:call-template name="mark-up-every-character">
+      <xsl:with-param name="text" select="."/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][number(@n)=number(@n)]//text()">
     <xsl:call-template name="mark-up-every-character">
       <xsl:with-param name="text" select="."/>
     </xsl:call-template>
@@ -92,7 +102,7 @@
         <span><xsl:text>&#160;</xsl:text></span>
       </xsl:when>
       <xsl:otherwise>
-        <span class="sign" data-idx="0"><xsl:value-of select="substring($text, 1, 1)"/></span>
+        <span class="sign" data-idx="-1"><xsl:value-of select="substring($text, 1, 1)"/></span>
       </xsl:otherwise>
     </xsl:choose>
 

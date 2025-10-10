@@ -1,54 +1,13 @@
 // This module can be imported from the browser or nodejs
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
+import { FILE_PATHS, SETTINGS } from './settings.mjs';
+export { FILE_PATHS, SETTINGS }
 
 export const IS_BROWSER = (typeof window !== "undefined")
 export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname === 'localhost')
 // export const DEBUG_DONT_SAVE = false;
 // export const DEBUG_DONT_SAVE = true;
 export const DEBUG_DONT_SAVE = IS_BROWSER_LOCAL;
-
-export const FILE_PATHS = {
-  DTS_COLLECTION: 'app/data/2023-08/collection.json',
-  DEFINITIONS: 'app/data/pal/definitions-digipal.json',
-  VARIANT_RULES: 'app/data/variant-rules.json',
-  // CHANGE_QUEUE: 'annotations/change-queue.json',
-  CHANGE_QUEUE: 'app/data/change-queue.json',
-  // TODO: move them under data folder
-  INDEX: 'app/index.json',
-  ANNOTATIONS_ISSUES: 'app/data/annotations-issues.json',
-  INDEX_COLLECTION: 'app/data/index-collection.json',
-  STATS: 'app/stats.json',
-  THUMBS: 'app/data/thumbs',
-  INDEX_THUMBS: 'app/data/thumbs/thumbs.json',
-  ANNOTATIONS: 'annotations',
-}
-
-// TODO: move all hard-coded literals in the code base to this SETTINGS dictionary
-export const SETTINGS = {
-  // TODO: search this string & replace everywhere
-  GITHUB_REPO_PATH: 'kingsdigitallab/crossreads',
-  // if you change this you'll need to empty the content of the app/data/thumbs folder
-  // then re-run tools/index.mjs to obtain the new sizes
-  EXEMPLAR_THUMB_HEIGHT: 150,
-  APPLICATION_TABS: [
-    {title: 'Annotator', key: 'annotator'},
-    {title: 'Definitions', key: 'definitions'},
-    {title: 'Search', key: 'search'},
-    {title: 'Lab', key: 'lab'},
-    {title: 'Settings', key: 'settings'},
-  ],
-  BROWSER_STORAGE_INSCRIPTION_SETS: 'inscriptionSets',
-  CORPUS_BUILDING_INSCRIPTION_URL: 'https://kingsdigitallab.github.io/corpus-building/inscription/{docId}',
-  // Corresponds to {scheme}://{server}{/prefix} in IIIF Image API
-  IIIF_SERVER_BASE: 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=',
-  // IIIF_SERVER_BASE: 'http://localhost:4000/images', // for TESTING ONLY
-  // todo: we shouldn't hard-code the _tiled.tif
-  // IIIF_SERVER_OBJ_ID: '/inscription_images/{DOCID}/{IMGID}_tiled.tif',
-  IIIF_SERVER_OBJ_ID: '/inscription_images/{DOCID}/{IMGID}',
-  DTS_COLLECTION: 'https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json',
-  DTS_DOC_BASE: 'http://sicily.classics.ox.ac.uk/inscription/',
-}
-SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
 
 // Absolute filesystem path to the code base root folder.
 // null if called from browser.
@@ -86,20 +45,20 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getAnnotationFilenameFromImageAndDoc = (imageFilename, docId, keepProtocol=false) => {
-    // Returns the name of the annotation file
+  exports.getAnnotationPathFromImageAndDoc = (imageFilename, absoluteDocId, keepProtocol=false) => {
+    // Returns the path to the annotation file relative to project folder
     // from the TEI/IIIF image filename and the ID of the inscription doc/TEI in DTS.
     // e.g. (ISic000085_tiled.tif, http://sicily.classics.ox.ac.uk/inscription/ISic000085)
-    // => 'sicily-classics-ox-ac-uk-inscription-isic000085-isic000085_tiled-tif.json'
-    if (!docId) {
+    // => 'annotations/sicily-classics-ox-ac-uk-inscription-isic000085-isic000085_tiled-tif.json'
+    if (!absoluteDocId) {
       let docIdFromImage = exports.getDocIdFromString(imageFilename)
-      docId = `${SETTINGS.DTS_DOC_BASE}${docIdFromImage}`
+      absoluteDocId = `${SETTINGS.DTS_DOC_BASE}${docIdFromImage}`
     }
     if (!keepProtocol) {
       // remove https://
-      docId = docId.replace(/^[^:/]+:\/\//, '')
+      absoluteDocId = absoluteDocId.replace(/^[^:/]+:\/\//, '')
     }
-    let annotationFilename = utils.slugify(`${docId}/${imageFilename}`)
+    let annotationFilename = utils.slugify(`${absoluteDocId}/${imageFilename}`)
     let ret = `${FILE_PATHS.ANNOTATIONS}/${annotationFilename}.json`
     return ret
   }
@@ -435,6 +394,21 @@ async function mod(exports) {
     fs.writeFileSync(filePath, buffer);
 
     return filePath;
+  }
+
+  exports.areSignsEquivalent = (signA, signB) => {
+    let signs = [signA, signB].map(s => {
+      let ret = exports.getGraphemeFromCharacter(s).toLowerCase()
+      // in Crossreads v in the transcription 
+      // is like U in the annotation description
+      if (ret === 'u') ret = 'v'
+      if (ret === '·') ret = 'punctuation'
+      if (ret === '❦') ret = 'punctuation'
+      if (ret === ':') ret = 'punctuation'
+      return ret
+    })
+
+    return (signs[0] === signs[1])
   }
 
   // --------------------------------------------

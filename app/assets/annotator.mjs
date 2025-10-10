@@ -154,7 +154,7 @@ createApp({
       text: 'test',
       // annotatedText: {
       //   textId: '',
-      //   wordId: '',
+      //   tokenXPath: '',
       //   signId: '',
       // },
       definitions: {
@@ -197,7 +197,7 @@ createApp({
         textTarget: {
           // TODO: is there a std for this kind of ptr?
           textId: null,
-          wordId: null,
+          tokenXPath: null,
           signId: null
         },
         // tags assigned to the selected graph
@@ -731,8 +731,8 @@ createApp({
       this.image = img
     },
     async setTextFromXMLString(xmlString) {
-      let res = await crossreadsXML.getHtmlFromTei(xmlString)
-      this.text = xmlUtils.toString(res)
+      let html = await crossreadsXML.getHtmlFromTei(xmlString)
+      this.text = xmlUtils.toString(html)
       // console.log(this.text)
       // attach events to each sign
       nextTick(() => {
@@ -743,6 +743,9 @@ createApp({
         }
         this.updateSignHighlights()
       })
+    },
+    async doesEditionUseNewTokenIds(html) {
+      // this.doesEditionUseNewTokenIds
     },
     onClickSign(sign) {
       this.logEvent('onClickSign')
@@ -763,7 +766,7 @@ createApp({
           if (!this.description.allograph) {
             let charactersFromSign = this.getCharactersFromSign(sign)
 
-            if (Object.keys(charactersFromSign).length == 1) {
+            if (Object.keys(charactersFromSign).length === 1) {
               this.description.allograph = Object.keys(charactersFromSign)[0]
             } else {
               this.description.allograph = ''
@@ -828,13 +831,43 @@ createApp({
       this.annotationsCount = (this?.anno?.getAnnotations() || []).length
     },
     getTextTargetFromSign(sign) {
-      // let word = sign.closest('.tei-w')
-      let word = sign.closest('[data-tei-id]')
-      return {
-        textId: null,
-        wordId: word.attributes.getNamedItem('data-tei-id').value,
-        signId: sign.attributes.getNamedItem('data-idx').value
+      let ret = this._getTextTargetFromSignNewSystem(sign)
+      if (!ret) {
+        ret = this._getTextTargetFromSignOldSystem(sign)
       }
+      return ret
+    },
+    _getTextTargetFromSignNewSystem(sign) {
+      let ret = null
+      let xpath = `${SETTINGS.XPATH_TOKENS_IN_TEI}[@n]`
+      xpath = xmlUtils.convertXpathFromTEItoHTML(xpath)
+      let selector = xmlUtils.getCSSSelectorFromXpath(xpath)
+      let token = sign.closest(selector)
+      if (token) {
+        let tokenN = xmlUtils.getAttr(token, 'data-tei-n')
+        if (tokenN.match(/^\d+$/)) {
+          ret = {
+            textId: null,
+            tokenXPath: `${SETTINGS.XPATH_TOKENS_IN_TEI}[@n='${tokenN}']`,
+            signId: xmlUtils.getAttr(sign, 'data-idx-n'),
+          }          
+        }
+      }
+      return ret
+    },
+    _getTextTargetFromSignOldSystem(sign) {
+      // let word = sign.closest('.tei-w')
+      let ret = null
+      let word = sign.closest('[data-tei-id]')
+      if (word) {
+        let wordId = xmlUtils.getAttr(word, 'data-tei-id')
+        ret = {
+          textId: null,
+          tokenXPath: `//*[@xml:id='${wordId}']`,
+          signId: xmlUtils.getAttr(sign, 'data-idx-w'),
+        }
+      }
+      return ret
     },
     updateSignHighlights() {
       // TODO: optimise... calling this each time something change is ineffective
@@ -881,9 +914,13 @@ createApp({
         let description = annotation.body[0].value
         if (description?.textTarget?.signId) {
           ret = NO_MATCHING_WORD
-          let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
-          if (word) {
-            ret = word.querySelector(`span[data-idx="${description?.textTarget?.signId}"]`) || NO_MATCHING_SIGN
+          // let word = document.querySelector(`[data-tei-id="${description?.textTarget?.wordId}"]`)
+          let tokenXPath = description?.textTarget?.tokenXPath
+          let tokenSelector = xmlUtils.getCSSSelectorFromXpath(xmlUtils.convertXpathFromTEItoHTML(tokenXPath))
+          let token = document.querySelector(tokenSelector)
+          if (token) {
+            let idxAttribute = tokenXPath.includes('xml:id') ? 'data-idx-w' : 'data-idx-n'
+            ret = token.querySelector(`span[${idxAttribute}="${description?.textTarget?.signId}"]`) || NO_MATCHING_SIGN
           }
         }
       }
@@ -1365,7 +1402,7 @@ createApp({
       let ret = annotations
       for (let annotation of ret) {
         // 1. only one target allowed => move textual target from body/textTarget to target
-        if (!(annotation.target instanceof Array)) {
+        if (!(Array.isArray(annotation.target))) {
           annotation.target = [annotation.target]
         }
 
@@ -1375,7 +1412,7 @@ createApp({
         if (textTarget) {
           delete description.textTarget
           // let textId = textTarget.textId || this.objectId
-          let startIndex = parseInt(textTarget.signId)
+          let startIndex = parseInt(textTarget.signId, 10)
           let target = {
             // see gh-19: ideally we want DTS request URL for the document
             // But that doesn't exist. 
@@ -1384,7 +1421,8 @@ createApp({
             "source": `${this.object["dts:download"]}`,
             "selector": {
               "type": "XPathSelector",
-              "value": `//*[@xml:id='${textTarget.wordId}']`,
+              // "value": `//*[@xml:id='${textTarget.wordId}']`,
+              "value": textTarget.tokenXPath,
               "refinedBy": {
                 "type": "TextPositionSelector",
                 "start": startIndex,
@@ -1430,7 +1468,7 @@ createApp({
       let relocatedCount = 0
 
       for (let annotation of ret) {
-        if (annotation.target instanceof Array && annotation.target.length > 0) {
+        if (Array.isArray(annotation.target) && annotation.target.length > 0) {
           // 1. only one target allowed => temporarily shove the textual target into the body/textTarget
           let targets = annotation.target
           annotation.target = targets[0]
@@ -1440,7 +1478,9 @@ createApp({
 
             annotation.body[0].value.textTarget = {
               textId: textTarget.source,
-              wordId: textTarget.selector.value.replace(/^.*id='([^']+).*$/, '$1'),
+              // old system: "//*[@xml:id='BGABο']",
+              // new system: "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='15']"
+              tokenXPath: textTarget.selector.value,
               signId: `${textTarget.selector.refinedBy.start}`
             }
           }
@@ -1495,7 +1535,7 @@ createApp({
       if (this.object && this.image) {
         // console.log(this.object['@id'], this.image.uri)
         // ret = 'annotations/' + utils.slugify(`${this.object['@id']}/${this.image.uri}`) + '.json'
-        ret = utils.getAnnotationFilenameFromImageAndDoc(this.image.uri, this.object['@id'])
+        ret = utils.getAnnotationPathFromImageAndDoc(this.image.uri, this.object['@id'])
       }
       return ret
     },

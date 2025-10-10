@@ -1,9 +1,6 @@
 /* TODO
 C shared periods
 C histogram: add marker for centuries
-D optimise the size and ratio of the histograms
-D co-occurence matrix
-D show insc data on hover histogram
 */
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp} from "vue";
@@ -48,14 +45,19 @@ createApp({
   computed: {
     tabs: () => utils.tabs(),
     filteredInscriptionSets() {
-      let ret = this.inscriptionSets
+      let ret = this.inscriptionSets.filter(iset => !iset.hidden)
       return ret
     },
     coreInscriptionSets() {
       return (this.inscriptionSets.filter(inscSet => !['intersection', 'union'].includes(inscSet.id)))
     },
-    filteredPlaces() {
-      return [ANYWHERE, ...this.places]
+    filteredPlaces() {      
+      let ret = SETTINGS.PLACES_IN_DISPLAY_ORDER.filter(p => this.places.includes(p.toLowerCase()))
+      ret = ret.map(p => p.toLowerCase())
+      for (let p of this.places.sort()) {
+        if (!ret.includes(p)) ret.push(p)
+      }
+      return [ANYWHERE, ...ret]
     },
     lastMessage() {
       let ret = {
@@ -77,6 +79,18 @@ createApp({
     isUnsaved() {
       return false
     },
+    permalink() {
+      let ret = ''
+      let isets = this.coreInscriptionSets
+      if (isets.length) {
+        let queries = this.coreInscriptionSets.map(
+          iset => iset.searchQueryString
+        )
+        let queriesEncoded = btoa(JSON.stringify(queries))
+        ret = `search.html?laq=${queriesEncoded}`
+      }
+      return ret
+    }
   },
   methods: {
     async initAnyFileSystem() {
@@ -169,13 +183,11 @@ createApp({
       ret = {
         id: 'union',
         name: 'All inscriptions',
-        inscriptions: [...new Set(union)]
+        inscriptions: [...new Set(union)],
+        hidden: (this.inscriptionSets.filter(iset => iset.id !== 'intersection').length < 2)
       }
 
-      // 2 because that's more than one user-provided set + intersection set
-      if (this.inscriptionSets.length > 2) {
-        this.inscriptionSets.push(ret)
-      }
+      this.inscriptionSets.push(ret)
 
       return ret
     },
@@ -193,7 +205,7 @@ createApp({
           if (place === ANYWHERE || placeKey === place) {
             for (let dateRange of dateRanges) {
               if (ret.length < 1) {
-                ret = dateRange
+                ret = [...dateRange]
               } else {
                 ret[0] = Math.min(ret[0], dateRange[0])
                 ret[1] = Math.max(ret[1], dateRange[1])
@@ -334,6 +346,12 @@ createApp({
     },
     breakLongNames(name) {
       return name.replace(' ', '<br>')
+    },
+    titlelise(str) {
+      return str.replace(
+        /\w\S*/g,
+        text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+      );
     },
     onMouseEnterCell(inscriptionSets, place=ANYWHERE) {
       let inscriptions = []

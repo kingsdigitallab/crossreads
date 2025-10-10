@@ -30,6 +30,61 @@ export async function pullTEICorpus() {
     }
 }
 
+/**
+ * parse the command line arguments and return
+ * a dictionary with its various components.
+ * 
+ * e.g. node myscript.mjs check dir1 -v --exclude file1
+ * 
+ * returns
+ * 
+ * {
+ *      scriptName: 'myscript.mjs',
+ *      action: 'check',
+ *      params: ['dir1'],
+ *      options: {
+ *          '-v': [],
+ *          '--exclude': [file1]
+ *      },
+ *      verbosity: 1
+ * }
+ */
+export function parseCommandLineArgs() {
+    let ret = {
+        scriptName: path.basename(process.argv[1]),
+        action: '',
+        params: [],
+        options: {},
+        verbosity: 0,
+    }
+
+    let args = process.argv.slice(2)
+    let lastOption = null
+    while (args.length) {
+        let arg = args.shift()
+        if (arg.startsWith('-')) {
+            lastOption = arg
+            ret.options[arg] = []
+            if (arg === '-v') {
+                ret.verbosity = 1
+            }
+        } else {
+            if (lastOption) {
+                ret.options[lastOption].push(arg)
+            } else {
+                if (!ret.action) {
+                    ret.action = arg    
+                } else {
+                    ret.params.push(arg)
+                }
+            }
+        }
+    }
+
+    return ret
+}
+
+
 // export function isXMLWellFormed(xmlString) {
 //     let ret = false
 

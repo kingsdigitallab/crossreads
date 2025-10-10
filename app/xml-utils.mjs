@@ -113,6 +113,14 @@ async function mod(exports) {
   }
 
   exports.toString = (xml, keepNamespaces=false) => {
+    if (typeof xml === 'string' || xml instanceof String) {
+      return xml
+    }
+    if (xml?.nodeType === 2) {
+      // attribute
+      return `@${xml.localName}="${xml.value}"`
+    }
+    
     let ret = SaxonJS.serialize(xml, {
       method: 'html',
       indent: true,
@@ -146,6 +154,35 @@ async function mod(exports) {
 
   exports.getAttr = (node, attributeName, defaultValue) => {
     return node.attributes.getNamedItem(attributeName)?.value ?? defaultValue
+  }
+
+  exports.convertXpathFromTEItoHTML = (xpath, signIdx=null) => {
+    // Convert the xpath from annotaion to TEI token 
+    // into        xpath                to HTML token and sign
+    //
+    // //tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='5']
+    // becomes
+    // //*[@data-tei!='l'][@data-tei!='lg'][@data-tei!='lb'][@data-tei!='cb'][@data-tei!='milestone'][not(@data-tei-type='textpart')][@data-tei-n='5']//*[@data-idx-w='0']
+    xpath = xpath.replace(/^.*\/\/\*/, '//*')
+    xpath = xpath.replace(/\bxml:/, '')
+    xpath = xpath.replace(/@(\w+)/g, '@data-tei-$1')
+    xpath = xpath.replaceAll('name()', '@data-tei')
+    if (parseInt(signIdx, 10) > -1) {
+      xpath += `//*[@data-idx-n='${signIdx}']`
+    }
+    return xpath
+  }
+
+  exports.getCSSSelectorFromXpath = (xpath) => {
+    // Converts a html xpath to css selector
+    // e.g. //*[@n='10'] => [n='10']
+    // "//*[@data-tei!='l'][@data-tei!='lg'][@data-tei!='lb'][@data-tei!='cb'][@data-tei!='milestone'][not(@data-tei-type='textpart')][@data-tei-n='10']//*[@data-idx-n='null']"
+    // =>
+    // "*:not([data-tei='l']):not([data-tei='lg']):not([data-tei='lb']):not([data-tei='cb']):not([data-tei='milestone']):not([data-tei-type='textpart'])[data-tei-n='10'] *[data-idx-n='null']"
+    let ret = xpath
+    ret = ret.replace(/^\/\//, '').replaceAll('@', '').replace(/\[(.*?)!=(.*?)\]/g, ':not([$1=$2])').replace(/\[not\((.*?)\)\]/g, ':not([$1])').replaceAll('//', ' ')
+    // throw Error('getCSSSelectorFromXpath not implemented')
+    return ret
   }
 
 };

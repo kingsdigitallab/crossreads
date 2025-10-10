@@ -86,8 +86,7 @@
                 <th>Discard</th>
                 <th>Query</th>
                 <th>Insc.</th>
-                <th>Anywhere</th>
-                <th v-for="place in places" v-html="breakLongNames(place)"></td>
+                <th v-for="place in filteredPlaces" v-html="breakLongNames(titlelise(place))"></td>
               </tr>
             </thead>
             <tbody>
@@ -131,6 +130,14 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <div v-if="permalink">
+            <p>
+              <br>
+              <a :href="permalink">Lab results for <template v-for="iset in coreInscriptionSets">{{iset.name}} | </template></a>
+              <br>
+            </p>
           </div>
         </div>
       </div>

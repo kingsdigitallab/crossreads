@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { utils, FILE_PATHS, SETTINGS } from '../../app/utils.mjs';
 import { fileURLToPath } from 'url';
+import { parseCommandLineArgs } from '../toolbox.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -101,41 +102,12 @@ class ConvertImages {
         }
     }
 
-    parseCommandLineArgs() {
-        let ret = {
-            scriptName: path.basename(process.argv[1]),
-            action: '',
-            params: [],
-            options: [],
-        }
-
-        this.verbosity = 0
-
-        let args = process.argv.slice(2)
-        while (args.length) {
-            let arg = args.shift()
-            if (arg.startsWith('-')) {
-                ret.options.push(arg)
-                if (arg === '-v') {
-                    this.verbosity = 1
-                }
-            } else {
-                if (!ret.action) {
-                    ret.action = arg    
-                } else {
-                    ret.params.push(arg)
-                }
-            }
-        }
-
-        return ret
-    }
-
     run() {
         let showHelp = true
         let patterns = {}
 
-        let args = this.parseCommandLineArgs()
+        let args = parseCommandLineArgs()
+        this.verbosity = args.verbosity
 
         if (args.action === 'check') {
             patterns = this.convertAnnotationFiles()

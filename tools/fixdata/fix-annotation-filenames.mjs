@@ -45,8 +45,8 @@ class RenameAnnotationFiles {
           // e.g. ISic000001_tiled.tif
           let imageUrl = xmlUtils.getAttr(graphicNode, 'url')
           if (imageUrl) {
-            let annotationFileName = utils.getAnnotationFilenameFromImageAndDoc(imageUrl)
-            let annotationFileNameOld = utils.getAnnotationFilenameFromImageAndDoc(imageUrl.replace('_tiled.tif', '.jpg'), null, true)
+            let annotationFileName = utils.getAnnotationPathFromImageAndDoc(imageUrl)
+            let annotationFileNameOld = utils.getAnnotationPathFromImageAndDoc(imageUrl.replace('_tiled.tif', '.jpg'), null, true)
             
             let annotationFilePathOld = path.join(rootFolderRelativePath, annotationFileNameOld)
 

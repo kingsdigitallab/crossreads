@@ -1,22 +1,22 @@
-{% for variant in variantList %}
+{%- for variant in variantList -%}
   <li>
     <details id="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}" open>
       <summary>{{ variant['variant-name'] }}</summary>
-      <a href="{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}.html">details</a>
+      <a href="{{ script }}-{{ allograph | url_encode }}-{{ variant['variant-name'] }}.html">details</a>
       <p>
-        <img alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on an object" src="../../thumbs/{{ script }}-{{ allograph }}-{{ variant['variant-name'] }}.jpg" height="75">
+        <img alt="A close-up of an instance of allograph {{ grapheme }} {{ variant-name }} inscribed on an object" src="../../thumbs/{{ script }}-{{ allograph | url_encode }}-{{ variant['variant-name'] }}.jpg" height="75">
       </p>
       Description:
       <ul class="features">
-        {% for componentFeature in variant['component-features'] %}
-          {% if componentFeature['inherited-from'] == variant['variant-name'] %}
+        {% for componentFeature in variant['component-features'] -%}
+          {%- if componentFeature['inherited-from'] == variant['variant-name'] -%}
             <li>{{ componentFeature.label }}</li>
-          {% endif %}
-        {% endfor %}
+          {%- endif -%}
+        {% endfor -%}
       </ul>
-      {% if variant.children %}
+      {% if variant.children.length > 0 -%}
         <ul>{% render 'allo-type-tree-variants.liquid', variantList: variant.children, allograph: allograph, script: script %}</ul>
-      {% endif %}
+      {% endif -%}
     </details>
   </li>
-{% endfor %}
+{%- endfor -%}

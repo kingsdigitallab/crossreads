@@ -187,6 +187,74 @@
         "value": {
           "script": "latin",
           "components": {
+            "bottom-bar": {
+              "features": [
+                "horizontal"
+              ]
+            },
+            "downstroke": {
+              "features": [
+                "vertical"
+              ]
+            },
+            "middle-bar": {
+              "features": [
+                "ascending"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "ascending"
+              ]
+            }
+          },
+          "tags": [
+            "incomplete"
+          ],
+          "character": "E"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000086/ISic000086_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:4072.68798828125,1327.3931884765625,340.14892578125,685.22802734375"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000086.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[@xml:id='AIΙAΙ']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 8,
+            "end": 9
+          }
+        }
+      }
+    ],
+    "id": "https://crossreads.web.ox.ac.uk/annotations/777ac6e2-53d4-49ca-9580-698e17da45fa",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-10-10T14:49:56.858Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-10-10T14:50:09.898Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "latin",
+          "components": {
             "body": {
               "features": [
                 "circular"

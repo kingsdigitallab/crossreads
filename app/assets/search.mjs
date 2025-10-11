@@ -995,7 +995,7 @@ createApp({
         window.localStorage.setItem(SETTINGS.BROWSER_STORAGE_INSCRIPTION_SETS, '[]')
         for (let query of labQueries) {
           this.setSelectionFromAddressBar(query)
-          this.onClickAddResultsToLab()
+          this.onClickAddResultsToLab(query)
         }
         this.logOk(`Restored the Lab results from the link. Go the the Lab tab to view them.`)
       }
@@ -1010,7 +1010,7 @@ createApp({
     getGitUrlTo(file_key, isRaw=false) {
       return utils.getGitUrlTo(file_key, isRaw)
     },
-    onClickAddResultsToLab() {
+    onClickAddResultsToLab(queryString=null) {
       let results = this.internalSearch()
 
       let items = results?.data?.items
@@ -1023,7 +1023,7 @@ createApp({
           id: new Date().toISOString(),
           name: this.searchName,
           inscriptions: [...new Set(items.map(item => utils.getDocIdFromString(item.fil)))],
-          searchQueryString: window.location.search
+          searchQueryString: queryString ?? window.location.search
         }
         inscriptionSets.push(inscriptionSet)
         window.localStorage.setItem(storage_key, JSON.stringify(inscriptionSets))

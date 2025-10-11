@@ -92,7 +92,7 @@
             <tbody>
               <tr v-for="inscriptionSet in filteredInscriptionSets">
                 <td>
-                  <button v-if="inscriptionSet.id != 'intersection'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
+                  <button v-if="inscriptionSet.id != 'intersection' && inscriptionSet.id != 'union'" class="button is-small" @click="onClickRemoveInscriptionSet(inscriptionSet)"><i class="fas fa-trash"></i></button>
                 </td>
                 <td>
                   <a v-if="inscriptionSet.searchQueryString" :href="`search.html${inscriptionSet.searchQueryString}`">{{ inscriptionSet.name }}</a>

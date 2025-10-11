@@ -273,10 +273,11 @@ createApp({
       // TODO: check for rule duplication
       let ret = this.availableTags.getTagFormatError(this.selection.newTypeName, [])
       if (!ret && this.selection.newTypeName) {
+        const selectedScripts = this.selection.facets?.scr || []
         const selectedAllographs = this.selection.facets?.chr || []
         const selectedComponentFeatures = this.selection.facets?.cxf || []
-        if (selectedAllographs.length !== 1 || selectedComponentFeatures.length < 1) {
-          ret = 'Please select one Allograph and at least a Component x Feature in the above filters.'
+        if (selectedScripts.length !== 1 || selectedAllographs.length !== 1 || selectedComponentFeatures.length < 1) {
+          ret = 'Please select one Script and on Allograph and at least a Component x Feature in the above filters.'
         }
       }
       return ret
@@ -852,21 +853,15 @@ createApp({
     async onAddVariantType() {
       if (this.typeFormatError) return;
 
-      let scripts = this.selection.facets?.scr
-      if (scripts?.length !== 1) {
-        scripts = [utils.getScriptFromCharacter(this.selection.facets.chr[0], this.definitions)]
-      } else {
-        // convert items in 'scripts' array to the key found in this.definitions.scripts for the value matching the item
-        scripts = scripts.map((script) => {
-          const key = Object.keys(this.definitions.scripts).find((key) => this.definitions.scripts[key] === script);
-          return key;
-        })
-      }
+      // assume we have a single script and character selected
+      // otherwise typeFormatError would not be empty.
+      const script = this.selection.facets.scr[0]
+      const character = this.selection.facets.chr[0]
 
       const variantRule = {
         'variant-name': this.selection.newTypeName,
-        script: scripts[0],
-        allograph: this.selection.facets.chr[0],
+        script: script,
+        allograph: character,
         // ["crossbar is ascending", "crossbar is straight" ] 
         // -> [{component: 'crossbar', feature: 'ascending'}, ...]
         'component-features': this.selection.facets.cxf.map((cxf) => {
@@ -877,15 +872,8 @@ createApp({
           }
         }),
       }
-      // TODO: is the allograph enough? We might need the script to disambiguate
+      // console.log(variantRule)
       this.variantRules.push(variantRule)
-
-      // ensure all the rules have a script
-      for (const rule of this.variantRules) {
-        if (!rule?.script) {
-          rule.script = utils.getScriptFromCharacter(rule.allograph, this.definitions)
-        }
-      }
 
       const res = await this.afs.writeJson(FILE_PATHS.VARIANT_RULES, this.variantRules, this.variantRulesSha)
       if (res?.ok) {
@@ -949,7 +937,7 @@ createApp({
       
       utils.setQueryString(searchParams, defaults)
 
-      window.document.title = 'Search ' + this.searchName
+      window.document.title = `Search ${this.searchName}`
     },
     setSelectionFromAddressBar(queryString=null) {
       const searchParams = new URLSearchParams(queryString ?? window.location.search);

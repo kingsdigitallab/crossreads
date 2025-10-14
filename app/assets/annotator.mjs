@@ -60,7 +60,7 @@ const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#
 // const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
 const DTS_COLLECTION_PATH = 'app/data/2023-08/collection.json'
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
-const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
+// const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;

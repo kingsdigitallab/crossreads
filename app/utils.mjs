@@ -1,4 +1,5 @@
-// This module can be imported from the browser or nodejs
+// REMEMBER: This module can be imported from the browser or nodejs.
+// Keep the code compatible with both environments.
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 import { FILE_PATHS, SETTINGS } from './settings.mjs';
 export { FILE_PATHS, SETTINGS }

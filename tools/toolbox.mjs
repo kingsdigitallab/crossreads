@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ISICILY_REPO_PATH_GITHUB = 'ISicily/ISicily'
+const ISICILY_INSCRIPTION_PATH = 'inscriptions'
 const ISICILY_REPO_PATH_LOCAL = path.join(__dirname, ISICILY_REPO_PATH_GITHUB.split('/')[0])
 
 export function renderTemplate(templateName, context) {
@@ -28,6 +29,8 @@ export async function pullTEICorpus() {
         console.log('Pulling latest changes from the repository...')
         await child_process.execSync(`cd ${ISICILY_REPO_PATH_LOCAL} && git pull`)
     }
+
+    return path.join(ISICILY_REPO_PATH_LOCAL, ISICILY_INSCRIPTION_PATH)
 }
 
 /**

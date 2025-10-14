@@ -12,14 +12,13 @@ reference from the annotations
 to the signs in the TEI texts
 in both the old and new system.
 */
-import fs from 'fs';
-import path from "path";
+import fs from 'node:fs';
+import path from "node:path";
 import { utils, FILE_PATHS, SETTINGS } from "../../app/utils.mjs";
 import { xmlUtils } from "../../app/xml-utils.mjs";
 import { crossreadsXML } from "../../app/crossreads-xml.mjs";
-import { parseCommandLineArgs } from "../toolbox.mjs"
+import { parseCommandLineArgs, pullTEICorpus } from "../toolbox.mjs"
 
-const TEI_FOLDER = '../ISicily/inscriptions/'
 const UNSPECIFIED_CHARACTER = 'Unspecified character'
 
 class ConvertTokensInAnnotations {
@@ -37,6 +36,8 @@ class ConvertTokensInAnnotations {
       this.showHelp(args)
       return
     }
+
+    this.teiFolderPath = await pullTEICorpus()
 
     let total = 0
     let withN = 0
@@ -62,7 +63,7 @@ class ConvertTokensInAnnotations {
 
   async processAnnotationsFile(annotationsFilePath) {
     let isicId = utils.getDocIdFromString(annotationsFilePath, true)
-    let xmlFilePath = `${TEI_FOLDER}${isicId}.xml`
+    let xmlFilePath = path.join(this.teiFolderPath, `${isicId}.xml`)
 
     if (!await this.isTEIConverted(xmlFilePath)) return false
 

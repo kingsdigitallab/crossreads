@@ -1,23 +1,13 @@
-/* Convert the annotation files 
-to refer to the token in the TEI
-by the new @n attribute 
-instead of the @id attribute (old system).
-
-For details, see:
-https://github.com/kingsdigitallab/crossreads/issues/108
-
-This script can also be used to
-detect and report issues with the
-reference from the annotations
-to the signs in the TEI texts
-in both the old and new system.
+/*
+Run a user-given xpath selector on all XML files in a folder.
+For usage see showHelp() below.
 */
-import fs from 'fs';
-import path from "path";
-import { xmlUtils } from "../../app/xml-utils.mjs";
-import { parseCommandLineArgs } from "../toolbox.mjs"
+import fs from 'node:fs';
+import path from "node:path";
+import { xmlUtils } from "../app/xml-utils.mjs";
+import { parseCommandLineArgs } from "./toolbox.mjs"
 
-const TEI_FOLDER = '../ISicily/inscriptions/'
+const TEI_FOLDER = 'ISicily/inscriptions/'
 
 class XGrep {
 
@@ -58,6 +48,9 @@ class XGrep {
           for (let node of nodes) {
             let rep = xmlUtils.toString(node)
             values[rep] = (values[rep] ?? 0) + 1
+            if (args.verbosity > 0) {
+              console.log(rep)
+            }
           }
         }
       }
@@ -72,13 +65,14 @@ class XGrep {
 
   showHelp(args) {
     console.log(`Usage: ${args.scriptName} ACTION [ARG...] [OPTIONS...]\n`)
-    console.log(`List TEI files matching a given xpath selector.\n`)
+    console.log(`List TEI files matching a given xpath selector.`)
+    console.log(`Input file: ${TEI_FOLDER}*.xml.\n`)
     console.log(`ACTIONS:\n`)
-    console.log(`  xpath XPATH: run XPATH on TEI corpus\n`)
+    console.log(`  xpath XPATH: run XPATH selector on TEI corpus\n`)
     console.log(`OPTIONS:\n`)
-    console.log(`  -v:            more verbose output`)
+    console.log(`  -v:            show all matching XML nodes`)
     console.log(`  -g:            show grouped matches and frequencies`)
-    console.log(`  -f SUBSTRINGS: file name must contain SUBSTRINGS\n`)
+    console.log(`  -f SUBSTRINGS: input file names must contain SUBSTRINGS\n`)
   }
 
 }

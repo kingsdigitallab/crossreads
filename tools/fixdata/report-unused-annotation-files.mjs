@@ -10,8 +10,8 @@ Method:
 * if the annotation file doesn't end with that url, it should be removed
 
 */
-import * as path from 'path';
-import * as fs from 'fs';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { pullTEICorpus } from '../toolbox.mjs';
 import { utils, SETTINGS } from '../../app/utils.mjs';
 import { xmlUtils } from '../../app/xml-utils.mjs';
@@ -29,7 +29,7 @@ function getAllAnnotationFilePaths() {
     return ret
 }
 
-function getTEIFilePathFromAnnotationFilePath(annotationFilePath) {
+function getTEIFilePathFromAnnotationFilePath(teiFolderPath, annotationFilePath) {
     /*
     Example:
     annotationFilePath =
@@ -42,7 +42,7 @@ function getTEIFilePathFromAnnotationFilePath(annotationFilePath) {
 
     let docId = utils.getDocIdFromString(annotationFilePath, true)
     if (docId) {
-        ret = path.join('../ISicily/inscriptions', `${docId}.xml`)
+        ret = path.join(teiFolderPath, `${docId}.xml`)
     }
 
     return ret
@@ -76,10 +76,10 @@ async function readAnnotationFileNamesFromTEIFile(TEIFilePath) {
 }
 
 async function run() {
-    await pullTEICorpus()
+    let teiFolderPath = await pullTEICorpus()
 
     for (let annotationFilePath of getAllAnnotationFilePaths()) {
-        let TEIFilePath = getTEIFilePathFromAnnotationFilePath(annotationFilePath)
+        let TEIFilePath = getTEIFilePathFromAnnotationFilePath(teiFolderPath, annotationFilePath)
         if (TEIFilePath) {
             let annotationFileNames = await readAnnotationFileNamesFromTEIFile(TEIFilePath)
             let found = false

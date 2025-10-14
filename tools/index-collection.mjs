@@ -1,45 +1,29 @@
 // index metadata found in the ISicily inscription TEI files into index-collection.json.
 
-import fs from 'fs';
-import path from "path";
+import fs from 'node:fs';
+import path from "node:path";
 import { utils, FILE_PATHS } from "../app/utils.mjs";
 import { xmlUtils } from "../app/xml-utils.mjs";
-
-const DOWNLOAD_CORPUS = 'git clone https://github.com/ISicily/ISicily'
-const UPDATE_CORPUS = 'cd ISicily && git pull'
-
-const TEI_FOLDER = './ISicily/inscriptions/'
-
-const COMPRESS_OUTPUT = false
-
-async function downloadCorpus() {
-  if (!fs.existsSync(TEI_FOLDER)) {
-    console.log(`Cloning corpus repository...`)
-    await utils.exec(DOWNLOAD_CORPUS)
-  } else {
-    console.log(`Update corpus clone...`)
-    await utils.exec(UPDATE_CORPUS)
-  }
-}
+import { pullTEICorpus } from "./toolbox.mjs";
 
 async function indexCollection() {
   let ret = 0
 
-  await downloadCorpus()
+  let teiFolderPath = await pullTEICorpus()
 
   let data = {}
 
-  let shortList = ['ISic020600', 'ISic001132']
-  shortList = null
+  let shortList = null
+  // shortList = ['ISic020600', 'ISic001132']
 
   let notWellFormedFiles = []
 
   let total = 0
-  for (let filename of fs.readdirSync(TEI_FOLDER).sort()) {
+  for (let filename of fs.readdirSync(teiFolderPath).sort()) {
     let iSicCode = filename.replace('.xml', '')
     if (shortList && !shortList.includes(iSicCode)) continue;
 
-    let filePath = path.join(TEI_FOLDER, filename);
+    let filePath = path.join(teiFolderPath, filename);
     if (filePath.endsWith('.xml') && !fs.lstatSync(filePath).isDirectory()) {
       console.log(filePath)
       total += 1
@@ -82,7 +66,7 @@ async function indexCollection() {
   function getMultipleValuesFromXML(xml, xpath) {
     let ret = []
     let vals = xmlUtils.xpath(xml, xpath)
-    if (vals && vals.length) {
+    if (vals?.length) {
       vals.forEach(v => ret.push(xmlUtils.toString(v).toLowerCase()))
     } else {
       ret.push('unspecified')

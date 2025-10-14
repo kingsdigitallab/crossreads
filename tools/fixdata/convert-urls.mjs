@@ -1,12 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { utils, FILE_PATHS, SETTINGS } from '../../app/utils.mjs';
-import { fileURLToPath } from 'url';
 import { parseCommandLineArgs } from '../toolbox.mjs';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const ANNOTATIONS_PATH = path.join(__dirname, '../..', FILE_PATHS.ANNOTATIONS)
 
 
 export class ConvertURLs {
@@ -19,12 +14,14 @@ export class ConvertURLs {
     convertAnnotationFiles(convertFromAndTo=[]) {
         this.convertedFiles = {}
 
-        for (let filename of fs.readdirSync(ANNOTATIONS_PATH)) {
+        let annotationsPath = utils.resolveFilePathFromFileKey('ANNOTATIONS')
+
+        for (let filename of fs.readdirSync(annotationsPath)) {
             if (!filename.includes('.json')) continue;
 
             let changeCount = 0
 
-            let filePath = path.join(ANNOTATIONS_PATH, filename)
+            let filePath = path.join(annotationsPath, filename)
 
             let annotations = utils.readJsonFile(filePath)
             for (let annotation of annotations) {

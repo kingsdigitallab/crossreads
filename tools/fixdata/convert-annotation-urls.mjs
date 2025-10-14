@@ -1,11 +1,7 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import { utils, FILE_PATHS, SETTINGS } from '../../app/utils.mjs';
-import { fileURLToPath } from 'url';
 import { ConvertURLs } from './convert-urls.mjs';
 
 
-class ConvertAnnotations extends ConvertURLs {
+class ConvertAnnotationURLs extends ConvertURLs {
 
     convertAnnotation(filePath, annotation, convertFromAndTo=[]) {
         let ret = 0
@@ -38,7 +34,7 @@ class ConvertAnnotations extends ConvertURLs {
 
 }
 
-let converter = new ConvertAnnotations()
+let converter = new ConvertAnnotationURLs()
 converter.run()
 
 // Example:

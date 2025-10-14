@@ -16,10 +16,11 @@ export let ROOT_PATH = null
 async function mod(exports) {
 
   let fs = null
+  let path = null
   if (!IS_BROWSER) {
     fs = (await import('fs'))
     let url = (await import('url'))
-    let path = (await import('path'))
+    path = (await import('path'))
 
     const __filename = url.fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
@@ -174,9 +175,9 @@ async function mod(exports) {
   // FILE SYSTEM
   // --------------------------------------------
 
-  exports.fetchJsonFile = async (path) => {
+  exports.fetchJsonFile = async (fileUrl) => {
     let ret = null
-    const res = await fetch(path);
+    const res = await fetch(fileUrl);
     if (res && res.status === 200) {
       ret = await res.json();
     }
@@ -188,10 +189,9 @@ async function mod(exports) {
     // If looks up fails, returns fileKeyOrPath.
     let ret = fileKeyOrPath
     if (ROOT_PATH) {
-      let path = FILE_PATHS[fileKeyOrPath]
-      if (path) {
-        // TODO: use path.join() instead
-        ret = ROOT_PATH + '/' + path
+      let filePath = FILE_PATHS[fileKeyOrPath]
+      if (filePath) {
+        ret = path.join(ROOT_PATH, filePath)
       } else {
         if (fileKeyOrPath === fileKeyOrPath.toUpperCase()) {
           throw Error(`${fileKeyOrPath} is not a valid key in utils.FILE_PATHS`)
@@ -201,22 +201,22 @@ async function mod(exports) {
     return ret
   }
 
-  exports.readJsonFile = (path) => {
+  exports.readJsonFile = (pathOnDisk) => {
     let ret = null
-    path = exports.resolveFilePathFromFileKey(path)
-    if (fs.existsSync(path)) {
-      const content = fs.readFileSync(path, {encoding:'utf8', flag:'r'})
+    pathOnDisk = exports.resolveFilePathFromFileKey(pathOnDisk)
+    if (fs.existsSync(pathOnDisk)) {
+      const content = fs.readFileSync(pathOnDisk, {encoding:'utf8', flag:'r'})
       ret = JSON.parse(content)
     }
     return ret
   }
 
-  exports.writeJsonFile = (path, content, description=null) => {
-    path = exports.resolveFilePathFromFileKey(path)
+  exports.writeJsonFile = (pathOnDisk, content, description=null) => {
+    pathOnDisk = exports.resolveFilePathFromFileKey(pathOnDisk)
     const contentJson = JSON.stringify(content, null, 2)
-    fs.writeFileSync(path, contentJson)
+    fs.writeFileSync(pathOnDisk, contentJson)
     if (description !== null) {
-      console.log(`WRITTEN ${path}, ${description}, ${(contentJson.length / 1024 / 1024).toFixed(2)} MB.`)
+      console.log(`WRITTEN ${pathOnDisk}, ${description}, ${(contentJson.length / 1024 / 1024).toFixed(2)} MB.`)
     }
   }
 

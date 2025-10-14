@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "collection:filter": "node filter-collection.js ../app/data/2023-08/inscriptions.json",
+    "collection:filter": "node filter-collection.mjs ../app/data/2023-08/inscriptions.json",
     "index-collection": "node index-collection.mjs",
     "index": "node index.mjs",
     "static": "node gen-allo-type-pages.mjs && node gen-allo-type-tree-page.mjs && npm run inscriptions-allograph-types",

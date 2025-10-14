@@ -1,5 +1,8 @@
 export const FILE_PATHS = {
+  // local copy of the full DTS collection
   DTS_COLLECTION: "app/data/2023-08/collection.json",
+  // array of IDs for the inscriptions to extract from DTS collection
+  INSCRIPTIONS_IDS: "app/data/2023-08/inscriptions.json",
   DEFINITIONS: "app/data/pal/definitions-digipal.json",
   VARIANT_RULES: "app/data/variant-rules.json",
   // CHANGE_QUEUE: "annotations/change-queue.json",

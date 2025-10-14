@@ -46,21 +46,11 @@ const EDIT_LOCK_IN_MINUTES = 10
 
 // if IMG_PATH_IIIF_ROOT defined, the viewer will fetch full image files instead of IIIF tiles
 const IIIF_OBJECT_INFO_URL = `${SETTINGS.IIIF_SERVER_BASE}${SETTINGS.IIIF_SERVER_OBJ_ID}/info.json`
-// Local IIIF server
-// let IMG_PATH_IIIF_ROOT = 'http://localhost:49153/iiif/2/'
-// Crossreads live IIIF server
-// https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000001/ISic000001_tiled.tif/info.json
-//// const IMG_PATH_IIIF_ROOT = 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
-// IIIF server via local proxy to avoid CORS blockage
-// let IMG_PATH_IIIF_ROOT = 'http://localhost:8088/https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/{DOCID}/{IMGID}_tiled.tif/info.json'
 
 const ANNOTATION_FORMAT_VERSION = '2023-09-01-00'
-const ANNOTATION_URI_PREFIX = 'https://crossreads.web.ox.ac.uk/annotations/'
-const ANNOTATION_GENERATOR_URI = `https://github.com/kingsdigitallab/crossreads#${ANNOTATION_FORMAT_VERSION}`
-// const DTS_COLLECTION_PATH = './data/2023-01/collection.json'
-const DTS_COLLECTION_PATH = 'app/data/2023-08/collection.json'
+const ANNOTATION_GENERATOR_URI = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}#${ANNOTATION_FORMAT_VERSION}`
+const DTS_COLLECTION_PATH = FILE_PATHS.DTS_COLLECTION
 const OPENSEADRAGON_IMAGE_URL_PREFIX = './node_modules/openseadragon/build/openseadragon/images/'
-// const DTS_ROOT = 'https://crossreads.web.ox.ac.uk'
 // -1: never; 10000: check every 10 secs
 const AUTO_SAVE_EVERY_MILLISEC = 10000
 const LOG_EVENTS = false;
@@ -84,7 +74,7 @@ function deepCopy(v) {
 
 // TODO: move this into Vue?
 function loadOpenSeaDragon(vueApp) {
-  const viewer = OpenSeadragon({
+  const viewer = window.OpenSeadragon({
     id: "image-viewer",
     prefixUrl: OPENSEADRAGON_IMAGE_URL_PREFIX,
     tileSources: {
@@ -105,7 +95,7 @@ function loadOpenSeaDragon(vueApp) {
     readOnly: !vueApp.canEdit,
     // disableSelect: false,
   };
-  const anno = OpenSeadragon.Annotorious(viewer, config);
+  const anno = window.OpenSeadragon.Annotorious(viewer, config);
   vueApp.anno = anno;
   window.anno = anno;
   vueApp.viewer = viewer;
@@ -136,12 +126,6 @@ function loadOpenSeaDragon(vueApp) {
 createApp({
   data() {
     return {
-      // TODO: not reactive
-      apis: {
-        // collections: 'https://isicily-dts.herokuapp.com/dts/api/collections/',
-        // collections: DTS_COLLECTION_PATH,
-        // definitions: DEFINITIONS_PATH,
-      },
       objects: {
         obj1: { 'description': 'Object 1', '@id': 'obj1', 'title': 't1' },
         obj2: { 'description': 'Object 2', '@id': 'obj2', 'title': 't2' },
@@ -621,7 +605,6 @@ createApp({
   methods: {
     async loadObjects() {
       // Load objects list (this.objects) from DTS collections API 
-      // fetch(getUncachedURL(this.apis.collections))
       let res = await this.afs.readJson(DTS_COLLECTION_PATH)
       if (res.ok) {
         this.objects = {}
@@ -1338,7 +1321,7 @@ createApp({
       // =>
       // "id": "http://example.com/annotations/ea90b5df-1cc8-4f23-b043-dcd609be5bd1",
       if (annotation.id.startsWith('#')) {
-        annotation.id = ANNOTATION_URI_PREFIX + annotation.id.substring(1)
+        annotation.id = SETTINGS.ANNOTATION_URI_PREFIX + annotation.id.substring(1)
       }
     },
     convertAnnotationsToW3C(annotations) {
@@ -1540,11 +1523,11 @@ createApp({
       return ret
     },
     getAnnotationsAbsolutePath() {
-      // TODO: remove hard-coded value
-      return `https://raw.githubusercontent.com/kingsdigitallab/crossreads/main/${this.getAnnotationFilePath()}`;
+      // TODO: might need to split if annotation hosted elsewhere
+      return `https://raw.githubusercontent.com/${SETTINGS.GITHUB_REPO_PATH}/main/${this.getAnnotationFilePath()}`;
     },
     getCollectionPath() {
-      return `https://github.com/kingsdigitallab/crossreads/blob/main/${DTS_COLLECTION_PATH}`
+      return `https://github.com/${SETTINGS.GITHUB_REPO_PATH}/blob/main/${DTS_COLLECTION_PATH}`
     },
     // Low-level Utilities
     getURIFromXMLPrefix(prefix) {
@@ -1582,9 +1565,9 @@ createApp({
         return Number.parseInt(secondsPast / 3600) + 'h';
       }
       if (secondsPast > 86400) {
-        day = timeStamp.getDate();
-        month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
-        year = timeStamp.getFullYear() === now.getFullYear() ? "" : " " + timeStamp.getFullYear();
+        let day = timeStamp.getDate();
+        let month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
+        let year = timeStamp.getFullYear() === now.getFullYear() ? "" : " " + timeStamp.getFullYear();
         return `${day} ${month}${year}`;
       }
     },

@@ -3,6 +3,7 @@ export const FILE_PATHS = {
   DTS_COLLECTION: "app/data/2023-08/collection.json",
   // array of IDs for the inscriptions to extract from DTS collection
   INSCRIPTIONS_IDS: "app/data/2023-08/inscriptions.json",
+  // TODO: rename that, no longer a digipal def
   DEFINITIONS: "app/data/pal/definitions-digipal.json",
   VARIANT_RULES: "app/data/variant-rules.json",
   // CHANGE_QUEUE: "annotations/change-queue.json",
@@ -132,6 +133,7 @@ export const SETTINGS = {
   IIIF_SERVER_OBJ_ID: "/inscription_images/{DOCID}/{IMGID}",
   DTS_COLLECTION: "https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json",
   DTS_DOC_BASE: "http://sicily.classics.ox.ac.uk/inscription/",
+  ANNOTATION_URI_PREFIX: "https://crossreads.web.ox.ac.uk/annotations/",
   // convert PLACES_IN_DISPLAY_ORDER into a list
   PLACES_IN_DISPLAY_ORDER: PLACES_IN_DISPLAY_ORDER.split("\n").map(p => p.trim()).filter(p => p.length),
   XPATH_TRANSCRIPTION_IN_TEI: "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']",

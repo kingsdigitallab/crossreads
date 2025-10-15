@@ -1104,13 +1104,22 @@ createApp({
     //   this.selection.object = obj['@id']
     // },
     getImageUrl() {
-      let ret = `${IMG_PATH_STATIC_ROOT}${this.image.uri}`
-      if (typeof IIIF_OBJECT_INFO_URL !== 'undefined') {
-        // let imgid = this.image.uri.replace(/\.[^.]+$/, '');
-        let imgid = this.image.uri;
-        ret = IIIF_OBJECT_INFO_URL
-          .replace('{DOCID}', this.object['title'])
-          .replace('{IMGID}', imgid);
+      let ret = this.image.uri
+      // gh-109: uri can be relative or absolute
+      if (ret.startsWith('http')) {
+        // absolute
+        ret = ret.replace(/\/+$/, '') + '/info.json'
+      } else {
+        // relative
+        if (typeof IIIF_OBJECT_INFO_URL !== 'undefined') {
+          // IIIF server
+          ret = IIIF_OBJECT_INFO_URL
+            .replace('{DOCID}', this.object['title'])
+            .replace('{IMGID}', ret);
+        } else {
+          // on disk
+          ret = `${IMG_PATH_STATIC_ROOT}${ret}`
+        }
       }
       return ret
     },

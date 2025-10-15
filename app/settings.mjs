@@ -1,7 +1,7 @@
 export const FILE_PATHS = {
-  // local copy of the full DTS collection
+  // DTS sub-collection for the annotator
   DTS_COLLECTION: "app/data/2023-08/collection.json",
-  // array of IDs for the inscriptions to extract from DTS collection
+  // array of IDs for the inscriptions to extract from full DTS collection
   INSCRIPTIONS_IDS: "app/data/2023-08/inscriptions.json",
   // TODO: rename that, no longer a digipal def
   DEFINITIONS: "app/data/pal/definitions-digipal.json",

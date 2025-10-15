@@ -2,10 +2,10 @@
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
 import { Octokit } from 'octokit';
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, IS_BROWSER } from "./utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, IS_BROWSER, SETTINGS } from "./utils.mjs";
 
 const USE_RAW_FOR_GIT_ANONYMOUS = true
-const GITHUB_REPO_PATH = 'kingsdigitallab/crossreads'
+const GITHUB_REPO_PATH = SETTINGS.GITHUB_REPO_PATH // 'kingsdigitallab/crossreads'
 
 export class AnyFileSystem {  
   /*
@@ -279,6 +279,7 @@ async function readGithubJsonFile(filePath, octokit, githubRepoPath) {
 
   let apiUrl = `https://api.github.com/repos/${githubRepoPath}/contents/${filePath}`
 
+  // first try using the API (if we have a token)
   if (octokit) {
     let getUrl = apiUrl;
     try {
@@ -302,6 +303,7 @@ async function readGithubJsonFile(filePath, octokit, githubRepoPath) {
     }
   } 
   
+  // OR use github download link
   if (download) {
     let getUrl = null
     if (USE_RAW_FOR_GIT_ANONYMOUS) {
@@ -346,13 +348,9 @@ async function updateGithubJsonFile (
   };
   let res = null;
 
-  // °
-  // console.log(JSON.stringify(data, null, 2))
-
   let options = {
     owner: githubRepoPath.split('/')[0],
     repo: githubRepoPath.split('/')[1],
-    // path: `projects/${this.selection.project}/a11y-issues.json`,
     path: filePath,
     message: `Modified ${filePath}`,
     content: base64Encode(JSON.stringify(data, null, 2)),

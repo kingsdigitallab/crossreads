@@ -333,8 +333,8 @@ class AnnotationIndex {
       'meta': {
         "@context": "http://schema.org",
         'dc:modified': new Date().toISOString(),
-        'dc:creator': 'https://github.com/kingsdigitallab/crossreads/blob/main/tools/index.mjs',
-        'dc:source': 'https://github.com/kingsdigitallab/crossreads/tree/main/annotations',
+        'dc:creator': `${SETTINGS.GITHUB_REPO_URL}/blob/main/tools/index.mjs`,
+        'dc:source': `${SETTINGS.GITHUB_REPO_URL}/tree/main/annotations`,
       },
       'data': obj
     }

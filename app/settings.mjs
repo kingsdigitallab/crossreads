@@ -113,8 +113,12 @@ Messana
 
 // TODO: move all hard-coded literals in the code base to this SETTINGS dictionary
 export const SETTINGS = {
+  // The github repository path that contains the data files
+  // (annotations, index, )
   // TODO: search this string & replace everywhere
   GITHUB_REPO_PATH: "kingsdigitallab/crossreads",
+  // The root URL of the annotating environment site
+  ANNOTATING_SITE_ROOT: "https://kingsdigitallab.github.io/crossreads/",
   // if you change this you"ll need to empty the content of the app/data/thumbs folder
   // then re-run tools/index.mjs to obtain the new sizes
   EXEMPLAR_THUMB_HEIGHT: 150,
@@ -134,6 +138,8 @@ export const SETTINGS = {
   DTS_COLLECTION: "https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json",
   DTS_DOC_BASE: "http://sicily.classics.ox.ac.uk/inscription/",
   ANNOTATION_URI_PREFIX: "https://crossreads.web.ox.ac.uk/annotations/",
+  // where this site sends user for general Crossreads site
+  CROSSREADS_PORTAL_ROOT: "https://crossreads.web.ox.ac.uk/",
   // convert PLACES_IN_DISPLAY_ORDER into a list
   PLACES_IN_DISPLAY_ORDER: PLACES_IN_DISPLAY_ORDER.split("\n").map(p => p.trim()).filter(p => p.length),
   XPATH_TRANSCRIPTION_IN_TEI: "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']",

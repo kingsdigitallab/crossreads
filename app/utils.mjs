@@ -383,7 +383,7 @@ async function mod(exports) {
   }
 
   exports.getURLFromAlloType = (atype, prefix=null) => {
-    const baseUrl = prefix || 'https://kingsdigitallab.github.io/crossreads/'
+    const baseUrl = prefix || SETTINGS.ANNOTATING_SITE_ROOT
     return `${baseUrl}data/allographs/types/${atype.script}-${atype.allograph}-${atype['variant-name']}.html`
   }
 

@@ -1,9 +1,10 @@
 /* 
-See https://github.com/kingsdigitallab/crossreads/issues/71
-annotation filenmaes where build from the .jpg (print)
-rather than the .tif (screen) image found in the TEI.
+This script corrects all the annotation files.
 
-This script renames all the annotation files.
+See https://github.com/kingsdigitallab/crossreads/issues/71
+annotation filenmaes were built from the .jpg (print)
+rather than the .tif (screen) image url 
+found in the TEI files.
 */
 import fs from 'fs';
 import path from "path";

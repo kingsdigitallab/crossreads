@@ -2,7 +2,7 @@
 
 import fs from 'node:fs';
 import path from "node:path";
-import { utils, FILE_PATHS } from "../app/utils.mjs";
+import { utils, SETTINGS, FILE_PATHS } from "../app/utils.mjs";
 import { xmlUtils } from "../app/xml-utils.mjs";
 import { pullTEICorpus } from "./toolbox.mjs";
 
@@ -78,7 +78,7 @@ async function indexCollection() {
     'meta': {
       "@context": "http://schema.org",
       'dc:modified': new Date().toISOString(),
-      'dc:creator': 'https://github.com/kingsdigitallab/crossreads/blob/main/tools/indexCollection.mjs',
+      'dc:creator': `${SETTINGS.GITHUB_REPO_URL}/blob/main/tools/index-collection.mjs`,
       'dc:source': 'https://github.com/ISicily/ISicily/tree/master/inscriptions',
     },
     data: data

@@ -51,7 +51,7 @@ So we can have A type1 and B type 1.
 */
 
 import * as fs from 'node:fs';
-import { utils, FILE_PATHS } from '../app/utils.mjs'
+import { utils, FILE_PATHS, SETTINGS } from '../app/utils.mjs'
 import * as toolbox from './toolbox.mjs'
 
 // Constants for easy editing
@@ -166,7 +166,11 @@ function main() {
 
   let res = toolbox.renderTemplate('allo-type-tree.liquid', {
     tree: tree, 
-    scripts: definitions.scripts
+    scripts: definitions.scripts,
+    links: {
+      annotatingSiteRoot: SETTINGS.ANNOTATING_SITE_ROOT,
+      crossreadsPortalRoot: SETTINGS.CROSSREADS_PORTAL_ROOT,
+    }
   })
 
   fs.writeFileSync(TREE_PAGE_PATH, res);

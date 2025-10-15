@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 // Constants for easy editing
 const OUTPUT_DIR = '../app/data/allographs/types/';
 const HTML_TEMPLATE_PATH = 'allo-type.liquid';
-const SEARCH_PAGE_URL = 'https://kingsdigitallab.github.io/crossreads/search.html'
+const SEARCH_PAGE_URL = `${SETTINGS.ANNOTATING_SITE_ROOT}search.html`
 
 function processVariantRule(variantRule, definitions, thumbs, variantRules) {
   let context = JSON.parse(JSON.stringify(variantRule))
@@ -62,7 +62,11 @@ function processVariantRule(variantRule, definitions, thumbs, variantRules) {
     thumbInfo.docId = utils.getDocIdFromString(thumbInfo.fil, true)
     thumbInfo.linkInscription = SETTINGS.CORPUS_BUILDING_INSCRIPTION_URL.replace('{docId}', thumbInfo.docId)
     thumbInfo.displayDateRange = utils.getDisplayDateRange([thumbInfo.daf, thumbInfo.dat])
-    // thmubInfo.linkAnnotator = `https://kingsdigitallab.github.io/crossreads/annotator.html?obj={{thumbInfo.}}&img=ISic000085.jpg&sup=0&ann={{thmbInfo.id}}`
+  }
+
+  context['links'] = {
+    annotatingSiteRoot: SETTINGS.ANNOTATING_SITE_ROOT,
+    crossreadsPortalRoot: SETTINGS.CROSSREADS_PORTAL_ROOT,
   }
 
   let htmlContent = toolbox.renderTemplate(HTML_TEMPLATE_PATH, context)

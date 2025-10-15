@@ -1,5 +1,7 @@
 # Data & service interoperability
 
+NOTE: this document was last updated in 2023 and may not reflect latest version of the resource
+
 ## Data flow
 
 Below is a step-by-step summary of how the annotator currently interacts with external content sources:

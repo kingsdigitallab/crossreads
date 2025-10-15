@@ -115,7 +115,7 @@ Messana
 export const SETTINGS = {
   // The github repository path that contains the data files
   // (annotations, index, )
-  // TODO: search this string & replace everywhere
+  // TODO: search this string & replace everywhere (DONE 15/10/2025, for each part)
   GITHUB_REPO_PATH: "kingsdigitallab/crossreads",
   // The root URL of the annotating environment site
   ANNOTATING_SITE_ROOT: "https://kingsdigitallab.github.io/crossreads/",

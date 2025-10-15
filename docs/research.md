@@ -1,3 +1,5 @@
+NOTE: this document was last updated in 2023 and may not reflect latest version of the resource
+
 ## Standards
 
 * M Distributed Text Services

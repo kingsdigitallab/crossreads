@@ -1,5 +1,7 @@
 ## References
 
+NOTE: this document was last updated in 2023 and may not reflect latest version of the resource
+
 * Current DTS server POC: [https://github.com/ISicily/isicily-dts](https://github.com/ISicily/isicily-dts)
 * DTS Specification: [https://distributed-text-services.github.io/specifications/](https://distributed-text-services.github.io/specifications/)
 * Annotator data workflow: [https://github.com/kingsdigitallab/crossreads/blob/main/docs/interoperability.md](https://github.com/kingsdigitallab/crossreads/blob/main/docs/interoperability.md)

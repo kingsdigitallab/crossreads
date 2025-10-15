@@ -1,5 +1,8 @@
 # Technical documentation of the palaeographical annotation environment in the Crossreads project.
 
+TODO: file paths and the structure / values of the samples 
+may need to be updated
+
 Author: Geoffroy Noël
 
 The environment is a web application and a set of command line tools

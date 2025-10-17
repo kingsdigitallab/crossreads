@@ -53,14 +53,16 @@
               <template v-if="afs.authStatus.ok"><br>User: <a target="_blank" :href="afs.user.url">{{ afs.user.url}}</a></template>
             </p>
             <br>
-            <h2 class="title is-4">Instructions</h2>
-            <p>
-              To annotate please paste your Github Personal Access Token (PAT).
-              <br>
-              To create a PAT, log into Github and click "Generate New Token" <a href="https://github.com/settings/tokens" target="_blank">on the PAT screen</a>.
-              <br>
-              Give it a name (e.g. Annotator), tick only 'public_repo' under the 'repo' section, save and copy the token in a secret place.
-            </p>
+            <details>
+              <summary>Help with the token</summary>
+              <p>
+                To annotate or edit the definitions please paste your Github Personal Access Token (PAT).
+                <br>
+                To create a PAT, log into Github and click "Generate New Token" <a href="https://github.com/settings/tokens" target="_blank">on the PAT screen</a>.
+                <br>
+                Give it a name (e.g. Annotator), tick only 'public_repo' under the 'repo' section, save and copy the token in a secret place.
+              </p>
+            </details>
           </div>
         </form>
       </div>

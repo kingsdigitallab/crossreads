@@ -42,7 +42,8 @@ export class AnyFileSystem {
   resetAuthStatus() {
     // prefixes to remove from the user-given paths
     this.prefixes = {}
-    this.prefixes[this.SYSTEMS.HTTP] = 'app/'
+    // this.prefixes[this.SYSTEMS.HTTP] = 'app/'
+    this.prefixes[this.SYSTEMS.HTTP] = SETTINGS.HTTP_PATHS_PREFIX
 
     this.user = null
     this.octokit = null

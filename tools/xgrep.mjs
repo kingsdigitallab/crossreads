@@ -54,8 +54,10 @@ class XGrep {
           }
         }
       }
+      if (args.options['-gj']) {
+        console.log(JSON.stringify(values, null, 2))
+      }
       if (args.options['-g']) {
-        // console.log(JSON.stringify(values, null, 2))
         console.log(values)
       }
     } else {
@@ -72,7 +74,9 @@ class XGrep {
     console.log(`OPTIONS:\n`)
     console.log(`  -v:            show all matching XML nodes`)
     console.log(`  -g:            show grouped matches and frequencies`)
+    console.log(`  -gj:           show grouped matches and frequencies in json`)
     console.log(`  -f SUBSTRINGS: input file names must contain SUBSTRINGS\n`)
+    console.log(`Frequencies are the number of nodes matching the selector.\n`)
   }
 
 }

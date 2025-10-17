@@ -13,7 +13,7 @@ createApp({
       links: [
         {
           'name': 'Annotations files',
-          'url': `${SETTINGS.GITHUB_REPO_PATH}/${FILE_PATHS.ANNOTATIONS}`,
+          'url': utils.getGitUrlTo('ANNOTATIONS'),
         },
         {
           'name': 'Other data files (definitions, variant-rules, search index)',

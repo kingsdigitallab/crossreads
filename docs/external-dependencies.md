@@ -131,6 +131,31 @@ node run index
 7. when the changes have been published to the live site, 
 retest (4) and (5) there
 
+## Image URL in the TEI files
+
+[See Github issue #109](https://github.com/kingsdigitallab/crossreads/issues/gh-109)
+
+The address of the inscription images are obtained by the annotator from this
+attribute in the TEI file:
+
+`//graphic[@n='screen']/@url`
+
+As of 18 Oct 2025, the value is just a file name.
+
+It was suggested that the value should instead be a full URL at some point.
+This would include the URL of the image server. The advantages are that the
+information is explicit in the TEI (better for LoD) and the annotating
+environment doesn't need to know about the prefix and insert it.
+
+The following should help with that conversion to absolute URL:
+
+1. the annotator can already handle absolute or relative URLs in the TEI
+2. there's a script to convert all URLs in the TEI files
+    ```bash
+    cd tools
+    python3 replace-tei-graphic-urls.py <TEI_folder_path> <old_prefix> <new_prefix>
+    ```
+
 # DTS Collection and TEI files
 
 [See Github issue #61](https://github.com/kingsdigitallab/crossreads/issues/gh-61)

@@ -459,7 +459,7 @@ createApp({
       const toKeep = /ISic0000(01|07|31|46|79)$/
 
       fetch(uri).then(r => r.json()).then(res => {
-        ret = res
+        let ret = res
 
         ret.member = ret.member.filter(
           m => 

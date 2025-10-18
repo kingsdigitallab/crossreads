@@ -58,7 +58,7 @@ def replace_url_in_file(file_path, old_prefix, new_prefix):
 
 def main():
     if len(sys.argv) != 4:
-        print("Usage: python script.py <folder_path> <old_prefix> <new_prefix>")
+        print("Usage: python replace-tei-graphic-urls.py <folder_path> <old_prefix> <new_prefix>")
         sys.exit(1)
     
     folder_path = sys.argv[1]

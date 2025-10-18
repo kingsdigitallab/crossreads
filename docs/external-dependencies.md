@@ -2,6 +2,14 @@ This document explains how to change internal ids or references
 to external services or resources. 
 Mainly as a consequence of a changing domain.
 
+You can see the linkage of a running instance of the annotating environment
+on the Settings tab.
+
+To change the linkage in your instance you can edit `app/settings.mjs`.
+But be aware that changing the values sometimes need to be accompanied
+by a conversion of the data files. The following sections cover the main
+categories.
+
 # Tokens in the TEI
 
 [See Github issue #108](https://github.com/kingsdigitallab/crossreads/issues/gh-108)

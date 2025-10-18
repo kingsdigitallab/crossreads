@@ -661,17 +661,12 @@ createApp({
       }
     },
     async loadStats() {
-      // TODO: remove code duplication with same function in definitions.mjs
       this.stats = null
-      if (IS_BROWSER_LOCAL) {  
-        this.stats = await utils.fetchJsonFile('stats.json')
+      let res = await this.afs.readJson(FILE_PATHS.STATS)
+      if (res.ok) {
+        this.stats = res.data
       } else {
-        let res = await this.afs.readJson(FILE_PATHS.STATS)
-        if (res.ok) {
-          this.stats = res.data
-        } else {
-          this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
-        }
+        this.logMessage(`Could not load definition stats (${res.description})`, 'danger')
       }
     },    
     fetchObjectXML() {

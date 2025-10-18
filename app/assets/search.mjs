@@ -297,15 +297,10 @@ createApp({
       }
     },
     async loadIndex() {
-      // fetch with API so we don't need to republish site each time the index is rebuilt.
       this.index = null
-      if (IS_BROWSER_LOCAL) {  
-        this.index = await utils.fetchJsonFile('index.json')
-      } else {
-        const res = await this.afs.readJson(FILE_PATHS.INDEX)
-        if (res.ok) {
-          this.index = res.data
-        }
+      const res = await this.afs.readJson(FILE_PATHS.INDEX)
+      if (res.ok) {
+        this.index = res.data
       }
       if (!this.index?.data) {
         this.logMessage(`Failed to load search index from github (${res.description})`, 'error')

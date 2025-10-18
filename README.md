@@ -1,4 +1,4 @@
-[![Collection filtering](actions/workflows/subcollection.yml/badge.svg)](actions/workflows/subcollection.yml)
+[![Collection filtering](https://github.com/kingsdigitallab/crossreads/actions/workflows/subcollection.yml/badge.svg)](https://github.com/kingsdigitallab/crossreads/actions/workflows/subcollection.yml)
 [![Annotation indexing](https://github.com/kingsdigitallab/crossreads/actions/workflows/index.yml/badge.svg)](https://github.com/kingsdigitallab/crossreads/actions/workflows/index.yml)
 [![Site publication](https://github.com/kingsdigitallab/crossreads/actions/workflows/static.yml/badge.svg)](https://github.com/kingsdigitallab/crossreads/actions/workflows/static.yml)
 [![Change queue runner](https://github.com/kingsdigitallab/crossreads/actions/workflows/run-change-queue.yml/badge.svg)](https://github.com/kingsdigitallab/crossreads/actions/workflows/run-change-queue.yml)

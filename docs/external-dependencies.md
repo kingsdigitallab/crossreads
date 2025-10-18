@@ -5,6 +5,8 @@ Mainly as a consequence of a changing domain.
 You can see the linkage of a running instance of the annotating environment
 on the Settings tab.
 
+<img width="821" height="299" alt="image" src="https://github.com/user-attachments/assets/2508b14a-a766-4500-9a91-fbc42f0fe91b" />
+
 To change the linkage in your instance you can edit `app/settings.mjs`.
 But be aware that changing the values sometimes need to be accompanied
 by a conversion of the data files. The following sections cover the main

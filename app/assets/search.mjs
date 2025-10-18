@@ -5,7 +5,7 @@ TODO:
 . remove all hard-coded values
 */
 
-import { utils, FILE_PATHS, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, SETTINGS} from "../utils.mjs";
+import { utils, FILE_PATHS, DEBUG_DONT_SAVE, SETTINGS} from "../utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp, nextTick } from "vue";
 import { AvailableTags } from "../tags.mjs";

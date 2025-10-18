@@ -1,4 +1,3 @@
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL} from "./utils.mjs";
 import { AnyFileSystem } from "./any-file-system.mjs";
 
 const STATS_PATH = 'app/stats.json'
@@ -79,13 +78,9 @@ export class AvailableTags {
 
   async _loadStats() {
     let res = null
-    if (IS_BROWSER_LOCAL) {  
-      res = await utils.fetchJsonFile('stats.json')
-    } else {
-      let afs = new AnyFileSystem()
-      res = await afs.readJson(STATS_PATH)
-      res = res?.ok ? res.data : null
-    }
+    let afs = new AnyFileSystem()
+    res = await afs.readJson(STATS_PATH)
+    res = res?.ok ? res.data : null
     return res
   }
 

@@ -157,5 +157,11 @@ export const SETTINGS = {
   XPATH_TRANSCRIPTION_IN_TEI: "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']",
   XPATH_TOKENS_IN_TEI: "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')]", // [@n='5']
   EXPECTED_TOKEN_TAGS: ['w', 'g', 'space', 'gap', 'orig'],
+  // Special development mode if the site runs on that host.
+  // Files will be fetched locally without github API if not authenticated.
+  // Saving will be blocked if authenticated.
+  // To simulate normal mode on your local machine,
+  // access site on 127.0.0.1:3000 instead.
+  DEVELOP_HOST: "localhost:3000",
 }
 SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`

@@ -27,7 +27,7 @@ TODO:
 
 */
 
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, FILE_PATHS, SETTINGS } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, FILE_PATHS, SETTINGS } from "../utils.mjs";
 import { xmlUtils } from "../xml-utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { crossreadsXML } from "../crossreads-xml.mjs";

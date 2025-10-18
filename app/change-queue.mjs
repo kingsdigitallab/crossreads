@@ -1,4 +1,4 @@
-import { utils, FILE_PATHS, IS_BROWSER_LOCAL} from "./utils.mjs";
+import { FILE_PATHS} from "./utils.mjs";
 import { AnyFileSystem } from "./any-file-system.mjs";
 
 const SHA_UNREAD = 'SHA_UNREAD'

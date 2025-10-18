@@ -5,7 +5,7 @@ import { FILE_PATHS, SETTINGS } from './settings.mjs';
 export { FILE_PATHS, SETTINGS }
 
 export const IS_BROWSER = (typeof window !== "undefined")
-export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.hostname === 'localhost')
+export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.host === SETTINGS.DEVELOP_HOST)
 // export const DEBUG_DONT_SAVE = false;
 // export const DEBUG_DONT_SAVE = true;
 export const DEBUG_DONT_SAVE = IS_BROWSER_LOCAL;

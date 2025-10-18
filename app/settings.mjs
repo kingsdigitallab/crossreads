@@ -17,8 +17,9 @@ export const FILE_PATHS = {
   STATS: "app/stats.json",
   THUMBS: "app/data/thumbs",
   INDEX_THUMBS: "app/data/thumbs/thumbs.json",
-  // ANNOTATIONS: "annotations",
-  ANNOTATIONS: "app/data/annotations",
+  ANNOTATIONS: "annotations",
+  // for Local read-only mode:
+  // ANNOTATIONS: "app/data/annotations",
 }
 
 // Ancient names of the places of origin of the inscriptions.
@@ -124,10 +125,10 @@ export const SETTINGS = {
   // The github repository path that contains the data files
   // (annotations, index, ...)
   // Change this to null to read all data files from the site, 
-  // outside of github repository.
+  // outside of github repository. Local read-only mode.
   // See docs/portability.md for details.
-  // GITHUB_REPO_PATH: "kingsdigitallab/crossreads",
-  GITHUB_REPO_PATH: null,
+  GITHUB_REPO_PATH: "kingsdigitallab/crossreads",
+  // GITHUB_REPO_PATH: null,
   // Path (relative to code base root) to the parent folder of the web application
   HTTP_PATHS_PREFIX: "app/",
   // The root URL of the annotating environment site

@@ -3,7 +3,7 @@
 [![Site publication](https://github.com/kingsdigitallab/crossreads/actions/workflows/static.yml/badge.svg)](https://github.com/kingsdigitallab/crossreads/actions/workflows/static.yml)
 [![Change queue runner](https://github.com/kingsdigitallab/crossreads/actions/workflows/run-change-queue.yml/badge.svg)](https://github.com/kingsdigitallab/crossreads/actions/workflows/run-change-queue.yml)
 
-KDL codebase for the CROSSREADS research project
+King's Digital Lab codebase for CROSSREADS palaeographic annotator.
 
 Annotating environment: https://kingsdigitallab.github.io/crossreads/annotator.html
 

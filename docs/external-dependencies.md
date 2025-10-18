@@ -169,7 +169,7 @@ to `https://sicily.classics.ox.ac.uk/image/`.
 3. convert all annotation file names (unless only the protocol has changed)
 (this script does not exist)
 4. convert the pointer to the TEI file in all annotation files 
-(this script does not yet exist)
+(this script does not yet exist; TODO)
 
 # Typology and type pages
 

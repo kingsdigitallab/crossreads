@@ -4,3 +4,4 @@
 ## [Data processing tools](../tools/README.md)
 ## [How to move this resource](portability.md)
 ## [How to move linked resources](external-dependencies.md)
+## [Architecture and data flow](architecture-and-data-flow.md)

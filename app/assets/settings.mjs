@@ -1,4 +1,4 @@
-import { utils, SETTINGS, FILE_PATHS } from "../utils.mjs";
+import { utils, SETTINGS, IS_READ_ONLY_AND_LOCAL } from "../utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { createApp } from "../node_modules/vue/dist/vue.esm-browser.js";
 
@@ -10,6 +10,7 @@ createApp({
         gtoken: window.localStorage.getItem('gtoken') || '',
       },
       afs: new AnyFileSystem(),
+      IS_READ_ONLY_AND_LOCAL: IS_READ_ONLY_AND_LOCAL,
       links: [
         {
           'name': 'Annotations files',
@@ -17,7 +18,7 @@ createApp({
         },
         {
           'name': 'Other data files (definitions, variant-rules, search index)',
-          'url': SETTINGS.GITHUB_REPO_URL,
+          'url': utils.getGitUrlTo('DEFINITIONS'),
         },
         {
           'name': 'Image server',

@@ -43,7 +43,10 @@
             <template v-else>(OFF)</template>
           </p>
           <div class="panel-block">
-            <form :class="{notification: 1, 'is-warning': !afs.authStatus.ok}">
+            <p v-if="IS_READ_ONLY_AND_LOCAL">
+              The site is read-only. All data files are read from this site and not from github repository. (GITHUB_REPO_PATH is null)
+            </p>
+            <form v-else :class="{notification: 1, 'is-warning': !afs.authStatus.ok}">
               <div class="field">
                 <label class="label" for="gtoken">Personal access token:</label>
                 <div class="field has-addons">

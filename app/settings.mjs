@@ -123,7 +123,7 @@ export const SETTINGS = {
   // The github repository path that contains the data files
   // (annotations, index, ...)
   // Change this to null to read all data files from the site, 
-  // outside of github.
+  // outside of github repository.
   // See docs/portability.md for details.
   // GITHUB_REPO_PATH: "kingsdigitallab/crossreads",
   GITHUB_REPO_PATH: null,
@@ -168,4 +168,4 @@ export const SETTINGS = {
   // access site on 127.0.0.1:3000 instead.
   DEVELOP_HOST: "localhost:3000",
 }
-SETTINGS.GITHUB_REPO_URL = `https://github.com/${SETTINGS.GITHUB_REPO_PATH}`
+SETTINGS.GITHUB_REPO_URL = SETTINGS.GITHUB_REPO_PATH ? `https://github.com/${SETTINGS.GITHUB_REPO_PATH}` : null

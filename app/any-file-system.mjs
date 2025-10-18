@@ -2,7 +2,7 @@
 // https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 
 import { Octokit } from 'octokit';
-import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, IS_BROWSER, SETTINGS, IS_READ_ONLY_AND_LOCAL } from "./utils.mjs";
+import { utils, DEBUG_DONT_SAVE, IS_BROWSER_LOCAL, IS_BROWSER, SETTINGS } from "./utils.mjs";
 
 const USE_RAW_FOR_GIT_ANONYMOUS = true
 const GITHUB_REPO_PATH = SETTINGS.GITHUB_REPO_PATH // 'kingsdigitallab/crossreads'
@@ -36,6 +36,7 @@ export class AnyFileSystem {
 
   constructor(githubRepoPath=GITHUB_REPO_PATH) {
     this.githubRepoPath = githubRepoPath
+    this.isReadOnlyAndLocal = !githubRepoPath
     this.resetAuthStatus()
   }
 
@@ -175,7 +176,7 @@ export class AnyFileSystem {
       system = this.guessSystemFromPath(relativePath)
     }
 
-    if (DEBUG_DONT_SAVE || IS_READ_ONLY_AND_LOCAL) {
+    if (DEBUG_DONT_SAVE || this.isReadOnlyAndLocal) {
       return {
         ok: false,
         label: 'saving disabled',
@@ -214,9 +215,9 @@ export class AnyFileSystem {
     // gh-119
     let ret = this.SYSTEMS.GIT
 
-    let canFetchLocally = ((IS_READ_ONLY_AND_LOCAL && IS_BROWSER) || IS_BROWSER_LOCAL) && path.startsWith(this.prefixes[this.SYSTEMS.HTTP])
+    let canFetchLocally = ((this.isReadOnlyAndLocal && IS_BROWSER) || IS_BROWSER_LOCAL) && path.startsWith(this.prefixes[this.SYSTEMS.HTTP])
 
-    if ((DEBUG_DONT_SAVE || IS_READ_ONLY_AND_LOCAL) && canFetchLocally) {
+    if ((DEBUG_DONT_SAVE || this.isReadOnlyAndLocal) && canFetchLocally) {
       // Bypass github and fetch locally for insulated testing purpose.
       // or for read-only site decoupled from files on github repo.
       return this.SYSTEMS.HTTP

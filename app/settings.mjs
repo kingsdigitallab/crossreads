@@ -122,7 +122,11 @@ Messana
 export const SETTINGS = {
   // The github repository path that contains the data files
   // (annotations, index, ...)
-  GITHUB_REPO_PATH: "kingsdigitallab/crossreads",
+  // Change this to null to read all data files from the site, 
+  // outside of github.
+  // See docs/portability.md for details.
+  // GITHUB_REPO_PATH: "kingsdigitallab/crossreads",
+  GITHUB_REPO_PATH: null,
   // Path (relative to code base root) to the parent folder of the web application
   HTTP_PATHS_PREFIX: "app/",
   // The root URL of the annotating environment site

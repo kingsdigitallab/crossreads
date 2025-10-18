@@ -112,7 +112,10 @@ createApp({
     }
   },
   async mounted() {
-    await this.availableTags.load()
+    let res = await this.availableTags.load()
+    if (!res) {
+      this.logMessage(`Could not load tags`, 'danger')
+    }
 
     await this.initAnyFileSystem()
     

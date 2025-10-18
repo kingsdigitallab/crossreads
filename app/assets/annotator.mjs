@@ -241,7 +241,10 @@ createApp({
     }
   },
   async mounted() {
-    await this.availableTags.load()
+    let res = await this.availableTags.load()
+    if (!res) {
+      this.logMessage(`Could not load tags`, 'danger')
+    }
 
     // TODO: chain load (from objects, to image, ...) 
     // instead of loading all here.in parallel

@@ -60,20 +60,24 @@ export class AvailableTags {
     // union b/w tags from session & file
     this._tags = this._loadFromSession()
     let stats = await this._loadStats()
-    const statsDate = stats.meta['dc:modified']
+    if (stats) {
+      const statsDate = stats.meta['dc:modified']
 
-    // console.log(JSON.stringify(this._tags))
-    // remove all unused session tags 
-    for (const [t, d] of Object.entries(this._tags)) {
-      if (!stats.data['t'][t] && d < statsDate) {
-        console.log(`DELETE ${t}`)
-        delete this._tags[t]
+      // console.log(JSON.stringify(this._tags))
+      // remove all unused session tags 
+      for (const [t, d] of Object.entries(this._tags)) {
+        if (!stats.data['t'][t] && d < statsDate) {
+          console.log(`DELETE ${t}`)
+          delete this._tags[t]
+        }
+      }
+      // add all tags from the index
+      for (let t of Object.keys(stats.data['t'])) {
+        this._tags[t] = statsDate
       }
     }
-    // add all tags from the index
-    for (let t of Object.keys(stats.data['t'])) {
-      this._tags[t] = statsDate
-    }
+
+    return !!stats
   }
 
   async _loadStats() {

@@ -194,7 +194,7 @@ https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/ISic000085
 ⚠ If http://sicily.classics.ox.ac.uk/inscription/ISic000085.xml is changed to
 'https://sicily.classics.ox.ac.uk/inscription/', follow these steps:
 
-⚠ **NOT CURRENTLY POSSIBLE**
+⚠ **ONLY POSSIBLE if you change the scheme (http -> https) and not the web path or domain**
 
 1. change the address in the [DTS github action](https://github.com/ISicily/ISicily/blob/1affe1cc8ea91e2c2eb99d7bf9c91c8293ffeb18/.github/workflows/updateCollection.yaml#L18) 
 of the ISicily repo.

@@ -144,6 +144,9 @@ export const SETTINGS = {
   // IIIF_SERVER_BASE: "http://localhost:4000/images", // for TESTING ONLY
   IIIF_SERVER_OBJ_ID: "/inscription_images/{DOCID}/{IMGID}",
   DTS_COLLECTION: "https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json",
+  // TODO: ideally we shouldn't hard code this, see gh-61
+  // https://github.com/kingsdigitallab/crossreads/issues/61#issuecomment-3385499237
+  // the value comes from the DTS collection and is stored in the annotation
   DTS_DOC_BASE: "http://sicily.classics.ox.ac.uk/inscription/",
   ANNOTATION_URI_PREFIX: "https://crossreads.web.ox.ac.uk/annotations/",
   // where this site sends user for general Crossreads site

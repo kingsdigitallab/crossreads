@@ -148,7 +148,8 @@ export const SETTINGS = {
   // https://github.com/kingsdigitallab/crossreads/issues/61#issuecomment-3385499237
   // the value comes from the DTS collection and is stored in the annotation
   DTS_DOC_BASE: "http://sicily.classics.ox.ac.uk/inscription/",
-  ANNOTATION_URI_PREFIX: "https://crossreads.web.ox.ac.uk/annotations/",
+  // The prefix of the URI of every annotation, found in the annotation files
+  ANNOTATION_URI_PREFIX: "https://sicily.classics.ox.ac.uk/annotations/",
   // where this site sends user for general Crossreads site
   CROSSREADS_PORTAL_ROOT: "https://crossreads.web.ox.ac.uk/",
   // convert PLACES_IN_DISPLAY_ORDER into a list

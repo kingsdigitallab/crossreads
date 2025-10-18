@@ -9,7 +9,7 @@ class ConvertAnnotationURLs extends ConvertURLs {
         if (annotation?.id) {
             if (convertFromAndTo?.length) {
                 if (annotation.id.startsWith(convertFromAndTo[0])) {
-                    annotation.id = convertFromAndTo[1] + target.source.substring(convertFromAndTo[0].length)
+                    annotation.id = convertFromAndTo[1] + annotation.id.substring(convertFromAndTo[0].length)
                     ret += 1
                 }
             }

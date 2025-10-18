@@ -67,7 +67,7 @@ The IDs were converted in bulk using this command:
 
 ```bash
 cd tools/fixdata; 
-node convert-annotations-urls.mjs convert 'https://crossreads.web.ox.ac.uk/annotations/' 'https://sicily.classics.ox.ac.uk/annotations/'
+node convert-annotation-urls.mjs convert 'https://crossreads.web.ox.ac.uk/annotations/' 'https://sicily.classics.ox.ac.uk/annotations/'
 ```
 
 And the value of `ANNOTATION_URI_PREFIX` in `settings.mjs` was updated 

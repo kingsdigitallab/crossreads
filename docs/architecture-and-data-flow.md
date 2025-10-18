@@ -8,7 +8,7 @@ The annotating environment is a web application written in static html, js (vuej
 * TEI Collection is obtained from flatfile DTS endpoint on ISicily github repository
 * TEI documents obtained from that github repository
 * TEI transformed into HTML in teh browser using SaxonJS library
-* All other data files are stored in json format in this github repository (`/annotations` and `/app/data`)
+* All other data files (including annotations) are stored in json format in this github repository (`/annotations` and `/app/data`); Github is the only data management system
 * They are read and written using Github API (octokit)
 * Battery of nodejs/javscript tools for offline data processing lives under `/tools` folder
 * Github actions for generating the search index, stats.json, building the typology and publishing the site

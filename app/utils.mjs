@@ -39,13 +39,21 @@ async function mod(exports) {
     // Returns a URL on github to the key of a file from FILE_PATHS
     // e.g. 'CHANGE_QUEUE' => 
     // https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json
+    return exports.getGitUrlToPath(FILE_PATHS[file_key], isRaw)
+  }
+
+  exports.getGitUrlToPath = (path, isRaw) => {
     let ret = ''
-    if (isRaw) {
-      // https://raw.githubusercontent.com/kingsdigitallab/crossreads/refs/heads/main/app/data/change-queue.json
-      ret = `https://raw.githubusercontent.com/${SETTINGS.GITHUB_REPO_PATH}/refs/heads/main/${FILE_PATHS[file_key]}`
+    if (IS_READ_ONLY_AND_LOCAL) {
+      ret = `/${path.replace('app/', '')}`
     } else {
-      // https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json
-      ret = `${SETTINGS.GITHUB_REPO_URL}/blob/main/${FILE_PATHS[file_key]}`
+      if (isRaw) {
+        // https://raw.githubusercontent.com/kingsdigitallab/crossreads/refs/heads/main/app/data/change-queue.json
+        ret = `https://raw.githubusercontent.com/${SETTINGS.GITHUB_REPO_PATH}/refs/heads/main/${path}}`
+      } else {
+        // https://github.com/kingsdigitallab/crossreads/blob/main/annotations/change-queue.json
+        ret = `${SETTINGS.GITHUB_REPO_URL}/blob/main/${path}`
+      }
     }
     return ret
   }

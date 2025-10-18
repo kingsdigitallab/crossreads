@@ -17,7 +17,8 @@ export const FILE_PATHS = {
   STATS: "app/stats.json",
   THUMBS: "app/data/thumbs",
   INDEX_THUMBS: "app/data/thumbs/thumbs.json",
-  ANNOTATIONS: "annotations",
+  // ANNOTATIONS: "annotations",
+  ANNOTATIONS: "app/data/annotations",
 }
 
 // Ancient names of the places of origin of the inscriptions.

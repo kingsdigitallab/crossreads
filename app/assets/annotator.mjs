@@ -27,7 +27,7 @@ TODO:
 
 */
 
-import { utils, DEBUG_DONT_SAVE, FILE_PATHS, SETTINGS } from "../utils.mjs";
+import { utils, DEBUG_DONT_SAVE, FILE_PATHS, SETTINGS, IS_READ_ONLY_AND_LOCAL } from "../utils.mjs";
 import { xmlUtils } from "../xml-utils.mjs";
 import { AnyFileSystem } from "../any-file-system.mjs";
 import { crossreadsXML } from "../crossreads-xml.mjs";
@@ -1530,11 +1530,10 @@ createApp({
       return ret
     },
     getAnnotationsAbsolutePath() {
-      // TODO: might need to split if annotation hosted elsewhere
-      return `https://raw.githubusercontent.com/${SETTINGS.GITHUB_REPO_PATH}/main/${this.getAnnotationFilePath()}`;
+      return utils.getGitUrlToPath(this.getAnnotationFilePath())
     },
     getCollectionPath() {
-      return `https://github.com/${SETTINGS.GITHUB_REPO_PATH}/blob/main/${DTS_COLLECTION_PATH}`
+      return utils.getGitUrlTo('DTS_COLLECTION')
     },
     // Low-level Utilities
     getURIFromXMLPrefix(prefix) {

@@ -83,7 +83,7 @@ To assist with that, a CSV file with mapping
 (annotation URI -> annotation file URL) can be generated like this:
 
 ```bash
-cd tools; 
+cd tools
 node map-annotation-ids-to-files.mjs
 ```
 
@@ -157,7 +157,7 @@ This is redirected by the sicily site to the TEI URL on github:
 https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/ISic000085.xml
 
 ⚠ If http://sicily.classics.ox.ac.uk/inscription/ISic000085.xml is changed to
-a new address, follow these steps:
+'https://sicily.classics.ox.ac.uk/inscription/', follow these steps:
 
 ⚠ **NOT CURRENTLY POSSIBLE**
 
@@ -165,11 +165,14 @@ a new address, follow these steps:
 of the ISicily repo.
 2. change the value of `DTS_DOC_BASE` in 
 [settings.mjs](https://github.com/kingsdigitallab/crossreads/blob/551ec5092b75ff4a60f6da426aa8bea270a18e58/app/settings.mjs#L131) 
-to `https://sicily.classics.ox.ac.uk/image/`.
+to `https://sicily.classics.ox.ac.uk/inscription/`.
 3. convert all annotation file names (unless only the protocol has changed)
 (this script does not exist)
 4. convert the pointer to the TEI file in all annotation files 
-(this script does not yet exist; TODO)
+    ```bash
+    cd tools/fixdata
+    node convert-tei-urls.mjs convert 'http://sicily.classics.ox.ac.uk/inscription/' 'https://sicily.classics.ox.ac.uk/inscription/'
+    ```
 
 # Typology and type pages
 

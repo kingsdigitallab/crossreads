@@ -67,7 +67,6 @@
         "value": {
           "script": "greek",
           "components": null,
-          "textTarget": null,
           "tags": null,
           "character": "Κ"
         }
@@ -81,6 +80,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2500.2119140625,676.9627075195312,670.806640625,894.4484252929688"
         }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000085.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='20']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/10f2b3f5-0dc3-44de-955f-3c5b12ce9642",
@@ -88,7 +99,7 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2025-10-18T23:27:15.376Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2025-10-18T23:27:22.405Z"
+    "modified": "2025-10-18T23:27:28.049Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

@@ -38,4 +38,4 @@ let converter = new ConvertAnnotationURLs()
 converter.run()
 
 // Example:
-//  node convert-img-urls.mjs https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF= http://localhost:4000/images
+//  node convert-annotation-url.mjs 

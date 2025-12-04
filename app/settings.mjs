@@ -160,7 +160,7 @@ export const SETTINGS = {
   CROSSREADS_PORTAL_ROOT: "https://crossreads.web.ox.ac.uk/",
   // convert PLACES_IN_DISPLAY_ORDER into a list
   PLACES_IN_DISPLAY_ORDER: PLACES_IN_DISPLAY_ORDER.split("\n").map(p => p.trim()).filter(p => p.length),
-  XPATH_TRANSCRIPTION_IN_TEI: "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='transcription']",
+  XPATH_TRANSCRIPTION_IN_TEI: "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']",
   XPATH_TOKENS_IN_TEI: "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')]", // [@n='5']
   EXPECTED_TOKEN_TAGS: ['w', 'g', 'space', 'gap', 'orig'],
   // Special development mode if the site runs on that host.

@@ -9,6 +9,40 @@
         "format": "application/json",
         "value": {
           "script": "greek",
+          "components": null,
+          "tags": null,
+          "textTarget": null,
+          "character": "Ο"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic001467/ISic001467_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1036.533447265625,1245.066650390625,496.7999267578125,644"
+        }
+      }
+    ],
+    "id": "https://sicily.classics.ox.ac.uk/annotations/0f08b851-39e8-4832-9f46-1c9468b9f4d3",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2025-12-09T14:41:17.413Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2025-12-09T14:41:21.758Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
           "components": {
             "apex": {
               "features": [
@@ -737,11 +771,11 @@
               ]
             }
           },
-          "character": "Θ",
           "tags": [
             "type1",
             "type1.3"
-          ]
+          ],
+          "character": "Θ"
         }
       }
     ],

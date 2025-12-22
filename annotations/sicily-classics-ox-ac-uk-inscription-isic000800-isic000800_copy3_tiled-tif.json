@@ -1393,8 +1393,7 @@
         "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000800.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='AεAAΙ']",
-          "refinedBy": {
+          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='17']",          "refinedBy": {
             "type": "TextPositionSelector",
             "start": 5,
             "end": 6

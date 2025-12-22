@@ -1393,10 +1393,11 @@
         "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000800.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='17']",          "refinedBy": {
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='17']",
+          "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 5,
-            "end": 6
+            "start": 4,
+            "end": 5
           }
         }
       }
@@ -1406,7 +1407,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-09-30T08:03:19.220Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-10T16:29:30.458Z"
+    "modified": "2025-12-22T13:31:20.195Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

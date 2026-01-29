@@ -1,7 +1,7 @@
 {
   "meta": {
     "@context": "http://schema.org",
-    "dc:modified": "2026-01-29T14:24:00.089Z",
+    "dc:modified": "2026-01-29T18:21:51.583Z",
     "dc:creator": "https://github.com/kingsdigitallab/crossreads/blob/main/tools/index.mjs",
     "dc:source": "https://github.com/kingsdigitallab/crossreads/tree/main/annotations"
   },
@@ -1058,7 +1058,9 @@
       "tag": [
         "serif.cursive",
         "serif.wedged",
-        "type1"
+        "type1",
+        "type1.2",
+        "type1.2.1"
       ],
       "doc": "http://sicily.classics.ox.ac.uk/inscription/ISic000161.xml",
       "fil": "sicily-classics-ox-ac-uk-inscription-isic000161-isic000161_tiled-tif.json",
@@ -1116,7 +1118,9 @@
       "daf": 151,
       "dat": 250,
       "var": [
-        "type1"
+        "type1",
+        "type1.2",
+        "type1.2.1"
       ]
     },
     "latin-M-type1.1": {
@@ -1129,7 +1133,8 @@
       "tag": [
         "incomplete",
         "terminal",
-        "type1"
+        "type1",
+        "type1.1"
       ],
       "doc": "http://sicily.classics.ox.ac.uk/inscription/ISic000170.xml",
       "fil": "sicily-classics-ox-ac-uk-inscription-isic000170-isic000170_tiled-tif.json",
@@ -1457,6 +1462,76 @@
         "type2"
       ]
     },
+    "latin-M-type1.1.1": {
+      "id": "https://sicily.classics.ox.ac.uk/annotations/5d39e825-99b1-4d73-97c0-865490b84b22",
+      "chr": [
+        "M"
+      ],
+      "val": true,
+      "scr": "latin",
+      "tag": [
+        "serif.wedged",
+        "incomplete",
+        "type1",
+        "type1.1",
+        "type1.1.1"
+      ],
+      "doc": "http://sicily.classics.ox.ac.uk/inscription/ISic000183.xml",
+      "fil": "sicily-classics-ox-ac-uk-inscription-isic000183-isic000183_tiled-tif.json",
+      "img": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000183/ISic000183_tiled.tif",
+      "box": "1155,919,738,709",
+      "com": [
+        "apex",
+        "left-stroke",
+        "left-bar",
+        "right-bar",
+        "right-stroke"
+      ],
+      "fea": [
+        "angular",
+        "sans-serif",
+        "diagonal",
+        "on-baseline",
+        "straight",
+        "extending",
+        "serif"
+      ],
+      "cxf": [
+        "apex is angular",
+        "apex is sans-serif",
+        "left-stroke is diagonal",
+        "left-stroke is on-baseline",
+        "left-stroke is straight",
+        "left-bar is diagonal",
+        "left-bar is extending",
+        "left-bar is serif",
+        "left-bar is straight",
+        "left-bar is on-baseline",
+        "right-bar is diagonal",
+        "right-bar is sans-serif",
+        "right-bar is straight",
+        "right-bar is on-baseline",
+        "right-stroke is diagonal",
+        "right-stroke is extending",
+        "right-stroke is on-baseline",
+        "right-stroke is serif",
+        "right-stroke is straight"
+      ],
+      "pla": [
+        "thermae himeraeae"
+      ],
+      "mat": "limestone",
+      "wme": [
+        "chiselled"
+      ],
+      "daf": 101,
+      "dat": 300,
+      "var": [
+        "type1",
+        "type1.1",
+        "type1.1.1"
+      ]
+    },
     "latin-E-type3.2": {
       "id": "https://sicily.classics.ox.ac.uk/annotations/650cf1be-be88-459e-a252-c44e605e1694",
       "chr": [
@@ -1527,6 +1602,156 @@
       "var": [
         "type3",
         "type3.2"
+      ]
+    },
+    "latin-M-type1.2": {
+      "id": "https://sicily.classics.ox.ac.uk/annotations/45a8026d-05de-4006-97eb-f7499d4c77ce",
+      "chr": [
+        "M"
+      ],
+      "val": true,
+      "scr": "latin",
+      "tag": [
+        "serif.cursive",
+        "serif.wedged",
+        "type1",
+        "type1.2",
+        "type1.2.1"
+      ],
+      "doc": "http://sicily.classics.ox.ac.uk/inscription/ISic000161.xml",
+      "fil": "sicily-classics-ox-ac-uk-inscription-isic000161-isic000161_tiled-tif.json",
+      "img": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000161/ISic000161_tiled.tif",
+      "box": "2826,722,981,654",
+      "com": [
+        "apex",
+        "left-stroke",
+        "left-bar",
+        "right-bar",
+        "right-stroke"
+      ],
+      "fea": [
+        "angular",
+        "sans-serif",
+        "diagonal",
+        "on-baseline",
+        "serif",
+        "straight",
+        "extending",
+        "long",
+        "curved"
+      ],
+      "cxf": [
+        "apex is angular",
+        "apex is sans-serif",
+        "left-stroke is diagonal",
+        "left-stroke is on-baseline",
+        "left-stroke is serif",
+        "left-stroke is straight",
+        "left-bar is diagonal",
+        "left-bar is extending",
+        "left-bar is long",
+        "left-bar is on-baseline",
+        "left-bar is serif",
+        "left-bar is straight",
+        "right-bar is diagonal",
+        "right-bar is on-baseline",
+        "right-bar is sans-serif",
+        "right-bar is straight",
+        "right-stroke is diagonal",
+        "right-stroke is extending",
+        "right-stroke is long",
+        "right-stroke is on-baseline",
+        "right-stroke is serif",
+        "right-stroke is curved"
+      ],
+      "pla": [
+        "thermae himeraeae"
+      ],
+      "mat": "marble",
+      "wme": [
+        "chiselled"
+      ],
+      "daf": 151,
+      "dat": 250,
+      "var": [
+        "type1",
+        "type1.2",
+        "type1.2.1"
+      ]
+    },
+    "latin-M-type1.2.1": {
+      "id": "https://sicily.classics.ox.ac.uk/annotations/45a8026d-05de-4006-97eb-f7499d4c77ce",
+      "chr": [
+        "M"
+      ],
+      "val": true,
+      "scr": "latin",
+      "tag": [
+        "serif.cursive",
+        "serif.wedged",
+        "type1",
+        "type1.2",
+        "type1.2.1"
+      ],
+      "doc": "http://sicily.classics.ox.ac.uk/inscription/ISic000161.xml",
+      "fil": "sicily-classics-ox-ac-uk-inscription-isic000161-isic000161_tiled-tif.json",
+      "img": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000161/ISic000161_tiled.tif",
+      "box": "2826,722,981,654",
+      "com": [
+        "apex",
+        "left-stroke",
+        "left-bar",
+        "right-bar",
+        "right-stroke"
+      ],
+      "fea": [
+        "angular",
+        "sans-serif",
+        "diagonal",
+        "on-baseline",
+        "serif",
+        "straight",
+        "extending",
+        "long",
+        "curved"
+      ],
+      "cxf": [
+        "apex is angular",
+        "apex is sans-serif",
+        "left-stroke is diagonal",
+        "left-stroke is on-baseline",
+        "left-stroke is serif",
+        "left-stroke is straight",
+        "left-bar is diagonal",
+        "left-bar is extending",
+        "left-bar is long",
+        "left-bar is on-baseline",
+        "left-bar is serif",
+        "left-bar is straight",
+        "right-bar is diagonal",
+        "right-bar is on-baseline",
+        "right-bar is sans-serif",
+        "right-bar is straight",
+        "right-stroke is diagonal",
+        "right-stroke is extending",
+        "right-stroke is long",
+        "right-stroke is on-baseline",
+        "right-stroke is serif",
+        "right-stroke is curved"
+      ],
+      "pla": [
+        "thermae himeraeae"
+      ],
+      "mat": "marble",
+      "wme": [
+        "chiselled"
+      ],
+      "daf": 151,
+      "dat": 250,
+      "var": [
+        "type1",
+        "type1.2",
+        "type1.2.1"
       ]
     },
     "latin-L-type1": {

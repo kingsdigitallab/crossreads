@@ -565,6 +565,69 @@
         "value": {
           "script": "greek",
           "components": {
+            "downstroke": {
+              "features": [
+                "vertical"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal",
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "straight"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Υ"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic004370/ISic004370_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:823.5104370117188,792.6551513671875,151.999755859375,183.5841064453125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic004370.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='100']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 4,
+            "end": 5
+          }
+        }
+      }
+    ],
+    "id": "https://sicily.classics.ox.ac.uk/annotations/834aef02-3d28-400e-b657-732380624dd1",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2026-04-21T13:51:42.954Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2026-04-21T13:51:47.447Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
+          "components": {
             "left-bar": {
               "features": [
                 "diagonal",

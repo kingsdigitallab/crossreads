@@ -8,11 +8,33 @@
         "purpose": "describing",
         "format": "application/json",
         "value": {
-          "script": "greek",
-          "components": null,
+          "script": "latin",
+          "components": {
+            "left-bar": {
+              "features": [
+                "diagonal"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal"
+              ]
+            },
+            "right-bar": {
+              "features": [
+                "diagonal"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal",
+                "straight"
+              ]
+            }
+          },
           "tags": null,
-          "allograph": null,
-          "textTarget": null
+          "textTarget": null,
+          "character": "M"
         }
       }
     ],
@@ -29,6 +51,8 @@
     "id": "https://sicily.classics.ox.ac.uk/annotations/e620c112-4e71-4d1f-9d3e-3a8e558a3bc6",
     "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
     "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2026-04-28T13:25:16.153Z"
+    "created": "2026-04-28T13:25:16.153Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2026-04-28T13:25:25.972Z"
   }
 ]

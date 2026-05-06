@@ -13,7 +13,7 @@ CROSSREADS site: https://crossreads.web.ox.ac.uk/
 
 ## Annotating environment
 
-The environment is a web application to assist CORSSREADS researchers with the
+The environment is a web application to assist CROSSREADS researchers with the
 creation of their palaeographic definitions and the annotation of graphs
 from inscriptions using those definitions.
 

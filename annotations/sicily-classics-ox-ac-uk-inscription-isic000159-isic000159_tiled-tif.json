@@ -58,7 +58,7 @@
         "source": "http://sicily.classics.ox.ac.uk/inscription/ISic000159.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='APοAy']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='10']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 3,
@@ -72,7 +72,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2025-04-03T22:30:36.039Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-02-11T14:45:20.815Z"
+    "modified": "2026-06-01T15:37:32.450Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

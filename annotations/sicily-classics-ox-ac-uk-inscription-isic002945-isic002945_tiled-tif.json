@@ -550,6 +550,71 @@
         "value": {
           "script": "greek",
           "components": {
+            "left-stroke": {
+              "features": [
+                "straight",
+                "vertical"
+              ]
+            },
+            "middle-stroke": {
+              "features": [
+                "diagonal"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "on-baseline",
+                "straight"
+              ]
+            }
+          },
+          "tags": [
+            "incomplete"
+          ],
+          "character": "Ν"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic002945/ISic002945_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1634.18798828125,926.0814208984375,257.547607421875,247.641845703125"
+        }
+      },
+      {
+        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic002945.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='15']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 3,
+            "end": 4
+          }
+        }
+      }
+    ],
+    "id": "https://sicily.classics.ox.ac.uk/annotations/2deca334-6c2e-41f5-a750-34f56a8bc355",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2026-09-23T23:14:36.223Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2026-09-23T23:14:43.923Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
+          "components": {
             "body": {
               "features": [
                 "circular",
@@ -806,86 +871,6 @@
     "created": "2024-12-19T13:38:45.602Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2025-07-10T15:55:17.197Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
-      {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": {
-          "script": "greek",
-          "components": {
-            "apex": {
-              "features": [
-                "angular",
-                "sans-serif"
-              ]
-            },
-            "crossbar": {
-              "features": [
-                "horizontal",
-                "sans-serif",
-                "straight",
-                "touching"
-              ]
-            },
-            "left-stroke": {
-              "features": [
-                "diagonal",
-                "on-baseline",
-                "serif",
-                "straight"
-              ]
-            },
-            "right-stroke": {
-              "features": [
-                "diagonal",
-                "on-baseline",
-                "serif",
-                "straight"
-              ]
-            }
-          },
-          "tags": [
-            "serif.slab",
-            "type1",
-            "type1.3"
-          ],
-          "character": "Α"
-        }
-      }
-    ],
-    "target": [
-      {
-        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic002945/ISic002945_tiled.tif",
-        "selector": {
-          "type": "FragmentSelector",
-          "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:1843.2396240234375,955.5308227539062,232.7833251953125,225.35406494140625"
-        }
-      },
-      {
-        "source": "http://sicily.classics.ox.ac.uk/inscription/ISic002945.xml",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//*[@xml:id='CτyBK']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 1,
-            "end": 2
-          }
-        }
-      }
-    ],
-    "id": "https://sicily.classics.ox.ac.uk/annotations/5d4e0d55-89f3-4743-9df8-50b979943a66",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
-    "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2024-12-19T10:03:18.346Z",
-    "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-23T23:10:53.315Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1615,6 +1600,38 @@
     "created": "2024-12-19T10:04:57.284Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
     "modified": "2025-09-22T13:09:58.056Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
+          "components": null,
+          "tags": null,
+          "allograph": null,
+          "textTarget": null
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic002945/ISic002945_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:1837.25439453125,938.4635009765625,264.976806640625,247.6419677734375"
+        }
+      }
+    ],
+    "id": "https://sicily.classics.ox.ac.uk/annotations/8b17ec88-177a-48ba-bf28-9cc3dd84e7a1",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2026-09-23T23:14:49.765Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

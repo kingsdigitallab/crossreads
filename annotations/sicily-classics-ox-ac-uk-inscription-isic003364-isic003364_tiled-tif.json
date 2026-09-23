@@ -313,11 +313,11 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic003364.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='DkoAy']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='20']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 1,
-            "end": 2
+            "start": 2,
+            "end": 3
           }
         }
       }
@@ -327,7 +327,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:08:49.033Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-09-09T16:59:24.235Z"
+    "modified": "2026-09-23T22:49:35.621Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -650,6 +650,7 @@
             "type2.3.1",
             "type2"
           ],
+          "textTarget": null,
           "character": "Ε"
         }
       }
@@ -681,7 +682,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:08:23.845Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-05-15T15:55:39.830Z"
+    "modified": "2026-09-23T22:49:49.158Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1314,11 +1315,11 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic003364.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='DkoAy']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='20']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 3,
-            "end": 4
+            "start": 4,
+            "end": 5
           }
         }
       }
@@ -1328,7 +1329,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:08:16.735Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-02-06T17:25:40.460Z"
+    "modified": "2026-09-23T22:50:01.882Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -2381,11 +2382,11 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic003364.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='DkoAy']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='20']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 2,
-            "end": 3
+            "start": 3,
+            "end": 4
           }
         }
       }
@@ -2395,7 +2396,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:08:42.668Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-02-06T17:25:40.460Z"
+    "modified": "2026-09-23T22:49:57.045Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -3089,16 +3090,27 @@
         "value": {
           "script": "greek",
           "components": {
-            "body": {
+            "left-stroke": {
               "features": [
-                "square"
+                "straight"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "above-baseline",
+                "straight"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "horizontal"
               ]
             }
           },
           "tags": [
             "type5"
           ],
-          "character": "Ο"
+          "character": "Π"
         }
       }
     ],
@@ -3129,7 +3141,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:06:49.153Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-03-03T15:54:07.868Z"
+    "modified": "2026-09-23T22:48:23.083Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

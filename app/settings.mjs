@@ -153,7 +153,7 @@ export const SETTINGS = {
   // TODO: ideally we shouldn't hard code this, see gh-61
   // https://github.com/kingsdigitallab/crossreads/issues/61#issuecomment-3385499237
   // the value comes from the DTS collection and is stored in the annotation
-  DTS_DOC_BASE: "http://sicily.classics.ox.ac.uk/inscription/",
+  DTS_DOC_BASE: "https://sicily.classics.ox.ac.uk/inscription/",
   // The prefix of the URI of every annotation, found in the annotation files
   ANNOTATION_URI_PREFIX: "https://sicily.classics.ox.ac.uk/annotations/",
   // where this site sends user for general Crossreads site

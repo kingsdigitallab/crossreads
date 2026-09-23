@@ -10,16 +10,35 @@
         "value": {
           "script": "greek",
           "components": {
-            "body": {
+            "bottom-bar": {
               "features": [
-                "square"
+                "horizontal",
+                "touching"
+              ]
+            },
+            "downstroke": {
+              "features": [
+                "straight"
+              ]
+            },
+            "middle-bar": {
+              "features": [
+                "horizontal",
+                "one",
+                "touching"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "horizontal",
+                "touching"
               ]
             }
           },
           "tags": [
             "type5"
           ],
-          "character": "Ο"
+          "character": "Ε"
         }
       }
     ],
@@ -50,7 +69,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:11:20.060Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-03-03T15:54:07.868Z"
+    "modified": "2026-09-23T22:51:06.817Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -650,7 +669,6 @@
             "type2.3.1",
             "type2"
           ],
-          "textTarget": null,
           "character": "Ε"
         }
       }
@@ -668,11 +686,11 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic003364.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='DkoAy']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='20']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 4,
-            "end": 5
+            "start": 5,
+            "end": 6
           }
         }
       }
@@ -682,7 +700,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:08:23.845Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-23T22:49:49.158Z"
+    "modified": "2026-09-23T22:50:14.073Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -3602,11 +3620,11 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic003364.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='DkoAy']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='20']",
           "refinedBy": {
             "type": "TextPositionSelector",
-            "start": 5,
-            "end": 6
+            "start": 6,
+            "end": 7
           }
         }
       }
@@ -3616,7 +3634,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2023-11-24T21:09:30.549Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-04-02T15:32:18.059Z"
+    "modified": "2026-09-23T22:50:19.105Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

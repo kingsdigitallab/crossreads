@@ -500,14 +500,14 @@ createApp({
     objectDtsURL() {
       let ret = this.object["dts:download"] || null
       if (ret) {
-        if (ret.startsWith('http:/')) {
+        if (ret.includes('//sicily.classics.ox.ac.uk/')) {
           // see gh-61
           // http://sicily.classics.ox.ac.uk/inscription/ISic000086.xml?ts=2024-04-18T16
           // https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/ISic000086.xml?ts=2024-04-18T16        
           // temporary patch: we fetch the github url
           let retOld = ret;
           ret = ret.replace(/^.*(ISic[^/]*\.xml).*$/, 'https://raw.githubusercontent.com/ISicily/ISicily/master/inscriptions/$1')
-          this.logWarning(`Converted invalid http URL (${retOld}) to https (${ret}). See Issue 61 on github.`)
+          this.logWarning(`Converted CORS-blocked request to github (${retOld}) to https (${ret}). See issues 61 + 130 on github.`)
         }
       }
       return ret

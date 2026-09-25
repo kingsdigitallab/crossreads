@@ -3578,6 +3578,51 @@
         "format": "application/json",
         "value": {
           "script": "greek",
+          "components": null,
+          "tags": null,
+          "character": "Α"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic003364/ISic003364_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2710.176025390625,524.164794921875,82.472412109375,79.85589599609375"
+        }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic003364.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='60']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
+      }
+    ],
+    "id": "https://sicily.classics.ox.ac.uk/annotations/ffa573c4-3a8f-43bb-bad5-b506c4f80f6e",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2026-09-25T15:36:24.186Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2026-09-25T15:36:25.626Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
           "components": {
             "downstroke": {
               "features": [

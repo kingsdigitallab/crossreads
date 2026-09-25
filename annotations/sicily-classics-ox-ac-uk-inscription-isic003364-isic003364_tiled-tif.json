@@ -82,6 +82,76 @@
         "value": {
           "script": "greek",
           "components": {
+            "bottom-bar": {
+              "features": [
+                "horizontal",
+                "touching"
+              ]
+            },
+            "downstroke": {
+              "features": [
+                "straight"
+              ]
+            },
+            "middle-bar": {
+              "features": [
+                "horizontal",
+                "one",
+                "touching"
+              ]
+            },
+            "top-bar": {
+              "features": [
+                "horizontal",
+                "touching"
+              ]
+            }
+          },
+          "tags": null,
+          "character": "Ε"
+        }
+      }
+    ],
+    "target": [
+      {
+        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic003364/ISic003364_tiled.tif",
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=pixel:2776.030517578125,528.8570556640625,64.54541015625,86.3636474609375"
+        }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic003364.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='60']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
+      }
+    ],
+    "id": "https://sicily.classics.ox.ac.uk/annotations/04028c98-0ea6-4fca-847a-52c685cc03f4",
+    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
+    "creator": "https://api.github.com/users/simonastoyanova",
+    "created": "2026-09-25T15:36:43.147Z",
+    "modifiedBy": "https://api.github.com/users/simonastoyanova",
+    "modified": "2026-09-25T15:36:56.119Z"
+  },
+  {
+    "@context": "http://www.w3.org/ns/anno.jsonld",
+    "type": "Annotation",
+    "body": [
+      {
+        "type": "TextualBody",
+        "purpose": "describing",
+        "format": "application/json",
+        "value": {
+          "script": "greek",
+          "components": {
             "left-stroke": {
               "features": [
                 "on-baseline",
@@ -3578,7 +3648,29 @@
         "format": "application/json",
         "value": {
           "script": "greek",
-          "components": null,
+          "components": {
+            "apex": {
+              "features": [
+                "angular"
+              ]
+            },
+            "crossbar": {
+              "features": [
+                "straight",
+                "vertical"
+              ]
+            },
+            "left-stroke": {
+              "features": [
+                "diagonal"
+              ]
+            },
+            "right-stroke": {
+              "features": [
+                "diagonal"
+              ]
+            }
+          },
           "tags": null,
           "character": "Α"
         }
@@ -3611,7 +3703,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2026-09-25T15:36:24.186Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-25T15:36:25.626Z"
+    "modified": "2026-09-25T15:36:36.017Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

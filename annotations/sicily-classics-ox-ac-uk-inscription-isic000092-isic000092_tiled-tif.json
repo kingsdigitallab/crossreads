@@ -456,6 +456,7 @@
             "type1",
             "type1.2"
           ],
+          "textTarget": null,
           "character": "L"
         }
       }
@@ -468,18 +469,6 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2425.3525390625,2254.940673828125,183.79638671875,213.6435546875"
         }
-      },
-      {
-        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000092.xml",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='130']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 2,
-            "end": 3
-          }
-        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/0cda78f9-3f6a-4c27-91f5-72be795a3c69",
@@ -487,7 +476,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T19:39:30.706Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-09-29T16:23:17.988Z"
+    "modified": "2026-09-28T16:41:26.204Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -1131,7 +1120,6 @@
             "type2",
             "type2.2"
           ],
-          "textTarget": null,
           "character": "P"
         }
       }
@@ -1144,6 +1132,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:4276.1787109375,1957.835693359375,126.9814453125,219.92724609375"
         }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000092.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='130']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 1,
+            "end": 2
+          }
+        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/25b8728f-d204-4ea5-9a2b-dbcbc9ccf2ff",
@@ -1151,7 +1151,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T19:30:00.796Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-28T16:40:25.699Z"
+    "modified": "2026-09-28T16:41:19.188Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -3593,7 +3593,6 @@
             "type3",
             "type3.2"
           ],
-          "textTarget": null,
           "character": "E"
         }
       }
@@ -3606,6 +3605,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:4536.2724609375,1954.150634765625,146.181640625,220.36376953125"
         }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000092.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='130']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 3,
+            "end": 4
+          }
+        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/694ab4c5-ebfc-4846-9652-33418de19877",
@@ -3613,7 +3624,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T19:31:54.316Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-28T16:40:39.722Z"
+    "modified": "2026-09-28T16:41:32.899Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -6685,6 +6696,7 @@
           "tags": [
             "type2"
           ],
+          "textTarget": null,
           "character": "O"
         }
       }
@@ -6697,18 +6709,6 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2269.83251953125,2250.227783203125,149.236328125,205.7890625"
         }
-      },
-      {
-        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000092.xml",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='130']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 1,
-            "end": 2
-          }
-        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/c778a83d-68f4-4cf2-a23b-5613a87e05af",
@@ -6716,7 +6716,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T19:39:15.508Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-02-11T14:52:32.266Z"
+    "modified": "2026-09-28T16:41:17.057Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -7286,7 +7286,6 @@
             "type1",
             "type1.2"
           ],
-          "textTarget": null,
           "character": "L"
         }
       }
@@ -7299,6 +7298,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:4386.14208984375,1960.453857421875,178.03662109375,217.30908203125"
         }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000092.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='130']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/d5241530-59b7-4b35-94c7-45a9af791eec",
@@ -7306,7 +7317,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-09T19:30:18.369Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-28T16:40:32.470Z"
+    "modified": "2026-09-28T16:41:28.184Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

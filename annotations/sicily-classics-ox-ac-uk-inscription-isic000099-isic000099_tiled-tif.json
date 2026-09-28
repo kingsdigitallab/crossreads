@@ -3121,7 +3121,6 @@
           "script": "latin",
           "components": null,
           "tags": null,
-          "textTarget": null,
           "character": "punctuation"
         }
       }
@@ -3134,6 +3133,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:2209.22412109375,2792.20654296875,53.718994140625,75.757568359375"
         }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000099.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='250']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 0,
+            "end": 1
+          }
+        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/3e6b8dc2-83e5-475c-a9de-71ba2e68c241",
@@ -3141,7 +3152,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-29T14:27:19.351Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-28T17:03:27.306Z"
+    "modified": "2026-09-28T17:04:05.018Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -5234,7 +5245,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000099.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='240']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='245']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 6,
@@ -5248,7 +5259,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-29T14:26:12.571Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-09-29T16:00:33.167Z"
+    "modified": "2026-09-28T17:03:58.609Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -6473,7 +6484,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000099.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='240']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='245']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 7,
@@ -6487,7 +6498,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-29T14:26:28.072Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2025-07-07T10:28:32.143Z"
+    "modified": "2026-09-28T17:04:02.586Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -9057,7 +9068,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000099.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='240']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='245']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 5,
@@ -9071,7 +9082,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-04-29T14:25:45.500Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-02-11T11:57:21.247Z"
+    "modified": "2026-09-28T17:03:56.074Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

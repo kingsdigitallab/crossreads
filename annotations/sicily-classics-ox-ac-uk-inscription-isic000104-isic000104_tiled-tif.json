@@ -67,68 +67,6 @@
         "value": {
           "script": "latin",
           "components": {
-            "bowl": {
-              "features": [
-                "closed",
-                "round"
-              ]
-            },
-            "downstroke": {
-              "features": [
-                "straight"
-              ]
-            },
-            "right-bar": {
-              "features": [
-                "diagonal"
-              ]
-            }
-          },
-          "tags": null,
-          "character": "R"
-        }
-      }
-    ],
-    "target": [
-      {
-        "source": "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/ISic000104/ISic000104_tiled.tif",
-        "selector": {
-          "type": "FragmentSelector",
-          "conformsTo": "http://www.w3.org/TR/media-frags/",
-          "value": "xywh=pixel:2716.1767578125,1632.588623046875,340.149169921875,561.985595703125"
-        }
-      },
-      {
-        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000104.xml",
-        "selector": {
-          "type": "XPathSelector",
-          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='30']",
-          "refinedBy": {
-            "type": "TextPositionSelector",
-            "start": 3,
-            "end": 4
-          }
-        }
-      }
-    ],
-    "id": "https://sicily.classics.ox.ac.uk/annotations/20ce29fe-320b-4713-a006-eb89583e2dbd",
-    "generator": "https://github.com/kingsdigitallab/crossreads#2023-09-01-00",
-    "creator": "https://api.github.com/users/simonastoyanova",
-    "created": "2026-09-28T18:14:21.155Z",
-    "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-28T18:14:41.877Z"
-  },
-  {
-    "@context": "http://www.w3.org/ns/anno.jsonld",
-    "type": "Annotation",
-    "body": [
-      {
-        "type": "TextualBody",
-        "purpose": "describing",
-        "format": "application/json",
-        "value": {
-          "script": "latin",
-          "components": {
             "left-stroke": {
               "features": [
                 "on-baseline",

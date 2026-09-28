@@ -24,7 +24,8 @@ const UNSPECIFIED_CHARACTER = 'Unspecified character'
 class ConvertTokensInAnnotations {
 
   constructor() {
-    this.errors = {}
+    // this.errors = {}
+    this.warningStats = {}
   }
 
   async run() {
@@ -56,6 +57,8 @@ class ConvertTokensInAnnotations {
         // break
       }
     }
+
+    this.logWarningsStats()
 
     console.log(`${withN} TEI files use the new token id system (@n); ${total} files in total.`)
 
@@ -96,7 +99,7 @@ class ConvertTokensInAnnotations {
           continue
         }
         if (start === -1) {
-          console.log(`WARN: annotation points to a token id but not a sign index ${reference}`)
+          this.logWarning(`annotation points to a token id but not a sign index "${reference}"`)
           continue
         }
 
@@ -125,7 +128,7 @@ class ConvertTokensInAnnotations {
                 let nearestN = xmlUtils.getAttr(nearestNNode, 'data-tei-n')
                 let nearestNTag = xmlUtils.getAttr(nearestNNode, 'data-tei')
                 if (!SETTINGS.EXPECTED_TOKEN_TAGS.includes(nearestNTag)) {
-                  console.log(`WARN: ancestor with @n has an unexpected tag: <${nearestNTag}> ${reference}`)
+                  this.logWarning(`ancestor with @n has an unexpected tag: <"${nearestNTag}"> "${reference}"`)
                 }
                 let signIdx = xmlUtils.getAttr(signSpan, 'data-idx-n')
 
@@ -142,14 +145,14 @@ class ConvertTokensInAnnotations {
                 console.log(`${status}: ${oldId}.${start} -> ${nearestN}.${signIdx} ${reference}`)
               } else {
                 // console.log(xpathTokenHtml)
-                console.log(`WARN: Annotated sign has no ancestor with @n ${reference}`)
+                this.logWarning(`Annotated sign has no ancestor with @n "${reference}"`)
               }
             }
           } else {
-            console.log(`WARN: Annotation character (${characterInDescription}) and linked TEI sign (${signInEdition}) don't match ${reference}`)
+            this.logWarning(`Annotation character "${characterInDescription}" and linked TEI sign "${signInEdition}" don't match "${reference}"`)
           }
         } else {
-          console.log(`WARN: Sign not found in TEI ${reference}`)
+          this.logWarning(`Sign not found in TEI. Path: "${value}"; Ref: "${reference}"`)
         }
 
       }
@@ -170,10 +173,26 @@ class ConvertTokensInAnnotations {
     let nodesWithN = await xmlUtils.xpath(xml, xpath)
 
     if (!nodesWithN.length) {
-      console.log(`WARN: no token with @n in the edition ${xmlPath}`)
+      this.logWarning(`no token with @n in the edition "${xmlPath}"`)
     }
 
     return nodesWithN.length > 0
+  }
+
+  logWarning(message) {
+    let label = message.replace(/"[^"]+"/g, '"X"')
+    console.log(`WARN: ${message}`)
+    if (!this.warningStats[label]) {
+      this.warningStats[label] = 0;
+    }
+    this.warningStats[label]++;
+  }
+
+  logWarningsStats() {
+    console.log(`Warnings summary:`)
+    for (let [label, count] of Object.entries(this.warningStats)) {
+      console.log(`  ${count} x ${label} `)
+    }
   }
 
   showHelp(args) {

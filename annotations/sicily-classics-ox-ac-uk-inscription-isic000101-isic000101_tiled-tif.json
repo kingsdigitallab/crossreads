@@ -555,7 +555,6 @@
           "tags": [
             "type2"
           ],
-          "textTarget": null,
           "character": "R"
         }
       }
@@ -568,6 +567,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:1086.83349609375,2398.4853515625,473.2509765625,438.7431640625"
         }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000101.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='60']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/7f93a5de-e289-4ed0-8778-9e0e8730da54",
@@ -575,7 +586,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-05-14T15:44:04.212Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-28T17:07:00.788Z"
+    "modified": "2026-09-28T17:07:16.480Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -702,7 +713,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000101.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='55']",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='60']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 3,
@@ -716,7 +727,7 @@
     "creator": "https://api.github.com/users/simonastoyanova",
     "created": "2024-07-08T18:32:26.820Z",
     "modifiedBy": "https://api.github.com/users/simonastoyanova",
-    "modified": "2026-09-21T11:16:51.514Z"
+    "modified": "2026-09-28T17:07:19.768Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

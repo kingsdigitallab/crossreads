@@ -45,3 +45,11 @@ cases = [
 ]
 
 testFunction('utils.getDisplayDateRange', cases)
+
+cases = [
+  [['a', 'b'], false],
+  [['A', 'a'], true],
+  [['Σ', 'ς'], true],
+]
+
+testFunction('utils.areSignsEquivalent', cases)

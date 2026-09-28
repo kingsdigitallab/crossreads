@@ -46,7 +46,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic001832.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='BθUAU']",
+          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='5']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 2,
@@ -134,7 +134,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic001832.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='BθUAU']",
+          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='5']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 1,
@@ -190,7 +190,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic001832.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='BθUAU']",
+          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='5']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 0,
@@ -263,7 +263,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic001832.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='BθUAU']",
+          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='5']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 6,

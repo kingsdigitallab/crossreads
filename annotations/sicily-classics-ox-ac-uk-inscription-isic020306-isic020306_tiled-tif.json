@@ -274,7 +274,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic020306.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='UeΙAΙ']",
+          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='15']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 1,
@@ -445,7 +445,7 @@
         "source": "https://sicily.classics.ox.ac.uk/inscription/ISic020306.xml",
         "selector": {
           "type": "XPathSelector",
-          "value": "//*[@xml:id='UeΙAΙ']",
+          "value": "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='15']",
           "refinedBy": {
             "type": "TextPositionSelector",
             "start": 0,

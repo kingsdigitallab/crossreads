@@ -417,6 +417,9 @@ async function mod(exports) {
       if (ret === '·') ret = 'punctuation'
       if (ret === '❦') ret = 'punctuation'
       if (ret === ':') ret = 'punctuation'
+      if (ret === '–') ret = 'punctuation'
+      if (ret === 'ς') ret = 'Σ'
+      ret = ret.toLowerCase()
       return ret
     })
 

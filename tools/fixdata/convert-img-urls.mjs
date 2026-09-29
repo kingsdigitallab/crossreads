@@ -1,4 +1,5 @@
 import { ConvertURLs } from './convert-urls.mjs';
+import { SETTINGS } from '../../app/settings.mjs';
 
 
 export class ConvertImageURLs extends ConvertURLs {
@@ -11,6 +12,11 @@ export class ConvertImageURLs extends ConvertURLs {
                 if (convertFromAndTo?.length) {
                     if (target.source.startsWith(convertFromAndTo[0])) {
                         target.source = convertFromAndTo[1] + target.source.substring(convertFromAndTo[0].length)
+                        // remove docid if no longer used 
+                        // e.g. /ISic020304/ -> ''
+                        if (!SETTINGS.IIIF_SERVER_OBJ_ID.includes('/{DOCID}/')) {
+                            target.source = target.source.replace(/\/isic\d+\//i, '/')
+                        }
                         ret += 1
                     }
                 }

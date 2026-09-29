@@ -1190,7 +1190,8 @@ createApp({
         if (DEBUG_DONT_SAVE) {
           console.log('WARNING: DEBUG_DONT_SAVE = True => skip saving.')
           console.log(annotations)
-          this.logWarning(`WARNING: DEBUGGING MODE ON. Your changes were NOT saved to github.`)
+          //// this.logWarning(`WARNING: DEBUGGING MODE ON. Your changes were NOT saved to github.`)
+          this.logWarning(`Palaeographic environment is temporarily in READ ONLY mode while KDL is changing the code.`)
         } else {
           // this.annotationsSha = await utils.updateGithubJsonFile(filePath, annotations, this.getOctokit(), sha)
           let res = await this.afs.writeJson(filePath, annotations, this.annotationsSha)

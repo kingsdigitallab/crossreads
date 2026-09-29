@@ -9,9 +9,8 @@
         "format": "application/json",
         "value": {
           "script": "",
-          "allograph": null,
+          "allograph": "",
           "components": null,
-          "textTarget": null,
           "tags": null
         }
       }
@@ -24,6 +23,18 @@
           "conformsTo": "http://www.w3.org/TR/media-frags/",
           "value": "xywh=pixel:345.233642578125,228.3254852294922,229.31689453125,343.8349151611328"
         }
+      },
+      {
+        "source": "https://sicily.classics.ox.ac.uk/inscription/ISic000007.xml",
+        "selector": {
+          "type": "XPathSelector",
+          "value": "//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][@n='5']",
+          "refinedBy": {
+            "type": "TextPositionSelector",
+            "start": 2,
+            "end": 3
+          }
+        }
       }
     ],
     "id": "https://sicily.classics.ox.ac.uk/annotations/c4be8429-a95a-44b2-b88b-b87199ba8844",
@@ -31,7 +42,7 @@
     "creator": "https://api.github.com/users/geoffroy-noel-ddh",
     "created": "2026-09-29T21:33:11.948Z",
     "modifiedBy": "https://api.github.com/users/geoffroy-noel-ddh",
-    "modified": "2026-09-29T21:33:15.113Z"
+    "modified": "2026-09-29T21:33:22.936Z"
   },
   {
     "@context": "http://www.w3.org/ns/anno.jsonld",

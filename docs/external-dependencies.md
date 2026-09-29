@@ -12,7 +12,7 @@ But be aware that changing the values sometimes need to be accompanied
 by a conversion of the data files. The following sections cover the main
 categories.
 
-# Tokens in the TEI
+# Tokens in the TEI (IMPLEMENTED 2026 SoW)
 
 [See Github issue #108](https://github.com/kingsdigitallab/crossreads/issues/gh-108)
 
@@ -58,7 +58,7 @@ node convert-token-ids-2025.mjs check > conversion.log
 
 Then check conversion.log for issues.
 
-# Annotation IDs
+# Annotation IDs (CHECKED 2026 SoW)
 
 [See Github issue #124](https://github.com/kingsdigitallab/crossreads/issues/124)
 
@@ -83,7 +83,7 @@ node convert-annotation-urls.mjs convert 'https://crossreads.web.ox.ac.uk/annota
 And the value of `ANNOTATION_URI_PREFIX` in `settings.mjs` was updated 
 accordingly so new annotations created by the annotator use the new prefix. 
 
-## Dereferencing annotation IDs
+## Dereferencing annotation IDs (WONT)
 
 Annotation URIs are not dereferencable. 
 But they could lead to the annotation file if bulk redirects are set up
@@ -100,7 +100,7 @@ node map-annotation-ids-to-files.mjs
 This can be uploaded to Excel for bulk replacement of prefixes 
 if they need to match other permanent URLs.
 
-# Image server
+# Image server (IMPLEMENTED 2026 SoW)
 
 [See Github issue #109](https://github.com/kingsdigitallab/crossreads/issues/gh-109)
 
@@ -143,7 +143,7 @@ npm run index
 9. when the changes have been published to the live site, 
 retest (4) and (5) there
 
-## Image URL in the TEI files
+## Image URL in the TEI files (IMPLEMENTED 2026 SoW)
 
 [See Github issue #109](https://github.com/kingsdigitallab/crossreads/issues/gh-109)
 
@@ -168,7 +168,7 @@ The following should help with that conversion to absolute URL:
     python3 replace-tei-graphic-urls.py <TEI_folder_path> <old_prefix> <new_prefix>
     ```
 
-# DTS Collection and TEI files
+# DTS Collection and TEI files (IMPLEMENTED 2026 SoW)
 
 [See Github issue #61](https://github.com/kingsdigitallab/crossreads/issues/gh-61)
 and [#19](https://github.com/kingsdigitallab/crossreads/issues/gh-19)

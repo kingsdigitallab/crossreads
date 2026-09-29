@@ -116,29 +116,31 @@ follow these steps:
 
 1. update the value of `IIIF_SERVER_BASE` in 
 [settings.mjs](https://github.com/kingsdigitallab/crossreads/blob/551ec5092b75ff4a60f6da426aa8bea270a18e58/app/settings.mjs#L127) 
-to `https://sicily.classics.ox.ac.uk/image/`.
+to `https://sicily.classics.ox.ac.uk/image`.
 
-2. convert all the references recorded in the annotation files:
+3. update `IIIF_SERVER_OBJ_ID` to `"/{IMGID}"`
+
+4. convert all the references recorded in the annotation files:
 
 ```bash
-cd tools;
-node convert-img-urls.mjs convert `https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=` `https://sicily.classics.ox.ac.uk/image/`
+cd tools/fixdata;
+node convert-img-urls.mjs convert 'https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=/inscription_images/' 'https://sicily.classics.ox.ac.uk/image/'
 ```
 
-3. regenerate the search index
+5. regenerate the search index
 
 ```bash
 cd tools
-node run index
+npm run index
 ```
 
-4. test (1) by checking that the annotator can still load the inscription images
+6. test (1) by checking that the annotator can still load the inscription images
 
-5. test (2) by checking that the search page displays the thumbnails
+7. test (2) by checking that the search page displays the thumbnails
 
-6. if all good, commit and push
+8. if all good, commit and push
 
-7. when the changes have been published to the live site, 
+9. when the changes have been published to the live site, 
 retest (4) and (5) there
 
 ## Image URL in the TEI files

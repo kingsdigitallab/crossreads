@@ -12,6 +12,8 @@ But be aware that changing the values sometimes need to be accompanied
 by a conversion of the data files. The following sections cover the main
 categories.
 
+UPDATE: 2026 Statement of Work implemented most of the following items. See [SoW milestone](https://github.com/kingsdigitallab/crossreads/milestone/15?closed=1).
+
 # Tokens in the TEI (IMPLEMENTED 2026 SoW)
 
 [See Github issue #108](https://github.com/kingsdigitallab/crossreads/issues/gh-108)
@@ -211,7 +213,7 @@ to `https://sicily.classics.ox.ac.uk/inscription/`.
     node convert-tei-urls.mjs convert 'http://sicily.classics.ox.ac.uk/inscription/' 'https://sicily.classics.ox.ac.uk/inscription/'
     ```
 
-# Typology and type pages
+# Typology and type pages (IMPLEMENTED 2026 SoW)
 
 [See Github issue #92](https://github.com/kingsdigitallab/crossreads/issues/92)
 

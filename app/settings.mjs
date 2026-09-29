@@ -150,9 +150,11 @@ export const SETTINGS = {
   BROWSER_STORAGE_INSCRIPTION_SETS: "inscriptionSets",
   CORPUS_BUILDING_INSCRIPTION_URL: "https://kingsdigitallab.github.io/corpus-building/inscription/{docId}",
   // Corresponds to {scheme}://{server}{/prefix} in IIIF Image API
-  IIIF_SERVER_BASE: "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=",
+  // IIIF_SERVER_BASE: "https://apheleia.classics.ox.ac.uk/iipsrv/iipsrv.fcgi?IIIF=",
   // IIIF_SERVER_BASE: "http://localhost:4000/images", // for TESTING ONLY
-  IIIF_SERVER_OBJ_ID: "/inscription_images/{DOCID}/{IMGID}",
+  IIIF_SERVER_BASE: "https://sicily.classics.ox.ac.uk/image",
+  // IIIF_SERVER_OBJ_ID: "/inscription_images/{DOCID}/{IMGID}",
+  IIIF_SERVER_OBJ_ID: "/{IMGID}",
   DTS_COLLECTION: "https://raw.githubusercontent.com/ISicily/ISicily/master/dts/collection.json",
   // TODO: ideally we shouldn't hard code this, see gh-61
   // https://github.com/kingsdigitallab/crossreads/issues/61#issuecomment-3385499237

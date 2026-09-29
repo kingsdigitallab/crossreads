@@ -43,6 +43,8 @@ function processVariantRule(variantRule, definitions, thumbs, variantRules) {
   context['rulesSpecific'] = rulesSpecific
 
   //  
+  context['typologyURL'] = utils.getTypologyURL()
+  context['permalink'] = utils.getURLFromAlloType(variantRule)
   context['scriptLabel'] = getLabel(variantRule.script, 'scr')
   context['grapheme'] = utils.getGraphemeFromCharacter(variantRule.allograph)
   context['component-features'] = variantRule['component-features'].map(cf => {

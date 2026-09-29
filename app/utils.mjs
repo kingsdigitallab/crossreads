@@ -398,6 +398,10 @@ async function mod(exports) {
     return `${baseUrl}${atype.script}-${atype.allograph}-${atype['variant-name']}.html`
   }
 
+  exports.getTypologyURL = () => {
+    return `${SETTINGS.ALLOGRAPHS_TYPES_ROOT_STABLE}all.html`
+  }
+
   exports.fetchFile = async (url, filePath) => {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

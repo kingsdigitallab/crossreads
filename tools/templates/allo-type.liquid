@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{grapheme}} - {{variant-name}}</title>
+  <link rel="canonical" href="{{permalink}}">
   <link rel="shortcut icon" href="#">
   {% render 'static-styles.liquid' %}
 </head>
@@ -26,11 +27,13 @@
             {%- endfor -%}
           </ul>
         </dd>
+        <dt>Permalink</dt>
+        <dd><a href="{{permalink}}">{{permalink}}</a></dd>
       </dl>
     </section>
     <section>
       <h2>Typology</h2>
-      <p><a href="all.html#{{variant-key | url_encode}}">Full typology of allographs</a></p>
+      <p><a href="{{typologyURL}}#{{variant-key | url_encode}}">Full typology of allographs</a></p>
       {% if rulesGeneral[0] -%}
         <h3>More general types</h3>
         {% for rule in rulesGeneral -%}

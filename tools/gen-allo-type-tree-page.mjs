@@ -166,6 +166,7 @@ function main() {
 
   let res = toolbox.renderTemplate('allo-type-tree.liquid', {
     tree: tree, 
+    permalink: utils.getTypologyURL(),
     scripts: definitions.scripts,
     links: {
       annotatingSiteRoot: SETTINGS.ANNOTATING_SITE_ROOT,

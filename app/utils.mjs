@@ -7,8 +7,8 @@ export { FILE_PATHS, SETTINGS }
 export const IS_BROWSER = (typeof window !== "undefined")
 // It actually means: is the site running locallly (on same machine as browser)
 export const IS_BROWSER_LOCAL = IS_BROWSER && (window.location.host === SETTINGS.DEVELOP_HOST)
-// export const DEBUG_DONT_SAVE = false;
-export const DEBUG_DONT_SAVE = true;
+export const DEBUG_DONT_SAVE = false;
+// export const DEBUG_DONT_SAVE = true;
 //// export const DEBUG_DONT_SAVE = IS_BROWSER_LOCAL
 // Is the site in read-only mode as all files fetched from same site
 export const IS_READ_ONLY_AND_LOCAL = !SETTINGS.GITHUB_REPO_PATH

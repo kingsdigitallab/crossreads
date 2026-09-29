@@ -576,7 +576,7 @@ createApp({
       this.messages.length = 0
     },
     getURLFromAlloType(rule) {
-      return utils.getURLFromAlloType(rule, './')
+      return utils.getURLFromAlloType(rule, true)
     },
     getSearchLinkFromAlloType(filteredRule) {
       let rule = filteredRule?.originalRule ?? filteredRule

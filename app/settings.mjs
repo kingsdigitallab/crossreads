@@ -133,6 +133,10 @@ export const SETTINGS = {
   HTTP_PATHS_PREFIX: "app/",
   // The root URL of the annotating environment site
   ANNOTATING_SITE_ROOT: "https://kingsdigitallab.github.io/crossreads/",
+  // see gh-92, there's a redirect from this stable URL to the allograph type pages
+  ALLOGRAPHS_TYPES_ROOT_STABLE: "https://sicily.classics.ox.ac.uk/allographs/types/",
+  // should redirects to local address `${ANNOTATING_SITE_ROOT}data/allographs/types/`
+  ALLOGRAPHS_TYPES_ROOT_RELATIVE: "./data/allographs/types/",
   // if you change this you"ll need to empty the content of the app/data/thumbs folder
   // then re-run tools/index.mjs to obtain the new sizes
   EXEMPLAR_THUMB_HEIGHT: 150,

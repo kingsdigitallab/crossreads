@@ -393,9 +393,9 @@ async function mod(exports) {
     return ret
   }
 
-  exports.getURLFromAlloType = (atype, prefix=null) => {
-    const baseUrl = prefix || SETTINGS.ANNOTATING_SITE_ROOT
-    return `${baseUrl}data/allographs/types/${atype.script}-${atype.allograph}-${atype['variant-name']}.html`
+  exports.getURLFromAlloType = (atype, isRelative=false) => {
+    const baseUrl = isRelative ? SETTINGS.ALLOGRAPHS_TYPES_ROOT_RELATIVE : SETTINGS.ALLOGRAPHS_TYPES_ROOT_STABLE
+    return `${baseUrl}${atype.script}-${atype.allograph}-${atype['variant-name']}.html`
   }
 
   exports.fetchFile = async (url, filePath) => {

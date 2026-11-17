@@ -1,0 +1,319 @@
+# Nested tokens in the TEI corpus
+
+Report on inscriptions where a token (element with a numeric `@n`) is
+nested inside another token, and is not the last element of that parent
+token. This is the TEI configuration that breaks the CROSSREADS
+annotator; it is the root cause of problem 1 in
+[gh-133](https://github.com/kingsdigitallab/crossreads/issues/133)
+(ISic000104) and of most of the remaining "type 4" errors of the
+token ID conversion ([gh-129](https://github.com/kingsdigitallab/crossreads/issues/129),
+[gh-108](https://github.com/kingsdigitallab/crossreads/issues/108)).
+
+Corpus state used: ISicily master
+[`fffc6718`](https://github.com/ISicily/ISicily/commit/fffc6718a80a1e6773dab33a1230c4f34297cc93)
+(2026-11-08), as cloned under `tools/ISicily/inscriptions`.
+
+## Summary
+
+| | inscriptions | instances |
+|---|---:|---:|
+| corpus-wide, nested tokens (all positions) | 74 | 112 |
+| corpus-wide, nested token not at end of parent | 60 | 87 |
+| of which in the annotator shortlist | 24 | 32 |
+| in shortlist, nested tokens only at end (harmless) | 9 | 14 |
+
+Nested-token patterns, corpus-wide, total / not at end of parent:
+`w>g` 48/47, `w>gap` 31/19, `w>space` 15/6, `w>orig` 14/11, `orig>gap`
+2/2, `w>w` 1/1, `orig>space` 1/1.
+
+## Background: why token nesting breaks the annotator
+
+An annotation links an image bounding box to a letter of the
+transcription with two values: the enclosing token, selected by
+`@n` in an XPath selector, and the index of the letter inside that
+token (`TextPositionSelector/@start`). Letter indices are generated
+in the browser by the TEI-to-HTML pipeline:
+
+* every character of a token is wrapped into a `<span class="sign">`
+  (`app/data/tei2html.xslt`);
+* each sign gets `data-idx-n`, its 0-based index inside the *nearest
+  preceding* token — computed with `xsl:number` whose `from` pattern
+  matches any element with a numeric `@n`
+  (`app/data/html2html.xslt`).
+
+`xsl:number`'s `from` pattern re-starts the count at every preceding
+token — including a token *nested inside the same word*, which is not
+an ancestor of the following letters. The letters of the word located
+after the nested token therefore receive indices that duplicate the
+indices of the letters before it.
+
+ISic000104, word n="30" (`II duum·vir`), where the interpunct
+`g n="35"` is nested inside `w n="30"`:
+
+| sign | I | I | d | u | u | m | · | v | i | r |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `data-idx-n` | 0 | 1 | 2 | 3 | 4 | 5 | 0 | 1 | 2 | 3 |
+
+The expansion `duum` is hidden in the transcription view
+(`app/assets/main.css`) but its letters carry the first indices. The
+indices 1, 2 and 3 are each assigned twice (`I`/`v`, `d`/`i`, `u`/`r`).
+
+Consequences observed in the annotator:
+
+* saving a link to the `r` stores `start=3`; on reload the app picks
+  the *first* sign with `data-idx-n=3` inside the token
+  (`document.querySelector`) — the `u` of the hidden expansion — so
+  the annotation can only ever bind to the "U" (gh-133, problem 1);
+* links to `v` and `i` fail in the same way (they bind to `I` and `d`);
+* the offline converter
+  (`tools/idconvertor/convert-token-ids-2025.mjs`) accepts a target
+  only if the XPath resolves to exactly one sign; ambiguous cases are
+  reported as `Sign not found in TEI`, which is how the ISic000104
+  warnings survived the end of the gh-129 conversions.
+
+The same collision applies to the older, word-based sign indices
+(`data-idx-w`), since `g`, `orig`, etc. also carry the `is-word`
+class (`app/data/tei2html.xslt`).
+
+The nesting is also conceptually questionable for the corpus design:
+a token (`g`, `gap`, `orig`, or even another `w`, see below) is at the
+same time a token in its own right and a constituent of an enclosing
+token. The annotating environment was designed for flat tokens with
+unique per-token letter indices. Intra-word interpuncts and word-internal
+lacunae are epigraphically routine (ISic003078 uses 13 of them), so
+overlapping tokenhood occurs naturally as soon as the tokenizer
+assigns `@n` to those elements inside words.
+
+## Definitions and method
+
+The definitions match what the annotator actually does
+(`app/settings.mjs`, `XPATH_TRANSCRIPTION_IN_TEI` and
+`XPATH_TOKENS_IN_TEI`):
+
+* **token**: any element of the primary edition div carrying a numeric
+  `@n`, excluding `l`, `lg`, `lb`, `cb`, `milestone` and `div`s of
+  `@type='textpart'` (those are transcription structure, not tokens);
+* **nested token**: a token with a matching token ancestor;
+* **not at the end of its parent token**: at least one non-blank text
+  node of the parent token follows it in document order, outside its
+  own subtree (`following::` axis). A nested token that only closes
+  the word (e.g. `<w n="60">Lo<gap n="65"/></w>`) re-starts numbering
+  for no sign and cannot cause the collision.
+
+Nested tokens were collected with:
+
+```
+//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']
+//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')]
+[string(number(@n)) != 'NaN']
+[ancestor::*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][string(number(@n)) != 'NaN']]
+```
+
+with the parent token taken as
+`ancestor::*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][string(number(@n)) != 'NaN'][1]`.
+
+Only 1,369 of the 5,136 corpus files carry the new `@n` token IDs so
+far; the rest of the corpus has not been (re-)tokenised yet. All
+findings therefore refer to the tokenised subset and must be
+regenerated as the roll-out continues (see "Regenerate").
+
+## Result 1: affected inscriptions in the annotator shortlist
+
+Of the 263 inscriptions in the annotator shortlist
+(`app/data/2023-08/inscriptions.json`), 33 contain nested tokens; the
+**24 below** have at least one nested token that is *not* at the end of
+its parent token (23 of the 24 already have annotation files; only
+ISic000447 has none). "Text after" gives the first letter(s) that
+follow the nested token inside the parent word; letters belonging to
+hidden `<ex>` expansions are included.
+
+| # | inscription | nested tokens | text after |
+|---|---|---|---|
+| 1 | ISic000097 | `w(5)>gap(10)`, `w(120)>gap(125)`, `w(220)>gap(225)`, `w(320)>w(325)` | ae, io, a, vo |
+| 2 | ISic000098 | `w(10)>gap(15)` | i |
+| 3 | ISic000099 | `w(100)>g(105)` | c(enturiae) |
+| 4 | ISic000104 | `w(30)>g(35)` | vir |
+| 5 | ISic000112 | `w(20)>g(25)`, `w(20)>g(30)` | ↀↀ, ↀ |
+| 6 | ISic000116 | `w(10)>orig(15)` | V |
+| 7 | ISic000121 | `w(75)>orig(80)` | ci |
+| 8 | ISic000144 | `w(35)>gap(40)` | u |
+| 9 | ISic000155 | `w(5)>gap(10)` | n |
+| 10 | ISic000168 | `w(15)>gap(20)` | n |
+| 11 | ISic000176 | `w(25)>gap(30)` | iu |
+| 12 | ISic000193 | `w(15)>g(20)` | m |
+| 13 | ISic000447 | `w(80)>orig(85)`, `w(90)>g(95)`, `w(90)>g(100)` | d, co·ssu, ssu |
+| 14 | ISic001038 | `w(530)>orig(535)`, `w(530)>gap(535)` | Ι, Ι |
+| 15 | ISic001130 | `w(100)>space(105)` | ἕ |
+| 16 | ISic001465 | `w(20)>gap(25)`, `w(20)>gap(30)` | ά, ά |
+| 17 | ISic001476 | `w(95)>gap(100)` | σ |
+| 18 | ISic003002 | `w(100)>space(105)` | Ἴ |
+| 19 | ISic003375 | `w(10)>gap(15)` | ο |
+| 20 | ISic020298 | `w(5)>gap(10)` | Α |
+| 21 | ISic020313 | `w(5)>gap(10)` | Δ |
+| 22 | ISic020317 | `w(5)>gap(10)` | Β |
+| 23 | ISic020368 | `w(5)>gap(10)` | Κ |
+| 24 | ISic020370 | `w(5)>gap(10)` | Ν |
+
+Notes:
+
+* ISic000097 contains the corpus' only `w`-in-`w` nesting, a numeral
+  word wrapped inside another word's abbreviation, and followed by the
+  remainder of the outer word:
+  `<w n="320"><expan><abbr><num value="2"><w n="325"><supplied
+  reason="lost">I</supplied><unclear>I</unclear></w></num>vir</abbr>
+  <ex>o</ex></expan></w>`;
+* ISic001038 has two *different* elements (`orig` and `gap`) sharing
+  the same `@n="535"` — token IDs are not unique in that edition;
+* ISic000112 is a numeral (`ↀ`, `ↁ`) whose three signs are each nested
+  `g` tokens inside `w n="20"`.
+
+### Shortlisted but excluded: nested tokens only at the end
+
+The 9 shortlisted inscriptions below have nested tokens but all of them
+sit at the end of their parent word, so they cannot cause index
+collisions (bindings to the surrounding letters still resolve
+correctly); only the converter's unique-match check trips on them:
+
+ISic000117, ISic000122, ISic000140, ISic000152, ISic000192,
+ISic000198, ISic001101, ISic002754, ISic002947.
+
+Example, ISic002754: `<w n="35">τιμὴν<space unit="character"
+quantity="2" n="40"/></w>` — trailing space, harmless.
+
+## Result 2: corpus-wide context
+
+74 inscriptions of the whole corpus contain nested tokens (112
+instances); 60 of them (87 instances) have at least one that is not at
+the end of its parent token. ISic003078 alone has 13 intra-word
+interpuncts (`χαί·ροις`, `πα·ρο·δ…`); ISic003134 nests gaps inside
+`orig` (`<orig n="25">ΚΟΛΛΥ<gap n="30"/>ϹΑ</orig>`).
+
+All 74, as `id not-at-end/total` followed by the not-at-end patterns
+(`*` = in the annotator shortlist):
+
+```
+    ISic000002 2/2  w(80)>g(85) w(80)>g(90)
+    ISic000004 1/0
+    ISic000031 2/2  w(220)>orig(225) w(630)>orig(635)
+    ISic000064 1/1  w(30)>orig(35)
+  * ISic000097 4/4  w(5)>gap(10) w(120)>gap(125) w(220)>gap(225) w(320)>w(325)
+  * ISic000098 2/1  w(10)>gap(15)
+  * ISic000099 1/1  w(100)>g(105)
+  * ISic000104 1/1  w(30)>g(35)
+  * ISic000112 3/2  w(20)>g(25) w(20)>g(30)
+  * ISic000116 1/1  w(10)>orig(15)
+  * ISic000117 1/0
+    ISic000119 1/1  w(40)>orig(45)
+  * ISic000121 1/1  w(75)>orig(80)
+  * ISic000122 1/0
+  * ISic000140 1/0
+  * ISic000144 1/1  w(35)>gap(40)
+  * ISic000152 2/0
+  * ISic000155 1/1  w(5)>gap(10)
+  * ISic000168 1/1  w(15)>gap(20)
+    ISic000169 2/1  w(140)>g(145)
+  * ISic000176 1/1  w(25)>gap(30)
+  * ISic000192 1/0
+  * ISic000193 1/1  w(15)>g(20)
+  * ISic000198 1/0
+    ISic000249 1/1  w(115)>orig(120)
+    ISic000308 2/0
+    ISic000323 1/0
+    ISic000330 1/1  w(75)>g(80)
+    ISic000415 1/1  w(35)>orig(40)
+  * ISic000447 3/3  w(80)>orig(85) w(90)>g(95) w(90)>g(100)
+    ISic000473 1/1  w(15)>space(20)
+    ISic000556 1/1  w(10)>gap(15)
+    ISic000762 1/0
+    ISic000847 1/1  w(60)>g(65)
+    ISic000923 1/1  w(35)>g(40)
+    ISic000947 1/1  w(30)>g(35)
+    ISic001012 2/2  w(15)>g(20) w(15)>g(25)
+  * ISic001038 3/2  w(530)>orig(535) w(530)>gap(535)
+  * ISic001101 1/0
+  * ISic001130 1/1  w(100)>space(105)
+    ISic001140 1/1  orig(5)>space(10)
+    ISic001190 2/0
+    ISic001306 1/1  w(110)>g(115)
+    ISic001308 1/1  w(45)>g(50)
+    ISic001316 3/3  w(55)>space(60) w(55)>g(65) w(55)>space(70)
+    ISic001318 1/1  w(60)>g(65)
+    ISic001324 1/1  w(80)>g(85)
+    ISic001343 1/1  w(60)>g(70)
+    ISic001367 1/1  w(80)>g(85)
+    ISic001401 1/1  w(25)>orig(30)
+  * ISic001465 2/2  w(20)>gap(25) w(20)>gap(30)
+  * ISic001476 1/1  w(95)>gap(100)
+    ISic001492 1/1  w(65)>g(68)
+    ISic001746 1/1  w(15)>g(20)
+    ISic001758 1/1  w(25)>g(30)
+    ISic001764 1/1  w(15)>g(20)
+    ISic001820 1/1  w(20)>g(25)
+  * ISic002754 5/0
+  * ISic002947 1/0
+  * ISic003002 1/1  w(100)>space(105)
+    ISic003073 1/1  w(15)>g(20)
+    ISic003078 13/13 w(10)>g(15) w(25)>g(30) w(25)>g(35) w(40)>g(45) w(55)>g(60) w(70)>g(75) w(70)>g(80) w(90)>g(95) w(115)>g(120) w(130)>g(135) w(165)>g(170) w(180)>g(185) w(180)>g(190)
+    ISic003134 2/2  orig(25)>gap(30) orig(35)>gap(40)
+    ISic003141 1/1  w(30)>g(35)
+    ISic003192 1/1  w(10)>g(15)
+    ISic003368 1/1  w(10)>space(15)
+  * ISic003375 1/1  w(10)>gap(15)
+    ISic003701 1/1  w(40)>g(45)
+    ISic004459 2/2  w(10)>g(15) w(35)>g(40)
+  * ISic020298 1/1  w(5)>gap(10)
+  * ISic020313 1/1  w(5)>gap(10)
+  * ISic020317 1/1  w(5)>gap(10)
+  * ISic020368 1/1  w(5)>gap(10)
+  * ISic020370 1/1  w(5)>gap(10)
+```
+
+(`n/m`: `n` nested tokens not at the end of their parent word out of
+`m` nested tokens in total; only the not-at-end nested tokens are
+shown as patterns.)
+
+## Caveats
+
+* "Not at the end of the parent token" is a *necessary but not
+  sufficient* condition for an actual binding error: the re-started
+  letter indices collide with earlier ones only when the two ranges
+  overlap, which is however the case in almost every instance found.
+* Problem 2 of gh-133 (ISic000091) is *not* on this list. Its
+  `<supplied>` children are not tokens; it has a distinct root cause.
+* The corpus-wide numbers cover the tokenised subset only (1,369 of
+  5,136 files). As ISicily completes the roll-out of `@n` token IDs,
+  the list will need regenerating.
+* The two ISic000104 annotations flagged at the end of gh-129 survive
+  in the current corpus for the same reason: each target XPath
+  resolves to *two* signs because of the collision above. The
+  conversion script requires a unique match and reports
+  `Sign not found in TEI`; the annotator resolves to the first match,
+  a hidden `<ex>` letter. (The corpus was also in flux while the
+  conversions were run: `@n` values shifted during the September 2026
+  clean-ups and the old `xml:id`s were removed on 2026-10-07, which is
+  what initially invalidated these targets.)
+
+## Regenerate
+
+Nested tokens per corpus file (quick check, read-only; prints files
+with counts):
+
+```bash
+cd tools
+node xgrep.mjs xpath "//tei:body/tei:div[@type='edition'][not(@subtype) or @subtype='primary']//*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][string(number(@n)) != 'NaN'][ancestor::*[name()!='l'][name()!='lg'][name()!='lb'][name()!='cb'][name()!='milestone'][not(@type='textpart')][string(number(@n)) != 'NaN']]"
+```
+
+The "not at the end" test is the existence of a non-blank text node
+inside the parent token that is in the nested token's `following::`
+axis (see "Definitions and method"). Refresh the corpus first
+(`tools/toolbox.mjs`, `pullTEICorpus()`), then re-run and diff.
+
+## Provenance
+
+Report generated by opencode (`e-research/arc:apex`) for KDL on
+2026-11-17, summarising two analysis rounds requested during the
+investigation of [gh-133](https://github.com/kingsdigitallab/crossreads/issues/133):
+the reproduction of the ISic000104 binding error through the
+annotator's own TEI-to-HTML pipeline, and the corpus-wide scan for
+nested tokens. Corpus at the commit given above; annotator shortlist
+as in `app/data/2023-08/inscriptions.json`.
